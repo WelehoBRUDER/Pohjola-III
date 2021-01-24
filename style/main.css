@@ -448,6 +448,23 @@ body {
   }
 }
 
+.dropping {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  -webkit-animation-name: upAndDown;
+          animation-name: upAndDown;
+  -webkit-animation-duration: 3s;
+          animation-duration: 3s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+.damage {
+  color: #cc2323;
+  text-shadow: -2px 2px 6px #630606;
+}
+
 .shake1 {
   -webkit-animation-name: shakeA1;
           animation-name: shakeA1;
@@ -474,6 +491,30 @@ body {
           animation-name: shakeA4;
   -webkit-animation-duration: 0.2s;
           animation-duration: 0.2s;
+}
+
+@-webkit-keyframes upAndDown {
+  0% {
+    margin-top: 0%;
+  }
+  20% {
+    margin-top: -5%;
+  }
+  100% {
+    margin-top: 40%;
+  }
+}
+
+@keyframes upAndDown {
+  0% {
+    margin-top: 0%;
+  }
+  20% {
+    margin-top: -5%;
+  }
+  100% {
+    margin-top: 40%;
+  }
 }
 
 @-webkit-keyframes shakeA1 {

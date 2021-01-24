@@ -2,7 +2,7 @@ let Enemies = {
   "skeleton_warrior": {
     id: "skeleton_warrior",
     name: "Skeleton Warrior",
-    sprites: "../gfx/enemies/skeleton_warrior",
+    sprites: "gfx/enemies/skeleton_warrior",
     stats: {
       str: 1,
       vit: 3,
@@ -40,7 +40,7 @@ let Enemies = {
   "skeleton_archer": {
     id: "skeleton_archer",
     name: "Skeleton Archer",
-    sprites: "../gfx/enemies/skeleton_archer",
+    sprites: "gfx/enemies/skeleton_archer",
     stats: {
       str: 3,
       vit: 1,
@@ -69,7 +69,7 @@ let Enemies = {
       ring: {}
     },
     level: {
-      lvl: 5,
+      lvl: 50,
       pointsPerLvl: 3,
       xpGive: 15
     },
@@ -78,7 +78,7 @@ let Enemies = {
   "skeleton_knight": {
     id: "skeleton_knight",
     name: "Skeleton Knight",
-    sprites: "../gfx/enemies/skeleton_knight",
+    sprites: "gfx/enemies/skeleton_knight",
     stats: {
       str: 8,
       vit: 6,

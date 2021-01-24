@@ -116,14 +116,14 @@ function EnemyClass(base) {
     setTimeout(a => this.attack_start(), 50);
     setTimeout(a => this.attack_finish(), 550);
     setTimeout(a => $(".combatScreen").classList.add("shake" + shake), 800);
-    setTimeout(a => player.stats.hp -= random(3, 1), 800);
+    setTimeout(a => {player.stats.hp -= random(3, 1); createDroppingString(random(90, 7), $(".playerInteract"), "damage")}, 800);
     setTimeout(a => this.idle(), 900);
     setTimeout(a => frame.classList.remove("enemyAttack"), 1000);
     setTimeout(a => $(".combatScreen").classList.remove("shake" + shake), 1050);
   }
 
   this.actionFill = () => {
-    return 0.35 + this.stats.agi/100;
+    return 0.25 + this.stats.agi/100;
   }
 
   this.stats.FhpMax = () => {

@@ -75,7 +75,7 @@ function PlayerClass(base) {
   }
 
   this.actionFill = () => {
-    return 0.4 + this.stats.agi/100;
+    return 0.3 + this.stats.agi/100;
   }
 
   this.stats.FhpMax = () => {

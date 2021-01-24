@@ -7,14 +7,19 @@ function Update() {
   console.log("Oh no!");
 
   // Player bars & numbers
-  if(player.stats.ap <= 99.99) player.stats.ap += player.actionFill();
+  if(player.stats.ap <= 99.99  && !global.isCombatPaused) player.stats.ap += player.actionFill() > 2.66 ? 2.66 : player.actionFill();
   $(".playerHpNum").textContent = player.stats.hp + " / " + player.stats.FhpMax();
   $(".playerHpFill").style.width = (player.stats.hp  / player.stats.FhpMax()) * 100 + '%';
+  if(+$(".playerHpFill").style.width.substring(0, $(".playerHpFill").style.width.length-1) < 0) $(".playerHpFill").style.width = "0%";
   $(".playerHpLate").style.width = (player.stats.hp / player.stats.FhpMax()) * 100 + '%';
   $(".playerMpNum").textContent = player.stats.mp + " / " + player.stats.FmpMax();
   $(".playerMpFill").style.width = (player.stats.mp  / player.stats.FmpMax()) * 100 + '%';
+  if(+$(".playerMpFill").style.width.substring(0, $(".playerMpFill").style.width.length-1) < 0) $(".playerMpFill").style.width = "0%";
   $(".playerActionNum").textContent = Math.floor(player.stats.ap) + "%";
   $(".playerActionFill").style.width = player.stats.ap + '%';
+  if(global.isCombatPaused && player.stats.ap <= 99.99)  $(".playerActionFill").style.filter = "grayscale(1)";
+  else if(player.stats.ap >= 99.99) $(".playerActionFill").style.filter = "grayscale(0)";
+  else $(".playerActionFill").style.filter = "hue-rotate(-45deg)";
   player.stats.hp > player.stats.FhpMax() ? player.stats.hp = player.stats.FhpMax() : player.stats.hp = Math.floor(player.stats.hp);
   player.stats.mp > player.stats.FmpMax() ? player.stats.mp = player.stats.FmpMax() : player.stats.mp = Math.floor(player.stats.mp);
 
@@ -22,8 +27,16 @@ function Update() {
   for(let i = 0; i<enemiesCombat.length; i++) {
     let enemy = enemiesCombat[i];
     let frame = $("#" + enemy.id + "§" + i);
-    if(enemy.stats.ap <= 99.99) enemy.stats.ap += enemy.actionFill();
-    if(enemy.stats.ap > 99.99) {enemy.attackAnimation(); enemy.stats.ap = 0;};
+    if(enemy.stats.ap <= 99.99 && !global.isCombatPaused) enemy.stats.ap += enemy.actionFill() > 1.6 ? 1.6 : enemy.actionFill();
+    if(enemy.stats.ap > 99.99  && !global.isCombatPaused) {
+      enemy.attackAnimation();
+      enemy.stats.ap = 0;
+      if(global.settings.turn_based_combat) global.isCombatPaused = true;
+      if(global.settings.turn_based_combat) setTimeout(unpause=>global.isCombatPaused = false, 1050);
+    };
+    if(global.isCombatPaused)  frame.querySelector(".enemyActionFill").style.filter = "grayscale(1)";
+    else if(enemy.stats.ap >= 99.99) frame.querySelector(".enemyActionFill").style.filter = "grayscale(0)";
+    else frame.querySelector(".enemyActionFill").style.filter = "hue-rotate(-45deg)";
     enemy.stats.hp > enemy.stats.FhpMax() ? enemy.stats.hp = enemy.stats.FhpMax() : enemy.stats.hp = Math.floor(enemy.stats.hp);
     enemy.stats.mp > enemy.stats.FmpMax() ? enemy.stats.mp = enemy.stats.FmpMax() : enemy.stats.mp = Math.floor(enemy.stats.mp);
     frame.querySelector(".enemyHpNumber").textContent = enemy.stats.hp + " / " + enemy.stats.FhpMax();
@@ -40,7 +53,7 @@ function Update() {
 let enemiesCombat = [];
 
 function startCombatDebug() {
-  enemiesCombat.push(new EnemyClass({...Enemies.skeleton_warrior, index: 0, level: {lvl: 20}}));
+  enemiesCombat.push(new EnemyClass({...Enemies.skeleton_warrior, index: 0}));
   enemiesCombat.push(new EnemyClass({...Enemies.skeleton_archer, index: 1}));
   enemiesCombat.push(new EnemyClass({...Enemies.skeleton_knight, index: 2}));
   drawEnemies(enemiesCombat);
@@ -98,6 +111,23 @@ function drawEnemies(array) {
     enemyFrame.append(idle, attack_start, attack_finish, death, hpbar, mpbar, name, actionBar);
     $(".enemiesFlex").append(enemyFrame);
   })
+}
+
+function createDroppingString(string, start, text_class) {
+  let text = create("p");
+  text.textContent = string;
+  text.classList.add(text_class);
+  text.classList.add("dropping");
+  text.style.transition = "2.4s";
+  text.style.left = (start.getBoundingClientRect().left + random(400, 200)) + "px";
+  text.style.top = (start.getBoundingClientRect().top - random(150, 30)) + "px";
+  text.style.fontSize = random(84, 61) + "px";
+  setTimeout(flyRandomly, 25);
+  const currentLeft = +text.style.left.substring(0, text.style.left.length-2);
+  function flyRandomly() {
+    text.style.left = (currentLeft + random(200, -200)) + "px";
+  }
+  $(".combatScreen").append(text);
 }
 
 startCombatDebug();

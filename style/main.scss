@@ -342,6 +342,20 @@ body {
   }
 }
 
+.dropping {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  animation-name: upAndDown;
+  animation-duration: 3s;
+  animation-fill-mode: forwards;
+}
+
+.damage {
+  color: rgb(204, 35, 35);
+  text-shadow: -2px 2px 6px rgb(99, 6, 6);
+}
+
 .shake1 {
   animation-name: shakeA1;
   animation-duration: 0.2s;
@@ -360,6 +374,18 @@ body {
 .shake4 {
   animation-name: shakeA4;
   animation-duration: 0.2s;
+}
+
+@keyframes upAndDown {
+  0% {
+    margin-top: 0%;
+  }
+  20% {
+    margin-top: -5%;
+  }
+  100% {
+    margin-top: 40%;
+  }
 }
 
 @keyframes shakeA1 {
