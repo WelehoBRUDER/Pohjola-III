@@ -17,6 +17,7 @@ body {
   position: absolute;
   left: 0px;
   bottom: 0px;
+  overflow: hidden;
 }
 
 .combatScreen .playerArea {

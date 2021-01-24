@@ -10,7 +10,10 @@ function Update() {
   if(player.stats.ap <= 99.99  && !global.isCombatPaused) player.stats.ap += player.actionFill() > 2.66 ? 2.66 : player.actionFill();
   $(".playerHpNum").textContent = player.stats.hp + " / " + player.stats.FhpMax();
   $(".playerHpFill").style.width = (player.stats.hp  / player.stats.FhpMax()) * 100 + '%';
-  if(+$(".playerHpFill").style.width.substring(0, $(".playerHpFill").style.width.length-1) < 0) $(".playerHpFill").style.width = "0%";
+  if(player.stats.hp < 0) {
+    $(".playerHpFill").style.width = "0%";
+    $(".playerHpLate").style.width = "0%";
+  } 
   $(".playerHpLate").style.width = (player.stats.hp / player.stats.FhpMax()) * 100 + '%';
   $(".playerMpNum").textContent = player.stats.mp + " / " + player.stats.FmpMax();
   $(".playerMpFill").style.width = (player.stats.mp  / player.stats.FmpMax()) * 100 + '%';
@@ -108,6 +111,7 @@ function drawEnemies(array) {
     actionFill.classList.add("enemyActionFill");
     actionNumber.classList.add("enemyActionNumber");
     actionBar.append(actionFill, actionNumber);
+    enemyFrame.onclick = a=>{e.hurtAnimation(); e.stats.hp -= random(5, 1)};
     enemyFrame.append(idle, attack_start, attack_finish, death, hpbar, mpbar, name, actionBar);
     $(".enemiesFlex").append(enemyFrame);
   })
