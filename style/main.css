@@ -1,0 +1,662 @@
+@font-face {
+  font-family: Roboto;
+  src: url(../style/font/Roboto-Regular.ttf);
+}
+
+body {
+  background: #505050;
+  background: radial-gradient(circle, #505050 0%, #1c1c1c 100%);
+  font-family: Roboto;
+  overflow: hidden;
+}
+
+.combatScreen {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+}
+
+.combatScreen .playerArea {
+  margin: 0px;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+}
+
+.combatScreen .playerArea .playerHpBar,
+.combatScreen .playerArea .playerMpBar {
+  width: 35vw;
+  height: 90px;
+  background: #191919;
+  position: absolute;
+  bottom: 0px;
+  -webkit-box-shadow: inset 0px 0px 0.25vw 0.2vw #0a0a0a;
+          box-shadow: inset 0px 0px 0.25vw 0.2vw #0a0a0a;
+  border: 4px solid black;
+  border-radius: 8px;
+}
+
+.combatScreen .playerArea .playerMpNum, .combatScreen .playerArea .playerHpNum {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  font-size: 60px;
+  color: white;
+  text-shadow: -2px 2px 4px #c5c5c5;
+  text-align: center;
+  position: relative;
+  bottom: 47px;
+  opacity: 0;
+}
+
+.combatScreen .playerArea .playerHpBar:hover > p, .combatScreen .playerArea .playerMpBar:hover > p {
+  opacity: 1;
+}
+
+.combatScreen .playerArea .fillbar {
+  -webkit-transition: 0.8s;
+  transition: 0.8s;
+  width: 100%;
+  height: 100%;
+  background: #a51e14;
+  background: -webkit-gradient(linear, left top, right top, from(#a51e14), color-stop(10%, #e94a3f), color-stop(25%, #ca352a), to(#a51e14));
+  background: linear-gradient(90deg, #a51e14 0%, #e94a3f 10%, #ca352a 25%, #a51e14 100%);
+  -webkit-box-shadow: inset 0px 0px 0.25vw 0.2vw #6b120b;
+          box-shadow: inset 0px 0px 0.25vw 0.2vw #6b120b;
+  -webkit-animation-name: BarShine;
+          animation-name: BarShine;
+  -webkit-animation-duration: 3s;
+          animation-duration: 3s;
+  background-size: 200% 200%;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  position: absolute;
+  bottom: 0px;
+}
+
+.combatScreen .playerArea .playerHpBar {
+  left: 0px;
+}
+
+.combatScreen .playerArea .playerHpBar .playerHpLate {
+  -webkit-transition: 1.45s cubic-bezier(0, 0, 0.15, 1.02);
+  transition: 1.45s cubic-bezier(0, 0, 0.15, 1.02);
+  -webkit-transition-delay: 0.65s;
+          transition-delay: 0.65s;
+  width: 100%;
+  height: 100%;
+  background: #da3c31;
+  background: -webkit-gradient(linear, left top, right top, from(#da3c31), color-stop(10%, #ff786e), color-stop(25%, #e75b50), to(#da3c31));
+  background: linear-gradient(90deg, #da3c31 0%, #ff786e 10%, #e75b50 25%, #da3c31 100%);
+  -webkit-animation-name: BarShineReverse;
+          animation-name: BarShineReverse;
+  -webkit-animation-duration: 1.25s;
+          animation-duration: 1.25s;
+  background-size: 200% 200%;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+}
+
+.combatScreen .playerArea .playerMpBar {
+  right: 0px;
+}
+
+.combatScreen .playerArea .playerMpBar .playerMpFill {
+  background: #1458a5;
+  background: -webkit-gradient(linear, left top, right top, from(#1458a5), color-stop(10%, #65a2e7), color-stop(25%, #4585cf), to(#1458a5));
+  background: linear-gradient(90deg, #1458a5 0%, #65a2e7 10%, #4585cf 25%, #1458a5 100%);
+  -webkit-box-shadow: inset 0px 0px 0.25vw 0.2vw #104a8b;
+          box-shadow: inset 0px 0px 0.25vw 0.2vw #104a8b;
+  -webkit-animation-name: BarShine;
+          animation-name: BarShine;
+  -webkit-animation-duration: 3s;
+          animation-duration: 3s;
+  background-size: 200% 200%;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  right: 0px;
+}
+
+.combatScreen .playerArea .playerInteract {
+  width: calc(30vw - 16px);
+  height: 300px;
+  position: absolute;
+  left: 50%;
+  bottom: 0px;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  background: #1e1e1e;
+  border: 4px solid black;
+  -webkit-box-shadow: inset 0px 0px 20px 14px #101010;
+          box-shadow: inset 0px 0px 20px 14px #101010;
+}
+
+.combatScreen .playerArea .playerInteract .playerActionBar {
+  position: absolute;
+  left: -4px;
+  top: -53px;
+  height: 45px;
+  width: 100%;
+  background: #141414;
+  border: 4px solid black;
+  -webkit-box-shadow: inset 0px 0px 0.25vw 0.2vw #0a0a0a;
+          box-shadow: inset 0px 0px 0.25vw 0.2vw #0a0a0a;
+  border-radius: 8px 8px 0px 0px;
+}
+
+.combatScreen .playerArea .playerInteract .playerActionBar .playerActionNum {
+  font-size: 30px;
+  color: white;
+  text-shadow: -2px 2px 4px #c5c5c5;
+  text-align: center;
+  position: relative;
+  bottom: 72px;
+}
+
+.combatScreen .playerArea .playerInteract .playerActionBar .playerActionFill {
+  background: #55a514;
+  background: -webkit-gradient(linear, left top, right top, from(#55a514), color-stop(10%, #8eeb42), color-stop(25%, #6ec428), to(#55a514));
+  background: linear-gradient(90deg, #55a514 0%, #8eeb42 10%, #6ec428 25%, #55a514 100%);
+  width: 73%;
+  height: 100%;
+  -webkit-animation-name: BarShine;
+          animation-name: BarShine;
+  -webkit-animation-duration: 1.5s;
+          animation-duration: 1.5s;
+  background-size: 200% 200%;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  border-radius: 8px 8px 0px 0px;
+}
+
+@-webkit-keyframes BarShine {
+  0% {
+    background-position: 200% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes BarShine {
+  0% {
+    background-position: 200% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.combatScreen .enemyArea {
+  width: 90vw;
+  height: 40%;
+  position: absolute;
+  left: 5vw;
+  top: 100px;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+}
+
+.combatScreen .enemyArea .enemiesFlex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  top: -150px;
+}
+
+.combatScreen .enemyArea .enemiesFlex .enemyFrame {
+  width: 300px;
+  height: 100%;
+  margin: 25px;
+  position: relative;
+}
+
+.combatScreen .enemyArea .enemiesFlex .enemyFrame img {
+  position: absolute;
+  width: 270px;
+  height: 360px;
+  top: 60px;
+}
+
+.combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyName {
+  position: relative;
+  top: -60px;
+  font-size: 24px;
+  color: white;
+  text-shadow: -2px 2px 4px silver;
+  text-align: center;
+}
+
+.combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyHpBar, .combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyMpBar {
+  width: 300px;
+  height: 20px;
+  background: #191919;
+  position: absolute;
+  top: 0px;
+  -webkit-box-shadow: inset 0px 0px 0.25vw 0.2vw #0a0a0a;
+          box-shadow: inset 0px 0px 0.25vw 0.2vw #0a0a0a;
+  border: 4px solid black;
+  border-radius: 8px;
+}
+
+.combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyMpBar {
+  top: 30px;
+}
+
+.combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyHpFill {
+  -webkit-transition: 0.35s;
+  transition: 0.35s;
+  width: 100%;
+  height: 100%;
+  background: #a51e14;
+  background: -webkit-gradient(linear, left top, right top, from(#a51e14), color-stop(10%, #e94a3f), color-stop(25%, #ca352a), to(#a51e14));
+  background: linear-gradient(90deg, #a51e14 0%, #e94a3f 10%, #ca352a 25%, #a51e14 100%);
+  -webkit-animation-name: BarShine;
+          animation-name: BarShine;
+  -webkit-animation-duration: 1.5s;
+          animation-duration: 1.5s;
+  background-size: 200% 200%;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  -webkit-box-shadow: inset 0px 0px 0.25vw 0.2vw #6b120b;
+          box-shadow: inset 0px 0px 0.25vw 0.2vw #6b120b;
+  border-radius: 0.25vw;
+  position: absolute;
+  left: 0px;
+}
+
+.combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyMpFill {
+  -webkit-transition: 0.35s;
+  transition: 0.35s;
+  width: 100%;
+  height: 100%;
+  background: #1458a5;
+  background: -webkit-gradient(linear, left top, right top, from(#1458a5), color-stop(10%, #65a2e7), color-stop(25%, #4585cf), to(#1458a5));
+  background: linear-gradient(90deg, #1458a5 0%, #65a2e7 10%, #4585cf 25%, #1458a5 100%);
+  -webkit-box-shadow: inset 0px 0px 0.25vw 0.2vw #104a8b;
+          box-shadow: inset 0px 0px 0.25vw 0.2vw #104a8b;
+  -webkit-animation-name: BarShine;
+          animation-name: BarShine;
+  -webkit-animation-duration: 1.5s;
+          animation-duration: 1.5s;
+  background-size: 200% 200%;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  border-radius: 0.25vw;
+  position: absolute;
+  left: 0px;
+}
+
+.combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyHpLate {
+  -webkit-transition: 0.95s cubic-bezier(0, 0, 0.15, 1.02);
+  transition: 0.95s cubic-bezier(0, 0, 0.15, 1.02);
+  -webkit-transition-delay: 0.25s;
+          transition-delay: 0.25s;
+  width: 100%;
+  height: 100%;
+  background: #da3c31;
+  background: -webkit-gradient(linear, left top, right top, from(#da3c31), color-stop(10%, #ff786e), color-stop(25%, #e75b50), to(#da3c31));
+  background: linear-gradient(90deg, #da3c31 0%, #ff786e 10%, #e75b50 25%, #da3c31 100%);
+  -webkit-animation-name: BarShine;
+          animation-name: BarShine;
+  -webkit-animation-duration: 1.25s;
+          animation-duration: 1.25s;
+  background-size: 200% 200%;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  border-radius: 0.25vw;
+}
+
+.combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyActionNumber {
+  font-size: 20px;
+  color: white;
+  text-shadow: -2px 2px 4px #c5c5c5;
+  text-align: center;
+  position: relative;
+  bottom: 42px;
+}
+
+.combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyActionBar {
+  position: absolute;
+  top: 440px;
+  height: 25px;
+  width: 100%;
+  background: #141414;
+  border: 4px solid black;
+  -webkit-box-shadow: inset 0px 0px 0.25vw 0.2vw #0a0a0a;
+          box-shadow: inset 0px 0px 0.25vw 0.2vw #0a0a0a;
+  border-radius: 0px 0px 0.25vw 0.25vw;
+}
+
+.combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyActionBar .enemyActionFill {
+  background: #55a514;
+  background: -webkit-gradient(linear, left top, right top, from(#55a514), color-stop(10%, #8eeb42), color-stop(25%, #6ec428), to(#55a514));
+  background: linear-gradient(90deg, #55a514 0%, #8eeb42 10%, #6ec428 25%, #55a514 100%);
+  width: 100%;
+  height: 100%;
+  -webkit-animation-name: BarShine;
+          animation-name: BarShine;
+  -webkit-animation-duration: 1.5s;
+          animation-duration: 1.5s;
+  background-size: 200% 200%;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  border-radius: 0px 0px 0.25vw 0.25vw;
+}
+
+.combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyMpNumber, .combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyHpNumber {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  font-size: 18px;
+  color: white;
+  text-shadow: -2px 2px 4px #c5c5c5;
+  text-align: center;
+  position: relative;
+  bottom: 18px;
+  opacity: 0;
+}
+
+.combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyHpBar:hover > p, .combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyMpBar:hover > p {
+  opacity: 1;
+}
+
+.combatScreen .enemyAttack {
+  -webkit-animation-name: enemyAttacks;
+          animation-name: enemyAttacks;
+  -webkit-animation-duration: 1s;
+          animation-duration: 1s;
+}
+
+@-webkit-keyframes enemyAttacks {
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  50% {
+    -webkit-transform: scale(0.93);
+            transform: scale(0.93);
+  }
+  60% {
+    -webkit-transform: scale(0.935);
+            transform: scale(0.935);
+  }
+  80% {
+    -webkit-transform: scale(1.09);
+            transform: scale(1.09);
+  }
+  90% {
+    -webkit-transform: scale(1.08);
+            transform: scale(1.08);
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+
+@keyframes enemyAttacks {
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  50% {
+    -webkit-transform: scale(0.93);
+            transform: scale(0.93);
+  }
+  60% {
+    -webkit-transform: scale(0.935);
+            transform: scale(0.935);
+  }
+  80% {
+    -webkit-transform: scale(1.09);
+            transform: scale(1.09);
+  }
+  90% {
+    -webkit-transform: scale(1.08);
+            transform: scale(1.08);
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+
+.shake1 {
+  -webkit-animation-name: shakeA1;
+          animation-name: shakeA1;
+  -webkit-animation-duration: 0.2s;
+          animation-duration: 0.2s;
+}
+
+.shake2 {
+  -webkit-animation-name: shakeA2;
+          animation-name: shakeA2;
+  -webkit-animation-duration: 0.2s;
+          animation-duration: 0.2s;
+}
+
+.shake3 {
+  -webkit-animation-name: shakeA3;
+          animation-name: shakeA3;
+  -webkit-animation-duration: 0.2s;
+          animation-duration: 0.2s;
+}
+
+.shake4 {
+  -webkit-animation-name: shakeA4;
+          animation-name: shakeA4;
+  -webkit-animation-duration: 0.2s;
+          animation-duration: 0.2s;
+}
+
+@-webkit-keyframes shakeA1 {
+  0% {
+    margin-left: 10px;
+    margin-top: 5px;
+  }
+  25% {
+    margin-left: -5px;
+    margin-top: 0px;
+  }
+  50% {
+    margin-left: 8px;
+    margin-top: 12px;
+  }
+  75% {
+    margin-left: -3px;
+    margin-top: 4px;
+  }
+  100% {
+    margin-left: 9px;
+    margin-top: -6px;
+  }
+}
+
+@keyframes shakeA1 {
+  0% {
+    margin-left: 10px;
+    margin-top: 5px;
+  }
+  25% {
+    margin-left: -5px;
+    margin-top: 0px;
+  }
+  50% {
+    margin-left: 8px;
+    margin-top: 12px;
+  }
+  75% {
+    margin-left: -3px;
+    margin-top: 4px;
+  }
+  100% {
+    margin-left: 9px;
+    margin-top: -6px;
+  }
+}
+
+@-webkit-keyframes shakeA2 {
+  0% {
+    margin-left: -10px;
+    margin-top: -5px;
+  }
+  25% {
+    margin-left: 5px;
+    margin-top: 0px;
+  }
+  50% {
+    margin-left: -8px;
+    margin-top: -12px;
+  }
+  75% {
+    margin-left: 3px;
+    margin-top: -4px;
+  }
+  100% {
+    margin-left: -9px;
+    margin-top: 6px;
+  }
+}
+
+@keyframes shakeA2 {
+  0% {
+    margin-left: -10px;
+    margin-top: -5px;
+  }
+  25% {
+    margin-left: 5px;
+    margin-top: 0px;
+  }
+  50% {
+    margin-left: -8px;
+    margin-top: -12px;
+  }
+  75% {
+    margin-left: 3px;
+    margin-top: -4px;
+  }
+  100% {
+    margin-left: -9px;
+    margin-top: 6px;
+  }
+}
+
+@-webkit-keyframes shakeA3 {
+  0% {
+    margin-left: 9px;
+    margin-top: -4px;
+  }
+  25% {
+    margin-left: -12px;
+    margin-top: 3px;
+  }
+  50% {
+    margin-left: 2px;
+    margin-top: -9px;
+  }
+  75% {
+    margin-left: -6px;
+    margin-top: 1px;
+  }
+  100% {
+    margin-left: 7px;
+    margin-top: -6px;
+  }
+}
+
+@keyframes shakeA3 {
+  0% {
+    margin-left: 9px;
+    margin-top: -4px;
+  }
+  25% {
+    margin-left: -12px;
+    margin-top: 3px;
+  }
+  50% {
+    margin-left: 2px;
+    margin-top: -9px;
+  }
+  75% {
+    margin-left: -6px;
+    margin-top: 1px;
+  }
+  100% {
+    margin-left: 7px;
+    margin-top: -6px;
+  }
+}
+
+@-webkit-keyframes shakeA4 {
+  0% {
+    margin-left: 18px;
+    margin-top: 17px;
+  }
+  25% {
+    margin-left: -16px;
+    margin-top: -14px;
+  }
+  50% {
+    margin-left: 22px;
+    margin-top: 9px;
+  }
+  75% {
+    margin-left: -11px;
+    margin-top: -2px;
+  }
+  100% {
+    margin-left: 3px;
+    margin-top: 8px;
+  }
+}
+
+@keyframes shakeA4 {
+  0% {
+    margin-left: 18px;
+    margin-top: 17px;
+  }
+  25% {
+    margin-left: -16px;
+    margin-top: -14px;
+  }
+  50% {
+    margin-left: 22px;
+    margin-top: 9px;
+  }
+  75% {
+    margin-left: -11px;
+    margin-top: -2px;
+  }
+  100% {
+    margin-left: 3px;
+    margin-top: 8px;
+  }
+}
+/*# sourceMappingURL=main.css.map */
