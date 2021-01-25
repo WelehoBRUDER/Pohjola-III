@@ -23,7 +23,7 @@ let Enemies = {
     },
     inventory: [],
     equipment: {
-      weapon: {},
+      weapon: new Item(items.broken_dagger),
       shield: {},
       head: {},
       body: {},
@@ -31,7 +31,7 @@ let Enemies = {
       ring: {}
     },
     level: {
-      lvl: 1,
+      lvl: 100,
       pointsPerLvl: 3,
       xpGive: 10
     },
@@ -61,7 +61,7 @@ let Enemies = {
     },
     inventory: [],
     equipment: {
-      weapon: {},
+      weapon: new Item(items.broken_dagger),
       shield: {},
       head: {},
       body: {},
@@ -69,7 +69,7 @@ let Enemies = {
       ring: {}
     },
     level: {
-      lvl: 50,
+      lvl: 100,
       pointsPerLvl: 3,
       xpGive: 15
     },
@@ -99,7 +99,7 @@ let Enemies = {
     },
     inventory: [],
     equipment: {
-      weapon: {},
+      weapon: new Item(items.broken_dagger),
       shield: {},
       head: {},
       body: {},
@@ -107,7 +107,7 @@ let Enemies = {
       ring: {}
     },
     level: {
-      lvl: 10,
+      lvl: 100,
       pointsPerLvl: 3,
       xpGive: 180
     },

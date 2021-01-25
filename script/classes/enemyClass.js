@@ -116,7 +116,7 @@ function EnemyClass(base) {
     setTimeout(a => this.attack_start(), 50);
     setTimeout(a => this.attack_finish(), 550);
     setTimeout(a => $(".combatScreen").classList.add("shake" + shake), 800);
-    setTimeout(a => {player.stats.hp -= random(3, 1); player.stats.mp -= random(2, 1); createDroppingString(random(90, 7), $(".playerInteract"), "damage")}, 800);
+    setTimeout(a => {player.stats.hp -= random(3, 1); player.stats.mp -= random(2, 1); createDroppingString(random(this.weaponDamage().physical), $(".playerInteract"), "damage")}, 800);
     setTimeout(a => this.idle(), 900);
     setTimeout(a => frame.classList.remove("enemyAttack"), 1000);
     setTimeout(a => $(".combatScreen").classList.remove("shake" + shake), 1050);
@@ -133,15 +133,101 @@ function EnemyClass(base) {
     return 0.25 + this.stats.agi/100;
   }
 
+  this.stats.Fstr = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("str", this);
+    return Math.floor((this.stats.str + bonusValue) * bonusPercentage);
+  }
+
+  this.stats.Fagi = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("agi", this);
+    return Math.floor((this.stats.agi + bonusValue) * bonusPercentage);
+  }
+
+  this.stats.Fvit = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("vit", this);
+    return Math.floor((this.stats.vit + bonusValue) * bonusPercentage);
+  }
+
+  this.stats.Fint = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("int", this);
+    return Math.floor((this.stats.int + bonusValue) * bonusPercentage);
+  }
+
+  this.stats.Fwis = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("wis", this);
+    return Math.floor((this.stats.wis + bonusValue) * bonusPercentage);
+  }
+
   this.stats.FhpMax = () => {
-    //const {v: bonusValue, p: bonusPercentage} = calcValues("hp", this);
-    return Math.floor(15 + 5 * this.stats.vit);
-  };
+    const {v: bonusValue, p: bonusPercentage} = calcValues("hp", this);
+    return Math.floor((15 + 5 * this.stats.Fvit() + bonusValue) * bonusPercentage);
+  }
+
   this.stats.FmpMax = () => {
-    //const {v: bonusValue, p: bonusPercentage} = calcValues("hp", this);
-    return Math.floor(10 + 5 * this.stats.int);
-  };
+    const {v: bonusValue, p: bonusPercentage} = calcValues("mp", this);
+    return Math.floor((5 + 5 * this.stats.Fint() + bonusValue) * bonusPercentage);
+  }
+
+  function valuesFromItem(type, value, eq) {
+    let total = 0;
+    for(let itm in eq.equipment) {
+      if(eq.equipment[itm]?.[type]?.[value]) total += eq.equipment[itm][type][value];
+    } return total;
+  }
+
+  this.stats.FphysicalArmor = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("physicalArmor", this);
+    return Math.floor((valuesFromItem("armors", "physical", this) + bonusValue) * bonusPercentage);
+  }
+
+  this.stats.FmagicalArmor = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("magicalArmor", this);
+    return Math.floor((valuesFromItem("armors", "magical", this) + bonusValue) * bonusPercentage);
+  }
+
+  this.stats.FelementalArmor = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("elementalArmor", this);
+    return Math.floor((valuesFromItem("armors", "elemental", this) + bonusValue) * bonusPercentage);
+  }
+
+  function calcValues(value, kohde) {
+    let val = 0;
+    let per = 1;
+    for(let nimi in kohde.equipment) {
+      const item = kohde.equipment[nimi];
+      if(!item.id) continue;
+      if(item?.effects?.[value + "P"]) per += item.effects[value + "P"] / 100;
+      if(item?.effects?.[value + "V"]) val += item.effects[value + "V"];
+    } return {v: val, p: per};
+  }
+
+  function calcValue(value, kohde) {
+    let val = 0;
+    for(let nimi in kohde.equipment) {
+      const item = kohde.equipment[nimi];
+      if(!item.id) continue;
+      if(item?.[value]) val += item[value];
+    } return val;
+  }
+
+  this.weaponDamage = () => {
+    let base = {}
+    if(this.equipment.weapon?.damages) {
+      let dmg = this.equipment.weapon.damages;
+      base.physical = random(dmg.physicalMax, dmg.physicalMin);
+      base.magical = random(dmg.magicalMax, dmg.magicalMin);
+      base.elemental = random(dmg.elementalMax, dmg.elementalMin);
+    } else base.physical = 3;
+    for(let dmg in base) {
+      const {v: bonusValue, p: bonusPercentage} = calcValues(dmg + "Damage", this);
+      if(dmg == "physical") base[dmg] = Math.round(((base[dmg] + bonusValue) * (1 + this.stats.Fstr()/20)) * bonusPercentage);
+      else if(dmg == "magical") base[dmg] = Math.round(((base[dmg] + bonusValue) * (1 + this.stats.Fint()/20)) * bonusPercentage);
+      else if(dmg == "elemental") base[dmg] = Math.round(((base[dmg] + bonusValue) * (1 + this.stats.Fwis()/20)) * bonusPercentage);
+    }
+    return base;
+  }
 }
+
 
 const ai_stat_templates = {
   "warrior": {

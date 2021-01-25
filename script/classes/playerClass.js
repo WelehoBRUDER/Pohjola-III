@@ -21,10 +21,10 @@ let player = new PlayerClass({
   },
   inventory: [],
   equipment: {
-    weapon: {},
+    weapon: new Item(items.broken_dagger),
     shield: {},
     head: {},
-    body: {},
+    body: new Item(items.old_wool_shirt),
     legs: {},
     ring: {}
   },
@@ -33,7 +33,10 @@ let player = new PlayerClass({
     pointsPerLvl: 3,
     xp: 0,
     xpNeed: 50
-  }
+  },
+  statuses: [
+    new statusEffect(statusEffects.strength_increase)
+  ]
 })
 
 function PlayerClass(base) {
@@ -44,6 +47,7 @@ function PlayerClass(base) {
   this.inventory = base.inventory ?? [];
   this.equipment = new Equipments(base.equipment);
   this.level = base.level;
+  this.statuses = base.statuses;
 
   function Stats(stat) {
     this.str = stat.str;
@@ -74,16 +78,118 @@ function PlayerClass(base) {
     this.ring = equipment.ring ?? {};
   }
 
-  this.actionFill = () => {
-    return 0.3 + this.stats.agi/100;
+  function statusPowers(stat, p) {
+    let power = 0;
+    if(p) power++;
+    for(let status of this.statuses) {
+      for(let effect in status.effects) {
+        if(effect == stat) {
+          if(p) power += status.effects[effect]/100;
+          else power += status.effects[effect];
+        }
+      }
+    }
+    return power;
+  }
+
+  function calcValues(value, kohde) {
+    let val = 0;
+    let per = 1;
+    // for(let nimi in kohde.equipment) {
+    //   const item = kohde.equipment[nimi];
+    //   if(!item.id) continue;
+    //   if(item?.effects?.[value + "P"]) per += item.effects[value + "P"] / 100;
+    //   if(item?.effects?.[value + "V"]) val += item.effects[value + "V"];
+    // } 
+    for(let status of kohde.statuses) {
+      if(status?.effects?.[value + "P"]) per += status?.effects?.[value + "P"] / 100;
+      if(status?.effects?.[value + "V"]) per += status?.effects?.[value + "V"];
+    }
+    return {v: val, p: per};
+  }
+
+  this.stats.Fstr = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("str", this);
+    return Math.floor((this.stats.str + bonusValue) * bonusPercentage);
+  }
+
+  this.stats.Fagi = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("agi", this);
+    return Math.floor((this.stats.agi + bonusValue) * bonusPercentage);
+  }
+
+  this.stats.Fvit = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("vit", this);
+    return Math.floor((this.stats.vit + bonusValue) * bonusPercentage);
+  }
+
+  this.stats.Fint = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("int", this);
+    return Math.floor((this.stats.int + bonusValue) * bonusPercentage);
+  }
+
+  this.stats.Fwis = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("wis", this);
+    return Math.floor((this.stats.wis + bonusValue) * bonusPercentage);
   }
 
   this.stats.FhpMax = () => {
-    //const {v: bonusValue, p: bonusPercentage} = calcValues("hp", this);
-    return Math.floor(15 + 5 * this.stats.vit);
-  };
+    const {v: bonusValue, p: bonusPercentage} = calcValues("hp", this);
+    return Math.floor((15 + 5 * this.stats.Fvit() + bonusValue) * bonusPercentage);
+  }
+
   this.stats.FmpMax = () => {
-    //const {v: bonusValue, p: bonusPercentage} = calcValues("hp", this);
-    return Math.floor(5 + 5 * this.stats.int);
-  };
+    const {v: bonusValue, p: bonusPercentage} = calcValues("mp", this);
+    return Math.floor((5 + 5 * this.stats.Fint() + bonusValue) * bonusPercentage);
+  }
+
+  function valuesFromItem(type, value, eq) {
+    let total = 0;
+    for(let itm in eq.equipment) {
+      if(eq.equipment[itm]?.[type]?.[value]) total += eq.equipment[itm][type][value];
+    } return total;
+  }
+
+  this.stats.FphysicalArmor = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("physicalArmor", this);
+    return Math.floor((valuesFromItem("armors", "physical", this) + bonusValue) * bonusPercentage);
+  }
+
+  this.stats.FmagicalArmor = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("magicalArmor", this);
+    return Math.floor((valuesFromItem("armors", "magical", this) + bonusValue) * bonusPercentage);
+  }
+
+  this.stats.FelementalArmor = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("elementalArmor", this);
+    return Math.floor((valuesFromItem("armors", "elemental", this) + bonusValue) * bonusPercentage);
+  }
+
+  this.actionFill = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("actionFill", this);
+    return (0.3 + this.stats.agi/100 + bonusValue) * bonusPercentage;
+  }
+
+  this.weaponDamage = () => {
+    let base = {}
+    if(this.equipment.weapon?.damages) {
+      let dmg = this.equipment.weapon.damages;
+      base.physical = random(dmg.physicalMax, dmg.physicalMin);
+      base.magical = random(dmg.magicalMax, dmg.magicalMin);
+      base.elemental = random(dmg.elementalMax, dmg.elementalMin);
+    } else base.physical = 3;
+    for(let dmg in base) {
+      const {v: bonusValue, p: bonusPercentage} = calcValues(dmg + "Damage", this);
+      if(dmg == "physical") base[dmg] = Math.round(((base[dmg] + bonusValue) * (1 + this.stats.Fstr()/20)) * bonusPercentage);
+      else if(dmg == "magical") base[dmg] = Math.round(((base[dmg] + bonusValue) * (1 + this.stats.Fint()/20)) * bonusPercentage);
+      else if(dmg == "elemental") base[dmg] = Math.round(((base[dmg] + bonusValue) * (1 + this.stats.Fwis()/20)) * bonusPercentage);
+    }
+    return base;
+  }
+}
+
+let statsBonus = {
+  "physical": "Fstr()",
+  "magical": "Fint()",
+  "elemental": "Fwis()"
 }
