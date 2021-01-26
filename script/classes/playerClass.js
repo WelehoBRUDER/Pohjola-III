@@ -22,10 +22,10 @@ let player = new PlayerClass({
   inventory: [],
   equipment: {
     weapon: new Item(items.broken_dagger),
-    shield: {},
-    head: {},
+    shield: new Item(items.wooden_shield),
+    head: new Item(items.old_wool_cap),
     body: new Item(items.old_wool_shirt),
-    legs: {},
+    legs: new Item(items.old_wool_leggings),
     ring: {}
   },
   level: {
@@ -34,9 +34,7 @@ let player = new PlayerClass({
     xp: 0,
     xpNeed: 50
   },
-  statuses: [
-    new statusEffect(statusEffects.strength_increase)
-  ]
+  statuses: []
 })
 
 function PlayerClass(base) {
@@ -180,11 +178,44 @@ function PlayerClass(base) {
     } else base.physical = 3;
     for(let dmg in base) {
       const {v: bonusValue, p: bonusPercentage} = calcValues(dmg + "Damage", this);
-      if(dmg == "physical") base[dmg] = Math.round(((base[dmg] + bonusValue) * (1 + this.stats.Fstr()/20)) * bonusPercentage);
-      else if(dmg == "magical") base[dmg] = Math.round(((base[dmg] + bonusValue) * (1 + this.stats.Fint()/20)) * bonusPercentage);
-      else if(dmg == "elemental") base[dmg] = Math.round(((base[dmg] + bonusValue) * (1 + this.stats.Fwis()/20)) * bonusPercentage);
+      if(dmg == "physical") base[dmg] = Math.round((((base[dmg] + bonusValue) * (1 + this.stats.Fstr()/20)) * (1 + this.skills[this.equipment?.weapon?.skillBonus]/100)) * bonusPercentage);
+      else if(dmg == "magical") base[dmg] = base[dmg] = Math.round((((base[dmg] + bonusValue) * (1 + this.stats.Fint()/20)) * (1 + this.skills[this.equipment?.weapon?.skillBonus]/100)) * bonusPercentage);
+      else if(dmg == "elemental") base[dmg] = Math.round((((base[dmg] + bonusValue) * (1 + this.stats.Fwis()/20)) * (1 + this.skills[this.equipment?.weapon?.skillBonus]/100)) * bonusPercentage);
     }
     return base;
+  };
+
+  this.updateStat = (int) => {
+    let status = this.statuses[int];
+    let statusObject = $("#playerStatus-" + status?.id);
+    if(status?.damageOT && status) {
+      if(status.hasDamaged <= 0) {
+        status.hasDamaged = 1;
+        createDroppingString(status.damageOT, $(".playerInteract"), "damage");
+        this.stats.hp -= status.damageOT;
+      }
+    }
+    if(!status || status.lastFor <= 0.1) {
+      if(statusObject) $(".playerStatuses").removeChild(statusObject);
+      return;
+    }
+    if(!statusObject || statusObject == undefined) {
+      const frame = create("div");
+      frame.id = "playerStatus-" + status.id;
+      frame.classList.add("statusFrame");
+      const image = create("img");
+      image.src = status.img;
+      const num = create("p");
+      num.textContent = status.lastFor;
+      frame.append(image, num);
+      $(".playerStatuses").append(frame);
+    } else {
+      if(!status || status.lastFor <= 0.1) {
+        $(".playerStatuses").removeChild(statusObject);
+        return;
+      }
+      statusObject.querySelector("p").textContent = Math.round(status.lastFor);
+    }
   }
 }
 

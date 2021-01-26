@@ -108,6 +108,16 @@ body {
       }
     }
 
+    .playerStatuses {
+      width: calc(30vw - 16px);
+      height: 100px;
+      position: absolute;
+      left: 50%;
+      bottom: 325px;
+      display: flex;
+      transform: translateX(-50%);
+    }
+
     .playerInteract {
       width: calc(30vw - 16px);
       height: 300px;
@@ -168,7 +178,7 @@ body {
     height: 40%;
     position: absolute;
     left: 5vw;
-    top: 100px;
+    top: 40px;
     display: grid;
     place-items: center;
 
@@ -341,6 +351,33 @@ body {
     100% {
       transform: scale(1);
     }
+  }
+}
+
+.statusFrame {
+  width: 64px;
+  height: 64px;
+  position: relative;
+  bottom: 10px;
+  left: 10px;
+  margin: 8px;
+  border: 4px solid rgb(61, 61, 61);
+  background: rgb(37, 37, 37);
+  box-shadow: inset 0px 0px 8px 6px rgb(16, 16, 16);
+  align-items: center;
+
+  >img {
+    width: 64px;
+    height: 64px;
+  }
+
+  >p {
+    color: white;
+    font-size: 16px;
+    position: absolute;
+    right: 4px;
+    bottom: -12px;
+    text-shadow: -2px 2px 4px black;
   }
 }
 

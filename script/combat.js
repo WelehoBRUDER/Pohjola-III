@@ -4,8 +4,6 @@ function Update() {
   // Updates the combat 60 times per second.
   // All code within this function will be executed.
 
-  console.log("Oh no!");
-
   // Player bars & numbers
   if(player.stats.ap <= 99.99  && !global.isCombatPaused) player.stats.ap += player.actionFill() > 2.66 ? 2.66 : player.actionFill();
   $(".playerHpNum").textContent = player.stats.hp + " / " + player.stats.FhpMax();
@@ -25,6 +23,16 @@ function Update() {
   else $(".playerActionFill").style.filter = "hue-rotate(-45deg)";
   player.stats.hp > player.stats.FhpMax() ? player.stats.hp = player.stats.FhpMax() : player.stats.hp = Math.floor(player.stats.hp);
   player.stats.mp > player.stats.FmpMax() ? player.stats.mp = player.stats.FmpMax() : player.stats.mp = Math.floor(player.stats.mp);
+  if(!global.isCombatPaused) {
+    for(let i = 0; i<player.statuses.length; i++) {
+      let stat = player.statuses[i];
+      if(!stat.permanent) stat.lastFor -= 1/60;
+      if(stat.hasDamaged) stat.hasDamaged -= 1/60;
+      if(!stat.permanent && stat.lastFor <= 0) player.statuses.splice(i, 1);
+      player.updateStat(i);
+    }
+  }
+
 
   // Enemy bars & numbers
   for(let i = 0; i<enemiesCombat.length; i++) {
@@ -32,12 +40,14 @@ function Update() {
     let frame = $("#" + enemy.id + "§" + i);
     if(enemy.stats.ap <= 99.99 && !global.isCombatPaused) enemy.stats.ap += enemy.actionFill() > 1.6 ? 1.6 : enemy.actionFill();
     if(enemy.stats.ap > 99.99  && !global.isCombatPaused) {
-      enemy.attackAnimation();
-      enemy.stats.ap = 0;
+      //enemy.attackAnimation();
+      //enemy.stats.ap = 0;
       if(global.settings.turn_based_combat) global.isCombatPaused = true;
-      if(global.settings.turn_based_combat) setTimeout(unpause=>global.isCombatPaused = false, 1050);
+      //if(global.settings.turn_based_combat) setTimeout(unpause=>global.isCombatPaused = false, 1050);
+      enemyTurn(enemy);
     };
-    if(global.isCombatPaused)  frame.querySelector(".enemyActionFill").style.filter = "grayscale(1)";
+    if(!global.isCombatPaused) enemy.abilities.forEach(a=>a.onCooldown > 0 ? a.onCooldown -= 1/60 : a.onCooldown = 0);
+    if(global.isCombatPaused  && enemy.stats.ap <= 99.99) frame.querySelector(".enemyActionFill").style.filter = "grayscale(1)";
     else if(enemy.stats.ap >= 99.99) frame.querySelector(".enemyActionFill").style.filter = "grayscale(0)";
     else frame.querySelector(".enemyActionFill").style.filter = "hue-rotate(-45deg)";
     enemy.stats.hp > enemy.stats.FhpMax() ? enemy.stats.hp = enemy.stats.FhpMax() : enemy.stats.hp = Math.floor(enemy.stats.hp);
@@ -57,8 +67,8 @@ let enemiesCombat = [];
 
 function startCombatDebug() {
   enemiesCombat.push(new EnemyClass({...Enemies.skeleton_warrior, index: 0}));
-  enemiesCombat.push(new EnemyClass({...Enemies.skeleton_archer, index: 1}));
-  enemiesCombat.push(new EnemyClass({...Enemies.skeleton_knight, index: 2}));
+  //enemiesCombat.push(new EnemyClass({...Enemies.skeleton_archer, index: 1}));
+  //enemiesCombat.push(new EnemyClass({...Enemies.skeleton_knight, index: 2}));
   drawEnemies(enemiesCombat);
   enemiesCombat.forEach(e=>{e.init()});
 }
@@ -132,6 +142,35 @@ function createDroppingString(string, start, text_class) {
     text.style.left = (currentLeft + random(200, -200)) + "px";
   }
   $(".combatScreen").append(text);
+}
+
+function enemyTurn(enemy) {
+  let ability = enemy.decideMove();
+  console.log(ability);
+  if(ability.id == "regular_attack") {
+    let dmg = Math.round(enemy.regularAttack());
+    if(dmg <= 0) dmg = 1;
+    enemy.attackAnimation(dmg);
+    setTimeout(e=>{enemy.stats.ap = 0; global.isCombatPaused = false}, 1050);
+  } else if(!ability.doesNotUseWeapon) {
+    let dmg = Math.round(enemy.regularAttack() * ability.powerMultiplier);
+    if(dmg <= 0) dmg = 1;
+    enemy.attackAnimation(dmg);
+    ability.onCooldown = ability.cooldown;
+    enemy.stats.mp -= ability.mpCost;
+    for(let stat of ability.status_effects) {
+      setTimeout(s=>{
+        if(noDuplicateStatus(player, stat.status)) player.statuses.push(new statusEffect({...statusEffects[stat.status], hasDamaged: 1}));
+      }, 800);
+    };
+    setTimeout(e=>{enemy.stats.ap = 0; global.isCombatPaused = false}, 1050);
+  }
+}
+
+function noDuplicateStatus(char, status) {
+  for(let stat of char.statuses) {
+    if(stat.id == status) return false;
+  } return true;
 }
 
 startCombatDebug();

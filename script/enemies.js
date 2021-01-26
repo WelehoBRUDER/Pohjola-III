@@ -14,28 +14,32 @@ let Enemies = {
       mp: 0
     },
     skills: {
-      armorer: 0,
+      armorer: 5,
       heavy_weapons: 0,
-      light_weapons: 0,
-      shield: 0,
+      light_weapons: 5,
+      shield: 5,
       dodge: 0,
       dexterity: 0
     },
     inventory: [],
     equipment: {
-      weapon: new Item(items.broken_dagger),
-      shield: {},
+      weapon: new Item(items.rusty_short_sword),
+      shield: new Item(items.wooden_shield),
       head: {},
       body: {},
       legs: {},
       ring: {}
     },
+    abilities: [
+      new Ability(Abilities.regular_attack),
+      new Ability(Abilities.sharp_stroke)
+    ],
     level: {
-      lvl: 100,
+      lvl: 1,
       pointsPerLvl: 3,
       xpGive: 10
     },
-    stat_template: "warrior"
+    stat_template: "defender"
   },
   "skeleton_archer": {
     id: "skeleton_archer",
@@ -69,7 +73,7 @@ let Enemies = {
       ring: {}
     },
     level: {
-      lvl: 100,
+      lvl: 1,
       pointsPerLvl: 3,
       xpGive: 15
     },
@@ -99,7 +103,7 @@ let Enemies = {
     },
     inventory: [],
     equipment: {
-      weapon: new Item(items.broken_dagger),
+      weapon: new Item(items.rusty_large_axe),
       shield: {},
       head: {},
       body: {},
@@ -107,10 +111,10 @@ let Enemies = {
       ring: {}
     },
     level: {
-      lvl: 100,
+      lvl: 1,
       pointsPerLvl: 3,
       xpGive: 180
     },
-    stat_template: "defender"
+    stat_template: "warrior"
   }
 }

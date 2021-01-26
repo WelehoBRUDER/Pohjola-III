@@ -12,6 +12,8 @@ function Item(base) {
   this.armors = new Armors(defaultItem?.armors, this) ?? {};
   this.skillBonus = defaultItem.skillBonus;
   this.blockAmount = new BlockAmounts(defaultItem?.blockAmount, this) ?? {};
+  this.itemSpeed = defaultItem.itemSpeed;
+  this.weaponType = defaultItem.weaponType;
   
   function Damages(dmg, lvl) {
     this.physicalMin = dmg?.physicalMin * (1 + lvl.level/5) || 0;
