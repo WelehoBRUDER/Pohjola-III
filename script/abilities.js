@@ -18,5 +18,17 @@ let Abilities = {
     ],
     ai_want: 20,
     type: "debuff"
+  },
+  "shield_bash": {
+    id: "shield_bash",
+    name: "Sharp Stroke",
+    cooldown: 15,
+    powerMultiplier: 0.75,
+    mpCost: 0,
+    status_effects: [
+      {status: "stunI"},
+    ],
+    ai_want: 20,
+    type: "debuff"
   }
 }

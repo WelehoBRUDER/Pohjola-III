@@ -239,7 +239,7 @@ function PlayerClass(base) {
         $(".playerStatuses").removeChild(statusObject);
         return;
       }
-      statusObject.querySelector("p").textContent = Math.round(status.lastFor);
+      statusObject.querySelector("p").textContent = Math.ceil(status.lastFor);
     }
   };
 }

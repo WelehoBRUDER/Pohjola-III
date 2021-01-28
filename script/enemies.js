@@ -35,6 +35,7 @@ let Enemies = {
     },
     abilities: [
       new Ability(Abilities.regular_attack),
+      new Ability(Abilities.shield_bash),
     ],
     level: {
       lvl: 1,
@@ -72,7 +73,9 @@ let Enemies = {
       dodge: 0,
       dexterity: 0
     },
-    inventory: [],
+    inventory: [
+      new Item({...items.weak_healing_gem})
+    ],
     equipment: {
       weapon: new Item(items.bent_wooden_bow),
       shield: {},

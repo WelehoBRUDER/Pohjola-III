@@ -8,12 +8,12 @@ function EnemyClass(base) {
   this.equipment = new Equipments(base.equipment ?? defaultEnemy.equipment);
   this.stats = new Stats(base.stats ?? defaultEnemy.stats);
   this.skills = new Skills(base.skills ?? defaultEnemy.skills);
-  this.inventory = base.inventory ?? defaultEnemy.inventory;
+  this.inventory = base.inventory.map(itm=>new Item(itm)) ?? defaultEnemy.inventory;
   this.level = new Levels(base.level);
   this.index = base.index;
   this.stat_template = base.stat_template ?? defaultEnemy.stat_template;
-  this.abilities = base.abilities ?? defaultEnemy.abilities;
-  this.statuses = base.statuses ?? [];
+  this.abilities = base.abilities.map(ability=>new Ability(ability));
+  this.statuses = base.statuses.map(status=>new statusEffect(status));
   this.ai_prefers = base.ai_prefers;
 
   function Equipments(equipment) {
@@ -306,7 +306,7 @@ function EnemyClass(base) {
         bg.querySelector(".enemyStatusArea").removeChild(statusObject);
         return;
       }
-      statusObject.querySelector("p").textContent = Math.round(status.lastFor);
+      statusObject.querySelector("p").textContent = Math.ceil(status.lastFor);
     }
   }
 

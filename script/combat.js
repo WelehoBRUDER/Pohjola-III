@@ -5,13 +5,10 @@ function Update() {
   // All code within this function will be executed.
 
   // Player bars & numbers
+  if(player.stats.hp < 0) player.stats.hp = 0;
   if(player.stats.ap <= 99.99  && !global.isCombatPaused) player.stats.ap += player.actionFill() > 2.66 ? 2.66 : player.actionFill();
   $(".playerHpNum").textContent = player.stats.hp + " / " + player.stats.FhpMax();
   $(".playerHpFill").style.width = (player.stats.hp  / player.stats.FhpMax()) * 100 + '%';
-  if(player.stats.hp < 0) {
-    $(".playerHpFill").style.width = "0%";
-    $(".playerHpLate").style.width = "0%";
-  } 
   $(".playerHpLate").style.width = (player.stats.hp / player.stats.FhpMax()) * 100 + '%';
   $(".playerMpNum").textContent = player.stats.mp + " / " + player.stats.FmpMax();
   $(".playerMpFill").style.width = (player.stats.mp  / player.stats.FmpMax()) * 100 + '%';
@@ -52,6 +49,7 @@ function Update() {
       //if(global.settings.turn_based_combat) setTimeout(unpause=>global.isCombatPaused = false, 1050);
       enemyTurn(enemy);
     };
+    if(enemy.stats.hp < 0) enemy.stats.hp = 0;
     if(!global.isCombatPaused) enemy.abilities.forEach(a=>a.onCooldown > 0 ? a.onCooldown -= 1/60 : a.onCooldown = 0);
     if(global.isCombatPaused  && enemy.stats.ap <= 99.99) frame.querySelector(".enemyActionFill").style.filter = "grayscale(1)";
     else if(enemy.stats.ap >= 99.99) frame.querySelector(".enemyActionFill").style.filter = "grayscale(0)";
@@ -82,6 +80,7 @@ let enemiesCombat = [];
 
 function startCombatDebug() {
   enemiesCombat.push(new EnemyClass({...Enemies.skeleton_warrior, index: 0, level: {lvl: 1}}));
+  enemiesCombat.push(new EnemyClass({...Enemies.skeleton_warrior, index: 1, level: {lvl: 1}}));
   //enemiesCombat.push(new EnemyClass({...Enemies.skeleton_archer, index: 1, level: {lvl: 1}}));
   //enemiesCombat.push(new EnemyClass({...Enemies.skeleton_knight, index: 2, level: {lvl: 1}}));
   drawEnemies(enemiesCombat);
@@ -195,6 +194,7 @@ function enemyTurn(enemy) {
   if(ability == "heal") {
     for(let i = 0; i < enemy.inventory.length; i++) {
       let itm = enemy.inventory[i];
+      console.log(enemy);
       if(itm.healsUser && itm.amount > 0) {
         itm.amount--;
         for(let effect of itm.statusEffects) {
