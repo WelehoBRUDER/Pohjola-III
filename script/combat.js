@@ -23,6 +23,12 @@ function Update() {
   else $(".playerActionFill").style.filter = "hue-rotate(-45deg)";
   player.stats.hp > player.stats.FhpMax() ? player.stats.hp = player.stats.FhpMax() : player.stats.hp = Math.floor(player.stats.hp);
   player.stats.mp > player.stats.FmpMax() ? player.stats.mp = player.stats.FmpMax() : player.stats.mp = Math.floor(player.stats.mp);
+  if(player.stats.ap > 99.99  && !global.isCombatPaused) {
+    //enemy.attackAnimation();
+    //enemy.stats.ap = 0;
+    if(global.settings.turn_based_combat) global.isCombatPaused = true;
+    //if(global.settings.turn_based_combat) setTimeout(unpause=>global.isCombatPaused = false, 1050);
+  };
   if(!global.isCombatPaused) {
     for(let i = 0; i<player.statuses.length; i++) {
       let stat = player.statuses[i];
@@ -75,9 +81,9 @@ function Update() {
 let enemiesCombat = [];
 
 function startCombatDebug() {
-  enemiesCombat.push(new EnemyClass({...Enemies.skeleton_warrior, index: 0}));
-  enemiesCombat.push(new EnemyClass({...Enemies.skeleton_archer, index: 1}));
-  enemiesCombat.push(new EnemyClass({...Enemies.skeleton_knight, index: 2}));
+  enemiesCombat.push(new EnemyClass({...Enemies.skeleton_warrior, index: 0, level: {lvl: 1}}));
+  //enemiesCombat.push(new EnemyClass({...Enemies.skeleton_archer, index: 1, level: {lvl: 1}}));
+  //enemiesCombat.push(new EnemyClass({...Enemies.skeleton_knight, index: 2, level: {lvl: 1}}));
   drawEnemies(enemiesCombat);
   enemiesCombat.forEach(e=>{e.init()});
 }
@@ -136,8 +142,31 @@ function drawEnemies(array) {
     // STATUS EFFECTS APPEAR HERE
     const statusArea = create("div");
     statusArea.classList.add("enemyStatusArea");
-    enemyFrame.onclick = a=>{e.hurtAnimation(); e.stats.hp -= random(5, 1)};
+    enemyFrame.onclick = a=>targetEnemy(e.index);
     enemyFrame.append(idle, attack_start, attack_finish, death, hpbar, mpbar, name, actionBar, dropString, statusArea);
+    // ENEMY HOVERS
+    const health = `<c>red<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>'s Health§
+    <v>enemiesCombat[${e.index}].name<v>'s health represents
+    the amount of hits it can take
+    before being§ <c>crimson<c> defeated. §
+    - Maximum health is §<c>red<c><v>enemiesCombat[${e.index}].stats.FhpMax()<v>hp §
+    - Current health is §<c>red<c><v>enemiesCombat[${e.index}].stats.hp<v>hp §
+    - Remaining health is §<c>red<c><v>((enemiesCombat[${e.index}].stats.hp/enemiesCombat[${e.index}].stats.FhpMax())*100).toFixed(1)<v>%`;
+    addHoverBox(hpbar, health, "");
+    const mana = `<c>#4287f5<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>'s Mana§
+    <v>enemiesCombat[${e.index}].name<v>'s mana represents
+    how many abilities that require it,
+    the character can use before running dry.
+    - Maximum mana is §<c>#4287f5<c><v>enemiesCombat[${e.index}].stats.FmpMax()<v>mp §
+    - Current mana is §<c>#4287f5<c><v>enemiesCombat[${e.index}].stats.mp<v>mp §
+    - Remaining mana is §<c>#4287f5<c><v>((enemiesCombat[${e.index}].stats.mp/enemiesCombat[${e.index}].stats.FmpMax())*100).toFixed(1)<v>%`;
+    addHoverBox(mpbar, mana, "");
+    const action = `<c>#59e04a<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>'s Action§
+    <v>enemiesCombat[${e.index}].name<v>'s action represents
+    how quickly it gets its turn. Once the bar
+    is filled, its turn will begin.
+    - Current fillrate is §<c>#59e04a<c><v>(enemiesCombat[${e.index}].actionFill()*60).toFixed(1)<v>%§/s`;
+    addHoverBox(actionBar, action, "");
     $(".enemiesFlex").append(enemyFrame);
   })
 }
@@ -218,6 +247,77 @@ function noDuplicateStatus(char, status) {
   for(let stat of char.statuses) {
     if(stat.id == status) return false;
   } return true;
+}
+
+function statusSyntax(status) {
+  let text = "";
+  if(status.damageOT > 0) text += `HP §<c>red<c>▼ down§ by ${status.damageOT} every second\n`;
+  else if(status.damageOT < 0) text += `HP §<c>green<c>▲ up§ by ${Math.abs(status.damageOT)} every second\n`;
+  for(let effect in status.effects) {
+    let stat = effect.substring(0, effect.length-1);
+    const perc = effect.substring(effect.length-1);
+    switch(stat) {
+      case "actionFill":
+        stat = "Action fillrate";
+        break;
+      case "str":
+        stat = "Strength";
+        break;
+    }
+    if(status.effects?.[effect] > 0 && perc == "V") text += `${stat} §<c>green<c>▲ up§ by ${status.effects[effect]}\n`;
+    else if(status.effects?.[effect] > 0 && perc == "P") text += `${stat} §<c>green<c>▲ up§ by ${Math.floor(status.effects[effect])}%\n`;
+    else if(status.effects?.[effect] < 0 && perc == "V") text += `${stat} §<c>red<c>▼ down§ by ${Math.abs(status.effects[effect])}\n`;
+    else if(status.effects?.[effect] < 0 && perc == "P") text += `${stat} §<c>red<c>▼ down§ by ${Math.abs(Math.floor(status.effects[effect]))}%\n`;
+  }
+  return text;
+}
+
+document.addEventListener("keydown", hotkey);
+
+function regularAttack() {
+  if(global.isCombatPaused && player.stats.ap >= 100) {
+    global.targeting = true;
+    enemiesCombat.forEach(e=>{
+      let bg = $("#" + e.id + "§" + e.index);
+      global.ability = "regular";
+      bg.classList.add("canBeTargeted");
+    });
+    if(enemiesCombat.length == 1) targetEnemy(0);
+  }
+}
+
+function hotkey(e) {
+  if(e.key == "Escape" && global.targeting) {
+    global.targeting = false;
+    enemiesCombat.forEach(e=>{
+      let bg = $("#" + e.id + "§" + e.index);
+      global.ability = "";
+      bg.classList.remove("canBeTargeted");
+    });
+  }
+}
+
+function targetEnemy(index) {
+  let enemy = enemiesCombat[index];
+  let enemyFrame = $(("#" + enemy.id + "§" + enemy.index) + " .enemyDroppingString");
+  if(!global.isCombatPaused || !global.targeting) return;
+  if(global.ability == "regular") {
+    let dmg = player.regularAttack(enemy);
+    createDroppingString(dmg, enemyFrame, "damage");
+    enemy.stats.hp -= dmg;
+    player.stats.ap = 0;
+    global.targeting = false;
+    global.ability = "";
+    enemiesCombat.forEach(e=>{
+      let bg = $("#" + e.id + "§" + e.index);
+      global.ability = "";
+      bg.classList.remove("canBeTargeted");
+    })
+    enemy.hurtAnimation();
+    setTimeout(a=>{
+      global.isCombatPaused = false;
+    }, 300)
+  }
 }
 
 startCombatDebug();

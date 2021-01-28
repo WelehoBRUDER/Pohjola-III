@@ -1,11 +1,13 @@
 const statusEffects = {
-  "strength_increase": {
-    id: "strength_increase",
+  "strengthI": {
+    id: "strengthI",
     name: "Strength I",
-    lastFor: 9,
+    lastFor: 15,
     effects: {
-      strP: 20
+      strP: 25,
+      strV: 5
     },
+    img: "gfx/status/biceps.png"
   },
   "bleedI": {
     id: "bleedI",
@@ -14,7 +16,7 @@ const statusEffects = {
     effectType: "bleeding",
     img: "gfx/status/blood.png",
     damageOT: 3,
-    hasDamaged: 0
+    hasDamaged: 0,
   },
   "stunI": {
     id: "stunI",
@@ -23,9 +25,9 @@ const statusEffects = {
     effectType: "stun",
     img: "gfx/status/stoned-skull.png",
     effects: {
-      actionFillV: -10
+      actionFillP: -1000
     },
-    hasDamaged: 0
+    hasDamaged: 0,
   },
   "regenI": {
     id: "regenI",
@@ -34,6 +36,6 @@ const statusEffects = {
     effectType: "regen",
     img: "gfx/status/heart-plus.png",
     damageOT: -2,
-    hasDamaged: 0
+    hasDamaged: 0,
   }
 }

@@ -6,4 +6,5 @@ function statusEffect(base) {
   this.damageOT = base.damageOT;
   this.img = base.img;
   this.hasDamaged = base.hasDamaged;
-}
+  this.effectType = base.effectType;
+} 

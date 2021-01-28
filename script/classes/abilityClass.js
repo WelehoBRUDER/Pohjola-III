@@ -12,5 +12,6 @@ function Ability(base) {
   this.status_effects = base.status_effects ?? defaultAbility.status_effects;
   this.healAmount = base.healAmount ?? defaultAbility.healAmount;
   this.ai_want = defaultAbility.ai_want;
+  this.type = defaultAbility.type;
 
 }

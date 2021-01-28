@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pohjola III</title>
   <link rel="stylesheet" href="style/main.css">
+  <link rel="stylesheet" href="style/text.css">
 </head>
 <body>
   <div class="combatScreen">
@@ -24,12 +25,15 @@
           <div class="playerActionFill"></div>
           <p class="playerActionNum">73%</p>
         </div>
+        <button class="regularAttack" onclick="regularAttack()"><img src="gfx/abilities/sword-wound.png" alt=""></button>
       </div>
     </div>
     <div class="enemyArea">
       <div class="enemiesFlex"></div>
     </div>
   </div>
+  <div id="textBoxPop"></div>
+  <div class="bloodyScreenEffect"></div>
 </body>
 </html>
 
@@ -39,9 +43,12 @@
 <script src="script/items.js"></script>
 <script src="script/classes/statusClass.js"></script>
 <script src="script/abilities.js"></script>
+<script src="script/syntax.js"></script>
 <script src="script/classes/itemClass.js"></script>
 <script src="script/classes/abilityClass.js"></script>
 <script src="script/classes/enemyClass.js"></script>
 <script src="script/classes/playerClass.js"></script>
+<script src="script/texts.js"></script>
+<script src="script/textBox.js"></script>
 <script src="script/enemies.js"></script>
 <script src="script/combat.js"></script>

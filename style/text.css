@@ -1,0 +1,30 @@
+#textBoxPop {
+  background: rgba(15, 15, 15, 0.8);
+  position: absolute;
+  text-align: left;
+  margin: 0px;
+  padding: 8px;
+  z-index: 5;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  overflow: hidden;
+  border-radius: 0.2vw;
+}
+
+#textBoxPop pre {
+  margin: 0px;
+  padding: 0px;
+  font-family: unset;
+}
+
+#textBoxPop span {
+  color: white;
+  padding: 0px;
+  margin: 0px;
+  font-size: 18px;
+}
+/*# sourceMappingURL=text.css.map */

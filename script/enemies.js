@@ -23,7 +23,7 @@ let Enemies = {
       dexterity: 0
     },
     inventory: [
-      new Item(items.weak_healing_gem)
+      new Item({...items.weak_healing_gem})
     ],
     equipment: {
       weapon: new Item(items.rusty_short_sword),
@@ -35,7 +35,6 @@ let Enemies = {
     },
     abilities: [
       new Ability(Abilities.regular_attack),
-      new Ability(Abilities.sharp_stroke)
     ],
     level: {
       lvl: 1,
@@ -43,9 +42,12 @@ let Enemies = {
       xpGive: 10
     },
     statuses: [
-      new statusEffect(statusEffects.stunI)
     ],
-    stat_template: "defender"
+    stat_template: "defender",
+    ai_prefers: {
+      regular: 25,
+      debuff: 0
+    }
   },
   "skeleton_archer": {
     id: "skeleton_archer",
@@ -64,7 +66,7 @@ let Enemies = {
     },
     skills: {
       armorer: 0,
-      heavy_weapons: 0,
+      heavy_weapons: 10,
       light_weapons: 0,
       shield: 0,
       dodge: 0,
@@ -72,7 +74,7 @@ let Enemies = {
     },
     inventory: [],
     equipment: {
-      weapon: new Item(items.broken_dagger),
+      weapon: new Item(items.bent_wooden_bow),
       shield: {},
       head: {},
       body: {},
@@ -89,7 +91,11 @@ let Enemies = {
       new Ability(Abilities.sharp_stroke)
     ],
     statuses: [],
-    stat_template: "ranger"
+    stat_template: "ranger",
+    ai_prefers: {
+      regular: 0,
+      debuff: 50
+    }
   },
   "skeleton_knight": {
     id: "skeleton_knight",
@@ -133,6 +139,10 @@ let Enemies = {
       new Ability(Abilities.sharp_stroke)
     ],
     statuses: [],
-    stat_template: "warrior"
+    stat_template: "warrior",
+    ai_prefers: {
+      regular: 25,
+      debuff: 0
+    }
   }
 }

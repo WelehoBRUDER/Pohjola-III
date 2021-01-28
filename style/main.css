@@ -197,6 +197,35 @@ body {
   border-radius: 8px 8px 0px 0px;
 }
 
+.combatScreen .playerArea .playerInteract button {
+  width: 125px;
+  height: 110px;
+  border: 8px solid black;
+  background: rgba(35, 35, 40, 0.75);
+  -webkit-box-shadow: inset 0px 0px 8px 6px rgba(20, 20, 20, 0.75);
+          box-shadow: inset 0px 0px 8px 6px rgba(20, 20, 20, 0.75);
+  -webkit-transition: 0.25s;
+  transition: 0.25s;
+  cursor: pointer;
+}
+
+.combatScreen .playerArea .playerInteract button > img {
+  width: 100%;
+  height: 100%;
+}
+
+.combatScreen .playerArea .playerInteract button:hover {
+  border: 8px solid white;
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+}
+
+.combatScreen .playerArea .playerInteract .regularAttack {
+  position: absolute;
+  left: 25px;
+  top: 25px;
+}
+
 @-webkit-keyframes BarShine {
   0% {
     background-position: 200% 50%;
@@ -548,6 +577,32 @@ body {
   text-shadow: -2px 2px 4px black;
 }
 
+.bloodyScreenEffect {
+  width: 100%;
+  height: 100%;
+  -webkit-box-shadow: inset 0vw 0vw 8vw 6vw #751322;
+          box-shadow: inset 0vw 0vw 8vw 6vw #751322;
+  background: rgba(165, 30, 20, 0.2);
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  opacity: 0;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  pointer-events: none;
+}
+
+.fadeOut {
+  -webkit-animation-name: fadeOut;
+          animation-name: fadeOut;
+  -webkit-animation-duration: 0.2s;
+          animation-duration: 0.2s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
 .dropping {
   position: absolute;
   left: 0px;
@@ -603,6 +658,33 @@ body {
           animation-name: shakeA4;
   -webkit-animation-duration: 0.2s;
           animation-duration: 0.2s;
+}
+
+.canBeTargeted {
+  -webkit-filter: drop-shadow(0px 0px 16px #721717);
+          filter: drop-shadow(0px 0px 16px #721717);
+}
+
+@-webkit-keyframes fadeOut {
+  0% {
+    -webkit-filter: opacity(1);
+            filter: opacity(1);
+  }
+  100% {
+    -webkit-filter: opacity(0);
+            filter: opacity(0);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    -webkit-filter: opacity(1);
+            filter: opacity(1);
+  }
+  100% {
+    -webkit-filter: opacity(0);
+            filter: opacity(0);
+  }
 }
 
 @-webkit-keyframes upAndDown {

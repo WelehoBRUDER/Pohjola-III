@@ -21,7 +21,7 @@ let player = new PlayerClass({
   },
   inventory: [],
   equipment: {
-    weapon: new Item(items.broken_dagger),
+    weapon: new Item(items.rusty_short_sword),
     shield: new Item(items.wooden_shield),
     head: new Item(items.old_wool_cap),
     body: new Item(items.old_wool_shirt),
@@ -195,6 +195,14 @@ function PlayerClass(base) {
     return base;
   };
 
+  this.regularAttack = (target) => {
+    let damages = this.weaponDamage();
+    if (damages.physical) damages.physical = Math.floor(damages.physical * damages.physical / (damages.physical + target.stats.FphysicalArmor()));
+    if (damages.magical) damages.magical = Math.floor(damages.magical * damages.magical / (damages.magical + target.stats.FmagicalArmor()));
+    if (damages.elemental) damages.elemental = Math.floor(damages.elemental * damages.elemental / (damages.elemental + target.stats.FelementalArmor()));
+    return damages.physical + damages.magical + damages.elemental;
+  }
+
   this.updateStat = (int) => {
     let status = this.statuses[int];
     let statusObject = $("#playerStatus-" + status?.id);
@@ -219,6 +227,12 @@ function PlayerClass(base) {
       const num = create("p");
       num.textContent = status.lastFor;
       frame.append(image, num);
+      let desc = `<c>#c2bf27<c><f>25px<f>${status.name}§\n`;
+      desc += statusSyntax(status);
+      // if (status.effectType == "stun") desc += `You are stunned \nand unable to move.`;
+      // else if (status.effectType == "bleeding") desc += `You are bleeding \nand take § <c>red<c> ${status.damageOT} dmg/s`;
+      // else if (status.effectType == "regen") desc += `You are regenerating \n${status.damageOT} health per second`;
+      addHoverBox(frame, desc, "");
       $(".playerStatuses").append(frame);
     } else {
       if(!status || status.lastFor <= 0.1) {

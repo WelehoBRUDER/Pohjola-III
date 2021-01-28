@@ -162,6 +162,32 @@ body {
           border-radius: 8px 8px 0px 0px;
         }
       }
+
+      button {
+        width: 125px;
+        height: 110px;
+        border: 8px solid black;
+        background: rgba(35, 35, 40, 0.75);
+        box-shadow: inset 0px 0px 8px 6px rgba(20, 20, 20, 0.75);
+        transition: 0.25s;
+        cursor: pointer;
+
+        >img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      button:hover {
+        border: 8px solid white;
+        transform: scale(1.05);
+      }
+
+      .regularAttack {
+        position: absolute;
+        left: 25px;
+        top: 25px;
+      }
     }
 
     @keyframes BarShine {
@@ -430,6 +456,25 @@ body {
   }
 }
 
+.bloodyScreenEffect {
+  width: 100%;
+  height: 100%;
+  box-shadow: inset 0vw 0vw 8vw 6vw #751322;
+  background: rgba(165, 30, 20, 0.2);
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  opacity: 0;
+  user-select: none;
+  pointer-events: none;
+}
+
+.fadeOut {
+  animation-name: fadeOut;
+  animation-duration: 0.2s;
+  animation-fill-mode: forwards;
+}
+
 .dropping {
   position: absolute;
   left: 0px;
@@ -472,6 +517,15 @@ body {
 .shake4 {
   animation-name: shakeA4;
   animation-duration: 0.2s;
+}
+
+.canBeTargeted {
+  filter: drop-shadow(0px 0px 16px rgb(114, 23, 23));
+}
+
+@keyframes fadeOut {
+  0% {filter: opacity(1)}
+  100% {filter: opacity(0)}
 }
 
 @keyframes upAndDown {

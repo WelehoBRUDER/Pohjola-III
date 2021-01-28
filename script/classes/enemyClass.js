@@ -14,6 +14,7 @@ function EnemyClass(base) {
   this.stat_template = base.stat_template ?? defaultEnemy.stat_template;
   this.abilities = base.abilities ?? defaultEnemy.abilities;
   this.statuses = base.statuses ?? [];
+  this.ai_prefers = base.ai_prefers;
 
   function Equipments(equipment) {
     this.weapon = equipment.weapon ?? {};
@@ -119,10 +120,17 @@ function EnemyClass(base) {
     setTimeout(a => this.attack_start(), 50);
     setTimeout(a => this.attack_finish(), 550);
     setTimeout(a => $(".combatScreen").classList.add("shake" + shake), 800);
-    setTimeout(a => { player.stats.hp -= dmg; createDroppingString(dmg, $(".playerInteract"), "damage") }, 800);
+    setTimeout(a => { player.stats.hp -= dmg; createDroppingString(dmg, $(".playerInteract"), "damage"); $(".bloodyScreenEffect").style.opacity = 1}, 800);
+    setTimeout(a => {$(".bloodyScreenEffect").classList.add("fadeOut")}, 900);
     setTimeout(a => this.idle(), 900);
     setTimeout(a => frame.classList.remove("enemyAttack"), 1000);
-    setTimeout(a => $(".combatScreen").classList.remove("shake" + shake), 1050);
+    setTimeout(a => {
+      $(".combatScreen").classList.remove("shake" + shake);
+    }, 1050);
+    setTimeout(a => {
+      $(".bloodyScreenEffect").style.opacity = 0;
+      $(".bloodyScreenEffect").classList.remove("fadeOut")
+    }, 1075);
   }
 
   this.selfBuffAnimation = () => {
@@ -286,6 +294,12 @@ function EnemyClass(base) {
       const num = create("p");
       num.textContent = status.lastFor;
       frame.append(image, num);
+      let desc = `<c>#c2bf27<c><f>25px<f>${status.name}§\n`;
+      // if (status.effectType == "stun") desc += `${this.name} is stunned \nand unable to move.`;
+      // else if (status.effectType == "bleeding") desc += `${this.name} is bleeding \nand takes § <c>red<c> ${status.damageOT} dmg/s`;
+      // else if (status.effectType == "regen") desc += `${this.name} is regenerating \n${status.damageOT} health per second`;
+      desc += statusSyntax(status);
+      addHoverBox(frame, desc, "");
       bg.querySelector(".enemyStatusArea").append(frame);
     } else {
       if(!status || status.lastFor <= 0.1) {
@@ -321,7 +335,6 @@ function EnemyClass(base) {
   }
 
   this.decideMove = () => {
-    console.log(togetherWeCanKill(this.index));
     if(togetherWeCanKill(this.index)) {
       return this.strongestAttack();
     }
@@ -336,7 +349,7 @@ function EnemyClass(base) {
         table[i].ai_wants = 0;
         if (table[i - 1]) table[i].ai_wants = table[i - 1].ai_wants;
         else table[i].ai_wants = 0;
-        table[i].ai_wants += table[i].ai_want;
+        table[i].ai_wants += Math.floor(table[i].ai_want * (1 + (this.ai_prefers?.[table[i].type]/100 || 0)));
         max = table[i].ai_wants;
       }
       let value = Math.floor(random(max));

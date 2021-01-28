@@ -97,6 +97,22 @@ const items = {
     skillBonus: "light_weapons",
     price: 5
   },
+  "bent_wooden_bow": {
+    id: "bent_wooden_bow",
+    name: "Bent Wooden Bow",
+    amount: 1,
+    type: "equipment",
+    equipmentSlot: "weapon",
+    weaponType: "heavy",
+    level: 0,
+    damages: {
+      physicalMin: 7,
+      physicalMax: 11
+    },
+    itemSpeed: 0.04,
+    skillBonus: "heavy_weapons",
+    price: 8
+  },
   "rusty_large_axe": {
     id: "rusty_large_axe",
     name: "Rusty Large Axe",
