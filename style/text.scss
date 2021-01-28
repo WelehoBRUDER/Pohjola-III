@@ -9,6 +9,9 @@
   width: fit-content;
   overflow: hidden;
   border-radius: 0.2vw;
+  display: none;
+  pointer-events: none;
+  user-select: none;
 
   pre {
     margin: 0px;

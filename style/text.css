@@ -13,6 +13,12 @@
   width: fit-content;
   overflow: hidden;
   border-radius: 0.2vw;
+  display: none;
+  pointer-events: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 #textBoxPop pre {
