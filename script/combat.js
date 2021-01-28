@@ -60,6 +60,15 @@ function Update() {
     frame.querySelector(".enemyMpLate").style.width = (enemy.stats.mp / enemy.stats.FmpMax()) * 100 + '%';
     frame.querySelector(".enemyActionNumber").textContent = Math.floor(enemy.stats.ap) + "%";
     frame.querySelector(".enemyActionFill").style.width = enemy.stats.ap + '%';
+    if(!global.isCombatPaused) {
+      for(let i = 0; i<enemy.statuses.length; i++) {
+        let stat = enemy.statuses[i];
+        if(!stat.permanent) stat.lastFor -= 1/60;
+        if(stat.hasDamaged) stat.hasDamaged -= 1/60;
+        if(!stat.permanent && stat.lastFor <= 0) enemy.statuses.splice(i, 1);
+        enemy.updateStat(i);
+      }
+    }
   }
 }
 
@@ -67,8 +76,8 @@ let enemiesCombat = [];
 
 function startCombatDebug() {
   enemiesCombat.push(new EnemyClass({...Enemies.skeleton_warrior, index: 0}));
-  //enemiesCombat.push(new EnemyClass({...Enemies.skeleton_archer, index: 1}));
-  //enemiesCombat.push(new EnemyClass({...Enemies.skeleton_knight, index: 2}));
+  enemiesCombat.push(new EnemyClass({...Enemies.skeleton_archer, index: 1}));
+  enemiesCombat.push(new EnemyClass({...Enemies.skeleton_knight, index: 2}));
   drawEnemies(enemiesCombat);
   enemiesCombat.forEach(e=>{e.init()});
 }
@@ -121,8 +130,14 @@ function drawEnemies(array) {
     actionFill.classList.add("enemyActionFill");
     actionNumber.classList.add("enemyActionNumber");
     actionBar.append(actionFill, actionNumber);
+    // FIX DROPPING STRING
+    const dropString = create("div");
+    dropString.classList.add("enemyDroppingString");
+    // STATUS EFFECTS APPEAR HERE
+    const statusArea = create("div");
+    statusArea.classList.add("enemyStatusArea");
     enemyFrame.onclick = a=>{e.hurtAnimation(); e.stats.hp -= random(5, 1)};
-    enemyFrame.append(idle, attack_start, attack_finish, death, hpbar, mpbar, name, actionBar);
+    enemyFrame.append(idle, attack_start, attack_finish, death, hpbar, mpbar, name, actionBar, dropString, statusArea);
     $(".enemiesFlex").append(enemyFrame);
   })
 }
@@ -132,7 +147,7 @@ function createDroppingString(string, start, text_class) {
   text.textContent = string;
   text.classList.add(text_class);
   text.classList.add("dropping");
-  text.style.transition = "2.4s";
+  text.style.transition = "1.4s";
   text.style.left = (start.getBoundingClientRect().left + random(400, 200)) + "px";
   text.style.top = (start.getBoundingClientRect().top - random(150, 30)) + "px";
   text.style.fontSize = random(84, 61) + "px";
@@ -142,12 +157,33 @@ function createDroppingString(string, start, text_class) {
     text.style.left = (currentLeft + random(200, -200)) + "px";
   }
   $(".combatScreen").append(text);
+  setTimeout(e=>text.remove(), 1800);
 }
 
 function enemyTurn(enemy) {
   let ability = enemy.decideMove();
   console.log(ability);
-  if(ability.id == "regular_attack") {
+  if(ability == "heal") {
+    for(let i = 0; i < enemy.inventory.length; i++) {
+      let itm = enemy.inventory[i];
+      if(itm.healsUser && itm.amount > 0) {
+        itm.amount--;
+        for(let effect of itm.statusEffects) {
+          enemy.statuses.push(new statusEffect(statusEffects[effect.effect]));
+        }
+        if(itm.healAmount) {
+          enemy.stats.hp += itm.healAmount;
+          createDroppingString(itm.healAmount, $(enemy.id + "§" + enemy.index), "health");
+        } 
+        if(itm.amount <= 0) {
+          enemy.inventory.splice(i, 1);
+        }
+      }
+      enemy.selfBuffAnimation();
+      setTimeout(e=>{enemy.stats.ap = 0; global.isCombatPaused = false}, 1050);
+    }
+  }
+  else if(ability.id == "regular_attack") {
     let dmg = Math.round(enemy.regularAttack());
     if(dmg <= 0) dmg = 1;
     enemy.attackAnimation(dmg);
@@ -165,6 +201,17 @@ function enemyTurn(enemy) {
     };
     setTimeout(e=>{enemy.stats.ap = 0; global.isCombatPaused = false}, 1050);
   }
+}
+
+function togetherWeCanKill(index) {
+  let playerHP = player.stats.hp;
+  for(let i = index; i<enemiesCombat.length; i++) {
+    let ability = enemiesCombat[i].strongestAttack();
+    let dmg = Math.round(enemiesCombat[i].regularAttack() * ability.powerMultiplier);
+    playerHP -= dmg;
+  }
+  if(playerHP > 0) return false;
+  else return true;
 }
 
 function noDuplicateStatus(char, status) {

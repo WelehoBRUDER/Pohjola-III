@@ -1,4 +1,17 @@
 const items = {
+  "weak_healing_gem": {
+    id: "weak_healing_gem",
+    name: "Gem of Weak Healing",
+    amount: 1,
+    type: "consumable",
+    statusEffects: [
+      {effect: "regenI"}
+    ],
+    healsUser: true,
+    useLobby: false,
+    price: 80,
+    img: "gfx/items/weak_heal_gem.png"
+  },
   "old_wool_shirt": {
     id: "old_wool_shirt",
     name: "Old Wool Shirt",
@@ -12,7 +25,8 @@ const items = {
       elemental: 2
     },
     itemSpeed: -0.02,
-    skillBonus: "armorer"
+    skillBonus: "armorer",
+    price: 5
   },
   "old_wool_cap": {
     id: "old_wool_cap",
@@ -27,7 +41,8 @@ const items = {
       elemental: 1
     },
     itemSpeed: -0.01,
-    skillBonus: "armorer"
+    skillBonus: "armorer",
+    price: 2
   },
   "old_wool_leggings": {
     id: "old_wool_leggings",
@@ -42,7 +57,8 @@ const items = {
       elemental: 1
     },
     itemSpeed: -0.02,
-    skillBonus: "armorer"
+    skillBonus: "armorer",
+    price: 3
   },
   "wooden_shield": {
     id: "wooden_shield",
@@ -62,7 +78,8 @@ const items = {
       elemental: 17
     },
     itemSpeed: -0.01,
-    skillBonus: "shield"
+    skillBonus: "shield",
+    price: 1
   },
   "broken_dagger": {
     id: "broken_dagger",
@@ -77,7 +94,8 @@ const items = {
       physicalMax: 5
     },
     itemSpeed: 0.02,
-    skillBonus: "light_weapons"
+    skillBonus: "light_weapons",
+    price: 5
   },
   "rusty_large_axe": {
     id: "rusty_large_axe",
@@ -92,7 +110,8 @@ const items = {
       physicalMax: 8
     },
     itemSpeed: -0.05,
-    skillBonus: "heavy_weapons"
+    skillBonus: "heavy_weapons",
+    price: 7
   },
   "rusty_short_sword": {
     id: "rusty_short_sword",
@@ -107,6 +126,7 @@ const items = {
       physicalMax: 9,
     },
     itemSpeed: 0.02,
-    skillBonus: "light_weapons"
+    skillBonus: "light_weapons",
+    price: 7
   },
 }

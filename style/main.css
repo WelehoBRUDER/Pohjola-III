@@ -236,7 +236,10 @@ body {
 
 .combatScreen .enemyArea .enemiesFlex .enemyFrame {
   width: 300px;
-  height: 100%;
+  min-height: 100%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
   margin: 25px;
   position: relative;
 }
@@ -246,6 +249,15 @@ body {
   width: 270px;
   height: 360px;
   top: 60px;
+}
+
+.combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyDroppingString {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  left: -40%;
+  top: 225%;
+  z-index: 1;
 }
 
 .combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyName {
@@ -385,6 +397,50 @@ body {
   border-radius: 0px 0px 0.25vw 0.25vw;
 }
 
+.combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyStatusArea {
+  width: 308px;
+  height: 36px;
+  position: absolute;
+  left: 0px;
+  top: 400px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyStatusArea .statusFrameEnemy {
+  width: 32px;
+  height: 32px;
+  position: relative;
+  bottom: 5px;
+  left: 5px;
+  margin: 4px;
+  border: 2px solid #3d3d3d;
+  background: #252525;
+  -webkit-box-shadow: inset 0px 0px 4px 3px #101010;
+          box-shadow: inset 0px 0px 4px 3px #101010;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyStatusArea .statusFrameEnemy > img {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 32px;
+  height: 32px;
+}
+
+.combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyStatusArea .statusFrameEnemy > p {
+  color: white;
+  font-size: 8px;
+  position: absolute;
+  right: 2px;
+  bottom: -6px;
+  text-shadow: -1px 1px 2px black;
+}
+
 .combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyMpNumber, .combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyHpNumber {
   -webkit-transition: 0.2s;
   transition: 0.2s;
@@ -498,8 +554,8 @@ body {
   top: 0px;
   -webkit-animation-name: upAndDown;
           animation-name: upAndDown;
-  -webkit-animation-duration: 3s;
-          animation-duration: 3s;
+  -webkit-animation-duration: 1.8s;
+          animation-duration: 1.8s;
   -webkit-animation-fill-mode: forwards;
           animation-fill-mode: forwards;
 }
@@ -507,6 +563,18 @@ body {
 .damage {
   color: #cc2323;
   text-shadow: -2px 2px 6px #630606;
+}
+
+.health {
+  color: #6fcc23;
+  text-shadow: -2px 2px 6px #116306;
+}
+
+.heal {
+  -webkit-animation-name: heal;
+          animation-name: heal;
+  -webkit-animation-duration: 1s;
+          animation-duration: 1s;
 }
 
 .shake1 {
@@ -542,10 +610,12 @@ body {
     margin-top: 0%;
   }
   20% {
-    margin-top: -5%;
+    margin-top: -3%;
+    opacity: 1;
   }
   100% {
-    margin-top: 40%;
+    margin-top: 20%;
+    opacity: 0;
   }
 }
 
@@ -554,10 +624,42 @@ body {
     margin-top: 0%;
   }
   20% {
-    margin-top: -5%;
+    margin-top: -3%;
+    opacity: 1;
   }
   100% {
-    margin-top: 40%;
+    margin-top: 20%;
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes heal {
+  0% {
+    -webkit-filter: grayscale(0) sepia(0) hue-rotate(0);
+            filter: grayscale(0) sepia(0) hue-rotate(0);
+  }
+  80% {
+    -webkit-filter: grayscale(1) sepia(1) hue-rotate(75deg) brightness(7);
+            filter: grayscale(1) sepia(1) hue-rotate(75deg) brightness(7);
+  }
+  100% {
+    -webkit-filter: grayscale(0) sepia(0) hue-rotate(0) brightness(1);
+            filter: grayscale(0) sepia(0) hue-rotate(0) brightness(1);
+  }
+}
+
+@keyframes heal {
+  0% {
+    -webkit-filter: grayscale(0) sepia(0) hue-rotate(0);
+            filter: grayscale(0) sepia(0) hue-rotate(0);
+  }
+  80% {
+    -webkit-filter: grayscale(1) sepia(1) hue-rotate(75deg) brightness(7);
+            filter: grayscale(1) sepia(1) hue-rotate(75deg) brightness(7);
+  }
+  100% {
+    -webkit-filter: grayscale(0) sepia(0) hue-rotate(0) brightness(1);
+            filter: grayscale(0) sepia(0) hue-rotate(0) brightness(1);
   }
 }
 

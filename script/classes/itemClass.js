@@ -14,6 +14,11 @@ function Item(base) {
   this.blockAmount = new BlockAmounts(defaultItem?.blockAmount, this) ?? {};
   this.itemSpeed = defaultItem.itemSpeed;
   this.weaponType = defaultItem.weaponType;
+  this.price = defaultItem.price * (1 + base.level/3);
+  this.statusEffects = defaultItem.statusEffects;
+  this.useLobby = defaultItem.useLobby;
+  this.healsUser = defaultItem.healsUser;
+  this.img = defaultItem.img;
   
   function Damages(dmg, lvl) {
     this.physicalMin = dmg?.physicalMin * (1 + lvl.level/5) || 0;

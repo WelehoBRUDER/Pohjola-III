@@ -189,7 +189,8 @@ body {
 
       .enemyFrame {
         width: 300px;
-        height: 100%;
+        min-height: 100%;
+        height: fit-content;
         margin: 25px;
         position: relative;
         img {
@@ -197,6 +198,15 @@ body {
           width: 270px;
           height: 360px;
           top: 60px;
+        }
+
+        .enemyDroppingString {
+          width: 10px;
+          height: 10px;
+          position: absolute;
+          left: -40%;
+          top: 225%;
+          z-index: 1;
         }
 
         .enemyName {
@@ -309,6 +319,45 @@ body {
     
         }
 
+        .enemyStatusArea {
+          width: 308px;
+          height: 36px;
+          position: absolute;
+          left: 0px;
+          top: 400px;
+          display: flex;
+
+          .statusFrameEnemy {
+            width: 32px;
+            height: 32px;
+            position: relative;
+            bottom: 5px;
+            left: 5px;
+            margin: 4px;
+            border: 2px solid rgb(61, 61, 61);
+            background: rgb(37, 37, 37);
+            box-shadow: inset 0px 0px 4px 3px rgb(16, 16, 16);
+            align-items: center;
+
+            >img {
+              position: absolute;
+              left: 0px;
+              top: 0px;
+              width: 32px;
+              height: 32px;
+            }
+
+            >p {
+              color: white;
+              font-size: 8px;
+              position: absolute;
+              right: 2px;
+              bottom: -6px;
+              text-shadow: -1px 1px 2px black;
+            }
+          }
+        }
+
         .enemyMpNumber, .enemyHpNumber {
           transition: 0.2s;
           font-size: 18px;
@@ -386,13 +435,23 @@ body {
   left: 0px;
   top: 0px;
   animation-name: upAndDown;
-  animation-duration: 3s;
+  animation-duration: 1.8s;
   animation-fill-mode: forwards;
 }
 
 .damage {
   color: rgb(204, 35, 35);
   text-shadow: -2px 2px 6px rgb(99, 6, 6);
+}
+
+.health {
+  color: rgb(111, 204, 35);
+  text-shadow: -2px 2px 6px rgb(17, 99, 6);
+}
+
+.heal {
+  animation-name: heal;
+  animation-duration: 1s;
 }
 
 .shake1 {
@@ -420,10 +479,24 @@ body {
     margin-top: 0%;
   }
   20% {
-    margin-top: -5%;
+    margin-top: -3%;
+    opacity: 1;
   }
   100% {
-    margin-top: 40%;
+    margin-top: 20%;
+    opacity: 0;
+  }
+}
+
+@keyframes heal {
+  0% {
+    filter: grayscale(0) sepia(0) hue-rotate(0);
+  }
+  80% {
+    filter: grayscale(1) sepia(1) hue-rotate(75deg) brightness(7);
+  }
+  100% {
+    filter: grayscale(0) sepia(0) hue-rotate(0) brightness(1);
   }
 }
 

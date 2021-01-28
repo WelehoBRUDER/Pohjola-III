@@ -13,7 +13,7 @@ let Abilities = {
     powerMultiplier: 1.25,
     mpCost: 5,
     status_effects: [
-      {status: "bleedI"}
+      {status: "bleedI"},
     ],
     ai_want: 20
   }

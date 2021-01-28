@@ -93,12 +93,12 @@ function PlayerClass(base) {
   function calcValues(value, kohde) {
     let val = 0;
     let per = 1;
-    // for(let nimi in kohde.equipment) {
-    //   const item = kohde.equipment[nimi];
-    //   if(!item.id) continue;
-    //   if(item?.effects?.[value + "P"]) per += item.effects[value + "P"] / 100;
-    //   if(item?.effects?.[value + "V"]) val += item.effects[value + "V"];
-    // } 
+    for(let nimi in kohde.equipment) {
+      const item = kohde.equipment[nimi];
+      if(!item.id) continue;
+      if(item?.effects?.[value + "P"]) per += item.effects[value + "P"] / 100;
+      if(item?.effects?.[value + "V"]) val += item.effects[value + "V"];
+    } 
     for(let status of kohde.statuses) {
       if(status?.effects?.[value + "P"]) per += status?.effects?.[value + "P"] / 100;
       if(status?.effects?.[value + "V"]) per += status?.effects?.[value + "V"];
@@ -164,8 +164,18 @@ function PlayerClass(base) {
   }
 
   this.actionFill = () => {
-    const {v: bonusValue, p: bonusPercentage} = calcValues("actionFill", this);
-    return (0.3 + this.stats.agi/100 + bonusValue) * bonusPercentage;
+    const { v: bonusValue, p: bonusPercentage } = calcValues("actionFill", this);
+    let value = (0.45 + this.stats.agi / 100 + valueFromItem("itemSpeed", this) + bonusValue) * bonusPercentage;
+    if(value > 3) value = 3;
+    else if(value < 0) value = 0;
+    return value;
+  }
+
+  function valueFromItem(value, eq) {
+    let total = 0;
+    for (let itm in eq.equipment) {
+      if (eq.equipment[itm]?.[value]) total += eq.equipment[itm]?.[value];
+    } return total;
   }
 
   this.weaponDamage = () => {
@@ -191,7 +201,8 @@ function PlayerClass(base) {
     if(status?.damageOT && status) {
       if(status.hasDamaged <= 0) {
         status.hasDamaged = 1;
-        createDroppingString(status.damageOT, $(".playerInteract"), "damage");
+        if(status.damageOT > 0) createDroppingString(status.damageOT, $(".playerInteract"), "damage");
+        else if(status.damageOT < 0) createDroppingString(status.damageOT, $(".playerInteract"), "health");
         this.stats.hp -= status.damageOT;
       }
     }
@@ -216,7 +227,7 @@ function PlayerClass(base) {
       }
       statusObject.querySelector("p").textContent = Math.round(status.lastFor);
     }
-  }
+  };
 }
 
 let statsBonus = {

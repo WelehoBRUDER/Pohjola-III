@@ -11,7 +11,8 @@ let Enemies = {
       wis: 1,
       ap: 0,
       hp: 0,
-      mp: 0
+      mp: 0,
+      healL: 40
     },
     skills: {
       armorer: 5,
@@ -21,7 +22,9 @@ let Enemies = {
       dodge: 0,
       dexterity: 0
     },
-    inventory: [],
+    inventory: [
+      new Item(items.weak_healing_gem)
+    ],
     equipment: {
       weapon: new Item(items.rusty_short_sword),
       shield: new Item(items.wooden_shield),
@@ -39,6 +42,9 @@ let Enemies = {
       pointsPerLvl: 3,
       xpGive: 10
     },
+    statuses: [
+      new statusEffect(statusEffects.stunI)
+    ],
     stat_template: "defender"
   },
   "skeleton_archer": {
@@ -53,7 +59,8 @@ let Enemies = {
       wis: 1,
       ap: 0,
       hp: 0,
-      mp: 0
+      mp: 0,
+      healL: 30
     },
     skills: {
       armorer: 0,
@@ -77,6 +84,11 @@ let Enemies = {
       pointsPerLvl: 3,
       xpGive: 15
     },
+    abilities: [
+      new Ability(Abilities.regular_attack),
+      new Ability(Abilities.sharp_stroke)
+    ],
+    statuses: [],
     stat_template: "ranger"
   },
   "skeleton_knight": {
@@ -91,7 +103,8 @@ let Enemies = {
       wis: 1,
       ap: 0,
       hp: 0,
-      mp: 0
+      mp: 0,
+      healL: 35
     },
     skills: {
       armorer: 10,
@@ -115,6 +128,11 @@ let Enemies = {
       pointsPerLvl: 3,
       xpGive: 180
     },
+    abilities: [
+      new Ability(Abilities.regular_attack),
+      new Ability(Abilities.sharp_stroke)
+    ],
+    statuses: [],
     stat_template: "warrior"
   }
 }
