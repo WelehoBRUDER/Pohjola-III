@@ -8,12 +8,12 @@ function EnemyClass(base) {
   this.equipment = new Equipments(base.equipment ?? defaultEnemy.equipment);
   this.stats = new Stats(base.stats ?? defaultEnemy.stats);
   this.skills = new Skills(base.skills ?? defaultEnemy.skills);
-  this.inventory = base.inventory.map(itm=>new Item(itm)) ?? defaultEnemy.inventory;
+  this.inventory = base.inventory.map(itm => new Item(itm)) ?? defaultEnemy.inventory;
   this.level = new Levels(base.level);
   this.index = base.index;
   this.stat_template = base.stat_template ?? defaultEnemy.stat_template;
-  this.abilities = base.abilities.map(ability=>new Ability(ability));
-  this.statuses = base.statuses.map(status=>new statusEffect(status));
+  this.abilities = base.abilities.map(ability => new Ability(ability));
+  this.statuses = base.statuses.map(status => new statusEffect(status));
   this.ai_prefers = base.ai_prefers;
 
   function Equipments(equipment) {
@@ -113,23 +113,28 @@ function EnemyClass(base) {
     frame.querySelector(".death").style.opacity = 1;
   }
 
-  this.attackAnimation = (dmg) => {
+  this.attackAnimation = (dmg, blocked, dodged) => {
     let frame = $("#" + this.id + "§" + this.index);
     let shake = Math.round(random(4, 1));
     frame.classList.add("enemyAttack");
     setTimeout(a => this.attack_start(), 50);
     setTimeout(a => this.attack_finish(), 550);
-    setTimeout(a => $(".combatScreen").classList.add("shake" + shake), 800);
-    setTimeout(a => { player.stats.hp -= dmg; createDroppingString(dmg, $(".playerInteract"), "damage"); $(".bloodyScreenEffect").style.opacity = 1}, 800);
-    setTimeout(a => {$(".bloodyScreenEffect").classList.add("fadeOut")}, 900);
+    setTimeout(a => { if(!dodged) $(".combatScreen").classList.add("shake" + shake) }, 800);
+    setTimeout(a => {
+      if(!dodged) player.stats.hp -= dmg;
+      if(!blocked && !dodged) { createDroppingString(dmg, $(".playerInteract"), "damage"); $(".bloodyScreenEffect").style.opacity = 1 }
+      else if(blocked && !dodged) { createDroppingString("🛡" + dmg, $(".playerInteract"), "damage"); $(".bloodyScreenEffect").style.opacity = 1 }
+      else if(!blocked && dodged) { createDroppingString("MISS", $(".playerInteract"), "neutral"); }
+    }, 800);
+    setTimeout(a => { if(!dodged) $(".bloodyScreenEffect").classList.add("fadeOut") }, 900);
     setTimeout(a => this.idle(), 900);
     setTimeout(a => frame.classList.remove("enemyAttack"), 1000);
     setTimeout(a => {
-      $(".combatScreen").classList.remove("shake" + shake);
+      if(!dodged) $(".combatScreen").classList.remove("shake" + shake);
     }, 1050);
     setTimeout(a => {
-      $(".bloodyScreenEffect").style.opacity = 0;
-      $(".bloodyScreenEffect").classList.remove("fadeOut")
+      if(!dodged) $(".bloodyScreenEffect").style.opacity = 0;
+      if(!dodged) $(".bloodyScreenEffect").classList.remove("fadeOut")
     }, 1075);
   }
 
@@ -149,8 +154,8 @@ function EnemyClass(base) {
   this.actionFill = () => {
     const { v: bonusValue, p: bonusPercentage } = calcValues("actionFill", this);
     let value = (0.35 + this.stats.agi / 100 + valueFromItem("itemSpeed", this) + bonusValue) * bonusPercentage;
-    if(value > 2) value = 2;
-    else if(value < 0) value = 0;
+    if (value > 2) value = 2;
+    else if (value < 0) value = 0;
     return value;
   }
 
@@ -218,6 +223,22 @@ function EnemyClass(base) {
     return Math.floor((valuesFromItem("armors", "elemental", this) + bonusValue) * bonusPercentage);
   }
 
+  this.attackBlocked = () => {
+    let blocked = false;
+    if (this.equipment.shield) {
+      const { v: bonusValue, p: bonusPercentage } = calcValues("blockChance", this);
+      if (Math.random() >= 0.95 - ((this.skills.shield / 500 + bonusValue) * bonusPercentage)) blocked = true;
+    }
+    return blocked;
+  };
+
+  this.attackDodged = () => {
+    let dodged = false;
+    const { v: bonusValue, p: bonusPercentage } = calcValues("dodge", this);
+    if(Math.random() >= 0.97 - (((this.skills.dodge/1000) + (this.stats.Fagi()/5000) + bonusValue) * bonusPercentage)) dodged = true;
+    return dodged;
+  };
+
   function calcValues(value, kohde) {
     let val = 0;
     let per = 1;
@@ -226,10 +247,10 @@ function EnemyClass(base) {
       if (!item.id) continue;
       if (item?.effects?.[value + "P"]) per += item.effects[value + "P"] / 100;
       if (item?.effects?.[value + "V"]) val += item.effects[value + "V"];
-    } 
-    for(let effect of kohde.statuses) {
-      if(effect.effects?.[value + "P"]) per += effect.effects?.[value + "P"] / 100;
-      if(effect.effects?.[value + "V"]) val += effect.effects[value + "V"];
+    }
+    for (let effect of kohde.statuses) {
+      if (effect.effects?.[value + "P"]) per += effect.effects?.[value + "P"] / 100;
+      if (effect.effects?.[value + "V"]) val += effect.effects[value + "V"];
     }
     return { v: val, p: per };
   }
@@ -244,11 +265,18 @@ function EnemyClass(base) {
   }
 
   this.regularAttack = () => {
+    let block = player.attackBlocked();
+    let dodge = player.attackDodged();
     let damages = this.weaponDamage();
     if (damages.physical) damages.physical = Math.floor(damages.physical * damages.physical / (damages.physical + player.stats.FphysicalArmor()));
     if (damages.magical) damages.magical = Math.floor(damages.magical * damages.magical / (damages.magical + player.stats.FmagicalArmor()));
     if (damages.elemental) damages.elemental = Math.floor(damages.elemental * damages.elemental / (damages.elemental + player.stats.FelementalArmor()));
-    return damages.physical + damages.magical + damages.elemental;
+    if (block && !dodge) {
+      damages.physical *= 1 - player.equipment.shield.blockAmount.physical / 100;
+      damages.magical *= 1 - player.equipment.shield.blockAmount.magical / 100;
+      damages.elemental *= 1 - player.equipment.shield.blockAmount.elemental / 100;
+    }
+    return { num: Math.floor(damages.physical + damages.magical + damages.elemental), blocked: block, dodged: dodge };
   }
 
   this.weaponDamage = () => {
@@ -273,26 +301,26 @@ function EnemyClass(base) {
     let statusObject = $("#" + this.id + this.index + status?.id);
     let bg = $("#" + this.id + "§" + this.index);
     let backframe = $(("#" + this.id + "§" + this.index) + " .enemyDroppingString");
-    if(status?.damageOT && status) {
-      if(status.hasDamaged <= 0) {
+    if (status?.damageOT && status) {
+      if (status.hasDamaged <= 0) {
         status.hasDamaged = 1;
-        if(status.damageOT > 0) createDroppingString(status.damageOT, backframe, "damage");
-        else if(status.damageOT < 0) createDroppingString(Math.abs(status.damageOT), backframe, "health");
+        if (status.damageOT > 0) createDroppingString(status.damageOT, backframe, "damage");
+        else if (status.damageOT < 0) createDroppingString(Math.abs(status.damageOT), backframe, "health");
         this.stats.hp -= status.damageOT;
       }
     }
-    if(!status || status.lastFor <= 0.1) {
-      if(statusObject) bg.querySelector(".enemyStatusArea").removeChild(statusObject);
+    if (!status || status.lastFor <= 0.1) {
+      if (statusObject) bg.querySelector(".enemyStatusArea").removeChild(statusObject);
       return;
     }
-    if(!statusObject || statusObject == undefined) {
+    if (!statusObject || statusObject == undefined) {
       const frame = create("div");
       frame.id = this.id + this.index + status.id;
       frame.classList.add("statusFrameEnemy");
       const image = create("img");
       image.src = status.img;
       const num = create("p");
-      num.textContent = status.lastFor;
+      num.textContent = Math.ceil(status.lastFor);
       frame.append(image, num);
       let desc = `<c>#c2bf27<c><f>25px<f>${status.name}§\n`;
       // if (status.effectType == "stun") desc += `${this.name} is stunned \nand unable to move.`;
@@ -302,7 +330,7 @@ function EnemyClass(base) {
       addHoverBox(frame, desc, "");
       bg.querySelector(".enemyStatusArea").append(frame);
     } else {
-      if(!status || status.lastFor <= 0.1) {
+      if (!status || status.lastFor <= 0.1) {
         bg.querySelector(".enemyStatusArea").removeChild(statusObject);
         return;
       }
@@ -311,54 +339,54 @@ function EnemyClass(base) {
   }
 
   this.healLimit = () => {
-    return this.stats.FhpMax() * (this.stats.healL/100);
+    return this.stats.FhpMax() * (this.stats.healL / 100);
   }
 
   this.canHeal = () => {
-    for(let itm of this.inventory) {
-      if(itm.healsUser) return true;
+    for (let itm of this.inventory) {
+      if (itm.healsUser) return true;
     } return false;
   }
 
   this.strongestAttack = () => {
     let totalDmg = 0;
     let strongest;
-    for(let ability of this.abilities) {
-      if(ability.onCooldown > 0 || this.stats.mp < ability.mpCost) continue;
-      let dmg = Math.round(this.regularAttack() * ability.powerMultiplier);
-      if(dmg <= 0) dmg = 1;
-      if(totalDmg < dmg) {
+    for (let ability of this.abilities) {
+      if (ability.onCooldown > 0 || this.stats.mp < ability.mpCost) continue;
+      let dmg = Math.round(this.regularAttack().num * ability.powerMultiplier);
+      if (dmg <= 0) dmg = 1;
+      if (totalDmg < dmg) {
         totalDmg = dmg;
         strongest = ability;
-      } 
+      }
     } return strongest;
   }
 
   this.decideMove = () => {
-    if(togetherWeCanKill(this.index)) {
+    if (togetherWeCanKill(this.index)) {
       return this.strongestAttack();
     }
-    else if(this.stats.hp <= this.healLimit() && this.canHeal()) {
-        return "heal";
+    else if (this.stats.hp <= this.healLimit() && this.canHeal()) {
+      return "heal";
     }
     else {
       let table = this.abilities;
       let max = 0;
       for (let i = 0; i < table.length; i++) {
-        if(table[i].onCooldown > 0 || table[i].mpCost > this.stats.mp) continue;
+        if (table[i].onCooldown > 0 || table[i].mpCost > this.stats.mp) continue;
         table[i].ai_wants = 0;
         if (table[i - 1]) table[i].ai_wants = table[i - 1].ai_wants;
         else table[i].ai_wants = 0;
-        table[i].ai_wants += Math.floor(table[i].ai_want * (1 + (this.ai_prefers?.[table[i].type]/100 || 0)));
+        table[i].ai_wants += Math.floor(table[i].ai_want * (1 + (this.ai_prefers?.[table[i].type] / 100 || 0)));
         max = table[i].ai_wants;
       }
       let value = Math.floor(random(max));
       let targeting;
       for (let unit of table) {
-        if(unit.onCooldown > 0 || unit.mpCost > this.stats.mp) continue;
+        if (unit.onCooldown > 0 || unit.mpCost > this.stats.mp) continue;
         if (unit.ai_wants >= value) { targeting = unit; break; }
       }
-     return targeting;
+      return targeting;
     }
   }
 }

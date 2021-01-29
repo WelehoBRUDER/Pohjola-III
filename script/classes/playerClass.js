@@ -196,12 +196,36 @@ function PlayerClass(base) {
   };
 
   this.regularAttack = (target) => {
+    let block = target.attackBlocked();
+    let dodge = target.attackDodged();
     let damages = this.weaponDamage();
     if (damages.physical) damages.physical = Math.floor(damages.physical * damages.physical / (damages.physical + target.stats.FphysicalArmor()));
     if (damages.magical) damages.magical = Math.floor(damages.magical * damages.magical / (damages.magical + target.stats.FmagicalArmor()));
     if (damages.elemental) damages.elemental = Math.floor(damages.elemental * damages.elemental / (damages.elemental + target.stats.FelementalArmor()));
-    return damages.physical + damages.magical + damages.elemental;
+    if (block) {
+      damages.physical *= 1 - target.equipment.shield.blockAmount.physical/100;
+      damages.magical *= 1 - target.equipment.shield.blockAmount.magical/100;
+      damages.elemental *= 1 - target.equipment.shield.blockAmount.elemental/100;
+      block = true;
+    }
+    return {num: Math.floor(damages.physical + damages.magical + damages.elemental), blocked: block, dodged: dodge};
   }
+
+  this.attackBlocked = () => {
+    let blocked = false;
+    if(this.equipment.shield) {
+      const {v: bonusValue, p: bonusPercentage} = calcValues("blockChance", this);
+      if(Math.random() >= 0.95 - ((this.skills.shield/500 + bonusValue) * bonusPercentage)) blocked = true;
+    }
+    return blocked;
+  };
+
+  this.attackDodged = () => {
+    let dodged = false;
+    const { v: bonusValue, p: bonusPercentage } = calcValues("dodge", this);
+    if(Math.random() >= 0.97 - (((this.skills.dodge/1000) + (this.stats.Fagi()/5000) + bonusValue) * bonusPercentage)) dodged = true;
+    return dodged;
+  };
 
   this.updateStat = (int) => {
     let status = this.statuses[int];
@@ -225,7 +249,7 @@ function PlayerClass(base) {
       const image = create("img");
       image.src = status.img;
       const num = create("p");
-      num.textContent = status.lastFor;
+      num.textContent = Math.ceil(status.lastFor);
       frame.append(image, num);
       let desc = `<c>#c2bf27<c><f>25px<f>${status.name}§\n`;
       desc += statusSyntax(status);

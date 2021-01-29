@@ -213,17 +213,19 @@ function enemyTurn(enemy) {
     }
   }
   else if(ability.id == "regular_attack") {
-    let dmg = Math.round(enemy.regularAttack());
-    if(dmg <= 0) dmg = 1;
-    enemy.attackAnimation(dmg);
+    let dmg = enemy.regularAttack();
+    if(dmg.num <= 0) dmg.num = 1;
+    enemy.attackAnimation(dmg.num, dmg.blocked, dmg.dodged);
     setTimeout(e=>{enemy.stats.ap = 0; global.isCombatPaused = false}, 1050);
   } else if(!ability.doesNotUseWeapon) {
-    let dmg = Math.round(enemy.regularAttack() * ability.powerMultiplier);
-    if(dmg <= 0) dmg = 1;
-    enemy.attackAnimation(dmg);
+    let dmg = enemy.regularAttack();
+    dmg.num = Math.round(dmg.num * ability.powerMultiplier);
+    if(dmg.num <= 0) dmg.num = 1;
+    enemy.attackAnimation(dmg.num, dmg.blocked, dmg.dodged);
     ability.onCooldown = ability.cooldown;
     enemy.stats.mp -= ability.mpCost;
     for(let stat of ability.status_effects) {
+      if(dmg.blocked || dmg.dodged) break;
       setTimeout(s=>{
         if(noDuplicateStatus(player, stat.status)) player.statuses.push(new statusEffect({...statusEffects[stat.status], hasDamaged: 1}));
       }, 800);
@@ -236,11 +238,10 @@ function togetherWeCanKill(index) {
   let playerHP = player.stats.hp;
   for(let i = index; i<enemiesCombat.length; i++) {
     let ability = enemiesCombat[i].strongestAttack();
-    let dmg = Math.round(enemiesCombat[i].regularAttack() * ability.powerMultiplier);
+    let dmg = Math.round(enemiesCombat[i].regularAttack().num * ability.powerMultiplier);
     playerHP -= dmg;
   }
-  if(playerHP > 0) return false;
-  else return true;
+  return playerHP > 0 ? false : true;
 }
 
 function noDuplicateStatus(char, status) {
@@ -303,8 +304,10 @@ function targetEnemy(index) {
   if(!global.isCombatPaused || !global.targeting) return;
   if(global.ability == "regular") {
     let dmg = player.regularAttack(enemy);
-    createDroppingString(dmg, enemyFrame, "damage");
-    enemy.stats.hp -= dmg;
+    if(!dmg.blocked && !dmg.dodged) createDroppingString(dmg.num, enemyFrame, "damage");
+    else if(dmg.blocked && !dmg.dodged) createDroppingString("🛡" + dmg.num, enemyFrame, "damage");
+    else if(!dmg.blocked && dmg.dodged) createDroppingString("MISS", enemyFrame, "neutral"); 
+    if(!dmg.dodged) enemy.stats.hp -= dmg.num;
     player.stats.ap = 0;
     global.targeting = false;
     global.ability = "";
@@ -313,7 +316,7 @@ function targetEnemy(index) {
       global.ability = "";
       bg.classList.remove("canBeTargeted");
     })
-    enemy.hurtAnimation();
+    if(!dmg.dodged) enemy.hurtAnimation();
     setTimeout(a=>{
       global.isCombatPaused = false;
     }, 300)

@@ -620,6 +620,11 @@ body {
   text-shadow: -2px 2px 6px #630606;
 }
 
+.neutral {
+  color: #ccc923;
+  text-shadow: -2px 2px 6px #635d06;
+}
+
 .health {
   color: #6fcc23;
   text-shadow: -2px 2px 6px #116306;

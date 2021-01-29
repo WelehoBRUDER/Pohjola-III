@@ -5,4 +5,4 @@ const percentOf = (v, m) => { return m * (v/100) };
 const create = e => document.createElement(e);
 const pxtovh = v => v / clientHeight * 100;
 const pxtovw = v => v / clientWidth * 100;
-var isFirefox = typeof InstallTrigger !== 'undefined';
+var isFirefox = typeof InstallTrigger !== 'undefined'; 
