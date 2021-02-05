@@ -34,6 +34,13 @@ let player = new PlayerClass({
     xp: 0,
     xpNeed: 50
   },
+  abilities: {
+    slot1: new Ability(Abilities.sharp_stroke),
+    slot2: new Ability(Abilities.shield_bash),
+    slot3: {},
+    slot4: {},
+    slot5: {}
+  },
   statuses: []
 })
 
@@ -46,6 +53,7 @@ function PlayerClass(base) {
   this.equipment = new Equipments(base.equipment);
   this.level = base.level;
   this.statuses = base.statuses;
+  this.abilities = new Abilitys(base.abilities);
 
   function Stats(stat) {
     this.str = stat.str;
@@ -76,6 +84,14 @@ function PlayerClass(base) {
     this.ring = equipment.ring ?? {};
   }
 
+  function Abilitys(ability) {
+    this.slot1 = new Ability(ability?.slot1) || {}
+    this.slot2 = new Ability(ability?.slot2) || {}
+    this.slot3 = new Ability(ability?.slot3) || {}
+    this.slot4 = new Ability(ability?.slot4) || {}
+    this.slot5 = new Ability(ability?.slot5) || {}
+  }
+ 
   function statusPowers(stat, p) {
     let power = 0;
     if(p) power++;
@@ -213,7 +229,7 @@ function PlayerClass(base) {
 
   this.attackBlocked = () => {
     let blocked = false;
-    if(this.equipment.shield) {
+    if(this.equipment.shield?.id) {
       const {v: bonusValue, p: bonusPercentage} = calcValues("blockChance", this);
       if(Math.random() >= 0.95 - ((this.skills.shield/500 + bonusValue) * bonusPercentage)) blocked = true;
     }

@@ -1,6 +1,10 @@
 function Ability(base) {
   const defaultAbility = Abilities[base.id];
-  if(!defaultAbility) console.error(base.id + " is not valid!");
+  if(!defaultAbility) {
+    console.warn(base.id + " is not valid!");
+    console.log("This warning is most likely caused by an empty ability slot.");
+    return {};
+  } 
   this.id = base.id;
   this.name = base.name;
   this.mpCost = base.mpCost ?? defaultAbility.mpCost;
@@ -13,5 +17,7 @@ function Ability(base) {
   this.healAmount = base.healAmount ?? defaultAbility.healAmount;
   this.ai_want = defaultAbility.ai_want;
   this.type = defaultAbility.type;
+  this.img = defaultAbility.img;
+  this.requiresShield = defaultAbility.requiresShield;
 
 }

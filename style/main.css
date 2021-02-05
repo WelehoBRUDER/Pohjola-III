@@ -226,6 +226,93 @@ body {
   top: 25px;
 }
 
+.combatScreen .playerArea .playerInteract .playerAbilities {
+  width: 100%;
+  height: 120px;
+  position: absolute;
+  left: 0px;
+  bottom: 20px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.combatScreen .playerArea .playerInteract .playerAbilities .abilityContainer {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 100px;
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.combatScreen .playerArea .playerInteract .playerAbilities .abilityContainer > div {
+  -webkit-transition: 0.05s;
+  transition: 0.05s;
+  width: 90px;
+  height: 90px;
+  background: #252525;
+  background: radial-gradient(circle, #252525 0%, #1c1c1c 100%);
+  position: relative;
+  -webkit-box-shadow: inset 0px 0px 8px 6px #101010;
+          box-shadow: inset 0px 0px 8px 6px #101010;
+  border: 8px solid black;
+  margin: 0px 1px 1px 0px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.combatScreen .playerArea .playerInteract .playerAbilities .abilityContainer > div:hover {
+  border: 8px solid rgba(196, 196, 196, 0.75);
+}
+
+.combatScreen .playerArea .playerInteract .playerAbilities .abilityContainer .cooldown {
+  font-size: 48px;
+  color: white;
+  text-shadow: 0px 0px 8px black;
+  background: rgba(10, 10, 10, 0.8);
+  position: absolute;
+  left: 50%;
+  top: -48px;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  padding: 16px;
+  pointer-events: none;
+}
+
+.combatScreen .playerArea .playerInteract .playerAbilities .abilityContainer .charAbility {
+  width: 90px;
+  height: 90px;
+  background: rgba(165, 30, 20, 0.2);
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+
+.combatScreen .playerArea .playerInteract .playerAbilities .abilityContainer .charAbility > img {
+  width: 100%;
+  height: 100%;
+}
+
+.combatScreen .playerArea .playerInteract .playerAbilities .abilityContainer .charAbility > span {
+  font-size: 100px;
+  position: absolute;
+  z-index: 1;
+  left: -5px;
+  top: -12px;
+  color: #701515;
+  text-shadow: 0px 0px 6px black;
+  background: rgba(10, 10, 10, 0.5);
+  padding: 0px 20px 0px 20px;
+}
+
 @-webkit-keyframes BarShine {
   0% {
     background-position: 200% 50%;

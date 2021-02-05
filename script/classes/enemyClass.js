@@ -15,6 +15,7 @@ function EnemyClass(base) {
   this.abilities = base.abilities.map(ability => new Ability(ability));
   this.statuses = base.statuses.map(status => new statusEffect(status));
   this.ai_prefers = base.ai_prefers;
+  this.dead = base.dead || false;
 
   function Equipments(equipment) {
     this.weapon = equipment.weapon ?? {};
@@ -225,7 +226,7 @@ function EnemyClass(base) {
 
   this.attackBlocked = () => {
     let blocked = false;
-    if (this.equipment.shield) {
+    if (this.equipment.shield?.id) {
       const { v: bonusValue, p: bonusPercentage } = calcValues("blockChance", this);
       if (Math.random() >= 0.95 - ((this.skills.shield / 500 + bonusValue) * bonusPercentage)) blocked = true;
     }

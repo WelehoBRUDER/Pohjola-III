@@ -188,6 +188,80 @@ body {
         left: 25px;
         top: 25px;
       }
+
+      .playerAbilities {
+        width: 100%;
+        height: 120px;
+        position: absolute;
+        left: 0px;
+        bottom: 20px;
+        align-items: center;
+
+        .abilityContainer {
+          width: fit-content;
+          height: 100px;
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          display: flex;
+
+          >div {
+            transition: 0.05s;
+            width: 90px;
+            height: 90px;
+            background: rgb(37, 37, 37);
+            background: radial-gradient(circle, rgba(37, 37, 37, 1) 0%, rgba(28,28,28,1) 100%);
+            position: relative;
+            box-shadow: inset 0px 0px 8px 6px rgb(16, 16, 16);
+            border: 8px solid black;
+            margin: 0px 1px 1px 0px;
+            user-select: none;
+          }
+
+          >div:hover {
+            border: 8px solid rgba(196, 196, 196, 0.75);
+          }
+
+          .cooldown {
+            font-size: 48px;
+            color: white;
+            text-shadow: 0px 0px 8px black;
+            background: rgba(10, 10, 10, 0.8);
+            position: absolute;
+            left: 50%;
+            top: -48px;
+            transform: translateX(-50%);
+            padding: 16px;
+            pointer-events: none;
+          }
+
+          .charAbility {
+            width: 90px;
+            height: 90px;
+            background: rgba(165, 30, 20, 0.2);
+            position: absolute;
+            left: 0px;
+            top: 0px;
+
+            >img {
+              width: 100%;
+              height: 100%;
+            }
+
+            >span {
+              font-size: 100px;
+              position: absolute;
+              z-index: 1;
+              left: -5px;
+              top: -12px;
+              color: rgb(112, 21, 21);
+              text-shadow: 0px 0px 6px rgb(0, 0, 0);
+              background: rgba(10, 10, 10, 0.5);
+              padding: 0px 20px 0px 20px;
+            }
+          }
+        }
+      }
     }
 
     @keyframes BarShine {

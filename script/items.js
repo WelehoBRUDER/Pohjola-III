@@ -79,7 +79,12 @@ const items = {
     },
     itemSpeed: -0.01,
     skillBonus: "shield",
-    price: 1
+    price: 1,
+    crafting: {
+      requires: [
+        {item: "broken_dagger", amount: 2}
+      ]
+    }
   },
   "broken_dagger": {
     id: "broken_dagger",

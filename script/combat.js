@@ -35,12 +35,36 @@ function Update() {
       player.updateStat(i);
     }
   }
+  for(let ability in player.abilities) {
+    if(global.isCombatPaused) return;
+    let abi = player.abilities[ability];
+    if(abi.onCooldown > 0) {
+      let container = $(".playerAbilities .abilityContainer");
+      let slot = container.querySelector(".abilitySlot" + ability.substring(ability.length-1));
+      let number = slot.querySelector(".cooldown");
+      abi.onCooldown -= 1/60;
+      if(abi.onCooldown <= 0) {
+        abi.onCooldown = 0;
+        number.remove();
+      } else {
+        if(number) {
+         number.textContent = Math.ceil(abi.onCooldown) + "s";
+        } else {
+          let cd = create("p");
+          cd.textContent = Math.ceil(abi.onCooldown) + "s";
+          cd.classList.add("cooldown");
+          slot.append(cd);
+        }
+      }
+    }
+  }
 
 
   // Enemy bars & numbers
   for(let i = 0; i<enemiesCombat.length; i++) {
     let enemy = enemiesCombat[i];
     let frame = $("#" + enemy.id + "§" + i);
+    if(enemy.dead) continue;
     if(enemy.stats.ap <= 99.99 && !global.isCombatPaused) enemy.stats.ap += enemy.actionFill() > 1.6 ? 1.6 : enemy.actionFill();
     if(enemy.stats.ap > 99.99  && !global.isCombatPaused) {
       //enemy.attackAnimation();
@@ -49,7 +73,12 @@ function Update() {
       //if(global.settings.turn_based_combat) setTimeout(unpause=>global.isCombatPaused = false, 1050);
       enemyTurn(enemy);
     };
-    if(enemy.stats.hp < 0) enemy.stats.hp = 0;
+    if(enemy.stats.hp <= 0) {
+      enemy.stats.hp = 0;
+      enemy.dead = true;
+      setTimeout(a=>drawEnemies(enemiesCombat), 250);
+      continue;
+    } 
     if(!global.isCombatPaused) enemy.abilities.forEach(a=>a.onCooldown > 0 ? a.onCooldown -= 1/60 : a.onCooldown = 0);
     if(global.isCombatPaused  && enemy.stats.ap <= 99.99) frame.querySelector(".enemyActionFill").style.filter = "grayscale(1)";
     else if(enemy.stats.ap >= 99.99) frame.querySelector(".enemyActionFill").style.filter = "grayscale(0)";
@@ -84,89 +113,93 @@ function startCombatDebug() {
   //enemiesCombat.push(new EnemyClass({...Enemies.skeleton_archer, index: 1, level: {lvl: 1}}));
   //enemiesCombat.push(new EnemyClass({...Enemies.skeleton_knight, index: 2, level: {lvl: 1}}));
   drawEnemies(enemiesCombat);
+  slotAbilities();
   enemiesCombat.forEach(e=>{e.init()});
 }
 
 function drawEnemies(array) {
+  $(".enemiesFlex").textContent = "";
   array.forEach(e=>{
-    const enemyFrame = create("div");
-    enemyFrame.classList.add("enemyFrame");
-    enemyFrame.id = e.id + "§" + e.index;
-    const idle = create("img");
-    const attack_start = create("img");
-    const attack_finish = create("img");
-    const death = create("img");
-    idle.classList.add("idle");
-    attack_start.classList.add("attack_start");
-    attack_finish.classList.add("attack_finish");
-    death.classList.add("death");
-    idle.src = e.sprites + "/idle.png";
-    attack_start.src = e.sprites + "/attack_start.png";
-    attack_finish.src = e.sprites + "/attack_finish.png";
-    death.src = e.sprites + "/death.png";
-    // HP & MP BARS
-    const hpbar = create("div");
-    const mpbar = create("div");
-    hpbar.classList.add("enemyHpBar");
-    mpbar.classList.add("enemyMpBar");
-    const hpbarFill = create("div");
-    const mpbarFill = create("div");
-    hpbarFill.classList.add("enemyHpFill");
-    mpbarFill.classList.add("enemyMpFill");
-    const hpbarLate = create("div");
-    const mpbarLate = create("div");
-    hpbarLate.classList.add("enemyHpLate");
-    mpbarLate.classList.add("enemyMpLate");
-    const hpNum = create("p");
-    const mpNum = create("p");
-    hpNum.classList.add("enemyHpNumber");
-    mpNum.classList.add("enemyMpNumber");
-    hpbar.append(hpbarLate, hpbarFill, hpNum);
-    mpbar.append(mpbarLate, mpbarFill, mpNum);
-    // NAME & LVL
-    const name = create("p");
-    name.textContent = e.name + " | LVL " + e.level.lvl;
-    name.classList.add("enemyName");
-    // ACTION BAR
-    const actionBar = create("div");
-    const actionFill = create("div");
-    const actionNumber = create("p");
-    actionBar.classList.add("enemyActionBar");
-    actionFill.classList.add("enemyActionFill");
-    actionNumber.classList.add("enemyActionNumber");
-    actionBar.append(actionFill, actionNumber);
-    // FIX DROPPING STRING
-    const dropString = create("div");
-    dropString.classList.add("enemyDroppingString");
-    // STATUS EFFECTS APPEAR HERE
-    const statusArea = create("div");
-    statusArea.classList.add("enemyStatusArea");
-    enemyFrame.onclick = a=>targetEnemy(e.index);
-    enemyFrame.append(idle, attack_start, attack_finish, death, hpbar, mpbar, name, actionBar, dropString, statusArea);
-    // ENEMY HOVERS
-    const health = `<c>red<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>'s Health§
-    <v>enemiesCombat[${e.index}].name<v>'s health represents
-    the amount of hits it can take
-    before being§ <c>crimson<c> defeated. §
-    - Maximum health is §<c>red<c><v>enemiesCombat[${e.index}].stats.FhpMax()<v>hp §
-    - Current health is §<c>red<c><v>enemiesCombat[${e.index}].stats.hp<v>hp §
-    - Remaining health is §<c>red<c><v>((enemiesCombat[${e.index}].stats.hp/enemiesCombat[${e.index}].stats.FhpMax())*100).toFixed(1)<v>%`;
-    addHoverBox(hpbar, health, "");
-    const mana = `<c>#4287f5<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>'s Mana§
-    <v>enemiesCombat[${e.index}].name<v>'s mana represents
-    how many abilities that require it,
-    the character can use before running dry.
-    - Maximum mana is §<c>#4287f5<c><v>enemiesCombat[${e.index}].stats.FmpMax()<v>mp §
-    - Current mana is §<c>#4287f5<c><v>enemiesCombat[${e.index}].stats.mp<v>mp §
-    - Remaining mana is §<c>#4287f5<c><v>((enemiesCombat[${e.index}].stats.mp/enemiesCombat[${e.index}].stats.FmpMax())*100).toFixed(1)<v>%`;
-    addHoverBox(mpbar, mana, "");
-    const action = `<c>#59e04a<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>'s Action§
-    <v>enemiesCombat[${e.index}].name<v>'s action represents
-    how quickly it gets its turn. Once the bar
-    is filled, its turn will begin.
-    - Current fillrate is §<c>#59e04a<c><v>(enemiesCombat[${e.index}].actionFill()*60).toFixed(1)<v>%§/s`;
-    addHoverBox(actionBar, action, "");
-    $(".enemiesFlex").append(enemyFrame);
+    if(!e.dead) {
+      const enemyFrame = create("div");
+      enemyFrame.classList.add("enemyFrame");
+      enemyFrame.id = e.id + "§" + e.index;
+      const idle = create("img");
+      const attack_start = create("img");
+      const attack_finish = create("img");
+      const death = create("img");
+      idle.classList.add("idle");
+      attack_start.classList.add("attack_start");
+      attack_finish.classList.add("attack_finish");
+      death.classList.add("death");
+      idle.src = e.sprites + "/idle.png";
+      attack_start.src = e.sprites + "/attack_start.png";
+      attack_finish.src = e.sprites + "/attack_finish.png";
+      death.src = e.sprites + "/death.png";
+      // HP & MP BARS
+      const hpbar = create("div");
+      const mpbar = create("div");
+      hpbar.classList.add("enemyHpBar");
+      mpbar.classList.add("enemyMpBar");
+      const hpbarFill = create("div");
+      const mpbarFill = create("div");
+      hpbarFill.classList.add("enemyHpFill");
+      mpbarFill.classList.add("enemyMpFill");
+      const hpbarLate = create("div");
+      const mpbarLate = create("div");
+      hpbarLate.classList.add("enemyHpLate");
+      mpbarLate.classList.add("enemyMpLate");
+      const hpNum = create("p");
+      const mpNum = create("p");
+      hpNum.classList.add("enemyHpNumber");
+      mpNum.classList.add("enemyMpNumber");
+      hpbar.append(hpbarLate, hpbarFill, hpNum);
+      mpbar.append(mpbarLate, mpbarFill, mpNum);
+      // NAME & LVL
+      const name = create("p");
+      name.textContent = e.name + " | LVL " + e.level.lvl;
+      name.classList.add("enemyName");
+      // ACTION BAR
+      const actionBar = create("div");
+      const actionFill = create("div");
+      const actionNumber = create("p");
+      actionBar.classList.add("enemyActionBar");
+      actionFill.classList.add("enemyActionFill");
+      actionNumber.classList.add("enemyActionNumber");
+      actionBar.append(actionFill, actionNumber);
+      // FIX DROPPING STRING
+      const dropString = create("div");
+      dropString.classList.add("enemyDroppingString");
+      // STATUS EFFECTS APPEAR HERE
+      const statusArea = create("div");
+      statusArea.classList.add("enemyStatusArea");
+      enemyFrame.onclick = a=>targetEnemy(e.index);
+      enemyFrame.append(idle, attack_start, attack_finish, death, hpbar, mpbar, name, actionBar, dropString, statusArea);
+      // ENEMY HOVERS
+      const health = `<c>red<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>'s Health§
+      <v>enemiesCombat[${e.index}].name<v>'s health represents
+      the amount of hits it can take
+      before being§ <c>crimson<c> defeated. §
+      - Maximum health is §<c>red<c><v>enemiesCombat[${e.index}].stats.FhpMax()<v>hp §
+      - Current health is §<c>red<c><v>enemiesCombat[${e.index}].stats.hp<v>hp §
+      - Remaining health is §<c>red<c><v>((enemiesCombat[${e.index}].stats.hp/enemiesCombat[${e.index}].stats.FhpMax())*100).toFixed(1)<v>%`;
+      addHoverBox(hpbar, health, "");
+      const mana = `<c>#4287f5<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>'s Mana§
+      <v>enemiesCombat[${e.index}].name<v>'s mana represents
+      how many abilities that require it,
+      the character can use before running dry.
+      - Maximum mana is §<c>#4287f5<c><v>enemiesCombat[${e.index}].stats.FmpMax()<v>mp §
+      - Current mana is §<c>#4287f5<c><v>enemiesCombat[${e.index}].stats.mp<v>mp §
+      - Remaining mana is §<c>#4287f5<c><v>((enemiesCombat[${e.index}].stats.mp/enemiesCombat[${e.index}].stats.FmpMax())*100).toFixed(1)<v>%`;
+      addHoverBox(mpbar, mana, "");
+      const action = `<c>#59e04a<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>'s Action§
+      <v>enemiesCombat[${e.index}].name<v>'s action represents
+      how quickly it gets its turn. Once the bar
+      is filled, its turn will begin.
+      - Current fillrate is §<c>#59e04a<c><v>(enemiesCombat[${e.index}].actionFill()*60).toFixed(1)<v>%§/s`;
+      addHoverBox(actionBar, action, "");
+      $(".enemiesFlex").append(enemyFrame);
+    }
   })
 }
 
@@ -250,10 +283,10 @@ function noDuplicateStatus(char, status) {
   } return true;
 }
 
-function statusSyntax(status) {
+function statusSyntax(status, fontSize="20px") {
   let text = "";
-  if(status.damageOT > 0) text += `HP §<c>red<c>▼ down§ by ${status.damageOT} every second\n`;
-  else if(status.damageOT < 0) text += `HP §<c>green<c>▲ up§ by ${Math.abs(status.damageOT)} every second\n`;
+  if(status.damageOT > 0) text += ` <f>${fontSize}px<f>HP §<f>${fontSize}px<f><c>red<c>▼ down§<f>${fontSize}px<f> by ${status.damageOT} every second\n`;
+  else if(status.damageOT < 0) text += `  <f>${fontSize}px<f>HP §<f>${fontSize}px<f><c>green<c>▲ up§<f>${fontSize}px<f> by ${Math.abs(status.damageOT)} every second\n`;
   for(let effect in status.effects) {
     let stat = effect.substring(0, effect.length-1);
     const perc = effect.substring(effect.length-1);
@@ -265,10 +298,10 @@ function statusSyntax(status) {
         stat = "Strength";
         break;
     }
-    if(status.effects?.[effect] > 0 && perc == "V") text += `${stat} §<c>green<c>▲ up§ by ${status.effects[effect]}\n`;
-    else if(status.effects?.[effect] > 0 && perc == "P") text += `${stat} §<c>green<c>▲ up§ by ${Math.floor(status.effects[effect])}%\n`;
-    else if(status.effects?.[effect] < 0 && perc == "V") text += `${stat} §<c>red<c>▼ down§ by ${Math.abs(status.effects[effect])}\n`;
-    else if(status.effects?.[effect] < 0 && perc == "P") text += `${stat} §<c>red<c>▼ down§ by ${Math.abs(Math.floor(status.effects[effect]))}%\n`;
+    if(status.effects?.[effect] > 0 && perc == "V") text += ` <f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>green<c>▲ up§<f>${fontSize}px<f> by ${status.effects[effect]}\n`;
+    else if(status.effects?.[effect] > 0 && perc == "P") text += ` <f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>green<c>▲ up§<f>${fontSize}px<f> by ${Math.floor(status.effects[effect])}%\n`;
+    else if(status.effects?.[effect] < 0 && perc == "V") text += ` <f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>red<c>▼ down§<f>${fontSize}px<f> by ${Math.abs(status.effects[effect])}\n`;
+    else if(status.effects?.[effect] < 0 && perc == "P") text += ` <f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>red<c>▼ down§<f>${fontSize}px<f> by ${Math.abs(Math.floor(status.effects[effect]))}%\n`;
   }
   return text;
 }
@@ -296,6 +329,21 @@ function hotkey(e) {
       bg.classList.remove("canBeTargeted");
     });
   }
+  else if(e.key == "1") {
+    playerUseAbility(1)
+  }
+  else if(e.key == "2") {
+    playerUseAbility(2)
+  }
+  else if(e.key == "3") {
+    playerUseAbility(3)
+  }
+  else if(e.key == "4") {
+    playerUseAbility(4)
+  }
+  else if(e.key == "5") {
+    playerUseAbility(5)
+  }
 }
 
 function targetEnemy(index) {
@@ -320,7 +368,88 @@ function targetEnemy(index) {
     setTimeout(a=>{
       global.isCombatPaused = false;
     }, 300)
+  } else {
+    let dmg = player.regularAttack(enemy);
+    dmg.num = Math.round(dmg.num * global.ability.powerMultiplier);
+    if(!dmg.blocked && !dmg.dodged) createDroppingString(dmg.num, enemyFrame, "damage");
+    else if(dmg.blocked && !dmg.dodged) createDroppingString("🛡" + dmg.num, enemyFrame, "damage");
+    else if(!dmg.blocked && dmg.dodged) createDroppingString("MISS", enemyFrame, "neutral"); 
+    if(!dmg.dodged) enemy.stats.hp -= dmg.num;
+    if(global.ability.mpCost) player.stats.mp -= global.ability.mpCost;
+    if(global.ability.hpCost) player.stats.hp -= global.ability.hpCost;
+    global.ability.onCooldown = global.ability.cooldown;
+    if(global.ability.status_effects) {
+      for(let stat of global.ability.status_effects) {
+        if(dmg.blocked || dmg.dodged) break;
+          if(noDuplicateStatus(enemy, stat.status)) enemy.statuses.push(new statusEffect({...statusEffects[stat.status], hasDamaged: 1}));
+      };
+    }
+    player.stats.ap = 0;
+    global.targeting = false;
+    global.ability = "";
+    enemiesCombat.forEach(e=>{
+      let bg = $("#" + e.id + "§" + e.index);
+      global.ability = "";
+      bg.classList.remove("canBeTargeted");
+    })
+    if(!dmg.dodged) enemy.hurtAnimation();
+    setTimeout(a=>{
+      global.isCombatPaused = false;
+    }, 300)
   }
+}
+
+function slotAbilities() {
+  let container = $(".playerAbilities .abilityContainer");
+  $(".abilitySlot1").textContent = "";
+  $(".abilitySlot2").textContent = "";
+  $(".abilitySlot3").textContent = "";
+  $(".abilitySlot4").textContent = "";
+  $(".abilitySlot5").textContent = "";
+  for(let ability in player.abilities) {
+    let abi = player.abilities[ability];
+    if(abi?.id) {
+      $(".abilitySlot" + ability.substring(ability.length-1)).append(createAbilitySlot(abi));
+    }  
+  }
+}
+
+function playerUseAbility(index) {
+  let ability = player.abilities["slot" + index];
+  if(ability?.id) {
+    if(ability.requiresShield && !player.equipment.shield?.id) return;
+    if(ability.mpCost > player.stats.mp) return;
+    if(ability.onCooldown > 0) return;
+    if(global.isCombatPaused && player.stats.ap >= 100) {
+      if(ability.type == "buff") {
+        console.log("no buffs yet :)");
+      }
+      else {
+        global.targeting = true;
+        enemiesCombat.forEach(e=>{
+          let bg = $("#" + e.id + "§" + e.index);
+          global.ability = ability;
+          bg.classList.add("canBeTargeted");
+        });
+        if(enemiesCombat.length == 1) targetEnemy(0);
+      }
+    }
+  }
+}
+
+function createAbilitySlot(abi) {
+  const div = create("div");
+  const img = create("img");
+  div.classList.add("charAbility");
+  img.src = abi.img;
+  div.append(img);
+  if(abi.requiresShield && !player.equipment.shield?.id ) {
+    const disabled = create("span");
+    disabled.textContent = "X";
+    div.append(disabled);
+  }  
+  addHoverBox(div, abilityHover(abi), "");
+  return div;
 }
 
 startCombatDebug();

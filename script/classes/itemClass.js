@@ -1,5 +1,5 @@
 function Item(base) {
-  const defaultItem = items[base.id];
+  const defaultItem = {...items[base.id]};
   if(!defaultItem) console.error(base.id + " was not valid!");
   this.id = base.id;
   this.name = base.name ?? defaultItem.name;
@@ -19,6 +19,7 @@ function Item(base) {
   this.useLobby = defaultItem.useLobby;
   this.healsUser = defaultItem.healsUser;
   this.img = defaultItem.img;
+  this.crafting = defaultItem.crafting;
   
   function Damages(dmg, lvl) {
     this.physicalMin = dmg?.physicalMin * (1 + lvl.level/5) || 0;
