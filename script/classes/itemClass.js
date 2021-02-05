@@ -6,7 +6,7 @@ function Item(base) {
   this.amount = base.amount ?? 1;
   this.type = defaultItem.type;
   this.equipmentSlot = defaultItem.equipmentSlot;
-  this.level = base.level ?? 0;
+  this.level = base.level || 0;
   this.damages = new Damages(defaultItem?.damages, this) ?? {};
   this.effects = defaultItem.effects;
   this.armors = new Armors(defaultItem?.armors, this) ?? {};
@@ -14,7 +14,7 @@ function Item(base) {
   this.blockAmount = new BlockAmounts(defaultItem?.blockAmount, this) ?? {};
   this.itemSpeed = defaultItem.itemSpeed;
   this.weaponType = defaultItem.weaponType;
-  this.price = defaultItem.price * (1 + base.level/3);
+  this.price = Math.ceil(defaultItem.price * (1 + base.level/3));
   this.statusEffects = defaultItem.statusEffects;
   this.useLobby = defaultItem.useLobby;
   this.healsUser = defaultItem.healsUser;
@@ -40,5 +40,21 @@ function Item(base) {
     this.physical = block?.physical * (1 + lvl.level/5) || 0;
     this.magical = block?.magical * (1 + lvl.level/5) || 0;
     this.elemental = block?.elemental * (1 + lvl.level/5) || 0;
+  }
+
+  this.hasArmor = () => {
+    return this.armors.physical + this.armors.magical + this.armors.elemental == 0 ? false : true;
+  }
+
+  this.hasBlock = () => {
+    return this.blockAmount.physical + this.blockAmount.magical + this.blockAmount.elemental == 0 ? false : true;
+  }
+
+  this.minDmg = () => {
+    return this.damages.physicalMin + this.damages.magicalMin + this.damages.magicalMin;
+  }
+
+  this.maxDmg = () => {
+    return this.damages.physicalMax + this.damages.magicalMax + this.damages.magicalMax;
   }
 }

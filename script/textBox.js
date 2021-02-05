@@ -52,10 +52,11 @@ function textBoxRemove() {
 function addHoverBox(element, text, alt) {
   element.addEventListener('mouseover', (e) => textBoxSet(e, text, alt));
   element.addEventListener('mousemove', (e) => textBoxMove(e, text, alt));
-  element.addEventListener('mouseout', (e) => textBoxRemove(e));
+  element.addEventListener('mouseout', (e) => textBoxRemove());
 }
 
 addHoverBox($(".playerHpBar"), texts.health_text, "");
 addHoverBox($(".playerMpBar"), texts.mana_text, "");
 addHoverBox($(".playerActionBar"), texts.action_text, "");
 addHoverBox($(".regularAttack"), texts.regular_attack_text, "");
+addHoverBox($(".combatInventory"), texts.open_inventory_text, "");

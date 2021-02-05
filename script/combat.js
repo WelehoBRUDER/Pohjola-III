@@ -275,7 +275,7 @@ function togetherWeCanKill(index) {
     let dmg = Math.round(enemiesCombat[i].regularAttack().num * ability.powerMultiplier);
     playerHP -= dmg;
   }
-  return playerHP > 0 ? false : true;
+  return !(playerHP > 0);
 }
 
 function noDuplicateStatus(char, status) {

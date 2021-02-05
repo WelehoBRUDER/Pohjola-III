@@ -25,5 +25,13 @@ const texts = {
   regular_attack_text: `<c>yellow<c><f>24px<f>Attack§
   No special effects or modifiers.
   Just boring damage from
-  your stats and weapon.`
+  your stats and weapon.
+  Damage: §<c>orange<c><v>player.minDmg()<v>-<v>player.maxDmg()<v>`,
+
+  open_inventory_text: `<c>yellow<c><f>24px<f>Inventory§
+  Open your inventory.
+  You can use various items
+  like gems during combat
+  to heal or buff.
+  `,
 }

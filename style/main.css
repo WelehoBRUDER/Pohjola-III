@@ -1,6 +1,37 @@
 @font-face {
+  font-family: RobotoThin;
+  src: url("/style/font/Roboto-Thin.ttf");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: RobotoLight;
+  src: url("/style/font/Roboto-Light.ttf");
+  font-weight: normal;
+}
+
+@font-face {
   font-family: Roboto;
-  src: url(../style/font/Roboto-Regular.ttf);
+  src: url("/style/font/Roboto-Regular.ttf");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: RobotoMedium;
+  src: url("/style/font/Roboto-Medium.ttf");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: RobotoBold;
+  src: url("/style/font/Roboto-Bold.ttf");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: RobotoBolder;
+  src: url("/style/font/Roboto-Black.ttf");
+  font-weight: normal;
 }
 
 body {
@@ -8,6 +39,11 @@ body {
   background: radial-gradient(circle, #505050 0%, #1c1c1c 100%);
   font-family: Roboto;
   overflow: hidden;
+}
+
+.hidden {
+  -webkit-transform: scale(0);
+          transform: scale(0);
 }
 
 .combatScreen {
@@ -223,6 +259,12 @@ body {
 .combatScreen .playerArea .playerInteract .regularAttack {
   position: absolute;
   left: 25px;
+  top: 25px;
+}
+
+.combatScreen .playerArea .playerInteract .combatInventory {
+  position: absolute;
+  left: 155px;
   top: 25px;
 }
 
@@ -632,6 +674,70 @@ body {
     -webkit-transform: scale(1);
             transform: scale(1);
   }
+}
+
+#inventoryWindow {
+  width: 928px;
+  height: 576px;
+  background: rgba(85, 85, 85, 0.95);
+  position: absolute;
+  left: 50%;
+  margin-left: -464px;
+  top: 25px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-box-shadow: inset 0px 0px 24px 16px rgba(45, 45, 45, 0.95);
+          box-shadow: inset 0px 0px 24px 16px rgba(45, 45, 45, 0.95);
+}
+
+#inventoryWindow .itemsArea {
+  width: 582px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (minmax(75px, 1fr))[auto-fill];
+      grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+  -ms-grid-rows: auto;
+      grid-template-rows: auto;
+  margin: 0px;
+}
+
+#inventoryWindow .itemsArea > div {
+  -webkit-transition: 0.05s;
+  transition: 0.05s;
+  width: 75px;
+  height: 75px;
+  background: #252525;
+  background: radial-gradient(circle, #252525 0%, #1c1c1c 100%);
+  position: relative;
+  -webkit-box-shadow: inset 0px 0px 8px 6px #101010;
+          box-shadow: inset 0px 0px 8px 6px #101010;
+  border: 5px solid black;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  margin: 0px;
+}
+
+#inventoryWindow .itemsArea > div > img {
+  width: 75px;
+  height: 75px;
+}
+
+#inventoryWindow .itemsArea > div > p {
+  font-size: 18px;
+  color: white;
+  text-shadow: 0px 0px 4px black;
+  position: absolute;
+  right: 0px;
+  bottom: -20px;
+}
+
+#inventoryWindow .itemsArea > div:hover {
+  border: 5px solid #bbbbbb;
 }
 
 .statusFrame {

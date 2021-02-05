@@ -19,7 +19,13 @@ let player = new PlayerClass({
     dodge: 0,
     dexterity: 0
   },
-  inventory: [],
+  inventory: [
+    new Item({...items.weak_healing_gem, amount: 2}),
+    new Item({...items.broken_dagger, amount: 1}),
+    new Item({...items.rusty_large_axe, amount: 1}),
+    new Item(items.wooden_shield),
+    new Item(items.old_wool_shirt)
+  ],
   equipment: {
     weapon: new Item(items.rusty_short_sword),
     shield: new Item(items.wooden_shield),
@@ -194,13 +200,25 @@ function PlayerClass(base) {
     } return total;
   }
 
-  this.weaponDamage = () => {
+  this.weaponDamage = (type="random") => {
     let base = {}
     if(this.equipment.weapon?.damages) {
       let dmg = this.equipment.weapon.damages;
-      base.physical = random(dmg.physicalMax, dmg.physicalMin);
-      base.magical = random(dmg.magicalMax, dmg.magicalMin);
-      base.elemental = random(dmg.elementalMax, dmg.elementalMin);
+      if(type == "random") {
+        base.physical = random(dmg.physicalMax, dmg.physicalMin);
+        base.magical = random(dmg.magicalMax, dmg.magicalMin);
+        base.elemental = random(dmg.elementalMax, dmg.elementalMin);
+      }
+      else if(type == "max") {
+        base.physical = dmg.physicalMax;
+        base.magical =  dmg.magicalMax;
+        base.elemental = dmg.elementalMax;
+      }
+      else if(type == "min") {
+        base.physical = dmg.physicalMin;
+        base.magical =  dmg.magicalMin;
+        base.elemental = dmg.elementalMin;
+      }
     } else base.physical = 3;
     for(let dmg in base) {
       const {v: bonusValue, p: bonusPercentage} = calcValues(dmg + "Damage", this);
@@ -227,6 +245,16 @@ function PlayerClass(base) {
     return {num: Math.floor(damages.physical + damages.magical + damages.elemental), blocked: block, dodged: dodge};
   }
 
+  this.minDmg = () => {
+    let damages = this.weaponDamage("min");
+    return Math.floor(damages.physical + damages.magical + damages.elemental);
+  }
+
+  this.maxDmg = () => {
+    let damages = this.weaponDamage("max");
+    return Math.floor(damages.physical + damages.magical + damages.elemental);
+  }
+
   this.attackBlocked = () => {
     let blocked = false;
     if(this.equipment.shield?.id) {
@@ -250,7 +278,7 @@ function PlayerClass(base) {
       if(status.hasDamaged <= 0) {
         status.hasDamaged = 1;
         if(status.damageOT > 0) createDroppingString(status.damageOT, $(".playerInteract"), "damage");
-        else if(status.damageOT < 0) createDroppingString(status.damageOT, $(".playerInteract"), "health");
+        else if(status.damageOT < 0) createDroppingString(Math.abs(status.damageOT), $(".playerInteract"), "health");
         this.stats.hp -= status.damageOT;
       }
     }
