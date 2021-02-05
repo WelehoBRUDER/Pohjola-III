@@ -41,6 +41,7 @@ function combatItem(index) {
   if(item.statusEffects) {
     for(let status of item.statusEffects) {
       if(noDuplicateStatus(player, status.effect)) player.statuses.push(new statusEffect({...statusEffects[status.effect], hasDamaged: 1}));
+      else player.statuses[player.statuses.findIndex(e=>e.id == status.effect)].lastFor = statusEffects[status.effect].lastFor;
     }
   }
   if(item.amount <= 0) player.inventory.splice(index, 1);
