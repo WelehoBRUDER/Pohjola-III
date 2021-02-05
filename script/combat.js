@@ -199,6 +199,7 @@ function drawEnemies(array) {
       - Current fillrate is §<c>#59e04a<c><v>(enemiesCombat[${e.index}].actionFill()*60).toFixed(1)<v>%§/s`;
       addHoverBox(actionBar, action, "");
       $(".enemiesFlex").append(enemyFrame);
+      e.idle();
     }
   })
 }
@@ -312,21 +313,33 @@ function regularAttack() {
   if(global.isCombatPaused && player.stats.ap >= 100) {
     global.targeting = true;
     enemiesCombat.forEach(e=>{
-      let bg = $("#" + e.id + "§" + e.index);
-      global.ability = "regular";
-      bg.classList.add("canBeTargeted");
+      if(!e.dead) {
+        let bg = $("#" + e.id + "§" + e.index);
+        global.ability = "regular";
+        bg.classList.add("canBeTargeted");
+      }
     });
-    if(enemiesCombat.length == 1) targetEnemy(0);
+    if(Only1Enemy()) aliveEnemy().index;
   }
+}
+
+function Only1Enemy() {
+  let alive = enemiesCombat.length;
+  enemiesCombat.forEach(e=>{
+    if(e.dead) alive--;
+  });
+  return alive == 1 ? true : false;
 }
 
 function hotkey(e) {
   if(e.key == "Escape" && global.targeting) {
     global.targeting = false;
     enemiesCombat.forEach(e=>{
-      let bg = $("#" + e.id + "§" + e.index);
-      global.ability = "";
-      bg.classList.remove("canBeTargeted");
+      if(!e.dead) {
+        let bg = $("#" + e.id + "§" + e.index);
+        global.ability = "";
+        bg.classList.remove("canBeTargeted");
+      }
     });
   }
   else if(e.key == "1") {
@@ -360,9 +373,11 @@ function targetEnemy(index) {
     global.targeting = false;
     global.ability = "";
     enemiesCombat.forEach(e=>{
-      let bg = $("#" + e.id + "§" + e.index);
-      global.ability = "";
-      bg.classList.remove("canBeTargeted");
+      if(!e.dead) {
+        let bg = $("#" + e.id + "§" + e.index);
+        global.ability = "";
+        bg.classList.remove("canBeTargeted");
+      }
     })
     if(!dmg.dodged) enemy.hurtAnimation();
     setTimeout(a=>{
@@ -388,9 +403,11 @@ function targetEnemy(index) {
     global.targeting = false;
     global.ability = "";
     enemiesCombat.forEach(e=>{
-      let bg = $("#" + e.id + "§" + e.index);
-      global.ability = "";
-      bg.classList.remove("canBeTargeted");
+      if(!e.dead) {
+        let bg = $("#" + e.id + "§" + e.index);
+        global.ability = "";
+        bg.classList.remove("canBeTargeted");
+      }
     })
     if(!dmg.dodged) enemy.hurtAnimation();
     setTimeout(a=>{
@@ -427,14 +444,20 @@ function playerUseAbility(index) {
       else {
         global.targeting = true;
         enemiesCombat.forEach(e=>{
-          let bg = $("#" + e.id + "§" + e.index);
-          global.ability = ability;
-          bg.classList.add("canBeTargeted");
+          if(!e.dead) {
+            let bg = $("#" + e.id + "§" + e.index);
+            global.ability = ability;
+            bg.classList.add("canBeTargeted");
+          }
         });
-        if(enemiesCombat.length == 1) targetEnemy(0);
+        if(Only1Enemy()) aliveEnemy().index;
       }
     }
   }
+}
+
+function aliveEnemy() {
+  for(let enemy of enemiesCombat) {if(!enemy.dead) return enemy};
 }
 
 function createAbilitySlot(abi) {
