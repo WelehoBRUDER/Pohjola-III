@@ -12,7 +12,7 @@ function Ability(base) {
   this.cooldown = base.cooldown ?? defaultAbility.cooldown;
   this.onCooldown = base.onCooldown || 0;
   this.powerMultiplier = base.powerMultiplier ?? defaultAbility.powerMultiplier;
-  this.baseDamage = base.baseDamage ?? defaultAbility.baseDamage;
+  this.baseDamages = base.baseDamages ?? defaultAbility.baseDamage;
   this.status_effects = base.status_effects ?? defaultAbility.status_effects;
   this.healAmount = base.healAmount ?? defaultAbility.healAmount;
   this.ai_want = defaultAbility.ai_want;

@@ -43,9 +43,9 @@ let player = new PlayerClass({
   abilities: {
     slot1: new Ability(Abilities.sharp_stroke),
     slot2: new Ability(Abilities.shield_bash),
-    slot3: {},
-    slot4: {},
-    slot5: {}
+    slot3: new Ability(Abilities.adrenaline_strength),
+    slot4: new Ability(Abilities.flame_hand),
+    slot5: new Ability(Abilities.magical_ward)
   },
   statuses: []
 })
@@ -123,7 +123,7 @@ function PlayerClass(base) {
     } 
     for(let status of kohde.statuses) {
       if(status?.effects?.[value + "P"]) per += status?.effects?.[value + "P"] / 100;
-      if(status?.effects?.[value + "V"]) per += status?.effects?.[value + "V"];
+      if(status?.effects?.[value + "V"]) val += status?.effects?.[value + "V"];
     }
     return {v: val, p: per};
   }
@@ -200,6 +200,20 @@ function PlayerClass(base) {
     } return total;
   }
 
+  this.spellDamage = (spell) => {
+    let base = {};
+    base.physical = spell.baseDamages.physical || 0;
+    base.magical = spell.baseDamages.magical || 0;
+    base.elemental = spell.baseDamages.elemental || 0;
+    for(let dmg in base) {
+      const {v: bonusValue, p: bonusPercentage} = calcValues(dmg + "Damage", this);
+      if(dmg == "physical") base[dmg] = Math.round(((base[dmg] + bonusValue) * (1 + this.stats.Fstr()/20)) * bonusPercentage);
+      else if(dmg == "magical") base[dmg] = base[dmg] = Math.round(((base[dmg] + bonusValue) * (1 + this.stats.Fint()/20)) * bonusPercentage);
+      else if(dmg == "elemental") base[dmg] = Math.round(((base[dmg] + bonusValue) * (1 + this.stats.Fwis()/20)) * bonusPercentage);
+    }
+    return base;
+  }
+
   this.weaponDamage = (type="random") => {
     let base = {}
     if(this.equipment.weapon?.damages) {
@@ -233,6 +247,22 @@ function PlayerClass(base) {
     let block = target.attackBlocked();
     let dodge = target.attackDodged();
     let damages = this.weaponDamage();
+    if (damages.physical) damages.physical = Math.floor(damages.physical * damages.physical / (damages.physical + target.stats.FphysicalArmor()));
+    if (damages.magical) damages.magical = Math.floor(damages.magical * damages.magical / (damages.magical + target.stats.FmagicalArmor()));
+    if (damages.elemental) damages.elemental = Math.floor(damages.elemental * damages.elemental / (damages.elemental + target.stats.FelementalArmor()));
+    if (block) {
+      damages.physical *= 1 - target.equipment.shield.blockAmount.physical/100;
+      damages.magical *= 1 - target.equipment.shield.blockAmount.magical/100;
+      damages.elemental *= 1 - target.equipment.shield.blockAmount.elemental/100;
+      block = true;
+    }
+    return {num: Math.floor(damages.physical + damages.magical + damages.elemental), blocked: block, dodged: dodge};
+  }
+
+  this.spellAttack = (target, spell) => {
+    let block = target.attackBlocked();
+    let dodge = target.attackDodged();
+    let damages = this.spellDamage(spell);
     if (damages.physical) damages.physical = Math.floor(damages.physical * damages.physical / (damages.physical + target.stats.FphysicalArmor()));
     if (damages.magical) damages.magical = Math.floor(damages.magical * damages.magical / (damages.magical + target.stats.FmagicalArmor()));
     if (damages.elemental) damages.elemental = Math.floor(damages.elemental * damages.elemental / (damages.elemental + target.stats.FelementalArmor()));

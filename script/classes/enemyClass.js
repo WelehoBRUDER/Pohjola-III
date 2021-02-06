@@ -114,6 +114,25 @@ function EnemyClass(base) {
     frame.querySelector(".death").style.opacity = 1;
   }
 
+  this.kill = () => {
+    this.stats.hp = 0;
+    this.dead = true;
+    this.death();
+    let frame = $("#" + this.id + "§" + this.index);
+    frame.querySelector(".enemyHpNumber").textContent = this.stats.hp + " / " + this.stats.FhpMax();
+    frame.querySelector(".enemyHpFill").style.width = (this.stats.hp  / this.stats.FhpMax()) * 100 + '%';
+    frame.querySelector(".enemyHpLate").style.width = (this.stats.hp / this.stats.FhpMax()) * 100 + '%';
+    frame.querySelector(".enemyMpNumber").textContent = this.stats.mp + " / " + this.stats.FmpMax();
+    frame.querySelector(".enemyMpFill").style.width = (this.stats.mp  / this.stats.FmpMax()) * 100 + '%';
+    frame.querySelector(".enemyMpLate").style.width = (this.stats.mp / this.stats.FmpMax()) * 100 + '%';
+    frame.querySelector(".enemyActionNumber").textContent = Math.floor(this.stats.ap) + "%";
+    frame.querySelector(".enemyActionFill").style.width = this.stats.ap + '%';
+    setTimeout(a=>frame.classList.add("deathFade"));
+    setTimeout(a=>drawEnemies(enemiesCombat), 1200);
+    enemiesVanquished.push({...this});
+    if(enemiesVanquished.length === enemiesCombat.length) console.log("You won!");
+  }
+
   this.attackAnimation = (dmg, blocked, dodged) => {
     let frame = $("#" + this.id + "§" + this.index);
     let shake = Math.round(random(4, 1));
@@ -278,6 +297,35 @@ function EnemyClass(base) {
       damages.elemental *= 1 - player.equipment.shield.blockAmount.elemental / 100;
     }
     return { num: Math.floor(damages.physical + damages.magical + damages.elemental), blocked: block, dodged: dodge };
+  }
+
+  this.spellAttack = (target, spell) => {
+    let block = target.attackBlocked();
+    let dodge = target.attackDodged();
+    let damages = this.spellDamage(spell);
+    if (damages.physical) damages.physical = Math.floor(damages.physical * damages.physical / (damages.physical + target.stats.FphysicalArmor()));
+    if (damages.magical) damages.magical = Math.floor(damages.magical * damages.magical / (damages.magical + target.stats.FmagicalArmor()));
+    if (damages.elemental) damages.elemental = Math.floor(damages.elemental * damages.elemental / (damages.elemental + target.stats.FelementalArmor()));
+    if (block) {
+      damages.physical *= 1 - target.equipment.shield.blockAmount.physical/100;
+      damages.magical *= 1 - target.equipment.shield.blockAmount.magical/100;
+      damages.elemental *= 1 - target.equipment.shield.blockAmount.elemental/100;
+      block = true;
+    }
+    return {num: Math.floor(damages.physical + damages.magical + damages.elemental), blocked: block, dodged: dodge};
+  }
+
+  this.spellDamage = (spell) => {
+    let base;
+    base.physical = spell.baseDamages.physical;
+    base.magical = spell.baseDamages.magical;
+    base.elemental = spell.baseDamages.elemental;
+    for(let dmg in base) {
+      const {v: bonusValue, p: bonusPercentage} = calcValues(dmg + "Damage", this);
+      if(dmg == "physical") base[dmg] = Math.round(((base[dmg] + bonusValue) * (1 + this.stats.Fstr()/20)) * bonusPercentage);
+      else if(dmg == "magical") base[dmg] = base[dmg] = Math.round(((base[dmg] + bonusValue) * (1 + this.stats.Fint()/20)) * bonusPercentage);
+      else if(dmg == "elemental") base[dmg] = Math.round(((base[dmg] + bonusValue) * (1 + this.stats.Fwis()/20)) * bonusPercentage);
+    }
   }
 
   this.weaponDamage = () => {

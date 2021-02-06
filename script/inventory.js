@@ -1,6 +1,7 @@
 function openInventory(when="lobby") {
   if(when == "combat") {
     if(global.isCombatPaused && player.stats.ap >= 99.9) {
+      global.invOpen = !global.invOpen;
       $("#inventoryWindow").classList.toggle("hidden");
       createInventory("combat");
     }
@@ -16,6 +17,13 @@ function createInventory(when="lobby") {
       const item = createItem(itm);
       item.addEventListener("click", e=>combatItem(i));
       $(".itemsArea").append(item);
+    }
+    for(let eq in player.equipment) {
+      $(".equipmentSlot§" + eq).innerHTML = "";
+      let item = player.equipment[eq];
+      if(item?.id) { 
+        $(".equipmentSlot§" + eq).append(createItem(item));
+      }
     }
   }
 }

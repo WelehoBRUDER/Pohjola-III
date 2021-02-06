@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @font-face {
   font-family: RobotoThin;
   src: url("../style/font/Roboto-Thin.ttf");
@@ -319,14 +320,24 @@ body {
   font-size: 48px;
   color: white;
   text-shadow: 0px 0px 8px black;
-  background: rgba(10, 10, 10, 0.8);
   position: absolute;
   left: 50%;
-  top: -48px;
+  top: -28px;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
-  padding: 16px;
   pointer-events: none;
+  z-index: 3;
+}
+
+.combatScreen .playerArea .playerInteract .playerAbilities .abilityContainer .darkened {
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 10, 10, 0.8);
+  pointer-events: none;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 2;
 }
 
 .combatScreen .playerArea .playerInteract .playerAbilities .abilityContainer .charAbility {
@@ -720,6 +731,7 @@ body {
       -ms-user-select: none;
           user-select: none;
   margin: 0px;
+  z-index: 1;
 }
 
 #inventoryWindow .itemsArea > div > img {
@@ -738,6 +750,93 @@ body {
 
 #inventoryWindow .itemsArea > div:hover {
   border: 5px solid #bbbbbb;
+}
+
+#inventoryWindow .equipmentArea {
+  width: 346px;
+  height: 100%;
+  background: rgba(35, 35, 35, 0.6);
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  -webkit-box-shadow: inset 0px 0px 20px 16px rgba(60, 60, 60, 0.5), 1px 0px 14px 20px rgba(70, 70, 70, 0.5);
+          box-shadow: inset 0px 0px 20px 16px rgba(60, 60, 60, 0.5), 1px 0px 14px 20px rgba(70, 70, 70, 0.5);
+}
+
+#inventoryWindow .equipmentArea > div {
+  position: absolute;
+  border: 8px solid black;
+  -webkit-transition: 0.05s;
+  transition: 0.05s;
+  width: 75px;
+  height: 75px;
+  background: #3c3c3c;
+}
+
+#inventoryWindow .equipmentArea > div > div {
+  width: 75px;
+  height: 75px;
+  background: #252525;
+  background: radial-gradient(circle, #252525 0%, #1c1c1c 100%);
+  position: relative;
+  -webkit-box-shadow: inset 0px 0px 8px 6px #101010;
+          box-shadow: inset 0px 0px 8px 6px #101010;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  margin: 0px;
+}
+
+#inventoryWindow .equipmentArea > div > div > img {
+  width: 75px;
+  height: 75px;
+}
+
+#inventoryWindow .equipmentArea > div > div > p {
+  font-size: 18px;
+  color: white;
+  text-shadow: 0px 0px 4px black;
+  position: absolute;
+  right: 0px;
+  bottom: -20px;
+}
+
+#inventoryWindow .equipmentArea > div:hover {
+  border: 8px solid #7e7e7e;
+}
+
+#inventoryWindow .equipmentArea .equipmentSlot§weapon {
+  top: 90px;
+  left: 10px;
+}
+
+#inventoryWindow .equipmentArea .equipmentSlot§shield {
+  top: 90px;
+  right: 10px;
+}
+
+#inventoryWindow .equipmentArea .equipmentSlot§head {
+  top: 10px;
+  left: 50%;
+  margin-left: -41px;
+}
+
+#inventoryWindow .equipmentArea .equipmentSlot§body {
+  top: 120px;
+  left: 50%;
+  margin-left: -41px;
+}
+
+#inventoryWindow .equipmentArea .equipmentSlot§legs {
+  top: 240px;
+  left: 50%;
+  margin-left: -41px;
+}
+
+#inventoryWindow .equipmentArea .equipmentSlot§ring {
+  bottom: 10px;
+  left: 25px;
 }
 
 .statusFrame {
@@ -792,6 +891,15 @@ body {
           animation-name: fadeOut;
   -webkit-animation-duration: 0.2s;
           animation-duration: 0.2s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+.deathFade {
+  -webkit-animation-name: deathFadeout;
+          animation-name: deathFadeout;
+  -webkit-animation-duration: 0.6s;
+          animation-duration: 0.6s;
   -webkit-animation-fill-mode: forwards;
           animation-fill-mode: forwards;
 }
@@ -882,6 +990,24 @@ body {
   100% {
     -webkit-filter: opacity(0);
             filter: opacity(0);
+  }
+}
+
+@-webkit-keyframes deathFadeout {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes deathFadeout {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 

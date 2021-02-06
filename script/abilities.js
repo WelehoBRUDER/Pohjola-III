@@ -33,6 +33,46 @@ let Abilities = {
     ai_want: 20,
     type: "debuff",
     img: "gfx/abilities/shield-bash.png"
+  },
+  "adrenaline_strength": {
+    id: "adrenaline_strength",
+    name: "Adrenaline Strength",
+    cooldown: 25,
+    mpCost: 10,
+    status_effects: [
+      {status: "strengthI"}
+    ],
+    ai_want: 15,
+    type: "buff",
+    img: "gfx/abilities/strong.png"
+  },
+  "flame_hand": {
+    id: "flame_hand",
+    name: "Flame Hand",
+    cooldown: 8,
+    mpCost: 25,
+    status_effects: [
+      {status: "burningI"}
+    ],
+    baseDamages: {
+      magical: 6,
+      elemental: 10
+    },
+    ai_want: 15,
+    type: "debuff",
+    img: "gfx/abilities/fire-spell-cast.png"
+  },
+  "magical_ward": {
+    id: "magical_ward",
+    name: "Magical Warding",
+    cooldown: 14,
+    mpCost: 20,
+    status_effects: [
+      {status: "wardI"}
+    ],
+    ai_want: 15,
+    type: "buff",
+    img: "gfx/abilities/magic-shield.png"
   }
 }
 
@@ -40,10 +80,17 @@ function abilityHover(abi) {
   let text = `<f>20px<f><ff>RobotoBold<ff><c>gray<c>${abi.name}§`;
   if(abi.cooldown) text += `\n<f>14px<f>Cooldown: ${abi.cooldown}s`;
   if(abi.powerMultiplier) text += `\n<f>14px<f>DMG multiplier: ${abi.powerMultiplier}x`;
+  if(abi.type) text += `\n<f>14px<f>Type: ${abi.type}`;
   if(abi.mpCost) text += `\n<f>14px<f>Mana cost: §<f>14px<f><c>cyan<c>${abi.mpCost}mp`;
   if(abi.hpCost) text += `\n<f>14px<f>Health cost: §<f>14px<f><c>red<c>${abi.hpCost}hp`;
   if(abi.healAmount) text += `\n<f>14px<f>Heals: §<f>14px<f><c>red<c>${abi.healAmount}hp`;
   if(abi.requiresShield) text += `\n<f>14px<f><c>yellow<c>[REQUIRES SHIELD]`;
+  if(abi.baseDamages) {
+    text += `\n<f>16px<f><c>darkred<c>Base damages:§<f>12px<f>`;
+    if(abi.baseDamages?.physical > 0) text += `\n\t<c>gray<c>Physical: <c>white<c>${abi.baseDamages.physical}`;
+    if(abi.baseDamages?.magical > 0) text += `\n\t<c>cyan<c>Magical: <c>white<c>${abi.baseDamages.magical}`;
+    if(abi.baseDamages?.elemental > 0) text += `\n\t<c>lightgreen<c>Elemental: <c>white<c>${abi.baseDamages.elemental}`;
+  }
   if(abi.status_effects.length > 0) {
     text += `\n<f>16px<f><c>lightgray<c>Effects: §`;
     for(let status of abi.status_effects) {

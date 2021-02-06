@@ -5,4 +5,5 @@ var global = {
   isCombatPaused: false,
   targeting: false,
   ability: "",
+  invOpen: false
 }
