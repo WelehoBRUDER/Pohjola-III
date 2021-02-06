@@ -6,7 +6,11 @@ function Update() {
   // All code within this function will be executed.
 
   // Player bars & numbers
-  if (player.stats.hp < 0) player.stats.hp = 0;
+  if (player.stats.hp < 0) {
+    player.stats.hp = 0;
+    global.isCombatPaused = true;
+    endScreenFadeIn("defeat");
+  } 
   if (player.stats.ap <= 99.99 && !global.isCombatPaused) player.stats.ap += player.actionFill() > 2.66 ? 2.66 : player.actionFill();
   $(".playerHpNum").textContent = player.stats.hp + " / " + player.stats.FhpMax();
   $(".playerHpFill").style.width = (player.stats.hp / player.stats.FhpMax()) * 100 + '%';
@@ -123,8 +127,8 @@ function Update() {
 let enemiesCombat = [];
 
 function startCombatDebug() {
-  enemiesCombat.push(new EnemyClass({ ...Enemies.skeleton_warrior, index: 0, level: { lvl: 1 } }));
-  enemiesCombat.push(new EnemyClass({ ...Enemies.skeleton_warrior, index: 1, level: { lvl: 1 } }));
+  enemiesCombat.push(new EnemyClass({ ...Enemies.skeleton_warrior, index: 0, level: { lvl: 3 } }));
+  enemiesCombat.push(new EnemyClass({ ...Enemies.skeleton_warrior, index: 1, level: { lvl: 3 } }));
   //enemiesCombat.push(new EnemyClass({...Enemies.skeleton_archer, index: 2, level: {lvl: 1}}));
   //enemiesCombat.push(new EnemyClass({...Enemies.skeleton_knight, index: 3, level: {lvl: 1}}));
   drawEnemies(enemiesCombat);
@@ -191,15 +195,15 @@ function drawEnemies(array) {
       enemyFrame.onclick = a => targetEnemy(e.index);
       enemyFrame.append(idle, attack_start, attack_finish, death, hpbar, mpbar, name, actionBar, dropString, statusArea);
       // ENEMY HOVERS
-      const health = `<c>red<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>'s Health§
+      const health = `<bcss>line-height: 1.25<bcss><c>red<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>'s Health§
       <v>enemiesCombat[${e.index}].name<v>'s health represents
       the amount of hits it can take
-      before being§ <c>crimson<c> defeated. §
+      before being§ <c>crimson<c>defeated. §
       - Maximum health is §<c>red<c><v>enemiesCombat[${e.index}].stats.FhpMax()<v>hp §
       - Current health is §<c>red<c><v>enemiesCombat[${e.index}].stats.hp<v>hp §
       - Remaining health is §<c>red<c><v>((enemiesCombat[${e.index}].stats.hp/enemiesCombat[${e.index}].stats.FhpMax())*100).toFixed(1)<v>%`;
       addHoverBox(hpbar, health, "");
-      const mana = `<c>#4287f5<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>'s Mana§
+      const mana = `<bcss>line-height: 1.25<bcss><c>#4287f5<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>'s Mana§
       <v>enemiesCombat[${e.index}].name<v>'s mana represents
       how many abilities that require it,
       the character can use before running dry.
@@ -207,7 +211,7 @@ function drawEnemies(array) {
       - Current mana is §<c>#4287f5<c><v>enemiesCombat[${e.index}].stats.mp<v>mp §
       - Remaining mana is §<c>#4287f5<c><v>((enemiesCombat[${e.index}].stats.mp/enemiesCombat[${e.index}].stats.FmpMax())*100).toFixed(1)<v>%`;
       addHoverBox(mpbar, mana, "");
-      const action = `<c>#59e04a<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>'s Action§
+      const action = `<bcss>line-height: 1.25<bcss><c>#59e04a<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>'s Action§
       <v>enemiesCombat[${e.index}].name<v>'s action represents
       how quickly it gets its turn. Once the bar
       is filled, its turn will begin.
@@ -301,8 +305,8 @@ function noDuplicateStatus(char, status) {
 
 function statusSyntax(status, fontSize = "20px") {
   let text = "";
-  if (status.damageOT > 0) text += ` <f>${fontSize}px<f>HP §<f>${fontSize}px<f><c>red<c>▼ down§<f>${fontSize}px<f> by ${status.damageOT} every second\n`;
-  else if (status.damageOT < 0) text += `  <f>${fontSize}px<f>HP §<f>${fontSize}px<f><c>green<c>▲ up§<f>${fontSize}px<f> by ${Math.abs(status.damageOT)} every second\n`;
+  if (status.damageOT > 0) text += `\t<f>${fontSize}px<f>HP §<f>${fontSize}px<f><c>red<c>▼ down§<f>${fontSize}px<f> by ${status.damageOT} every second\n`;
+  else if (status.damageOT < 0) text += `\t<f>${fontSize}px<f>HP §<f>${fontSize}px<f><c>green<c>▲ up§<f>${fontSize}px<f> by ${Math.abs(status.damageOT)} every second\n`;
   for (let effect in status.effects) {
     let stat = effect.substring(0, effect.length - 1);
     const perc = effect.substring(effect.length - 1);
@@ -344,10 +348,10 @@ function statusSyntax(status, fontSize = "20px") {
         stat = "Magical armor";
         break;
     }
-    if (status.effects?.[effect] > 0 && perc == "V") text += ` <f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>green<c>▲ up§<f>${fontSize}px<f> by ${status.effects[effect]}\n`;
-    else if (status.effects?.[effect] > 0 && perc == "P") text += ` <f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>green<c>▲ up§<f>${fontSize}px<f> by ${Math.floor(status.effects[effect])}%\n`;
-    else if (status.effects?.[effect] < 0 && perc == "V") text += ` <f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>red<c>▼ down§<f>${fontSize}px<f> by ${Math.abs(status.effects[effect])}\n`;
-    else if (status.effects?.[effect] < 0 && perc == "P") text += ` <f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>red<c>▼ down§<f>${fontSize}px<f> by ${Math.abs(Math.floor(status.effects[effect]))}%\n`;
+    if (status.effects?.[effect] > 0 && perc == "V") text += `\t<f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>green<c>▲ up§<f>${fontSize}px<f> by ${status.effects[effect]}\n`;
+    else if (status.effects?.[effect] > 0 && perc == "P") text += `\t<f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>green<c>▲ up§<f>${fontSize}px<f> by ${Math.floor(status.effects[effect])}%\n`;
+    else if (status.effects?.[effect] < 0 && perc == "V") text += `\t<f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>red<c>▼ down§<f>${fontSize}px<f> by ${Math.abs(status.effects[effect])}\n`;
+    else if (status.effects?.[effect] < 0 && perc == "P") text += `\t<f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>red<c>▼ down§<f>${fontSize}px<f> by ${Math.abs(Math.floor(status.effects[effect]))}%\n`;
   }
   return text;
 }
@@ -549,6 +553,23 @@ function createAbilitySlot(abi) {
   }
   addHoverBox(div, abilityHover(abi), "");
   return div;
+}
+
+function endScreenFadeIn(condition) {
+  let bg = $(".battleEndScreen");
+  let con = bg.querySelector(".battleEndContainer")
+  if(bg.classList.contains("invisible")) bg.classList.remove("invisible");
+  setTimeout(a=>con.classList.remove("scaled"), 350);
+  con.querySelector(".endingText").textContent = "";
+  if(condition=="win") {
+    con.querySelector(".title").classList = "title win";
+    con.querySelector(".title").textContent = "VICTORY";
+    con.querySelector(".endingText").append(textSyntax(texts.win_text));
+  } else if(condition=="defeat") {
+    con.querySelector(".title").classList = "title loss";
+    con.querySelector(".title").textContent = "VANQUISHED";
+    con.querySelector(".endingText").append(textSyntax(texts.defeat_text));
+  }
 }
 
 startCombatDebug();

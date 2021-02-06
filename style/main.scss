@@ -210,6 +210,7 @@ body {
         >img {
           width: 100%;
           height: 100%;
+          pointer-events: none;
         }
       }
 
@@ -297,6 +298,7 @@ body {
             >img {
               width: 100%;
               height: 100%;
+              pointer-events: none;
             }
 
             >span {
@@ -496,6 +498,7 @@ body {
               top: 0px;
               width: 32px;
               height: 32px;
+              pointer-events: none;
             }
 
             >p {
@@ -570,42 +573,54 @@ body {
     width: 582px;
     position: absolute;
     right: 0px;
-    top: 0px;
+    top: 5px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
     grid-template-rows: auto;
     margin: 0px;
+    gap: 10px;
 
     >div {
       transition: 0.05s;
+      position: relative;
+      border: 8px solid black;
+      transition: 0.05s;
       width: 75px;
       height: 75px;
-      background: rgb(37, 37, 37);
-      background: radial-gradient(circle, rgba(37, 37, 37, 1) 0%, rgba(28,28,28,1) 100%);
-      position: relative;
-      box-shadow: inset 0px 0px 8px 6px rgb(16, 16, 16);
-      border: 5px solid black;
-      user-select: none;
-      margin: 0px;
+      background: rgb(60, 60, 60);
+      margin-left: 5px;
       z-index: 1;
 
-      >img {
+      >div {
         width: 75px;
         height: 75px;
-      }
-
-      >p {
-        font-size: 18px;
-        color: white;
-        text-shadow: 0px 0px 4px black;
+        background: rgb(37, 37, 37);
+        background: radial-gradient(circle, rgba(37, 37, 37, 1) 0%, rgba(28,28,28,1) 100%);
         position: absolute;
-        right: 0px;
-        bottom: -20px;
+        box-shadow: inset 0px 0px 8px 6px rgb(16, 16, 16);
+        user-select: none;
+        left: 0px;
+        top: 0px;
+
+        >img {
+          width: 75px;
+          height: 75px;
+          pointer-events: none;
+        }
+  
+        >p {
+          font-size: 18px;
+          color: white;
+          text-shadow: 0px 0px 4px black;
+          position: absolute;
+          right: 0px;
+          bottom: -20px;
+        }
       }
     }
 
     >div:hover {
-      border: 5px solid rgb(187, 187, 187);
+      border: 8px solid rgb(187, 187, 187);
     }
   }
 
@@ -639,6 +654,7 @@ body {
         >img {
           width: 75px;
           height: 75px;
+          pointer-events: none;
         }
   
         >p {
@@ -706,6 +722,7 @@ body {
   >img {
     width: 64px;
     height: 64px;
+    pointer-events: none;
   }
 
   >p {

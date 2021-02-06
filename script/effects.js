@@ -54,6 +54,15 @@ const statusEffects = {
     damageOT: -2,
     hasDamaged: 0,
   },
+  "regenII": {
+    id: "regenII",
+    name: "Regeneration II",
+    lastFor: 8,
+    effectType: "regen",
+    img: "gfx/status/heart-plus.png",
+    damageOT: -5,
+    hasDamaged: 0,
+  },
   "wardI": {
     id: "wardI",
     name: "Warding I",

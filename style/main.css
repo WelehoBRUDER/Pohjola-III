@@ -249,6 +249,7 @@ body {
 .combatScreen .playerArea .playerInteract button > img {
   width: 100%;
   height: 100%;
+  pointer-events: none;
 }
 
 .combatScreen .playerArea .playerInteract button:hover {
@@ -352,6 +353,7 @@ body {
 .combatScreen .playerArea .playerInteract .playerAbilities .abilityContainer .charAbility > img {
   width: 100%;
   height: 100%;
+  pointer-events: none;
 }
 
 .combatScreen .playerArea .playerInteract .playerAbilities .abilityContainer .charAbility > span {
@@ -599,6 +601,7 @@ body {
   top: 0px;
   width: 32px;
   height: 32px;
+  pointer-events: none;
 }
 
 .combatScreen .enemyArea .enemiesFlex .enemyFrame .enemyStatusArea .statusFrameEnemy > p {
@@ -705,7 +708,7 @@ body {
   width: 582px;
   position: absolute;
   right: 0px;
-  top: 0px;
+  top: 5px;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: (minmax(75px, 1fr))[auto-fill];
@@ -713,33 +716,45 @@ body {
   -ms-grid-rows: auto;
       grid-template-rows: auto;
   margin: 0px;
+  gap: 10px;
 }
 
 #inventoryWindow .itemsArea > div {
   -webkit-transition: 0.05s;
   transition: 0.05s;
+  position: relative;
+  border: 8px solid black;
+  transition: 0.05s;
+  width: 75px;
+  height: 75px;
+  background: #3c3c3c;
+  margin-left: 5px;
+  z-index: 1;
+}
+
+#inventoryWindow .itemsArea > div > div {
   width: 75px;
   height: 75px;
   background: #252525;
   background: radial-gradient(circle, #252525 0%, #1c1c1c 100%);
-  position: relative;
+  position: absolute;
   -webkit-box-shadow: inset 0px 0px 8px 6px #101010;
           box-shadow: inset 0px 0px 8px 6px #101010;
-  border: 5px solid black;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  margin: 0px;
-  z-index: 1;
+  left: 0px;
+  top: 0px;
 }
 
-#inventoryWindow .itemsArea > div > img {
+#inventoryWindow .itemsArea > div > div > img {
   width: 75px;
   height: 75px;
+  pointer-events: none;
 }
 
-#inventoryWindow .itemsArea > div > p {
+#inventoryWindow .itemsArea > div > div > p {
   font-size: 18px;
   color: white;
   text-shadow: 0px 0px 4px black;
@@ -749,7 +764,7 @@ body {
 }
 
 #inventoryWindow .itemsArea > div:hover {
-  border: 5px solid #bbbbbb;
+  border: 8px solid #bbbbbb;
 }
 
 #inventoryWindow .equipmentArea {
@@ -791,6 +806,7 @@ body {
 #inventoryWindow .equipmentArea > div > div > img {
   width: 75px;
   height: 75px;
+  pointer-events: none;
 }
 
 #inventoryWindow .equipmentArea > div > div > p {
@@ -858,6 +874,7 @@ body {
 .statusFrame > img {
   width: 64px;
   height: 64px;
+  pointer-events: none;
 }
 
 .statusFrame > p {

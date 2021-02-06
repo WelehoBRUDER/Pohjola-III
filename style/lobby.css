@@ -1,0 +1,136 @@
+.common {
+  color: #bad6db;
+  -webkit-filter: drop-shadow(0px 0px 4px #bad6db);
+          filter: drop-shadow(0px 0px 4px #bad6db);
+}
+
+.uncommon {
+  color: #9cd0d9;
+  -webkit-filter: drop-shadow(0px 0px 5px #9cd0d9);
+          filter: drop-shadow(0px 0px 5px #9cd0d9);
+}
+
+.rare {
+  color: #72cbdb;
+  -webkit-filter: drop-shadow(0px 0px 6px #72cbdb);
+          filter: drop-shadow(0px 0px 6px #72cbdb);
+}
+
+.unusual {
+  color: #35c2db;
+  -webkit-filter: drop-shadow(0px 0px 6px #35c2db);
+          filter: drop-shadow(0px 0px 6px #35c2db);
+}
+
+.scaled {
+  -webkit-transform: scale(0);
+          transform: scale(0);
+}
+
+.invisible {
+  opacity: 0;
+  z-index: -1 !important;
+}
+
+.battleEndScreen {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 4;
+  -webkit-transition: .5s;
+  transition: .5s;
+}
+
+.battleEndScreen .battleEndContainer {
+  -webkit-transition: .33s;
+  transition: .33s;
+  width: 640px;
+  height: 480px;
+  position: absolute;
+  left: 50%;
+  margin-left: -324px;
+  top: 192px;
+  background: #4b4b4b;
+  z-index: 5;
+  overflow: hidden;
+  border: 8px solid #1f1f1f;
+  -webkit-box-shadow: inset 0px 0px 8px 6px #323232;
+          box-shadow: inset 0px 0px 8px 6px #323232;
+}
+
+.battleEndScreen .battleEndContainer > .endTitle {
+  width: 100%;
+  height: 80px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  text-align: center;
+}
+
+.battleEndScreen .battleEndContainer > .endTitle > p {
+  font-size: 80px;
+  font-family: RobotoBolder;
+  margin-top: 0px;
+  -webkit-box-shadow: 0px 0px 10px 8px #242424;
+          box-shadow: 0px 0px 10px 8px #242424;
+}
+
+.battleEndScreen .battleEndContainer > .endingText {
+  height: 260px;
+  width: 100%;
+  position: absolute;
+  left: 0px;
+  top: 120px;
+}
+
+.battleEndScreen .battleEndContainer > .endingText > pre {
+  width: 100%;
+  white-space: break-spaces;
+  margin-left: 5px;
+}
+
+.battleEndScreen .battleEndContainer .okbutton {
+  -webkit-transition: 0.075s;
+  transition: 0.075s;
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  width: 180px;
+  height: 90px;
+  margin-left: -98px;
+  background: #f1d329;
+  -webkit-box-shadow: inset 0px 0px 6px 4px orange;
+          box-shadow: inset 0px 0px 6px 4px orange;
+  font-size: 70px;
+  color: yellow;
+  text-shadow: 0px 0px 4px black;
+  text-align: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  border: 8px solid #323f0d;
+}
+
+.battleEndScreen .battleEndContainer .okbutton:hover {
+  border: 8px solid black;
+  -webkit-transform: scale(1.03);
+          transform: scale(1.03);
+  cursor: pointer;
+}
+
+.loss {
+  color: #c02020;
+  text-shadow: 0px 0px 6px #751d1d;
+  background: #571717;
+}
+
+.win {
+  color: #20c035;
+  text-shadow: 0px 0px 6px #1d7537;
+  background: #17572c;
+}
+/*# sourceMappingURL=lobby.css.map */

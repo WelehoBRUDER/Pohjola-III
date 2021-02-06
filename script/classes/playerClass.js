@@ -20,7 +20,8 @@ let player = new PlayerClass({
     dexterity: 0
   },
   inventory: [
-    new Item({...items.weak_healing_gem, amount: 2}),
+    new Item({...items.weak_healing_gem, amount: 3}),
+    new Item({...items.healing_gem, amount: 1}),
     new Item({...items.broken_dagger, amount: 1}),
     new Item({...items.rusty_large_axe, amount: 1}),
     new Item(items.wooden_shield),
@@ -187,7 +188,7 @@ function PlayerClass(base) {
 
   this.actionFill = () => {
     const { v: bonusValue, p: bonusPercentage } = calcValues("actionFill", this);
-    let value = (0.45 + this.stats.agi / 100 + valueFromItem("itemSpeed", this) + bonusValue) * bonusPercentage;
+    let value = (0.45 + this.stats.Fagi() / 100 + valueFromItem("itemSpeed", this) + bonusValue) * bonusPercentage;
     if(value > 3) value = 3;
     else if(value < 0) value = 0;
     return value;

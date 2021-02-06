@@ -127,10 +127,16 @@ function EnemyClass(base) {
     frame.querySelector(".enemyMpLate").style.width = (this.stats.mp / this.stats.FmpMax()) * 100 + '%';
     frame.querySelector(".enemyActionNumber").textContent = Math.floor(this.stats.ap) + "%";
     frame.querySelector(".enemyActionFill").style.width = this.stats.ap + '%';
-    setTimeout(a=>frame.classList.add("deathFade"));
+    let multi = 1 + (this.level.lvl - player.level.lvl)/20;
+    if(multi > 2) multi = 2;
+    else if(multi < 0.1) multi = 0.1;
+    const exp = this.level.xpGive * multi;
+    setTimeout(a=>frame.classList.add("deathFade"), 550);
     setTimeout(a=>drawEnemies(enemiesCombat), 1200);
+    setTimeout(a=>createDroppingString(exp + " EXP", frame.querySelector(".enemyDroppingString"), "health"), 600);
+    player.level.xp += exp;
     enemiesVanquished.push({...this});
-    if(enemiesVanquished.length === enemiesCombat.length) console.log("You won!");
+    if(enemiesVanquished.length === enemiesCombat.length) setTimeout(a=>endScreenFadeIn("win"), 100);
   }
 
   this.attackAnimation = (dmg, blocked, dodged) => {
@@ -173,7 +179,7 @@ function EnemyClass(base) {
 
   this.actionFill = () => {
     const { v: bonusValue, p: bonusPercentage } = calcValues("actionFill", this);
-    let value = (0.35 + this.stats.agi / 100 + valueFromItem("itemSpeed", this) + bonusValue) * bonusPercentage;
+    let value = (0.35 + this.stats.Fagi() / 100 + valueFromItem("itemSpeed", this) + bonusValue) * bonusPercentage;
     if (value > 2) value = 2;
     else if (value < 0) value = 0;
     return value;

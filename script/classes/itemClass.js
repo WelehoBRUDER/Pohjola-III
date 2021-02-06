@@ -20,6 +20,7 @@ function Item(base) {
   this.healsUser = defaultItem.healsUser;
   this.img = defaultItem.img;
   this.crafting = defaultItem.crafting;
+  this.tier = defaultItem.tier;
   
   function Damages(dmg, lvl) {
     this.physicalMin = dmg?.physicalMin * (1 + lvl.level/5) || 0;

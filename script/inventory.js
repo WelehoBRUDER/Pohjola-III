@@ -15,8 +15,10 @@ function createInventory(when="lobby") {
       let itm = player.inventory[i];
       if(itm.type != "consumable") continue;
       const item = createItem(itm);
+      const container = create("div");
       item.addEventListener("click", e=>combatItem(i));
-      $(".itemsArea").append(item);
+      container.append(item);
+      $(".itemsArea").append(container);
     }
     for(let eq in player.equipment) {
       $(".equipmentSlot§" + eq).innerHTML = "";
@@ -32,6 +34,7 @@ function createItem(itm) {
   const div = create("div");
   const img = create("img");
   img.src = itm.img;
+  div.classList.add(itemTiers[itm.tier].class);
   div.append(img);
   if(itm.amount > 1) {
     const num = create("p");
