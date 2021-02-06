@@ -96,12 +96,11 @@
       text-shadow: 0px 0px 4px black;
       text-align: center;
       user-select: none;
-      border: 8px solid rgb(50, 63, 13);
+      border: 8px solid black
     }
 
     .okbutton:hover {
-      border: 8px solid rgb(0, 0, 0);
-      transform: scale(1.03);
+      border: 8px solid rgb(92, 92, 92);
       cursor: pointer;
     }
   }

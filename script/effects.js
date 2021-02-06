@@ -81,6 +81,6 @@ const statusEffects = {
 function statusEffectText(status) {
   let text = `\n <f>14px<f><c>orange<c>${status.name}§\n`;
   text += `<f>12px<f>${statusSyntax(status, 12)}`;
-  text += `<f>12px<f> Lasts for: ${status.lastFor}s`;
+  text += `<f>12px<f>\tLasts for: ${status.lastFor}s`;
   return text;
 }

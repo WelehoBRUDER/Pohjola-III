@@ -112,13 +112,11 @@
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  border: 8px solid #323f0d;
+  border: 8px solid black;
 }
 
 .battleEndScreen .battleEndContainer .okbutton:hover {
-  border: 8px solid black;
-  -webkit-transform: scale(1.03);
-          transform: scale(1.03);
+  border: 8px solid #5c5c5c;
   cursor: pointer;
 }
 
