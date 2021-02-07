@@ -5,15 +5,35 @@ function openInventory(when="lobby") {
       $("#inventoryWindow").classList.toggle("hidden");
       createInventory("combat");
     }
+  } else if(when == "lobby") {
+    global.invOpen = !global.invOpen;
+    $("#inventoryWindow").classList.toggle("hidden");
+    createInventory();
   }
 }
 
 function createInventory(when="lobby") {
   $(".itemsArea").textContent = "";
   if(when == "combat") {
-    for(let i=0; i<player.inventory.length; i++) {
+    for(const i in player.inventory) {
       let itm = player.inventory[i];
       if(itm.type != "consumable") continue;
+      const item = createItem(itm);
+      const container = create("div");
+      item.addEventListener("click", e=>combatItem(i));
+      container.append(item);
+      $(".itemsArea").append(container);
+    }
+    for(let eq in player.equipment) {
+      $(".equipmentSlot§" + eq).innerHTML = "";
+      let item = player.equipment[eq];
+      if(item?.id) { 
+        $(".equipmentSlot§" + eq).append(createItem(item));
+      }
+    }
+  } else if(when == "lobby") {
+    for(const i in player.inventory) {
+      let itm = player.inventory[i];
       const item = createItem(itm);
       const container = create("div");
       item.addEventListener("click", e=>combatItem(i));

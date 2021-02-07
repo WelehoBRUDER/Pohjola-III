@@ -26,10 +26,7 @@ function Update() {
   player.stats.hp > player.stats.FhpMax() ? player.stats.hp = player.stats.FhpMax() : player.stats.hp = Math.floor(player.stats.hp);
   player.stats.mp > player.stats.FmpMax() ? player.stats.mp = player.stats.FmpMax() : player.stats.mp = Math.floor(player.stats.mp);
   if (player.stats.ap > 99.99 && !global.isCombatPaused) {
-    //enemy.attackAnimation();
-    //enemy.stats.ap = 0;
     if (global.settings.turn_based_combat) global.isCombatPaused = true;
-    //if(global.settings.turn_based_combat) setTimeout(unpause=>global.isCombatPaused = false, 1050);
   };
   if (!global.isCombatPaused) {
     for (let i = 0; i < player.statuses.length; i++) {
@@ -88,10 +85,7 @@ function Update() {
     if (enemy.dead) continue;
     if (enemy.stats.ap <= 99.99 && !global.isCombatPaused) enemy.stats.ap += enemy.actionFill() > 1.6 ? 1.6 : enemy.actionFill();
     if (enemy.stats.ap > 99.99 && !global.isCombatPaused) {
-      //enemy.attackAnimation();
-      //enemy.stats.ap = 0;
       if (global.settings.turn_based_combat) global.isCombatPaused = true;
-      //if(global.settings.turn_based_combat) setTimeout(unpause=>global.isCombatPaused = false, 1050);
       enemyTurn(enemy);
     };
     if (enemy.stats.hp <= 0) {
@@ -113,7 +107,7 @@ function Update() {
     frame.querySelector(".enemyActionNumber").textContent = Math.floor(enemy.stats.ap) + "%";
     frame.querySelector(".enemyActionFill").style.width = enemy.stats.ap + '%';
     if (!global.isCombatPaused) {
-      for (let i = 0; i < enemy.statuses.length; i++) {
+      for (const i in enemy.statuses) {
         let stat = enemy.statuses[i];
         if (!stat.permanent) stat.lastFor -= 1 / 60;
         if (stat.hasDamaged) stat.hasDamaged -= 1 / 60;
@@ -127,12 +121,13 @@ function Update() {
 let enemiesCombat = [];
 
 function startCombatDebug() {
-  enemiesCombat.push(new EnemyClass({ ...Enemies.skeleton_warrior, index: 0, level: { lvl: 3 } }));
-  enemiesCombat.push(new EnemyClass({ ...Enemies.skeleton_warrior, index: 1, level: { lvl: 3 } }));
+  enemiesCombat.push(new EnemyClass({ ...Enemies.skeleton_warrior, index: 0, level: { lvl: 1 } }));
+  enemiesCombat.push(new EnemyClass({ ...Enemies.skeleton_warrior, index: 1, level: { lvl: 1 } }));
   //enemiesCombat.push(new EnemyClass({...Enemies.skeleton_archer, index: 2, level: {lvl: 1}}));
   //enemiesCombat.push(new EnemyClass({...Enemies.skeleton_knight, index: 3, level: {lvl: 1}}));
   drawEnemies(enemiesCombat);
   slotAbilities();
+  global.inCombat = true;
   enemiesCombat.forEach(e => e.init());
 }
 
@@ -303,7 +298,7 @@ function noDuplicateStatus(char, status) {
   } return true;
 }
 
-function statusSyntax(status, fontSize = "20px") {
+function statusSyntax(status, fontSize = 14) {
   let text = "";
   if (status.damageOT > 0) text += `\t<f>${fontSize}px<f>HP §<f>${fontSize}px<f><c>red<c>▼ down§<f>${fontSize}px<f> by ${status.damageOT} every second\n`;
   else if (status.damageOT < 0) text += `\t<f>${fontSize}px<f>HP §<f>${fontSize}px<f><c>green<c>▲ up§<f>${fontSize}px<f> by ${Math.abs(status.damageOT)} every second\n`;
@@ -413,7 +408,8 @@ function hotkey(e) {
     regularAttack();
   }
   else if (e.key == "i") {
-    openInventory("combat");
+    if(global.inCombat) openInventory("combat");
+    else openInventory();
   }
 }
 
@@ -561,10 +557,13 @@ function endScreenFadeIn(condition) {
   if(bg.classList.contains("invisible")) bg.classList.remove("invisible");
   setTimeout(a=>con.classList.remove("scaled"), 350);
   con.querySelector(".endingText").textContent = "";
+  global.isCombatPaused = true;
   if(condition=="win") {
     con.querySelector(".title").classList = "title win";
     con.querySelector(".title").textContent = "VICTORY";
     con.querySelector(".endingText").append(textSyntax(texts.win_text));
+    con.querySelector(".okbutton").addEventListener("click", e=>toLobbyLoot());
+    global.inCombat = false;
   } else if(condition=="defeat") {
     con.querySelector(".title").classList = "title loss";
     con.querySelector(".title").textContent = "VANQUISHED";

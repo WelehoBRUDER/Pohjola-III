@@ -48,6 +48,7 @@ let player = new PlayerClass({
     slot4: new Ability(Abilities.flame_hand),
     slot5: new Ability(Abilities.magical_ward)
   },
+  gold: 0,
   statuses: []
 })
 
@@ -61,6 +62,7 @@ function PlayerClass(base) {
   this.level = base.level;
   this.statuses = base.statuses;
   this.abilities = new Abilitys(base.abilities);
+  this.gold = base.gold || 0;
 
   function Stats(stat) {
     this.str = stat.str;
@@ -326,7 +328,7 @@ function PlayerClass(base) {
       const num = create("p");
       num.textContent = Math.ceil(status.lastFor);
       frame.append(image, num);
-      let desc = `<c>#c2bf27<c><f>25px<f>${status.name}§\n`;
+      let desc = `<c>#c2bf27<c><f>18px<f>${status.name}§\n`;
       desc += statusSyntax(status);
       // if (status.effectType == "stun") desc += `You are stunned \nand unable to move.`;
       // else if (status.effectType == "bleeding") desc += `You are bleeding \nand take § <c>red<c> ${status.damageOT} dmg/s`;

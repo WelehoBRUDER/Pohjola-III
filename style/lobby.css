@@ -131,4 +131,126 @@
   text-shadow: 0px 0px 6px #1d7537;
   background: #17572c;
 }
+
+.lootWindow {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  width: 480px;
+  height: 420px;
+  background: #424242;
+  position: absolute;
+  left: 50%;
+  margin-left: -240px;
+  top: 300px;
+  text-align: center;
+  font-size: 48px;
+  color: gold;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  text-shadow: 0px 0px 4px #857623;
+  -webkit-box-shadow: 0px 0px 8px 6px #272727, inset 0px 0px 8px 6px #2d2d2d;
+          box-shadow: 0px 0px 8px 6px #272727, inset 0px 0px 8px 6px #2d2d2d;
+  z-index: 2;
+}
+
+.lootWindow > .closeLoot {
+  -webkit-transition: 0.05s;
+  transition: 0.05s;
+  background: gold;
+  color: white;
+  font-size: 52px;
+  position: absolute;
+  bottom: -72px;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateZ(-10px);
+          transform: translateX(-50%) translateZ(-10px);
+  padding: 6px;
+  -webkit-box-shadow: inset 0px 0px 10px 8px orange, 0px 0px 8px 6px #191919;
+          box-shadow: inset 0px 0px 10px 8px orange, 0px 0px 8px 6px #191919;
+  z-index: 0;
+  border: 8px solid black;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.lootWindow > .closeLoot:hover {
+  border: 8px solid silver;
+}
+
+.lootWindow > .goldNumber {
+  font-size: 24px;
+  color: gold;
+  text-shadow: 0px 0px 4px orange;
+  position: absolute;
+  bottom: -5px;
+  right: 15px;
+}
+
+.lootWindow > .lootArea {
+  width: 100%;
+  position: absolute;
+  left: 0px;
+  top: 15%;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (minmax(75px, 1fr))[auto-fill];
+      grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+  -ms-grid-rows: auto;
+      grid-template-rows: auto;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.lootWindow > .lootArea > .selected {
+  border: 8px solid #d1b514;
+}
+
+.lootWindow > .lootArea > div {
+  -webkit-transition: 0.05s;
+  transition: 0.05s;
+  position: relative;
+  border: 8px solid black;
+  transition: 0.05s;
+  width: 75px;
+  height: 75px;
+  background: #3c3c3c;
+  z-index: 1;
+}
+
+.lootWindow > .lootArea > div > div {
+  width: 75px;
+  height: 75px;
+  background: #252525;
+  background: radial-gradient(circle, #252525 0%, #1c1c1c 100%);
+  position: absolute;
+  -webkit-box-shadow: inset 0px 0px 8px 6px #101010;
+          box-shadow: inset 0px 0px 8px 6px #101010;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  left: 0px;
+  top: 0px;
+}
+
+.lootWindow > .lootArea > div > div > img {
+  width: 75px;
+  height: 75px;
+  pointer-events: none;
+}
+
+.lootWindow > .lootArea > div > div > p {
+  font-size: 18px;
+  color: white;
+  text-shadow: 0px 0px 4px black;
+  position: absolute;
+  right: 0px;
+  bottom: -20px;
+}
+
+.lootWindow > .lootArea > div:hover {
+  border: 8px solid #bbbbbb;
+}
 /*# sourceMappingURL=lobby.css.map */

@@ -16,6 +16,7 @@ function EnemyClass(base) {
   this.statuses = base.statuses.map(status => new statusEffect(status));
   this.ai_prefers = base.ai_prefers;
   this.dead = base.dead || false;
+  this.lootTable = base.lootTable ?? defaultEnemy.lootTable;
 
   function Equipments(equipment) {
     this.weapon = equipment.weapon ?? {};
@@ -142,6 +143,7 @@ function EnemyClass(base) {
   this.attackAnimation = (dmg, blocked, dodged) => {
     let frame = $("#" + this.id + "§" + this.index);
     let shake = Math.round(random(4, 1));
+    if(frame.classList.contains("enemyAttack")) frame.classList.remove("enemyAttack");
     frame.classList.add("enemyAttack");
     setTimeout(a => this.attack_start(), 50);
     setTimeout(a => this.attack_finish(), 550);
@@ -377,7 +379,7 @@ function EnemyClass(base) {
       const num = create("p");
       num.textContent = Math.ceil(status.lastFor);
       frame.append(image, num);
-      let desc = `<c>#c2bf27<c><f>25px<f>${status.name}§\n`;
+      let desc = `<c>#c2bf27<c><f>18px<f>${status.name}§\n`;
       // if (status.effectType == "stun") desc += `${this.name} is stunned \nand unable to move.`;
       // else if (status.effectType == "bleeding") desc += `${this.name} is bleeding \nand takes § <c>red<c> ${status.damageOT} dmg/s`;
       // else if (status.effectType == "regen") desc += `${this.name} is regenerating \n${status.damageOT} health per second`;

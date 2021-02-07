@@ -8,7 +8,7 @@ function Item(base) {
   this.equipmentSlot = defaultItem.equipmentSlot;
   this.level = base.level || 0;
   this.damages = new Damages(defaultItem?.damages, this) ?? {};
-  this.effects = defaultItem.effects;
+  this.effects = base.effects || defaultItem.effects;
   this.armors = new Armors(defaultItem?.armors, this) ?? {};
   this.skillBonus = defaultItem.skillBonus;
   this.blockAmount = new BlockAmounts(defaultItem?.blockAmount, this) ?? {};
@@ -21,6 +21,7 @@ function Item(base) {
   this.img = defaultItem.img;
   this.crafting = defaultItem.crafting;
   this.tier = defaultItem.tier;
+  this.selected = base.selected || false;
   
   function Damages(dmg, lvl) {
     this.physicalMin = dmg?.physicalMin * (1 + lvl.level/5) || 0;

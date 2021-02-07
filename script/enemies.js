@@ -48,7 +48,8 @@ let Enemies = {
     ai_prefers: {
       regular: 25,
       debuff: 0
-    }
+    },
+    lootTable: "skeleton1"
   },
   "skeleton_archer": {
     id: "skeleton_archer",
@@ -98,7 +99,8 @@ let Enemies = {
     ai_prefers: {
       regular: 0,
       debuff: 50
-    }
+    },
+    lootTable: "skeleton2"
   },
   "skeleton_knight": {
     id: "skeleton_knight",
@@ -146,6 +148,26 @@ let Enemies = {
     ai_prefers: {
       regular: 25,
       debuff: 0
-    }
+    },
+    lootTable: "skeleton3"
   }
+}
+
+const lootTables = {
+  skeleton1: [
+    {item: "wooden_shield", chance: 37},
+    {item: "rusty_short_sword", chance: 41},
+    {item: "weak_healing_gem", chance: 26, amount: [1, 2]},
+    {item: "gold", chance: 100, amount: [7, 13]}
+  ],
+  skeleton2: [
+    {item: "bent_wooden_bow", chance: 38},
+    {item: "weak_healing_gem", chance: 28, amount: [1, 2]},
+    {item: "gold", chance: 100, amount: [11, 22]}
+  ],
+  skeleton3: [
+    {item: "rusty_large_axe", chance: 43},
+    {item: "weak_healing_gem", chance: 28, amount: [1, 3]},
+    {item: "gold", chance: 100, amount: [23, 37]}
+  ]
 }

@@ -117,3 +117,107 @@
   text-shadow: 0px 0px 6px rgb(29, 117, 55);
   background: rgb(23, 87, 44);
 }
+
+.lootWindow {
+  transition: 0.2s;
+  width: 480px;
+  height: 420px;
+  background: rgb(66, 66, 66);
+  position: absolute;
+  left: 50%;
+  margin-left: -240px;
+  top: 300px;
+  text-align: center;
+  font-size: 48px;
+  color: gold;
+  transform-style: preserve-3d;
+  text-shadow: 0px 0px 4px rgb(133, 118, 35);
+  box-shadow: 0px 0px 8px 6px rgb(39, 39, 39), inset 0px 0px 8px 6px rgb(45, 45, 45);
+  z-index: 2;
+
+  >.closeLoot {
+    transition: 0.05s;
+    background: gold;
+    color: white;
+    font-size: 52px;
+    position: absolute;
+    bottom: -72px;
+    left: 50%;
+    transform: translateX(-50%) translateZ(-10px);
+    padding: 6px;
+    box-shadow: inset 0px 0px 10px 8px orange, 0px 0px 8px 6px rgb(25, 25, 25);
+    z-index: 0;
+    border: 8px solid black;
+    user-select: none;
+  }
+
+  >.closeLoot:hover {
+    border: 8px solid silver;
+  }
+
+  >.goldNumber {
+    font-size: 24px;
+    color: gold;
+    text-shadow: 0px 0px 4px orange;
+    position: absolute;
+    bottom: -5px;
+    right: 15px;
+  }
+
+  >.lootArea {
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    top: 15%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+    grid-template-rows: auto;
+    margin-top: 10px;
+    gap: 10px;
+
+    >.selected {
+      border: 8px solid rgb(209, 181, 20);
+    }
+
+    >div {
+      transition: 0.05s;
+      position: relative;
+      border: 8px solid black;
+      transition: 0.05s;
+      width: 75px;
+      height: 75px;
+      background: rgb(60, 60, 60);
+      z-index: 1;
+
+      >div {
+        width: 75px;
+        height: 75px;
+        background: rgb(37, 37, 37);
+        background: radial-gradient(circle, rgba(37, 37, 37, 1) 0%, rgba(28,28,28,1) 100%);
+        position: absolute;
+        box-shadow: inset 0px 0px 8px 6px rgb(16, 16, 16);
+        user-select: none;
+        left: 0px;
+        top: 0px;
+
+        >img {
+          width: 75px;
+          height: 75px;
+          pointer-events: none;
+        }
+  
+        >p {
+          font-size: 18px;
+          color: white;
+          text-shadow: 0px 0px 4px black;
+          position: absolute;
+          right: 0px;
+          bottom: -20px;
+        }
+      }
+    }
+    >div:hover {
+      border: 8px solid rgb(187, 187, 187);
+    }
+  }
+}
