@@ -179,6 +179,10 @@
       border: 8px solid rgb(209, 181, 20);
     }
 
+    >.selected:hover {
+      border: 8px solid rgb(255, 217, 0);
+    }
+
     >div {
       transition: 0.05s;
       position: relative;

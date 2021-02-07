@@ -61,6 +61,10 @@ body {
   border: 8px solid #d1b514 !important;
 }
 
+.combatScreen .selected:hover {
+  border: 8px solid #ffd900 !important;
+}
+
 .combatScreen .playerArea {
   margin: 0px;
   position: absolute;

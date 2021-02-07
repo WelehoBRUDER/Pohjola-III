@@ -6,5 +6,6 @@ var global = {
   targeting: false,
   ability: "",
   invOpen: false,
-  inCombat: false
+  inCombat: false,
+  targetingSelf: false
 }

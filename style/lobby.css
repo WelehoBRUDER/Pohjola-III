@@ -207,6 +207,10 @@
   border: 8px solid #d1b514;
 }
 
+.lootWindow > .lootArea > .selected:hover {
+  border: 8px solid #ffd900;
+}
+
 .lootWindow > .lootArea > div {
   -webkit-transition: 0.05s;
   transition: 0.05s;

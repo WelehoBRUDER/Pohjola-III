@@ -387,6 +387,7 @@ function hotkey(e) {
     if (global.invOpen) openInventory("combat");
     if (global.targeting && global.inCombat) {
       global.targeting = false;
+      global.targetingSelf = false;
       removeSelection();
       enemiesCombat.forEach(e => {
         if (!e.dead) {
@@ -419,6 +420,9 @@ function hotkey(e) {
     if(global.inCombat) openInventory("combat");
     else openInventory();
   }
+  else if (e.key == " ") {
+    useBuff();
+  }
 }
 
 function targetEnemy(index) {
@@ -434,6 +438,7 @@ function targetEnemy(index) {
     if (enemy.stats.hp <= 0) enemy.kill();
     player.stats.ap = 0;
     global.targeting = false;
+    global.targetingSelf = false;
     global.ability = "";
     removeSelection();
     enemiesCombat.forEach(e => {
@@ -468,6 +473,7 @@ function targetEnemy(index) {
     }
     player.stats.ap = 0;
     global.targeting = false;
+    global.targetingSelf = false;
     global.ability = "";
     removeSelection();
     enemiesCombat.forEach(e => {
@@ -509,26 +515,8 @@ function playerUseAbility(index) {
       removeSelection();
       $(".abilitySlot" + index).classList.add("selected");
       if (ability.type == "buff") {
-        if (ability.healAmount) player.stats.hp += ability.healAmount;
-        for (let stat of ability.status_effects) {
-          if (noDuplicateStatus(player, stat.status)) player.statuses.push(new statusEffect({ ...statusEffects[stat.status], hasDamaged: 1 }));
-        }
-        player.stats.ap = 0;
-        if (ability.mpCost) player.stats.mp -= ability.mpCost;
-        if (ability.hpCost) player.stats.hp -= ability.hpCost;
-        if (ability.cooldown) ability.onCooldown = ability.cooldown;
-        if (global.targeting) {
-          enemiesCombat.forEach(e => {
-            if (!e.dead) {
-              let bg = $("#" + e.id + "§" + e.index);
-              bg.classList.remove("canBeTargeted");
-            }
-          });
-        };
-        global.isCombatPaused = false;
-        global.targeting = false;
-        global.ability = "";
-        removeSelection();
+        global.targetingSelf = true;
+        global.ability = ability;
       }
       else {
         global.targeting = true;
@@ -581,6 +569,36 @@ function endScreenFadeIn(condition) {
     con.querySelector(".title").classList = "title loss";
     con.querySelector(".title").textContent = "VANQUISHED";
     con.querySelector(".endingText").append(textSyntax(texts.defeat_text));
+  }
+}
+
+$(".combatScreen").addEventListener("click", e=>useBuff());
+
+function useBuff() {
+  let ability = global.ability;
+  console.log(ability);
+  if(global.targetingSelf) {
+    if (ability.healAmount) player.stats.hp += ability.healAmount;
+    for (let stat of ability.status_effects) {
+      if (noDuplicateStatus(player, stat.status)) player.statuses.push(new statusEffect({ ...statusEffects[stat.status], hasDamaged: 1 }));
+    }
+    player.stats.ap = 0;
+    if (ability.mpCost) player.stats.mp -= ability.mpCost;
+    if (ability.hpCost) player.stats.hp -= ability.hpCost;
+    if (ability.cooldown) ability.onCooldown = ability.cooldown;
+    if (global.targeting) {
+      enemiesCombat.forEach(e => {
+        if (!e.dead) {
+          let bg = $("#" + e.id + "§" + e.index);
+          bg.classList.remove("canBeTargeted");
+        }
+      });
+    };
+    global.isCombatPaused = false;
+    global.targeting = false;
+    global.targetingSelf = false;
+    global.ability = "";
+    removeSelection();
   }
 }
 
