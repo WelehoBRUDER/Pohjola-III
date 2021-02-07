@@ -57,6 +57,10 @@ body {
   overflow: hidden;
 }
 
+.combatScreen .selected {
+  border: 8px solid #d1b514 !important;
+}
+
 .combatScreen .playerArea {
   margin: 0px;
   position: absolute;

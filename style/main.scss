@@ -54,6 +54,10 @@ body {
   bottom: 0px;
   overflow: hidden;
 
+  .selected {
+    border: 8px solid rgb(209, 181, 20) !important;
+  }
+
   .playerArea {
     margin: 0px;
     position: absolute;

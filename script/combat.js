@@ -360,11 +360,18 @@ function regularAttack() {
       if (!e.dead) {
         let bg = $("#" + e.id + "§" + e.index);
         global.ability = "regular";
+        removeSelection();
+        $(".regularAttack").classList.add("selected");
         bg.classList.add("canBeTargeted");
       }
     });
     if (Only1Enemy()) aliveEnemy().index;
   }
+}
+
+function removeSelection() {
+  let selected = document.querySelectorAll(".selected");
+  if(selected) Array.from(selected).forEach(e=>e.classList.remove("selected"));
 }
 
 function Only1Enemy() {
@@ -378,8 +385,9 @@ function Only1Enemy() {
 function hotkey(e) {
   if (e.key == "Escape") {
     if (global.invOpen) openInventory("combat");
-    if (global.targeting) {
+    if (global.targeting && global.inCombat) {
       global.targeting = false;
+      removeSelection();
       enemiesCombat.forEach(e => {
         if (!e.dead) {
           let bg = $("#" + e.id + "§" + e.index);
@@ -427,6 +435,7 @@ function targetEnemy(index) {
     player.stats.ap = 0;
     global.targeting = false;
     global.ability = "";
+    removeSelection();
     enemiesCombat.forEach(e => {
       if (!e.dead) {
         let bg = $("#" + e.id + "§" + e.index);
@@ -460,6 +469,7 @@ function targetEnemy(index) {
     player.stats.ap = 0;
     global.targeting = false;
     global.ability = "";
+    removeSelection();
     enemiesCombat.forEach(e => {
       if (!e.dead) {
         let bg = $("#" + e.id + "§" + e.index);
@@ -496,6 +506,8 @@ function playerUseAbility(index) {
     if (ability.mpCost > player.stats.mp) return;
     if (ability.onCooldown > 0) return;
     if (global.isCombatPaused && player.stats.ap >= 100) {
+      removeSelection();
+      $(".abilitySlot" + index).classList.add("selected");
       if (ability.type == "buff") {
         if (ability.healAmount) player.stats.hp += ability.healAmount;
         for (let stat of ability.status_effects) {
@@ -516,6 +528,7 @@ function playerUseAbility(index) {
         global.isCombatPaused = false;
         global.targeting = false;
         global.ability = "";
+        removeSelection();
       }
       else {
         global.targeting = true;
