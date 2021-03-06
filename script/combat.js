@@ -10,7 +10,7 @@ function Update() {
     player.stats.hp = 0;
     global.isCombatPaused = true;
     endScreenFadeIn("defeat");
-  } 
+  }
   if (player.stats.ap <= 99.99 && !global.isCombatPaused) player.stats.ap += player.actionFill() > 2.66 ? 2.66 : player.actionFill();
   $(".playerHpNum").textContent = player.stats.hp + " / " + player.stats.FhpMax();
   $(".playerHpFill").style.width = (player.stats.hp / player.stats.FhpMax()) * 100 + '%';
@@ -63,7 +63,7 @@ function Update() {
       let container = $(".playerAbilities .abilityContainer");
       let slot = container.querySelector(".abilitySlot" + ability.substring(ability.length - 1));
       let dark = slot.querySelector(".darkened");
-      if(dark) continue;
+      if (dark) continue;
       else {
         let dk = create("div");
         dk.classList.add("darkened");
@@ -73,7 +73,7 @@ function Update() {
       let container = $(".playerAbilities .abilityContainer");
       let slot = container.querySelector(".abilitySlot" + ability.substring(ability.length - 1));
       let dark = slot.querySelector(".darkened");
-      if(dark) dark.remove();
+      if (dark) dark.remove();
     }
   }
 
@@ -128,6 +128,7 @@ function startCombatDebug() {
   drawEnemies(enemiesCombat);
   slotAbilities();
   global.inCombat = true;
+  combatTimer = setInterval(Update, 1000 / 60);
   enemiesCombat.forEach(e => e.init());
 }
 
@@ -236,13 +237,18 @@ function createDroppingString(string, start, text_class) {
   setTimeout(e => text.remove(), 1800);
 }
 
+function hasStatus(status, char) {
+  for(let stat of char.statuses) {
+    if(stat.id == status.id) return true;
+  }
+  return false;
+}
+
 function enemyTurn(enemy) {
   let ability = enemy.decideMove();
-  console.log(ability);
   if (ability == "heal") {
     for (let i = 0; i < enemy.inventory.length; i++) {
       let itm = enemy.inventory[i];
-      console.log(enemy);
       if (itm.healsUser && itm.amount > 0) {
         itm.amount--;
         for (let effect of itm.statusEffects) {
@@ -342,6 +348,33 @@ function statusSyntax(status, fontSize = 14) {
       case "magicalArmor":
         stat = "Magical armor";
         break;
+      case "armorer":
+        stat = "Armorer skill";
+        break;
+      case "shield":
+        stat = "Shield skill";
+        break;
+      case "light_weapons":
+        stat = "Light Weapons skill";
+        break;
+      case "heavy_weapons":
+        stat = "Heavy Weapons skill";
+        break;
+      case "dodge":
+        stat = "Dodge skill";
+        break;
+      case "blockChance":
+        stat = "Block chance";
+        break;
+      case "defense":
+        stat = "Defense";
+        break;
+      case "hp": 
+        stat = "Max HP";
+        break;
+      case "mp":
+        stat = "Max MP";
+        break;
     }
     if (status.effects?.[effect] > 0 && perc == "V") text += `\t<f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>green<c>▲ up§<f>${fontSize}px<f> by ${status.effects[effect]}\n`;
     else if (status.effects?.[effect] > 0 && perc == "P") text += `\t<f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>green<c>▲ up§<f>${fontSize}px<f> by ${Math.floor(status.effects[effect])}%\n`;
@@ -371,7 +404,7 @@ function regularAttack() {
 
 function removeSelection() {
   let selected = document.querySelectorAll(".selected");
-  if(selected) Array.from(selected).forEach(e=>e.classList.remove("selected"));
+  if (selected) Array.from(selected).forEach(e => e.classList.remove("selected"));
 }
 
 function Only1Enemy() {
@@ -380,49 +413,6 @@ function Only1Enemy() {
     if (e.dead) alive--;
   });
   return alive == 1 ? true : false;
-}
-
-function hotkey(e) {
-  if (e.key == "Escape") {
-    if (global.invOpen) openInventory("combat");
-    if (global.targeting && global.inCombat) {
-      global.targeting = false;
-      global.targetingSelf = false;
-      removeSelection();
-      enemiesCombat.forEach(e => {
-        if (!e.dead) {
-          let bg = $("#" + e.id + "§" + e.index);
-          global.ability = "";
-          bg.classList.remove("canBeTargeted");
-        }
-      });
-    }
-  }
-  else if (e.key == "1") {
-    playerUseAbility(1)
-  }
-  else if (e.key == "2") {
-    playerUseAbility(2)
-  }
-  else if (e.key == "3") {
-    playerUseAbility(3)
-  }
-  else if (e.key == "4") {
-    playerUseAbility(4)
-  }
-  else if (e.key == "5") {
-    playerUseAbility(5)
-  }
-  else if (e.key == "a") {
-    regularAttack();
-  }
-  else if (e.key == "i") {
-    if(global.inCombat) openInventory("combat");
-    else openInventory();
-  }
-  else if (e.key == " ") {
-    useBuff();
-  }
 }
 
 function targetEnemy(index) {
@@ -505,6 +495,16 @@ function slotAbilities() {
   }
 }
 
+function factorial(num) {
+  let total = "";
+  if(num <= 0) return 0;
+  for(let i = num; i>0; i--) {
+   if(i > 1) total += i + " * ";
+   else total += i;
+  }
+  return `${num}'s factorial is: ${total} = ${eval(total)}`;
+}
+
 function playerUseAbility(index) {
   let ability = player.abilities["slot" + index];
   if (ability?.id) {
@@ -555,29 +555,29 @@ function createAbilitySlot(abi) {
 function endScreenFadeIn(condition) {
   let bg = $(".battleEndScreen");
   let con = bg.querySelector(".battleEndContainer")
-  if(bg.classList.contains("invisible")) bg.classList.remove("invisible");
-  setTimeout(a=>con.classList.remove("scaled"), 350);
+  clearInterval(combatTimer);
+  if (bg.classList.contains("invisible")) bg.classList.remove("invisible");
+  setTimeout(a => con.classList.remove("scaled"), 350);
   con.querySelector(".endingText").textContent = "";
   global.isCombatPaused = true;
-  if(condition=="win") {
+  if (condition == "win") {
     con.querySelector(".title").classList = "title win";
     con.querySelector(".title").textContent = "VICTORY";
     con.querySelector(".endingText").append(textSyntax(texts.win_text));
-    con.querySelector(".okbutton").addEventListener("click", e=>toLobbyLoot());
+    con.querySelector(".okbutton").addEventListener("click", e => toLobbyLoot());
     global.inCombat = false;
-  } else if(condition=="defeat") {
+  } else if (condition == "defeat") {
     con.querySelector(".title").classList = "title loss";
     con.querySelector(".title").textContent = "VANQUISHED";
     con.querySelector(".endingText").append(textSyntax(texts.defeat_text));
   }
 }
 
-$(".combatScreen").addEventListener("click", e=>useBuff());
+$(".combatScreen").addEventListener("click", e => useBuff());
 
 function useBuff() {
   let ability = global.ability;
-  console.log(ability);
-  if(global.targetingSelf) {
+  if (global.targetingSelf) {
     if (ability.healAmount) player.stats.hp += ability.healAmount;
     for (let stat of ability.status_effects) {
       if (noDuplicateStatus(player, stat.status)) player.statuses.push(new statusEffect({ ...statusEffects[stat.status], hasDamaged: 1 }));
@@ -602,4 +602,5 @@ function useBuff() {
   }
 }
 
-startCombatDebug();
+//startCombatDebug();
+clearInterval(combatTimer);

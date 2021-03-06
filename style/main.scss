@@ -572,10 +572,21 @@ body {
   position: absolute;
   left: 50%;
   margin-left: -464px;
-  top: 25px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  box-shadow: inset 0px 0px 24px 16px rgba(45, 45, 45, 0.95);
+  top: 48px;
+  box-shadow: inset 0px 0px 24px 16px rgba(45, 45, 45, 0.95), 0px 0px 12px 8px rgba(30, 30, 30, 0.9);
+  border: 4px solid rgba(25, 25, 25, 0.95);
+
+  >.draggableArea {
+    width: 100%;
+    height: 24px;
+    background: rgba(50, 50, 50, 0.9);
+    position: absolute;
+    top: -24px;
+    left: -4px;
+    border: 2px solid rgba(50, 50, 50, 0.9);
+    z-index: 1;
+    border-radius: 12px 12px 0px 0px;
+  }
 
   .itemsArea {
     width: 582px;
@@ -596,7 +607,6 @@ body {
       width: 75px;
       height: 75px;
       background: rgb(60, 60, 60);
-      margin-left: 5px;
       z-index: 1;
 
       >div {
@@ -640,6 +650,20 @@ body {
     left: 0px;
     top: 0px;
     box-shadow: inset 0px 0px 20px 16px rgba(60, 60, 60, 0.5), 1px 0px 14px 20px rgba(70, 70, 70, 0.5);
+
+    >.armorValues {
+      position: absolute;
+      width: 90%;
+      left: 10px;
+      top: 345px;
+      height: 120px;
+      border: none;
+      background: rgba(0, 0, 0, 0);
+    }
+
+    >.armorValues:hover {
+      border: none;
+    }
 
     >div {
       position: absolute;

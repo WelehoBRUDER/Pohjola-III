@@ -257,4 +257,371 @@
 .lootWindow > .lootArea > div:hover {
   border: 8px solid #bbbbbb;
 }
+
+#characterWindow {
+  position: absolute;
+  width: 620px;
+  height: 440px;
+  left: 50%;
+  margin-left: -422px;
+  top: 48px;
+  background: rgba(85, 85, 85, 0.95);
+  -webkit-box-shadow: inset 0px 0px 24px 16px rgba(45, 45, 45, 0.95), 0px 0px 12px 8px rgba(30, 30, 30, 0.9);
+          box-shadow: inset 0px 0px 24px 16px rgba(45, 45, 45, 0.95), 0px 0px 12px 8px rgba(30, 30, 30, 0.9);
+  border: 4px solid rgba(25, 25, 25, 0.95);
+}
+
+#characterWindow > .draggableArea {
+  width: 100%;
+  height: 24px;
+  background: rgba(50, 50, 50, 0.9);
+  position: absolute;
+  top: -24px;
+  left: -2px;
+  border: 2px solid rgba(50, 50, 50, 0.9);
+  z-index: 1;
+  border-radius: 12px 12px 0px 0px;
+}
+
+#characterWindow > .contentArea {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+
+#characterWindow > .contentArea > .portrait {
+  width: 128px;
+  height: 128px;
+  border: 4px solid rgba(45, 45, 45, 0.8);
+  border-radius: 8px;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+
+#characterWindow > .contentArea > .name {
+  position: absolute;
+  left: 90px;
+  top: 10px;
+}
+
+#characterWindow > .contentArea > .xpBar {
+  width: 420px;
+  height: 25px;
+  background: #242424;
+  -webkit-box-shadow: inset 0px 0px 8px 6px #1c1c1c, 0px 0px 4px 2px #0a0a0a;
+          box-shadow: inset 0px 0px 8px 6px #1c1c1c, 0px 0px 4px 2px #0a0a0a;
+  position: absolute;
+  left: 160px;
+  top: 115px;
+}
+
+#characterWindow > .contentArea > .xpBar > .barNum {
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
+  font-size: 20px;
+  color: white;
+  text-shadow: 0px 0px 4px 2px black;
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  top: -20px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  opacity: 0;
+}
+
+#characterWindow > .contentArea > .xpBar > .barFill {
+  width: 100%;
+  height: 25px;
+  background: #e0c217;
+  background: -webkit-gradient(linear, left top, right top, from(#e0c217), color-stop(10%, #fdd655), color-stop(25%, #d3b614), to(#e0c633));
+  background: linear-gradient(90deg, #e0c217 0%, #fdd655 10%, #d3b614 25%, #e0c633 100%);
+  -webkit-box-shadow: inset 0px 0px 6px 4px #da8e03;
+          box-shadow: inset 0px 0px 6px 4px #da8e03;
+  -webkit-animation-name: BarShine;
+          animation-name: BarShine;
+  -webkit-animation-duration: 1s;
+          animation-duration: 1s;
+  background-size: 200% 200%;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+}
+
+#characterWindow > .contentArea .hpBar,
+#characterWindow > .contentArea .mpBar {
+  width: 570px;
+  height: 15px;
+  background: #191919;
+  position: absolute;
+  left: 10px;
+  -webkit-box-shadow: inset 0px 0px 0.25vw 0.2vw #0a0a0a;
+          box-shadow: inset 0px 0px 0.25vw 0.2vw #0a0a0a;
+  border: 4px solid black;
+  border-radius: 8px;
+}
+
+#characterWindow > .contentArea .hpBar > p,
+#characterWindow > .contentArea .mpBar > p {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  font-size: 12px;
+  color: white;
+  text-shadow: 0px 0px 4px 2px black;
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  top: -10px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  opacity: 0;
+}
+
+#characterWindow > .contentArea .hpBar > div,
+#characterWindow > .contentArea .mpBar > div {
+  -webkit-transition: 0.8s;
+  transition: 0.8s;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  bottom: 0px;
+}
+
+#characterWindow > .contentArea .hpBar {
+  top: 150px;
+}
+
+#characterWindow > .contentArea .hpBar > div {
+  background: #a51e14;
+  background: -webkit-gradient(linear, left top, right top, from(#a51e14), color-stop(10%, #e94a3f), color-stop(25%, #ca352a), to(#a51e14));
+  background: linear-gradient(90deg, #a51e14 0%, #e94a3f 10%, #ca352a 25%, #a51e14 100%);
+  -webkit-box-shadow: inset 0px 0px 0.25vw 0.2vw #6b120b;
+          box-shadow: inset 0px 0px 0.25vw 0.2vw #6b120b;
+  -webkit-animation-name: BarShine;
+          animation-name: BarShine;
+  -webkit-animation-duration: 1.8s;
+          animation-duration: 1.8s;
+  background-size: 200% 200%;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+}
+
+#characterWindow > .contentArea .mpBar {
+  right: 5px;
+  top: 175px;
+}
+
+#characterWindow > .contentArea .mpBar > div {
+  background: #1458a5;
+  background: -webkit-gradient(linear, left top, right top, from(#1458a5), color-stop(10%, #65a2e7), color-stop(25%, #4585cf), to(#1458a5));
+  background: linear-gradient(90deg, #1458a5 0%, #65a2e7 10%, #4585cf 25%, #1458a5 100%);
+  -webkit-box-shadow: inset 0px 0px 0.25vw 0.2vw #104a8b;
+          box-shadow: inset 0px 0px 0.25vw 0.2vw #104a8b;
+  -webkit-animation-name: BarShine;
+          animation-name: BarShine;
+  -webkit-animation-duration: 1.8s;
+          animation-duration: 1.8s;
+  background-size: 200% 200%;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+}
+
+#characterWindow > .contentArea .hpBar:hover > p, #characterWindow > .contentArea .mpBar:hover > p {
+  opacity: 1;
+}
+
+#characterWindow > .contentArea .fillbar {
+  -webkit-transition: 0.8s;
+  transition: 0.8s;
+  width: 100%;
+  height: 100%;
+  background: #a51e14;
+  background: -webkit-gradient(linear, left top, right top, from(#a51e14), color-stop(10%, #e94a3f), color-stop(25%, #ca352a), to(#a51e14));
+  background: linear-gradient(90deg, #a51e14 0%, #e94a3f 10%, #ca352a 25%, #a51e14 100%);
+  -webkit-box-shadow: inset 0px 0px 0.25vw 0.2vw #6b120b;
+          box-shadow: inset 0px 0px 0.25vw 0.2vw #6b120b;
+  -webkit-animation-name: BarShine;
+          animation-name: BarShine;
+  -webkit-animation-duration: 3s;
+          animation-duration: 3s;
+  background-size: 200% 200%;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  position: absolute;
+  bottom: 0px;
+}
+
+#characterWindow > .contentArea > .xpBar:hover .barNum {
+  opacity: 1;
+}
+
+#characterWindow > .contentArea > .baseStats {
+  position: absolute;
+  left: 10px;
+  top: 190px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+#characterWindow > .contentArea > .baseSkills {
+  position: absolute;
+  left: 200px;
+  top: 190px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+#characterWindow > .contentArea > .warrior_class {
+  background: #d1461b;
+  -webkit-box-shadow: inset 0px 0px 12px 8px #923114;
+          box-shadow: inset 0px 0px 12px 8px #923114;
+}
+
+#characterWindow > .contentArea > .mage_class {
+  background: #1bb3d1;
+  -webkit-box-shadow: inset 0px 0px 12px 8px #127a8f;
+          box-shadow: inset 0px 0px 12px 8px #127a8f;
+}
+
+#characterWindow > .contentArea > .elementalist_class {
+  background: #1ed11b;
+  -webkit-box-shadow: inset 0px 0px 12px 8px #127910;
+          box-shadow: inset 0px 0px 12px 8px #127910;
+}
+
+#perkWindow {
+  position: absolute;
+  width: 1280px;
+  height: 880px;
+  left: 50%;
+  margin-left: -622px;
+  top: 48px;
+  background: rgba(85, 85, 85, 0.95);
+  -webkit-box-shadow: inset 0px 0px 24px 16px rgba(45, 45, 45, 0.95), 0px 0px 12px 8px rgba(30, 30, 30, 0.9);
+          box-shadow: inset 0px 0px 24px 16px rgba(45, 45, 45, 0.95), 0px 0px 12px 8px rgba(30, 30, 30, 0.9);
+  border: 4px solid rgba(25, 25, 25, 0.95);
+}
+
+#perkWindow > .draggableArea {
+  width: 100%;
+  height: 24px;
+  background: rgba(50, 50, 50, 0.9);
+  position: absolute;
+  top: -24px;
+  left: -2px;
+  border: 2px solid rgba(50, 50, 50, 0.9);
+  z-index: 1;
+  border-radius: 12px 12px 0px 0px;
+}
+
+#perkWindow > .contentArea {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+#perkWindow > .contentArea .Perk {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  border: 4px solid #7a7a7a;
+  position: absolute;
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
+  z-index: 1;
+  -webkit-filter: brightness(0.95);
+          filter: brightness(0.95);
+}
+
+#perkWindow > .contentArea .Perk > img {
+  width: 128px;
+  height: 128px;
+  -webkit-filter: drop-shadow(0px 0px 6px rgba(20, 20, 10, 0.9));
+          filter: drop-shadow(0px 0px 6px rgba(20, 20, 10, 0.9));
+}
+
+#perkWindow > .contentArea .Perk > p {
+  position: absolute;
+  color: #e0dbdb;
+  text-shadow: -2px 2px 4px black;
+  font-size: 27px;
+  left: 50%;
+  bottom: -24px;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+
+#perkWindow > .contentArea .Perk:hover {
+  border: 4px solid #c4c4c4;
+  -webkit-filter: brightness(1.05);
+          filter: brightness(1.05);
+}
+
+#perkWindow > .contentArea .unavailable {
+  -webkit-filter: brightness(0.4);
+          filter: brightness(0.4);
+}
+
+#perkWindow > .contentArea .unavailable:hover {
+  border: 4px solid #aaaaaf !important;
+  -webkit-filter: brightness(0.45) !important;
+          filter: brightness(0.45) !important;
+}
+
+#perkWindow > .contentArea .bought {
+  border: 4px solid #c4a41a;
+}
+
+#perkWindow > .contentArea .bought:hover {
+  border: 4px solid #f5cd1c;
+  -webkit-filter: brightness(1.05);
+          filter: brightness(1.05);
+}
+
+#perkWindow > .contentArea .maxed {
+  border: 4px solid #e4bf1c;
+  -webkit-filter: brightness(1.1) drop-shadow(0px 0px 6px gold);
+          filter: brightness(1.1) drop-shadow(0px 0px 6px gold);
+}
+
+#perkWindow > .contentArea .maxed:hover {
+  border: 4px solid #fdcf00 !important;
+  -webkit-filter: brightness(1.15) drop-shadow(0px 0px 8px gold) !important;
+          filter: brightness(1.15) drop-shadow(0px 0px 8px gold) !important;
+}
+
+#perkWindow > .contentArea .connecter {
+  background: #424242;
+  -webkit-box-shadow: inset 0px 0px 4px 2px #353535;
+          box-shadow: inset 0px 0px 4px 2px #353535;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
 /*# sourceMappingURL=lobby.css.map */

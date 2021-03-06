@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="style/text.css">
 </head>
 <body>
-  <div class="combatScreen">
+  <div class="combatScreen" hidden>
     <div class="playerArea">
       <div class="playerHpBar">
         <div class="playerHpLate"></div>
@@ -44,6 +44,7 @@
     </div>
   </div>
   <div id="inventoryWindow" class="hidden">
+    <div class="draggableArea"></div>
     <div class="itemsArea"></div>
     <div class="equipmentArea">
       <div class="equipmentSlot§weapon"></div>
@@ -52,7 +53,16 @@
       <div class="equipmentSlot§body"></div>
       <div class="equipmentSlot§legs"></div>
       <div class="equipmentSlot§ring"></div>
+      <div class="armorValues"></div>
     </div>
+  </div>
+  <div id="characterWindow" class="hidden">
+    <div class="draggableArea"></div>
+    <div class="contentArea"></div>
+  </div>
+  <div id="perkWindow" class="hidden">
+    <div class="draggableArea"></div>
+    <div class="contentArea"></div>
   </div>
   <div class="lootWindow hidden">
     SPOILS OF BATTLE
@@ -81,9 +91,11 @@
 <script src="script/classes/statusClass.js"></script>
 <script src="script/abilities.js"></script>
 <script src="script/syntax.js"></script>
+<script src="script/perks.js"></script>
 <script src="script/classes/itemClass.js"></script>
 <script src="script/classes/abilityClass.js"></script>
 <script src="script/classes/enemyClass.js"></script>
+<script src="script/classes/perkClass.js"></script>
 <script src="script/classes/playerClass.js"></script>
 <script src="script/lobby.js"></script>
 <script src="script/inventory.js"></script>

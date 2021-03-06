@@ -17,6 +17,7 @@ function EnemyClass(base) {
   this.ai_prefers = base.ai_prefers;
   this.dead = base.dead || false;
   this.lootTable = base.lootTable ?? defaultEnemy.lootTable;
+  this.permanentStatuses = defaultEnemy.permanentStatuses || {};
 
   function Equipments(equipment) {
     this.weapon = equipment.weapon ?? {};
@@ -222,11 +223,46 @@ function EnemyClass(base) {
     return Math.floor((5 + 5 * this.stats.Fint() + bonusValue) * bonusPercentage);
   }
 
+  this.skills.Farmorer = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("armorer", this);
+    return Math.floor((this.skills.armorer + bonusValue) * bonusPercentage);
+  }
+
+  this.skills.Fheavy_weapons = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("heavy_weapons", this);
+    return Math.floor((this.skills.heavy_weapons + bonusValue) * bonusPercentage);
+  }
+
+  this.skills.Flight_weapons = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("light_weapons", this);
+    return Math.floor((this.skills.light_weapons + bonusValue) * bonusPercentage);
+  }
+
+  this.skills.Fshield = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("shield", this);
+    return Math.floor((this.skills.shield + bonusValue) * bonusPercentage);
+  }
+
+  this.skills.Fdodge = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("dodge", this);
+    return Math.floor((this.skills.dodge + bonusValue) * bonusPercentage);
+  }
+
   function valuesFromItem(type, value, eq) {
     let total = 0;
     for (let itm in eq.equipment) {
       if (eq.equipment[itm]?.[type]?.[value]) total += eq.equipment[itm][type][value];
     } return total;
+  }
+
+  this.charClass = () => {
+    let clas = {};
+    for(let stat in player.permanentStatuses) {
+      if(stat.includes("_class")) {
+        clas = player.permanentStatuses[stat];
+      }
+    }
+    return clas;
   }
 
   function valueFromItem(value, eq) {
@@ -237,17 +273,26 @@ function EnemyClass(base) {
   }
 
   this.stats.FphysicalArmor = () => {
-    const { v: bonusValue, p: bonusPercentage } = calcValues("physicalArmor", this);
+    let {v: bonusValue, p: bonusPercentage} = calcValues("physicalArmor", this);
+    const {v: armorValue, p: armorPercentage} = calcValues("defense", this);
+    bonusValue += armorValue;
+    bonusPercentage *= armorPercentage;
     return Math.floor((valuesFromItem("armors", "physical", this) + bonusValue) * bonusPercentage);
   }
 
   this.stats.FmagicalArmor = () => {
-    const { v: bonusValue, p: bonusPercentage } = calcValues("magicalArmor", this);
+    let {v: bonusValue, p: bonusPercentage} = calcValues("magicalArmor", this);
+    const {v: armorValue, p: armorPercentage} = calcValues("defense", this);
+    bonusValue += armorValue;
+    bonusPercentage *= armorPercentage;
     return Math.floor((valuesFromItem("armors", "magical", this) + bonusValue) * bonusPercentage);
   }
 
   this.stats.FelementalArmor = () => {
-    const { v: bonusValue, p: bonusPercentage } = calcValues("elementalArmor", this);
+    let {v: bonusValue, p: bonusPercentage} = calcValues("elementalArmor", this);
+    const {v: armorValue, p: armorPercentage} = calcValues("defense", this);
+    bonusValue += armorValue;
+    bonusPercentage *= armorPercentage;
     return Math.floor((valuesFromItem("armors", "elemental", this) + bonusValue) * bonusPercentage);
   }
 
@@ -255,7 +300,7 @@ function EnemyClass(base) {
     let blocked = false;
     if (this.equipment.shield?.id) {
       const { v: bonusValue, p: bonusPercentage } = calcValues("blockChance", this);
-      if (Math.random() >= 0.95 - ((this.skills.shield / 500 + bonusValue) * bonusPercentage)) blocked = true;
+      if (Math.random() >= 0.95 - ((this.skills.Fshield() / 500 + bonusValue) * bonusPercentage)) blocked = true;
     }
     return blocked;
   };
@@ -263,22 +308,27 @@ function EnemyClass(base) {
   this.attackDodged = () => {
     let dodged = false;
     const { v: bonusValue, p: bonusPercentage } = calcValues("dodge", this);
-    if(Math.random() >= 0.97 - (((this.skills.dodge/1000) + (this.stats.Fagi()/5000) + bonusValue) * bonusPercentage)) dodged = true;
+    if(Math.random() >= 0.97 - (((this.skills.Fdodge()/1000) + (this.stats.Fagi()/5000) + bonusValue) * bonusPercentage)) dodged = true;
     return dodged;
   };
 
   function calcValues(value, kohde) {
     let val = 0;
     let per = 1;
-    for (let nimi in kohde.equipment) {
+    for(let nimi in kohde.equipment) {
       const item = kohde.equipment[nimi];
-      if (!item.id) continue;
-      if (item?.effects?.[value + "P"]) per += item.effects[value + "P"] / 100;
-      if (item?.effects?.[value + "V"]) val += item.effects[value + "V"];
+      if(!item.id) continue;
+      if(item?.effects?.[value + "P"]) per *= 1 + item.effects[value + "P"] / 100;
+      if(item?.effects?.[value + "V"]) val += item.effects[value + "V"];
+    } 
+    for(let status of kohde.statuses) {
+      if(status?.effects?.[value + "P"]) per *= 1 + status?.effects?.[value + "P"] / 100;
+      if(status?.effects?.[value + "V"]) val += status?.effects?.[value + "V"];
     }
-    for (let effect of kohde.statuses) {
-      if (effect.effects?.[value + "P"]) per += effect.effects?.[value + "P"] / 100;
-      if (effect.effects?.[value + "V"]) val += effect.effects[value + "V"];
+    for(let stat in kohde.permanentStatuses) {
+      const status = kohde.permanentStatuses[stat];
+      if(status?.effects?.[value + "P"]) per *= 1 + status?.effects?.[value + "P"] / 100;
+      if(status?.effects?.[value + "V"]) val += status?.effects?.[value + "V"];
     }
     return { v: val, p: per };
   }
@@ -434,18 +484,29 @@ function EnemyClass(base) {
         table[i].ai_wants = 0;
         if (table[i - 1]) table[i].ai_wants = table[i - 1].ai_wants;
         else table[i].ai_wants = 0;
-        table[i].ai_wants += Math.floor(table[i].ai_want * (1 + (this.ai_prefers?.[table[i].type] / 100 || 0)));
+        table[i].ai_wants += Math.floor((table[i].ai_want + aiModifiers(table[i])) * (1 + (this.ai_prefers?.[table[i].type] / 100 || 0)));
         max = table[i].ai_wants;
       }
       let value = Math.floor(random(max));
       let targeting;
       for (let unit of table) {
         if (unit.onCooldown > 0 || unit.mpCost > this.stats.mp) continue;
-        if (unit.ai_wants >= value) { targeting = unit; break; }
+        if (unit.ai_wants + aiModifiers(unit) >= value) { targeting = unit; break; }
       }
       return targeting;
     }
   }
+}
+
+function aiModifiers(mod) {
+  let total = 0;
+  if(!mod.ai_want_modifiers || mod.ai_want_modifiers.length < 1) return total;
+  for(let modifier of mod.ai_want_modifiers) {
+    if(eval(modifier.execute_if)) {
+      total += modifier.value;
+    }
+  }
+  return total;
 }
 
 

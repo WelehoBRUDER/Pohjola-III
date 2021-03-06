@@ -17,6 +17,12 @@ let Abilities = {
       {status: "bleedI"},
     ],
     ai_want: 20,
+    ai_want_modifiers: [
+      {
+        execute_if: "player.statuses.forEach(e=>e.id == 'bleedI')",
+        value: -20
+      }
+    ],
     type: "debuff",
     img: "gfx/abilities/pointy-sword.png"
   },
@@ -31,6 +37,12 @@ let Abilities = {
     ],
     requiresShield: true,
     ai_want: 20,
+    ai_want_modifiers: [
+      {
+        execute_if: "player.statuses.forEach(e=>e.id == 'shield_bash')",
+        value: -20
+      }
+    ],
     type: "debuff",
     img: "gfx/abilities/shield-bash.png"
   },

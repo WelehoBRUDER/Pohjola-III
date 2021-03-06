@@ -8,3 +8,20 @@ function statusEffect(base) {
   this.hasDamaged = base.hasDamaged;
   this.effectType = base.effectType;
 } 
+
+function permanentStatus(base) {
+  const defaultStatus = permanentEffects[base.id];
+  if(!defaultStatus) console.error(base?.id + " is not a valid ID!");
+  this.id = base.id;
+  this.name = base.name ?? defaultStatus.name;
+  this.desc = base.desc ?? defaultStatus.desc;
+  this.category = defaultStatus.category;
+  this.level = base.level ?? defaultStatus.level;
+  this.effects = getEffects(base);
+  this.class = base.class ?? defaultStatus.class;
+
+  function getEffects(stat) {
+    if(stat.category !== "perk") return stat.effects;
+    return defaultStatus.effects[stat.level - 1].effects;
+  }
+}

@@ -26,7 +26,7 @@ const texts = {
   No special effects or modifiers.
   Just boring damage from
   your stats and weapon.
-  Damage: §<c>orange<c><v>player.minDmg()<v>-<v>player.maxDmg()<v>`,
+  Damage: §<c>orange<c><v>player.minDmg()<v>§ - §<c>orange<c><v>player.maxDmg()<v>`,
 
   open_inventory_text: `<bcss>line-height: 1.1<bcss><c>yellow<c><f>24px<f>[I]nventory§
   Open your inventory.
@@ -42,4 +42,28 @@ const texts = {
   win_text: `<bcss>line-height: 1.25; text-shadow: 0px 0px 4px black;<bcss><ff>RobotoBold<ff><f>26px<f><c>white<c>As all of your foes collapse to the ground, beaten, you alone stand as the sole victor.
   You feel a sense of accomplishment and relief at winning the gritty battle.
   Time to push on!`,
+
+  warrior_perk_start: `Desc found!`
+}
+
+const loc = {
+  "light_weapons": "Light Weapons",
+  "heavy_weapons": "Heavy Weapons",
+  "shield": "Shield",
+  "armorer": "Armorer",
+  "dodge": "Dodge",
+  "barter": "Bartering",
+  "str": "Strength",
+  "vit": "Vitality",
+  "agi": "Agility",
+  "int": "Intelligence",
+  "wis": "Wisdom",
+  "hp": "Health",
+  "mp": "Mana",
+  "hpMax": "Max Health",
+  "mpMax": "Max Mana",
+  "physicalArmor": "Physical Armor",
+  "magicalArmor": "Magical Armor",
+  "elementalArmor": "Elemental Armor",
+  "defense": "Defense"
 }

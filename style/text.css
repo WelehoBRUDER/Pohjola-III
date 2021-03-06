@@ -4,7 +4,7 @@
   text-align: left;
   margin: 0px;
   padding: 8px;
-  z-index: 5;
+  z-index: 99;
   height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;

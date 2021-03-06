@@ -2,14 +2,14 @@ let player = new PlayerClass({
   id: "player_character",
   name: "Avanti!",
   stats: {
-    str: 5,
-    vit: 5,
-    agi: 5,
-    int: 5,
-    wis: 5,
+    str: 3,
+    vit: 3,
+    agi: 3,
+    int: 3,
+    wis: 3,
     ap: 0,
-    hp: 40,
-    mp: 30
+    hp: 60,
+    mp: 20
   },
   skills: {
     armorer: 0,
@@ -17,7 +17,7 @@ let player = new PlayerClass({
     light_weapons: 0,
     shield: 0,
     dodge: 0,
-    dexterity: 0
+    barter: 0
   },
   inventory: [
     new Item({...items.weak_healing_gem, amount: 3}),
@@ -38,8 +38,11 @@ let player = new PlayerClass({
   level: {
     lvl: 1,
     pointsPerLvl: 3,
-    xp: 0,
-    xpNeed: 50
+    xp: 13,
+    xpNeed: 50,
+    statPoints: 3,
+    skillPoints: 5,
+    perkPoints: 3
   },
   abilities: {
     slot1: new Ability(Abilities.sharp_stroke),
@@ -49,7 +52,12 @@ let player = new PlayerClass({
     slot5: new Ability(Abilities.magical_ward)
   },
   gold: 0,
-  statuses: []
+  statuses: [],
+  permanentStatuses: {
+    "warrior_class": new permanentStatus(permanentEffects.warrior_class),
+  },
+  perks: {},
+  selectedPerks: "warrior"
 })
 
 function PlayerClass(base) {
@@ -63,6 +71,21 @@ function PlayerClass(base) {
   this.statuses = base.statuses;
   this.abilities = new Abilitys(base.abilities);
   this.gold = base.gold || 0;
+  this.permanentStatuses = base.permanentStatuses;
+  this.perks = base.perks;
+  this.selectedPerks = base.selectedPerks;
+
+  this.restoreFull = () => {
+    this.stats.hp = this.stats.FhpMax();
+    this.stats.mp = this.stats.FmpMax();
+  }
+
+  this.hasPerk = (key) => {
+    Object.entries(this.perks).forEach(p=>{
+      if(p.id == key) return true;
+    });
+    return false;
+  }
 
   function Stats(stat) {
     this.str = stat.str;
@@ -81,7 +104,7 @@ function PlayerClass(base) {
     this.light_weapons = skill.light_weapons;
     this.shield = skill.shield;
     this.dodge = skill.dodge;
-    this.dexterity = skill.dexterity;
+    this.barter = skill.barter;
   }
 
   function Equipments(equipment) {
@@ -121,11 +144,16 @@ function PlayerClass(base) {
     for(let nimi in kohde.equipment) {
       const item = kohde.equipment[nimi];
       if(!item.id) continue;
-      if(item?.effects?.[value + "P"]) per += item.effects[value + "P"] / 100;
+      if(item?.effects?.[value + "P"]) per *= 1 + item.effects[value + "P"] / 100;
       if(item?.effects?.[value + "V"]) val += item.effects[value + "V"];
     } 
     for(let status of kohde.statuses) {
-      if(status?.effects?.[value + "P"]) per += status?.effects?.[value + "P"] / 100;
+      if(status?.effects?.[value + "P"]) per *= 1 + status?.effects?.[value + "P"] / 100;
+      if(status?.effects?.[value + "V"]) val += status?.effects?.[value + "V"];
+    }
+    for(let stat in kohde.permanentStatuses) {
+      const status = kohde.permanentStatuses[stat];
+      if(status?.effects?.[value + "P"]) per *= 1 + status?.effects?.[value + "P"] / 100;
       if(status?.effects?.[value + "V"]) val += status?.effects?.[value + "V"];
     }
     return {v: val, p: per};
@@ -166,25 +194,74 @@ function PlayerClass(base) {
     return Math.floor((5 + 5 * this.stats.Fint() + bonusValue) * bonusPercentage);
   }
 
+  this.skills.Farmorer = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("armorer", this);
+    return Math.floor((this.skills.armorer + bonusValue) * bonusPercentage);
+  }
+
+  this.skills.Fheavy_weapons = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("heavy_weapons", this);
+    return Math.floor((this.skills.heavy_weapons + bonusValue) * bonusPercentage);
+  }
+
+  this.skills.Flight_weapons = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("light_weapons", this);
+    return Math.floor((this.skills.light_weapons + bonusValue) * bonusPercentage);
+  }
+
+  this.skills.Fshield = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("shield", this);
+    let val = Math.floor((this.skills.shield + bonusValue) * bonusPercentage);
+    return val > 100 ? 100 : val;
+  }
+
+  this.skills.Fdodge = () => {
+    return this.skills.dodge;
+  }
+
+  this.skills.Fbarter = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("barter", this);
+    return Math.floor((this.skills.barter + bonusValue) * bonusPercentage);
+  }
+
+  this.barterBonus = () => {
+    let penalty = 0.5;
+    penalty += this.skills.Fbarter()/300;
+    const {v: bonusValue, p: bonusPercentage} = calcValues("barterPenalty", this);
+    penalty = (penalty + bonusValue) * bonusPercentage;
+    if(penalty > 0.95) penalty = 0.95;
+    else if (penalty < 0.5) penalty = 0.5;
+    return penalty;
+  }
+
   function valuesFromItem(type, value, eq) {
     let total = 0;
     for(let itm in eq.equipment) {
-      if(eq.equipment[itm]?.[type]?.[value]) total += eq.equipment[itm][type][value];
+      if(eq.equipment[itm]?.[type]?.[value]) total += eq.equipment[itm][type][value] * (1 + (player.skills[`F${eq.equipment[itm]?.skillBonus}`]()/100));
     } return total;
   }
 
   this.stats.FphysicalArmor = () => {
-    const {v: bonusValue, p: bonusPercentage} = calcValues("physicalArmor", this);
+    let {v: bonusValue, p: bonusPercentage} = calcValues("physicalArmor", this);
+    const {v: armorValue, p: armorPercentage} = calcValues("defense", this);
+    bonusValue += armorValue;
+    bonusPercentage *= armorPercentage;
     return Math.floor((valuesFromItem("armors", "physical", this) + bonusValue) * bonusPercentage);
   }
 
   this.stats.FmagicalArmor = () => {
-    const {v: bonusValue, p: bonusPercentage} = calcValues("magicalArmor", this);
+    let {v: bonusValue, p: bonusPercentage} = calcValues("magicalArmor", this);
+    const {v: armorValue, p: armorPercentage} = calcValues("defense", this);
+    bonusValue += armorValue;
+    bonusPercentage *= armorPercentage;
     return Math.floor((valuesFromItem("armors", "magical", this) + bonusValue) * bonusPercentage);
   }
 
   this.stats.FelementalArmor = () => {
-    const {v: bonusValue, p: bonusPercentage} = calcValues("elementalArmor", this);
+    let {v: bonusValue, p: bonusPercentage} = calcValues("elementalArmor", this);
+    const {v: armorValue, p: armorPercentage} = calcValues("defense", this);
+    bonusValue += armorValue;
+    bonusPercentage *= armorPercentage;
     return Math.floor((valuesFromItem("armors", "elemental", this) + bonusValue) * bonusPercentage);
   }
 
@@ -247,6 +324,7 @@ function PlayerClass(base) {
   };
 
   this.regularAttack = (target) => {
+    const { v: NOT_USED, p: atkPercentage } =  calcValues("attack", this);
     let block = target.attackBlocked();
     let dodge = target.attackDodged();
     let damages = this.weaponDamage();
@@ -259,10 +337,11 @@ function PlayerClass(base) {
       damages.elemental *= 1 - target.equipment.shield.blockAmount.elemental/100;
       block = true;
     }
-    return {num: Math.floor(damages.physical + damages.magical + damages.elemental), blocked: block, dodged: dodge};
+    return {num: Math.floor((damages.physical + damages.magical + damages.elemental) * atkPercentage), blocked: block, dodged: dodge};
   }
 
   this.spellAttack = (target, spell) => {
+    const { v: NOT_USED, p: atkPercentage } =  calcValues("attack", this);
     let block = target.attackBlocked();
     let dodge = target.attackDodged();
     let damages = this.spellDamage(spell);
@@ -275,24 +354,36 @@ function PlayerClass(base) {
       damages.elemental *= 1 - target.equipment.shield.blockAmount.elemental/100;
       block = true;
     }
-    return {num: Math.floor(damages.physical + damages.magical + damages.elemental), blocked: block, dodged: dodge};
+    return {num: Math.floor((damages.physical + damages.magical + damages.elemental) * atkPercentage), blocked: block, dodged: dodge};
   }
 
   this.minDmg = () => {
+    const { v: NOT_USED, p: atkPercentage } =  calcValues("attack", this);
     let damages = this.weaponDamage("min");
-    return Math.floor(damages.physical + damages.magical + damages.elemental);
+    return Math.floor((damages.physical + damages.magical + damages.elemental) * atkPercentage);
   }
 
   this.maxDmg = () => {
+    const { v: NOT_USED, p: atkPercentage } =  calcValues("attack", this);
     let damages = this.weaponDamage("max");
-    return Math.floor(damages.physical + damages.magical + damages.elemental);
+    return Math.floor((damages.physical + damages.magical + damages.elemental) * atkPercentage);
+  }
+
+  this.charClass = () => {
+    let clas = {};
+    for(let stat in this.permanentStatuses) {
+      if(stat.includes("_class")) {
+        clas = this.permanentStatuses[stat];
+      }
+    }
+    return clas;
   }
 
   this.attackBlocked = () => {
     let blocked = false;
     if(this.equipment.shield?.id) {
       const {v: bonusValue, p: bonusPercentage} = calcValues("blockChance", this);
-      if(Math.random() >= 0.95 - ((this.skills.shield/500 + bonusValue) * bonusPercentage)) blocked = true;
+      if(Math.random() >= 0.95 - ((this.skills.Fshield()/500 + bonusValue) * bonusPercentage)) blocked = true;
     }
     return blocked;
   };
@@ -300,7 +391,7 @@ function PlayerClass(base) {
   this.attackDodged = () => {
     let dodged = false;
     const { v: bonusValue, p: bonusPercentage } = calcValues("dodge", this);
-    if(Math.random() >= 0.97 - (((this.skills.dodge/1000) + (this.stats.Fagi()/5000) + bonusValue) * bonusPercentage)) dodged = true;
+    if(Math.random() >= 0.97 - (((this.skills.Fdodge()/1000) + (this.stats.Fagi()/5000) + bonusValue) * bonusPercentage)) dodged = true;
     return dodged;
   };
 
@@ -330,9 +421,6 @@ function PlayerClass(base) {
       frame.append(image, num);
       let desc = `<c>#c2bf27<c><f>18px<f>${status.name}§\n`;
       desc += statusSyntax(status);
-      // if (status.effectType == "stun") desc += `You are stunned \nand unable to move.`;
-      // else if (status.effectType == "bleeding") desc += `You are bleeding \nand take § <c>red<c> ${status.damageOT} dmg/s`;
-      // else if (status.effectType == "regen") desc += `You are regenerating \n${status.damageOT} health per second`;
       addHoverBox(frame, desc, "");
       $(".playerStatuses").append(frame);
     } else {
@@ -344,6 +432,8 @@ function PlayerClass(base) {
     }
   };
 }
+
+player.restoreFull();
 
 let statsBonus = {
   "physical": "Fstr()",
