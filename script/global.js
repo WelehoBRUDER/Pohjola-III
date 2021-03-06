@@ -13,6 +13,8 @@ var global = {
   perkOpen: false
 }
 
+let debug = true;
+
 function hotkey(e) {
   if (e.key == "Escape") {
     textBoxRemove();
@@ -65,5 +67,8 @@ function hotkey(e) {
   }
   else if (e.key == "p") {
     openPerk();
+  }
+  else if(e.key == "b" && debug) {
+    startCombatDebug();
   }
 }

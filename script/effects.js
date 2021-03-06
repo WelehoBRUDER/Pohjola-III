@@ -195,7 +195,8 @@ const permanentEffects = {
         // level 1
         effects: {
           physicalDamageP: 5,
-          strV: 5
+          critChanceV: 3,
+          strV: 3
         }
       },
       {
@@ -203,7 +204,8 @@ const permanentEffects = {
         effects: {
           physicalDamageP: 8,
           attackP: 5,
-          strV: 7
+          critChanceV: 5,
+          strV: 5
         }
       }
     ],
@@ -229,6 +231,93 @@ const permanentEffects = {
           hpV: 12,
           vitV: 3,
           hpP: 3
+        }
+      }
+    ],
+    level: 0,
+    category: "perk"
+  },
+  // MAGE PERKS // 
+  "path_learning": {
+    id: "path_learning",
+    name: "Path of Learning",
+    effects: [
+      {
+        // level 1
+        effects: {
+          magicalDamageP: 5,
+          magicalArmorP: 3,
+          mpV: 5,
+        }
+      },
+      {
+        // level 2
+        effects: {
+          magicalDamageP: 8,
+          magicalArmorP: 5,
+          mpV: 10,
+          intV: 2,
+          wisV: 2
+        }
+      },
+      {
+        // level 3
+        effects: {
+          magicalDamageP: 10,
+          magicalArmorP: 8,
+          mpV: 20,
+          mpP: 5,
+          intV: 4,
+          wisV: 4
+        }
+      }
+    ],
+    level: 0,
+    category: "perk"
+  },
+  "power_perk": {
+    id: "power_perk",
+    name: "Path of Power",
+    effects: [
+      {
+        // level 1
+        effects: {
+          magicalDamageP: 8,
+          magicalDamageV: 2,
+          intV: 3
+        }
+      },
+      {
+        // level 2
+        effects: {
+          magicalDamageP: 15,
+          magicalDamageV: 5,
+          intV: 5
+        }
+      }
+    ],
+    level: 0,
+    category: "perk"
+  },
+  "reserve_perk": {
+    id: "reserve_perk",
+    name: "Path of Knowledge",
+    effects: [
+      {
+        // level 1
+        effects: {
+          magicalArmorV: 5,
+          mpV: 10,
+          wisV: 2
+        }
+      },
+      {
+        // level 2
+        effects: {
+          magicalArmorV: 10,
+          mpP: 5,
+          mpV: 25,
+          wisV: 3
         }
       }
     ],

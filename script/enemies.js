@@ -12,7 +12,9 @@ let Enemies = {
       ap: 0,
       hp: 0,
       mp: 0,
-      healL: 40
+      healL: 40,
+      critChance: 5,
+      critDmg: 50
     },
     skills: {
       armorer: 5,
@@ -64,7 +66,9 @@ let Enemies = {
       ap: 0,
       hp: 0,
       mp: 0,
-      healL: 30
+      healL: 30,
+      critChance: 10,
+      critDmg: 75
     },
     skills: {
       armorer: 0,
@@ -115,7 +119,9 @@ let Enemies = {
       ap: 0,
       hp: 0,
       mp: 0,
-      healL: 35
+      healL: 35,
+      critChance: 5,
+      critDmg: 50
     },
     skills: {
       armorer: 10,

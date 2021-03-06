@@ -39,6 +39,47 @@ const perkTrees = {
       parent: "warrior_perk_start",
       img: "gfx/icons/shield-reflect.png"
     },
+  },
+  "mage_tree": {
+    color: {
+      c: "#1d43de",
+      s: "#12298a"
+    },
+    "mage_perk_start": {
+      id: "mage_perk_start",
+      title: "Path of Learning",
+      cost: 1,
+      level: 0,
+      maxLevel: 3,
+      effect: "path_learning",
+      x: 0.5,
+      y: 6,
+      img: "gfx/icons/bookmarklet.png"
+    },
+    "mage_offense_perk": {
+      id: "mage_offense_perk",
+      title: "Path of Power",
+      cost: 1,
+      level: 0,
+      maxLevel: 2,
+      effect: "power_perk",
+      x: 4,
+      y: -3,
+      parent: "mage_perk_start",
+      img: "gfx/icons/magic-swirl.png"
+    },
+    "mage_reserve_perk": {
+      id: "mage_reserve_perk",
+      title: "Path of Knowledge",
+      cost: 1,
+      level: 0,
+      maxLevel: 2,
+      effect: "reserve_perk",
+      x: 4,
+      y: 3,
+      parent: "mage_perk_start",
+      img: "gfx/icons/book-aura.png"
+    },
   }
 }
 
@@ -150,6 +191,7 @@ function createPerks() {
   function purchasePerk(id) {
     let perk_ = tree[id];
     if(player.level.perkPoints < 1 || (perk_.parent && !player.perks[perk_.parent]?.id)) return;
+    if(player.perks[id]?.level == perk_.maxLevel) return;
     if(player.perks[id]?.id && player.perks[id].level !== perk_.maxLevel) {
       player.perks[id].level++;
       player.permanentStatuses[id] = new permanentStatus({...permanentEffects[perk_.effect], level: player.perks[id].level});

@@ -38,6 +38,8 @@ function EnemyClass(base) {
     this.mp = stat.mp;
     this.ap = stat.ap;
     this.healL = stat.healL;
+    this.critChance = stat.critChance;
+    this.critDmg = stat.critDmg;
   }
 
   function Skills(skill) {
@@ -141,7 +143,7 @@ function EnemyClass(base) {
     if(enemiesVanquished.length === enemiesCombat.length) setTimeout(a=>endScreenFadeIn("win"), 100);
   }
 
-  this.attackAnimation = (dmg, blocked, dodged) => {
+  this.attackAnimation = (dmg, blocked, dodged, crit) => {
     let frame = $("#" + this.id + "§" + this.index);
     let shake = Math.round(random(4, 1));
     if(frame.classList.contains("enemyAttack")) frame.classList.remove("enemyAttack");
@@ -154,6 +156,7 @@ function EnemyClass(base) {
       if(!blocked && !dodged) { createDroppingString(dmg, $(".playerInteract"), "damage"); $(".bloodyScreenEffect").style.opacity = 1 }
       else if(blocked && !dodged) { createDroppingString("🛡" + dmg, $(".playerInteract"), "damage"); $(".bloodyScreenEffect").style.opacity = 1 }
       else if(!blocked && dodged) { createDroppingString("MISS", $(".playerInteract"), "neutral"); }
+      if (crit > 1) createDroppingString("CRIT!", $(".playerInteract"), "crit");
     }, 800);
     setTimeout(a => { if(!dodged) $(".bloodyScreenEffect").classList.add("fadeOut") }, 900);
     setTimeout(a => this.idle(), 900);
@@ -165,6 +168,12 @@ function EnemyClass(base) {
       if(!dodged) $(".bloodyScreenEffect").style.opacity = 0;
       if(!dodged) $(".bloodyScreenEffect").classList.remove("fadeOut")
     }, 1075);
+  }
+
+  this.rollCrit = () => {
+    console.log(this.stats.FcritDmg());
+    if (this.stats.FcritChance() >= random(100)) return this.stats.FcritDmg()/100;
+    else return 0;
   }
 
   this.selfBuffAnimation = () => {
@@ -246,6 +255,16 @@ function EnemyClass(base) {
   this.skills.Fdodge = () => {
     const {v: bonusValue, p: bonusPercentage} = calcValues("dodge", this);
     return Math.floor((this.skills.dodge + bonusValue) * bonusPercentage);
+  }
+
+  this.stats.FcritChance = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("critChance", this);
+    return Math.floor((this.stats.critChance + bonusValue) * bonusPercentage);
+  }
+
+  this.stats.FcritDmg = () => {
+    const {v: bonusValue, p: bonusPercentage} = calcValues("critDmg", this);
+    return Math.floor((this.stats.critDmg + bonusValue) * bonusPercentage);
   }
 
   function valuesFromItem(type, value, eq) {
@@ -343,34 +362,40 @@ function EnemyClass(base) {
   }
 
   this.regularAttack = () => {
+    const { v: NOT_USED, p: atkPercentage } = calcValues("attack", this);
     let block = player.attackBlocked();
     let dodge = player.attackDodged();
     let damages = this.weaponDamage();
-    if (damages.physical) damages.physical = Math.floor(damages.physical * damages.physical / (damages.physical + player.stats.FphysicalArmor()));
-    if (damages.magical) damages.magical = Math.floor(damages.magical * damages.magical / (damages.magical + player.stats.FmagicalArmor()));
-    if (damages.elemental) damages.elemental = Math.floor(damages.elemental * damages.elemental / (damages.elemental + player.stats.FelementalArmor()));
-    if (block && !dodge) {
+    let crit = 1 + this.rollCrit();
+    if (damages.physical) damages.physical = Math.floor(damages.physical * crit * damages.physical * crit / (damages.physical * crit + player.stats.FphysicalArmor()));
+    if (damages.magical) damages.magical = Math.floor(damages.magical * crit * damages.magical * crit / (damages.magical * crit + player.stats.FmagicalArmor()));
+    if (damages.elemental) damages.elemental = Math.floor(damages.elemental * crit * damages.elemental * crit / (damages.elemental * crit + player.stats.FelementalArmor()));
+    if (block) {
       damages.physical *= 1 - player.equipment.shield.blockAmount.physical / 100;
       damages.magical *= 1 - player.equipment.shield.blockAmount.magical / 100;
       damages.elemental *= 1 - player.equipment.shield.blockAmount.elemental / 100;
+      block = true;
     }
-    return { num: Math.floor(damages.physical + damages.magical + damages.elemental), blocked: block, dodged: dodge };
+    return { num: Math.floor((damages.physical + damages.magical + damages.elemental) * atkPercentage), blocked: block, dodged: dodge, crit: crit };
   }
 
   this.spellAttack = (target, spell) => {
+    target = player;
+    const { v: NOT_USED, p: atkPercentage } = calcValues("attack", this);
     let block = target.attackBlocked();
     let dodge = target.attackDodged();
     let damages = this.spellDamage(spell);
-    if (damages.physical) damages.physical = Math.floor(damages.physical * damages.physical / (damages.physical + target.stats.FphysicalArmor()));
-    if (damages.magical) damages.magical = Math.floor(damages.magical * damages.magical / (damages.magical + target.stats.FmagicalArmor()));
-    if (damages.elemental) damages.elemental = Math.floor(damages.elemental * damages.elemental / (damages.elemental + target.stats.FelementalArmor()));
+    let crit = 1 + this.rollCrit();
+    if (damages.physical) damages.physical = Math.floor(damages.physical * crit * damages.physical * crit / (damages.physical * crit + target.stats.FphysicalArmor()));
+    if (damages.magical) damages.magical = Math.floor(damages.magical * crit * damages.magical * crit / (damages.magical * crit + target.stats.FmagicalArmor()));
+    if (damages.elemental) damages.elemental = Math.floor(damages.elemental * crit * damages.elemental * crit / (damages.elemental * crit + target.stats.FelementalArmor()));
     if (block) {
-      damages.physical *= 1 - target.equipment.shield.blockAmount.physical/100;
-      damages.magical *= 1 - target.equipment.shield.blockAmount.magical/100;
-      damages.elemental *= 1 - target.equipment.shield.blockAmount.elemental/100;
+      damages.physical *= 1 - target.equipment.shield.blockAmount.physical / 100;
+      damages.magical *= 1 - target.equipment.shield.blockAmount.magical / 100;
+      damages.elemental *= 1 - target.equipment.shield.blockAmount.elemental / 100;
       block = true;
     }
-    return {num: Math.floor(damages.physical + damages.magical + damages.elemental), blocked: block, dodged: dodge};
+    return { num: Math.floor((damages.physical + damages.magical + damages.elemental) * atkPercentage), blocked: block, dodged: dodge, crit: crit };
   }
 
   this.spellDamage = (spell) => {
@@ -460,6 +485,8 @@ function EnemyClass(base) {
     let strongest;
     for (let ability of this.abilities) {
       if (ability.onCooldown > 0 || this.stats.mp < ability.mpCost) continue;
+      console.log(ability);
+      console.log(this.regularAttack());
       let dmg = Math.round(this.regularAttack().num * ability.powerMultiplier);
       if (dmg <= 0) dmg = 1;
       if (totalDmg < dmg) {

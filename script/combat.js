@@ -121,9 +121,10 @@ function Update() {
 let enemiesCombat = [];
 
 function startCombatDebug() {
-  enemiesCombat.push(new EnemyClass({ ...Enemies.skeleton_warrior, index: 0, level: { lvl: 1 } }));
-  enemiesCombat.push(new EnemyClass({ ...Enemies.skeleton_warrior, index: 1, level: { lvl: 1 } }));
-  //enemiesCombat.push(new EnemyClass({...Enemies.skeleton_archer, index: 2, level: {lvl: 1}}));
+  enemiesCombat = [];
+  enemiesCombat.push(new EnemyClass({ ...Enemies.skeleton_warrior, index: 0, level: { lvl: 2 } }));
+  enemiesCombat.push(new EnemyClass({ ...Enemies.skeleton_warrior, index: 1, level: { lvl: 2 } }));
+  enemiesCombat.push(new EnemyClass({...Enemies.skeleton_archer, index: 2, level: {lvl: 2}}));
   //enemiesCombat.push(new EnemyClass({...Enemies.skeleton_knight, index: 3, level: {lvl: 1}}));
   drawEnemies(enemiesCombat);
   slotAbilities();
@@ -198,6 +199,7 @@ function drawEnemies(array) {
       - Maximum health is §<c>red<c><v>enemiesCombat[${e.index}].stats.FhpMax()<v>hp §
       - Current health is §<c>red<c><v>enemiesCombat[${e.index}].stats.hp<v>hp §
       - Remaining health is §<c>red<c><v>((enemiesCombat[${e.index}].stats.hp/enemiesCombat[${e.index}].stats.FhpMax())*100).toFixed(1)<v>%`;
+      console.log(health);
       addHoverBox(hpbar, health, "");
       const mana = `<bcss>line-height: 1.25<bcss><c>#4287f5<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>'s Mana§
       <v>enemiesCombat[${e.index}].name<v>'s mana represents
@@ -269,13 +271,13 @@ function enemyTurn(enemy) {
   else if (ability.id == "regular_attack") {
     let dmg = enemy.regularAttack();
     if (dmg.num <= 0) dmg.num = 1;
-    enemy.attackAnimation(dmg.num, dmg.blocked, dmg.dodged);
+    enemy.attackAnimation(dmg.num, dmg.blocked, dmg.dodged, dmg.crit);
     setTimeout(e => { enemy.stats.ap = 0; global.isCombatPaused = false }, 1050);
   } else if (!ability.doesNotUseWeapon) {
     let dmg = enemy.regularAttack();
     dmg.num = Math.round(dmg.num * ability.powerMultiplier);
     if (dmg.num <= 0) dmg.num = 1;
-    enemy.attackAnimation(dmg.num, dmg.blocked, dmg.dodged);
+    enemy.attackAnimation(dmg.num, dmg.blocked, dmg.dodged, dmg.crit);
     ability.onCooldown = ability.cooldown;
     enemy.stats.mp -= ability.mpCost;
     for (let stat of ability.status_effects) {
@@ -292,6 +294,7 @@ function togetherWeCanKill(index) {
   let playerHP = player.stats.hp;
   for (let i = index; i < enemiesCombat.length; i++) {
     let ability = enemiesCombat[i].strongestAttack();
+    console.log(ability);
     let dmg = Math.round(enemiesCombat[i].regularAttack().num * ability.powerMultiplier);
     playerHP -= dmg;
   }
@@ -369,16 +372,25 @@ function statusSyntax(status, fontSize = 14) {
       case "defense":
         stat = "Defense";
         break;
+      case "attack":
+        stat = "Attack";
+        break;
       case "hp": 
         stat = "Max HP";
         break;
       case "mp":
         stat = "Max MP";
         break;
+      case "critChance":
+        stat = "Crit Chance";
+        break;
+      case "critDmg":
+        stat = "Crit Damage";
+        break;
     }
-    if (status.effects?.[effect] > 0 && perc == "V") text += `\t<f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>green<c>▲ up§<f>${fontSize}px<f> by ${status.effects[effect]}\n`;
+    if (status.effects?.[effect] > 0 && perc == "V") text += `\t<f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>green<c>▲ up§<f>${fontSize}px<f> by ${status.effects[effect]}${stat.includes("Crit") ? "%" : ""}\n`;
     else if (status.effects?.[effect] > 0 && perc == "P") text += `\t<f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>green<c>▲ up§<f>${fontSize}px<f> by ${Math.floor(status.effects[effect])}%\n`;
-    else if (status.effects?.[effect] < 0 && perc == "V") text += `\t<f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>red<c>▼ down§<f>${fontSize}px<f> by ${Math.abs(status.effects[effect])}\n`;
+    else if (status.effects?.[effect] < 0 && perc == "V") text += `\t<f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>red<c>▼ down§<f>${fontSize}px<f> by ${Math.abs(status.effects[effect])}${stat.includes("Crit") ? "%" : ""}\n`;
     else if (status.effects?.[effect] < 0 && perc == "P") text += `\t<f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>red<c>▼ down§<f>${fontSize}px<f> by ${Math.abs(Math.floor(status.effects[effect]))}%\n`;
   }
   return text;
@@ -426,6 +438,7 @@ function targetEnemy(index) {
     else if (!dmg.blocked && dmg.dodged) createDroppingString("MISS", enemyFrame, "neutral");
     if (!dmg.dodged) enemy.stats.hp -= dmg.num;
     if (enemy.stats.hp <= 0) enemy.kill();
+    if (dmg.crit > 1) createDroppingString("CRIT!", enemyFrame, "crit");
     player.stats.ap = 0;
     global.targeting = false;
     global.targetingSelf = false;
@@ -450,6 +463,7 @@ function targetEnemy(index) {
     if (!dmg.blocked && !dmg.dodged) createDroppingString(dmg.num, enemyFrame, "damage");
     else if (dmg.blocked && !dmg.dodged) createDroppingString("🛡" + dmg.num, enemyFrame, "damage");
     else if (!dmg.blocked && dmg.dodged) createDroppingString("MISS", enemyFrame, "neutral");
+    if (dmg.crit > 1) createDroppingString("CRIT!", enemyFrame, "crit");
     if (!dmg.dodged) enemy.stats.hp -= dmg.num;
     if (enemy.stats.hp <= 0) enemy.kill();
     if (global.ability.mpCost) player.stats.mp -= global.ability.mpCost;

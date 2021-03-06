@@ -143,9 +143,9 @@ function createCharacter(char) {
     let value = player.stats[stat]();
     let txt = loc[stat.substring(1)];
     if(!stat.toLowerCase().includes("max") && !stat.toLowerCase().includes("armor")) {
-      if(player.level.statPoints > 0) {
+      if(player.level.statPoints > 0 && !stat.toLowerCase().includes("crit")) {
         text += `\n§<f>18px<f><c>white<c><ff>Roboto<ff>• ${txt}: <c>yellow<c>${value} §<ff>Roboto<ff><f>18px<f><c>green<c><v>selectedSpan.addEventListener("click", (e)=>{upStat("${stat.substring(1)}", e)})<v>[+]§`;
-      } else text += `\n§<f>18px<f><c>white<c><ff>Roboto<ff>• ${txt}: <c>yellow<c>${value}`;
+      } else text += `\n§<f>18px<f><c>white<c><ff>Roboto<ff>• ${txt}: <c>yellow<c>${value}${stat.toLowerCase().includes("crit") ? "%" : ""}`;
     }
     else text += `\n§<f>18px<f><c>white<c><ff>Roboto<ff>• ${txt}: <c>yellow<c>${value}`;
   }

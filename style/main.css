@@ -975,6 +975,11 @@ body {
   text-shadow: -2px 2px 6px #635d06;
 }
 
+.crit {
+  color: #cc7d23;
+  text-shadow: -2px 2px 6px #854f08;
+}
+
 .health {
   color: #6fcc23;
   text-shadow: -2px 2px 6px #116306;

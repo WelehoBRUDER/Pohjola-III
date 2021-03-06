@@ -65,5 +65,8 @@ const loc = {
   "physicalArmor": "Physical Armor",
   "magicalArmor": "Magical Armor",
   "elementalArmor": "Elemental Armor",
-  "defense": "Defense"
+  "defense": "Defense",
+  "attack": "Attack",
+  "critChance": "Crit Chance",
+  "critDmg": "Crit Damage"
 }
