@@ -474,12 +474,16 @@
 
       >p {
         position: absolute;
-        color: rgb(224, 219, 219);
-        text-shadow: -2px 2px 4px black;
+        color: rgb(190, 190, 190);
+        text-shadow: -2px 2px 4px rgb(34, 34, 34);
         font-size: 27px;
         left: 50%;
-        bottom: -24px;
+        bottom: -46px;
+        font-family: RobotoBolder;
         transform: translateX(-50%);
+        background: rgba(122, 122, 122, 0.95);
+        border-radius: 40% 40% 45% 45%;
+        padding: 4px;
       }
 
     }

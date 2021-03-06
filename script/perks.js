@@ -12,7 +12,7 @@ const perkTrees = {
       maxLevel: 3,
       effect: "battle_exp",
       x: 0.5,
-      y: 5,
+      y: 6,
       img: "gfx/icons/swords-power.png"
     },
     "warrior_perk_offense": {
@@ -66,7 +66,11 @@ function createPerks() {
     perkLvl.textContent = `${hoverPerk.level || "0"}/${perk.maxLevel}`;
     if(player.perks[key]?.id) {
       if(hoverPerk.level < perk.maxLevel) perkBg.classList.add("bought");
-      else perkBg.classList.add("maxed");
+      else {
+        perkBg.classList.add("maxed");
+        perkLvl.style.color = "gold";
+        perkLvl.style.textShadow = "-2px 2px 4px orange";
+      } 
     }
     perkBg.append(perkImg, perkLvl);
     if((perk.parent && !player.perks[perk.parent]?.id) || player.level.perkPoints < 1) {
@@ -149,11 +153,13 @@ function createPerks() {
     if(player.perks[id]?.id && player.perks[id].level !== perk_.maxLevel) {
       player.perks[id].level++;
       player.permanentStatuses[id] = new permanentStatus({...permanentEffects[perk_.effect], level: player.perks[id].level});
+      player.restoreFull();
       player.level.perkPoints--;
     }
     else {
       player.perks[id] = new perk({...perk_, level: 1});
       player.permanentStatuses[id] = new permanentStatus({...permanentEffects[perk_.effect], level: 1});
+      player.restoreFull();
       player.level.perkPoints--;
     }
     createPerks();
