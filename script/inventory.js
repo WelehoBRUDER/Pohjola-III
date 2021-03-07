@@ -38,7 +38,7 @@ function createInventory(when = "lobby") {
       if (itm.type != "consumable") continue;
       const item = createItem(itm);
       const container = create("div");
-      item.addEventListener("click", e => combatItem(i));
+      item.addEventListener("click", e => itemMenu(e, i, options.sell_from_inv));
       container.append(item);
       $(".itemsArea").append(container);
     }
@@ -55,7 +55,7 @@ function createInventory(when = "lobby") {
       const item = createItem(itm);
       const container = create("div");
       if (itm.type == "equipment") {
-        item.addEventListener("dblclick", e => equipItem(i));
+        item.addEventListener("click", e => itemMenu(e, i, options.sell_from_inv));
       }
       container.append(item);
       $(".itemsArea").append(container);
@@ -72,7 +72,7 @@ function createInventory(when = "lobby") {
       let itm = player.inventory[i];
       const item = createItem(itm, true);
       const container = create("div");
-      //item.addEventListener("click", e => combatItem(i));
+      item.addEventListener("click", e => itemMenu(e, i, options.sell_from_inv));
       container.append(item);
       $(".itemsArea").append(container);
     }
@@ -86,7 +86,110 @@ function createInventory(when = "lobby") {
   }
 }
 
+function itemMenu(e, index, options) {
+  const item = player.inventory[index];
+  if(!global.itemMenu) {
+    $("#ItemUseMenu").classList.toggle("hidden");
+    global.itemMenu = true;
+  }  
+  $("#ItemUseMenu").style.left = e.x + "px";
+  $("#ItemUseMenu").style.top = e.y + "px";
+  $("#ItemUseMenu").textContent = "";
+  for(const [key, opt] of Object.entries(options)) {
+    if(!eval(opt.show_if)) continue;
+    const option = create("p");
+    option.textContent = opt.title;
+    option.id = opt.id;
+    option.addEventListener("mouseup", eval(opt.onClick));
+    $("#ItemUseMenu").append(option);
+  }
+  // PLACEHOLDER
+  // if(global.inCombat) combatItem(index);
+  // else equipItem(index);
+}
+
+function sellItem(index) {
+  let item = player.inventory[index];
+  useMultipleBox("item", item, "sell", index);
+}
+
+const options = {
+  "sell_from_inv": {
+    "sell": {
+      id: "sell",
+      show_if: "1>0",
+      title: "Sell Item(s)",
+      onClick: "e=>sellItem(index)"
+    },
+    "equip": {
+      id: "equip",
+      show_if: "player.inventory[index].type == 'equipment'",
+      title: "Equip Item",
+      onClick: "e=>equipItem(index)"
+    }
+  }
+}
+
+let useMultiple = {
+  amount: 0,
+  item: {},
+  action: "",
+  index: 0
+}
+
+function changeAmount(num) {
+  useMultiple.amount += num;
+  if(useMultiple.amount > useMultiple.item.amount) useMultiple.amount = useMultiple.item.amount;
+  if(useMultiple.amount < 0) useMultiple.amount = 0;
+  $("#useMultiple .amount").textContent = useMultiple.amount;
+  if(useMultiple.action == "sell") $("#useMultiple .totalPrice").textContent = "¤" + Math.ceil(useMultiple.item.price * player.barterBonus()) * useMultiple.amount;
+}
+
+function useMultipleBox(type, object, action, index) {
+  useMultiple.amount = 0;
+  useMultiple.item = {};
+  $("#useMultiple .title").textContent = "";
+  if(global.itemMenu) {
+    global.itemMenu = false;
+    $("#ItemUseMenu").classList.toggle("hidden");
+
+  }
+  if(type == "item") {
+    useMultiple.item = object;
+    useMultiple.amount = 1;
+    useMultiple.action = action;
+    useMultiple.index = index;
+    $("#useMultiple").classList.toggle("hidden");
+    const title = `<bcss>line-height: 1.1<bcss><c>white<c><f>20px<f>Choose how many <c>yellow<c>${object.name}s<c>white<c> to ${action}.`;
+    $("#useMultiple .title").append(textSyntax(title));
+    $("#useMultiple .amount").textContent = useMultiple.amount;
+    if(useMultiple.action == "sell") $("#useMultiple .totalPrice").textContent = "¤" + Math.ceil(useMultiple.item.price * player.barterBonus())
+  }
+}
+
+function cancelSelection() {
+  useMultiple.item = {};
+  useMultiple.amount = 0;
+  useMultiple.action = "";
+  useMultiple.index = 0;
+  $("#useMultiple").classList.toggle("hidden");
+}
+
+function confirmSelection() {
+  if(useMultiple.action == "sell") {
+    player.inventory[useMultiple.index].amount -= useMultiple.amount;
+    player.gold += Math.ceil(useMultiple.item.price * player.barterBonus()) * useMultiple.amount;
+    if(player.inventory[useMultiple.index].amount <= 0) player.inventory.splice(useMultiple.index, 1);
+    cancelSelection();
+    createInventory();
+  }
+}
+
 function equipItem(index) {
+  if(global.itemMenu) {
+    global.itemMenu = false;
+    $("#ItemUseMenu").classList.toggle("hidden");
+  }
   let itm = player.inventory[index];
   if (itm.weaponType == "heavy") {
     unequip("weapon");
@@ -114,7 +217,6 @@ function unequip(slot) {
 }
 
 function createItem(itm, playerInvStore=false) {
-  console.log(playerInvStore);
   const div = create("div");
   const img = create("img");
   img.src = itm.img;

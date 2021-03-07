@@ -400,9 +400,7 @@ function EnemyClass(base) {
 
   this.spellDamage = (spell) => {
     let base;
-    base.physical = spell.baseDamages.physical;
-    base.magical = spell.baseDamages.magical;
-    base.elemental = spell.baseDamages.elemental;
+    ["physical", "magical", "elemental"].forEach(type => base[type] = spell.baseDamages[type] || 0);
     for(let dmg in base) {
       const {v: bonusValue, p: bonusPercentage} = calcValues(dmg + "Damage", this);
       if(dmg == "physical") base[dmg] = Math.round(((base[dmg] + bonusValue) * (1 + this.stats.Fstr()/20)) * bonusPercentage);
@@ -415,9 +413,7 @@ function EnemyClass(base) {
     let base = {}
     if (this.equipment.weapon?.damages) {
       let dmg = this.equipment.weapon.damages;
-      base.physical = random(dmg.physicalMax, dmg.physicalMin);
-      base.magical = random(dmg.magicalMax, dmg.magicalMin);
-      base.elemental = random(dmg.elementalMax, dmg.elementalMin);
+      ["physical", "magical", "elemental"].forEach(type => base[type] = random(dmg[type + "Max"], dmg[type + "Min"]));
     } else base.physical = 3;
     for (let dmg in base) {
       const { v: bonusValue, p: bonusPercentage } = calcValues(dmg + "Damage", this);

@@ -121,6 +121,7 @@ function Update() {
 let enemiesCombat = [];
 
 function startCombatDebug() {
+  hotkey({key: "Escape"});
   enemiesCombat = [];
   enemiesCombat.push(new EnemyClass({ ...Enemies.skeleton_warrior, index: 0, level: { lvl: 2 } }));
   enemiesCombat.push(new EnemyClass({ ...Enemies.skeleton_warrior, index: 1, level: { lvl: 2 } }));

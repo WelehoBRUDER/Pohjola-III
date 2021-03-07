@@ -34,7 +34,7 @@ const perkTrees = {
       maxLevel: 3,
       effect: "battle_exp",
       x: 0.5,
-      y: 6,
+      y: 7,
       img: "gfx/icons/swords-power.png"
     },
     "warrior_perk_offense": {
@@ -53,11 +53,11 @@ const perkTrees = {
       id: "warrior_perk_speed",
       title: "Beast of Battle",
       cost: 1,
-      level: 0,
+      level: 5,
       maxLevel: 2,
       effect: "speed_perk",
-      x: 4,
-      y: -2,
+      x: -4,
+      y: -4,
       parent: "warrior_perk_offense",
       img: "gfx/abilities/shield-bash.png"
     },
@@ -132,6 +132,36 @@ const perkTrees = {
   }
 }
 
+$("#perkWindow .contentArea").addEventListener('mousedown', action1);
+$("#perkWindow .contentArea").addEventListener('mousemove', action2);
+
+let mouseX = 0;
+let mouseY = 0;
+let bgPosX = 0;
+let bgPosY = 0;
+
+function action1(e) {
+  mouseX = e.x;
+  mouseY = e.y;
+  bgPosX = $("#perkWindow .contentArea").scrollLeft;
+  bgPosY = $("#perkWindow .contentArea").scrollTop;
+}
+
+function action2(e) {
+  if (e.buttons == 1) {
+      let offsetX = e.x - mouseX;
+      let offsetY = e.y - mouseY;
+      scroll.x = offsetX;
+      scroll.y = offsetY;
+      $("#perkWindow .contentArea").scrollTo(bgPosX - offsetX, bgPosY - offsetY);
+  }
+}
+
+let scroll = {
+  x: 0,
+  y: 0
+}
+
 function createPerks() {
   const bg = $("#perkWindow .contentArea");
   const tree = perkTrees[player.selectedPerks + "_tree"];
@@ -152,6 +182,7 @@ function createPerks() {
     perkBg.style.boxShadow = `inset 0px 0px 6px 4px ${shadow}`;
     perkImg.src = perk.img;
     let hoverPerk = perk;
+    if(!player.perks[key]?.id) perk.level = 0;
     if(player.perks[key]?.id) hoverPerk = player.perks[key];
     perkLvl.textContent = `${hoverPerk.level || "0"}/${perk.maxLevel}`;
     if(player.perks[key]?.id) {
@@ -232,13 +263,14 @@ function createPerks() {
         yConnecter.style.left = parent.offsetLeft + parent.offsetWidth/2 - 8 + "px";
         yConnecter.style.top = (perk.y > 0 ? parent.offsetTop + parent.offsetHeight/2 : perkBg.offsetTop + perkBg.offsetHeight/2) + "px";
         bg.append(yConnecter);
-        xConnecter.style.width = perkBg.offsetLeft - parent.offsetLeft + "px";
+        xConnecter.style.width = (perkBg.offsetLeft - parent.offsetLeft) > 0 ? perkBg.offsetLeft - parent.offsetLeft + "px" : Math.abs(perkBg.offsetLeft - parent.offsetLeft) + "px";
         xConnecter.style.height = "16px";
-        xConnecter.style.left = parent.offsetLeft + parent.offsetWidth/2 - 8 + "px";
+        xConnecter.style.left = (perkBg.offsetLeft - parent.offsetLeft) > 0 ? parent.offsetLeft + parent.offsetWidth/2 - 8 + "px" : perkBg.offsetLeft + perkBg.offsetWidth/2 + 8 + "px";
         xConnecter.style.top = (perk.y > 0 ? yConnecter.offsetHeight + yConnecter.offsetTop : perkBg.offsetTop + perkBg.offsetHeight/2) - 8 + "px";
         bg.append(xConnecter);
       }
     }
+    $("#perkWindow .contentArea").scrollTo(bgPosX - scroll.x, bgPosY - scroll.y);
   }
 
   function purchasePerk(id) {

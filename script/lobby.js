@@ -84,6 +84,7 @@ function addLoot(index) {
 }
 
 function openChar() {
+  if(global.inCombat) return;
   $("#characterWindow").style.marginLeft = "-464px";
   $("#characterWindow").style.left = "50%";
   $("#characterWindow").style.top = "48px";
@@ -93,6 +94,7 @@ function openChar() {
 }
 
 function openPerk() {
+  if(global.inCombat) return;
   $("#perkWindow").style.marginLeft = "-664px";
   $("#perkWindow").style.left = "50%";
   $("#perkWindow").style.top = "48px";

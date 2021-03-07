@@ -56,6 +56,18 @@
       <div class="armorValues"></div>
     </div>
   </div>
+  <div id="ItemUseMenu" class="hidden"></div>
+  <div id="useMultiple" class="hidden">
+    <div class="title"></div>
+    <button class="less" onclick="changeAmount(-1)">↓</button>
+    <button class="lesser" onclick="changeAmount(-5)">↓↓↓</button>
+    <p class="amount"></p>
+    <button class="up" onclick="changeAmount(1)">↑</button>
+    <button class="more" onclick="changeAmount(5)">↑↑↑</button>
+    <div class="confirm" onclick="confirmSelection()">Confirm</div>
+    <div class="cancel" onclick="cancelSelection()">Cancel</div>
+    <p class="totalPrice"></p>
+  </div>
   <div id="characterWindow" class="hidden">
     <div class="draggableArea"></div>
     <div class="contentArea"></div>

@@ -10,7 +10,8 @@ var global = {
   targetingSelf: false,
   charOpen: false,
   inStore: true,
-  perkOpen: false
+  perkOpen: false,
+  itemMenu: false
 }
 
 let debug = true;
@@ -18,6 +19,11 @@ let debug = true;
 function hotkey(e) {
   if (e.key == "Escape") {
     textBoxRemove();
+    if(global.itemMenu) {
+      global.itemMenu = false;
+      $("#ItemUseMenu").classList.toggle("hidden");
+      return;
+    }
     if (global.invOpen && global.inCombat) openInventory("combat");
     else if(global.invOpen && global.inStore) openInventory("store");
     else if(global.invOpen) openInventory();

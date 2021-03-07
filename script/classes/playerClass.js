@@ -288,9 +288,7 @@ function PlayerClass(base) {
 
   this.spellDamage = (spell) => {
     let base = {};
-    base.physical = spell.baseDamages.physical || 0;
-    base.magical = spell.baseDamages.magical || 0;
-    base.elemental = spell.baseDamages.elemental || 0;
+    ["physical", "magical", "elemental"].forEach(type => base[type] = spell.baseDamages[type] || 0);
     for (let dmg in base) {
       const { v: bonusValue, p: bonusPercentage } = calcValues(dmg + "Damage", this);
       if (dmg == "physical") base[dmg] = Math.round(((base[dmg] + bonusValue) * (1 + this.stats.Fstr() / 20)) * bonusPercentage);
@@ -305,19 +303,13 @@ function PlayerClass(base) {
     if (this.equipment.weapon?.damages) {
       let dmg = this.equipment.weapon.damages;
       if (type == "random") {
-        base.physical = random(dmg.physicalMax, dmg.physicalMin);
-        base.magical = random(dmg.magicalMax, dmg.magicalMin);
-        base.elemental = random(dmg.elementalMax, dmg.elementalMin);
+        ["physical", "magical", "elemental"].forEach(wep => base[wep] = random(dmg[wep + "Max"], dmg[wep + "Min"]));
       }
       else if (type == "max") {
-        base.physical = dmg.physicalMax;
-        base.magical = dmg.magicalMax;
-        base.elemental = dmg.elementalMax;
+        ["physical", "magical", "elemental"].forEach(wep => base[wep] = dmg[wep + "Max"]);
       }
       else if (type == "min") {
-        base.physical = dmg.physicalMin;
-        base.magical = dmg.magicalMin;
-        base.elemental = dmg.elementalMin;
+        ["physical", "magical", "elemental"].forEach(wep => base[wep] = dmg[wep + "Min"]);
       }
     } else base.physical = 3;
     for (let dmg in base) {
