@@ -23,19 +23,20 @@ function Item(base) {
   this.crafting = defaultItem.crafting;
   this.tier = defaultItem.tier;
   this.selected = base.selected || false;
-
+  
   if(this.artifact && (this.effects == {} || this.effects == undefined)) {
-    let amount = random(itemTiers[this.tier].artifactEffectsMax, itemTiers[this.tier].artifactEffectsMin);
+    const currentTier = itemTiers[this.tier];
+    let amount = Math.max(random(currentTier.artifactEffectsMax, currentTier.artifactEffectsMin), 1); // <-- 1 on min num
+  
     this.effects = {};
-    for(let i = 0; i < amount; i++) {
-      let types = ["P", "V"];
-      let effect = effectsList[random(effectsList.length-1)];
+    while(amount--) {
+      const types = ["P", "V"];
+      const effect = effectsList[random(effectsList.length-1)];
       let type = types[random(1)];
       if(effect.includes("crit")) type = "V";
-      let value = random(itemTiers[this.tier]["artifactLevel" + type]);
+      let value = random(currentTier["artifactLevel" + type] || 1, 1);
       if((effect == "hp" || effect == "mp") && type == "V") value *= 2;
-      if(this.effects[effect + type] !== undefined) continue;
-      this.effects[effect + type] = value;
+      this.effects[effect + type] ??= value;
     }
   }
 

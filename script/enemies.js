@@ -173,6 +173,7 @@ const lootTables = {
   ],
   skeleton3: [
     {item: "rusty_large_axe", chance: 43},
+    {item: "ring_of_woes", chance: 12},
     {item: "weak_healing_gem", chance: 28, amount: [1, 3]},
     {item: "gold", chance: 100, amount: [23, 37]}
   ]

@@ -68,5 +68,9 @@ const loc = {
   "defense": "Defense",
   "attack": "Attack",
   "critChance": "Crit Chance",
-  "critDmg": "Crit Damage"
+  "critDmg": "Crit Damage",
+  "barter": "Bartering",
+  "dodge": "Dodge",
+  "armorer": "Armorer",
+  "shield": "Shield"
 }

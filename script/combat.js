@@ -366,6 +366,9 @@ function statusSyntax(status, fontSize = 14) {
       case "dodge":
         stat = "Dodge skill";
         break;
+      case "barter":
+        stat = "Bartering skill";
+        break;
       case "blockChance":
         stat = "Block chance";
         break;
