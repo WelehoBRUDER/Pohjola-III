@@ -123,9 +123,9 @@ let enemiesCombat = [];
 function startCombatDebug() {
   hotkey({key: "Escape"});
   enemiesCombat = [];
-  enemiesCombat.push(new EnemyClass({ ...Enemies.skeleton_warrior, index: 0, level: { lvl: 2 } }));
-  enemiesCombat.push(new EnemyClass({ ...Enemies.skeleton_warrior, index: 1, level: { lvl: 2 } }));
-  enemiesCombat.push(new EnemyClass({...Enemies.skeleton_archer, index: 2, level: {lvl: 2}}));
+  enemiesCombat.push(new EnemyClass({ ...Enemies.skeleton_warrior, index: 0, level: { lvl: 5 } }));
+  enemiesCombat.push(new EnemyClass({ ...Enemies.skeleton_warrior, index: 1, level: { lvl: 5 } }));
+  enemiesCombat.push(new EnemyClass({...Enemies.skeleton_archer, index: 2, level: {lvl: 5}}));
   //enemiesCombat.push(new EnemyClass({...Enemies.skeleton_knight, index: 3, level: {lvl: 1}}));
   drawEnemies(enemiesCombat);
   slotAbilities();
