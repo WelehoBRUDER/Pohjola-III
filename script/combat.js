@@ -199,7 +199,6 @@ function drawEnemies(array) {
       - Maximum health is §<c>red<c><v>enemiesCombat[${e.index}].stats.FhpMax()<v>hp §
       - Current health is §<c>red<c><v>enemiesCombat[${e.index}].stats.hp<v>hp §
       - Remaining health is §<c>red<c><v>((enemiesCombat[${e.index}].stats.hp/enemiesCombat[${e.index}].stats.FhpMax())*100).toFixed(1)<v>%`;
-      console.log(health);
       addHoverBox(hpbar, health, "");
       const mana = `<bcss>line-height: 1.25<bcss><c>#4287f5<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>'s Mana§
       <v>enemiesCombat[${e.index}].name<v>'s mana represents

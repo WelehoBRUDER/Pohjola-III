@@ -1,3 +1,25 @@
+/*
+  ### GUIDE TO MAKING PERKS ###
+
+  Perk template:
+
+  "my_perk": {
+    id: "my_perk", # This is your perk's id, used to find it.
+    title: "My Perk", # This text will be shown when hovering your perk.
+    cost: 1, # not used,
+    level: 0, # start at level 0 or perk won't work
+    maxLevel: 3, # How many times you can buy this perk, no hard limit.
+    effect: "my_perk", # This references the perk id in "effects.js", this is where you must code all modifiers you want for your perk.
+    on_purchase: { # WIP, allows you to assign effects to purchasing the perk for the first time.
+      grant_ability: "battle_stance" # Buying this perk gives you this ability
+    },
+    x: 1, # How many units (1 unit = 64px) to the left this perk is on screen. Recommended to use 3-4 units between perks.
+    y: 6, # How many units from the top this perk is on screen.
+    parent: "", # Which perk precedes this perk. Used to get relative position and link. Leave empty if this perk starts your tree.
+    img: "gfx/icons/barbarian.png" # This is the image used for the perk.
+  }
+
+*/
 const perkTrees = {
   "warrior_tree": {
     color: {
@@ -26,6 +48,33 @@ const perkTrees = {
       y: -3,
       parent: "warrior_perk_start",
       img: "gfx/abilities/pointy-sword.png"
+    },
+    "warrior_perk_speed": {
+      id: "warrior_perk_speed",
+      title: "Beast of Battle",
+      cost: 1,
+      level: 0,
+      maxLevel: 2,
+      effect: "speed_perk",
+      x: 4,
+      y: -2,
+      parent: "warrior_perk_offense",
+      img: "gfx/abilities/shield-bash.png"
+    },
+    "warrior_perk_adrenaline": {
+      id: "warrior_perk_adrenaline",
+      title: "Adrenaline in Battle",
+      cost: 1,
+      level: 0,
+      maxLevel: 1,
+      effect: "adrenaline_perk",
+      on_purchase: {
+        grant_ability: "adrenaline_strength",
+      },
+      x: 4,
+      y: 2,
+      parent: "warrior_perk_offense",
+      img: "gfx/icons/totem-head.png"
     },
     "warrior_perk_defense": {
       id: "warrior_perk_defense",
@@ -136,6 +185,10 @@ function createPerks() {
       let perkEffect = permanentEffects[perk.effect];
       perkText += `\n<c>orange<c><f>15px<f>Next Level: §\n`;
       perkText += statusSyntax(perkEffect.effects[0], 12);
+      if(perk.on_purchase?.grant_ability) {
+        perkText += `\t<c>white<c><f>13<f>Grants ability '<c>yellow<c>${Abilities[perk.on_purchase.grant_ability].name}<c>white<c>'\n\n`;
+        perkText += abilityHoverTiny(Abilities[perk.on_purchase.grant_ability]);
+      }
     }
     else {
       let pPerk = player.perks[key];
@@ -201,6 +254,7 @@ function createPerks() {
     else {
       player.perks[id] = new perk({...perk_, level: 1});
       player.permanentStatuses[id] = new permanentStatus({...permanentEffects[perk_.effect], level: 1});
+      if(perk_.on_purchase?.grant_ability) player.totalAbilities.push(new Ability(Abilities[perk_.on_purchase.grant_ability]));
       player.restoreFull();
       player.level.perkPoints--;
     }

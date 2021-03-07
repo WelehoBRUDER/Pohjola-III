@@ -50,9 +50,14 @@ let player = new PlayerClass({
     slot1: new Ability(Abilities.sharp_stroke),
     slot2: new Ability(Abilities.shield_bash),
     slot3: new Ability(Abilities.adrenaline_strength),
-    slot4: new Ability(Abilities.flame_hand),
-    slot5: new Ability(Abilities.magical_ward)
+    slot4: "empty",
+    slot5: "empty"
   },
+  totalAbilities: [
+    new Ability(Abilities.sharp_stroke),
+    new Ability(Abilities.shield_bash),
+    new Ability(Abilities.adrenaline_strength),
+  ],
   gold: 0,
   statuses: [],
   permanentStatuses: {
@@ -72,6 +77,7 @@ function PlayerClass(base) {
   this.level = base.level;
   this.statuses = base.statuses;
   this.abilities = new Abilitys(base.abilities);
+  this.totalAbilities = base.totalAbilities;
   this.gold = base.gold || 0;
   this.permanentStatuses = base.permanentStatuses;
   this.perks = base.perks;
@@ -126,20 +132,6 @@ function PlayerClass(base) {
     this.slot3 = new Ability(ability?.slot3) || {}
     this.slot4 = new Ability(ability?.slot4) || {}
     this.slot5 = new Ability(ability?.slot5) || {}
-  }
-
-  function statusPowers(stat, p) {
-    let power = 0;
-    if (p) power++;
-    for (let status of this.statuses) {
-      for (let effect in status.effects) {
-        if (effect == stat) {
-          if (p) power += status.effects[effect] / 100;
-          else power += status.effects[effect];
-        }
-      }
-    }
-    return power;
   }
 
   function calcValues(value, kohde) {
