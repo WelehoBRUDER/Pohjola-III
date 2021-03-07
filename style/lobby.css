@@ -686,6 +686,7 @@
   border-radius: 8px;
   -webkit-box-shadow: -2px 6px 6px 8px rgba(14, 15, 15, 0.85);
           box-shadow: -2px 6px 6px 8px rgba(14, 15, 15, 0.85);
+  z-index: 5;
 }
 
 #useMultiple > .title {
@@ -696,6 +697,7 @@
   padding: 8px;
   text-align: center;
   border-radius: 6px;
+  z-index: 5;
 }
 
 #useMultiple > .title pre {
@@ -707,6 +709,7 @@
   line-height: .95;
   white-space: break-spaces;
   word-break: break-word;
+  z-index: 5;
 }
 
 #useMultiple button {
@@ -726,6 +729,7 @@
       -ms-user-select: none;
           user-select: none;
   outline: none;
+  z-index: 5;
 }
 
 #useMultiple .amount {
@@ -737,6 +741,7 @@
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
   top: 27.5%;
+  z-index: 5;
 }
 
 #useMultiple .totalPrice {
@@ -748,6 +753,7 @@
   left: 50%;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
+  z-index: 5;
 }
 
 #useMultiple button:hover {
@@ -790,6 +796,7 @@
       -ms-user-select: none;
           user-select: none;
   cursor: pointer;
+  z-index: 5;
 }
 
 #useMultiple .confirm:hover, #useMultiple .cancel:hover {
@@ -813,5 +820,15 @@
   -webkit-box-shadow: inset 0px 0px 10px 8px #666666;
           box-shadow: inset 0px 0px 10px 8px #666666;
   right: 10px;
+}
+
+#useMultiple .dim {
+  width: 50vw;
+  height: 50vh;
+  position: absolute;
+  left: -50vw;
+  top: -50vh;
+  background: rgba(10, 10, 10, 0.5);
+  padding: 100vw;
 }
 /*# sourceMappingURL=lobby.css.map */
