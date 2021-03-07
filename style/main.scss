@@ -734,7 +734,18 @@ body {
 
     .equipmentSlot§ring {
       bottom: 10px;
-      left: 25px;
+      left: 10px;
+    }
+
+    .equipmentSlot§amulet {
+      bottom: 10px;
+      left: 50%;
+      margin-left: -41px;
+    }
+
+    .equipmentSlot§talisman {
+      bottom: 10px;
+      right: 10px;
     }
   }
 }

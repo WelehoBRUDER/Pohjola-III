@@ -38,7 +38,7 @@ function createInventory(when = "lobby") {
       if (itm.type != "consumable") continue;
       const item = createItem(itm);
       const container = create("div");
-      item.addEventListener("click", e => itemMenu(e, i, options.sell_from_inv));
+      item.addEventListener("click", e => itemMenu(e, i, options.combat_inv));
       container.append(item);
       $(".itemsArea").append(container);
     }
@@ -127,6 +127,14 @@ const options = {
       title: "Equip Item",
       onClick: "e=>equipItem(index)"
     }
+  },
+  "combat_inv": {
+    "equip": {
+      id: "equip",
+      show_if: "player.inventory[index].type == 'consumable'",
+      title: "Use Item",
+      onClick: "e=>combatItem(index)"
+    }
   }
 }
 
@@ -152,7 +160,6 @@ function useMultipleBox(type, object, action, index) {
   if(global.itemMenu) {
     global.itemMenu = false;
     $("#ItemUseMenu").classList.toggle("hidden");
-
   }
   if(type == "item") {
     useMultiple.item = object;
@@ -234,6 +241,10 @@ function createItem(itm, playerInvStore=false) {
 
 function combatItem(index) {
   if (!global.inCombat) return;
+  if(global.itemMenu) {
+    global.itemMenu = false;
+    $("#ItemUseMenu").classList.toggle("hidden");
+  }
   let item = player.inventory[index];
   item.amount--;
   if (item.healAmount) player.stats.hp += item.healAmount;

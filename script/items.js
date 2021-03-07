@@ -29,6 +29,45 @@ const items = {
     img: "gfx/items/heal_gem.png",
     tier: "uncommon"
   },
+  "worn_gem_pendant": {
+    id: "worn_gem_pendant",
+    name: "Worn Gem Pendant",
+    amount: 1,
+    type: "equipment",
+    equipmentSlot: "amulet",
+    artifact: true,
+    level: 0,
+    itemSpeed: 0,
+    price: 240,
+    img: "gfx/items/gem-pendant.png",
+    tier: "common"
+  },
+  "talisman_of_virtue": {
+    id: "talisman_of_virtue",
+    name: "Talisman of Virtue",
+    amount: 1,
+    type: "equipment",
+    equipmentSlot: "talisman",
+    artifact: true,
+    level: 0,
+    itemSpeed: 0,
+    price: 240,
+    img: "gfx/items/generic-talisman.png",
+    tier: "common"
+  },
+  "ring_of_woes": {
+    id: "ring_of_woes",
+    name: "Ring of Woes",
+    amount: 1,
+    type: "equipment",
+    equipmentSlot: "ring",
+    artifact: true,
+    level: 0,
+    itemSpeed: 0,
+    price: 240,
+    img: "gfx/items/ring.png",
+    tier: "common"
+  },
   "old_wool_shirt": {
     id: "old_wool_shirt",
     name: "Old Wool Shirt",
@@ -190,19 +229,35 @@ const items = {
 const itemTiers = {
   "common": {
     color: "#bad6db",
-    class: "common"
+    class: "common",
+    artifactLevelV: 5,
+    artifactLevelP: 11,
+    artifactEffectsMin: 1,
+    artifactEffectsMax: 3
   },
   "uncommon": {
     color: "#9cd0d9",
-    class: "uncommon"
+    class: "uncommon",
+    artifactLevelV: 9,
+    artifactLevelP: 17,
+    artifactEffectsMin: 2,
+    artifactEffectsMax: 4
   },
   "rare": {
     color: "#72cbdb",
-    class: "rare"
+    class: "rare",
+    artifactLevelV: 14,
+    artifactLevelP: 26,
+    artifactEffectsMin: 2,
+    artifactEffectsMax: 5
   },
   "unusual": {
     color: "#35c2db",
-    class: "unusual"
+    class: "unusual",
+    artifactLevelV: 18,
+    artifactLevelP: 31,
+    artifactEffectsMin: 3,
+    artifactEffectsMax: 7
   },
 }
 

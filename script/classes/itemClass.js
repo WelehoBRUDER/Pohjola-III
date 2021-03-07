@@ -5,6 +5,7 @@ function Item(base) {
   this.name = base.name ?? defaultItem.name;
   this.amount = base.amount ?? 1;
   this.type = defaultItem.type;
+  this.artifact = defaultItem.artifact || false;
   this.equipmentSlot = defaultItem.equipmentSlot;
   this.level = base.level || 0;
   this.damages = new Damages(defaultItem?.damages, this) ?? {};
@@ -22,7 +23,22 @@ function Item(base) {
   this.crafting = defaultItem.crafting;
   this.tier = defaultItem.tier;
   this.selected = base.selected || false;
-  
+
+  if(this.artifact && (this.effects == {} || this.effects == undefined)) {
+    let amount = random(itemTiers[this.tier].artifactEffectsMax, itemTiers[this.tier].artifactEffectsMin);
+    this.effects = {};
+    for(let i = 0; i < amount; i++) {
+      let types = ["P", "V"];
+      let effect = effectsList[random(effectsList.length-1)];
+      let type = types[random(1)];
+      if(effect.includes("crit")) type = "V";
+      let value = random(itemTiers[this.tier]["artifactLevel" + type]);
+      if((effect == "hp" || effect == "mp") && type == "V") value *= 2;
+      if(this.effects[effect + type] !== undefined) continue;
+      this.effects[effect + type] = value;
+    }
+  }
+
   function Damages(dmg, lvl) {
     this.physicalMin = dmg?.physicalMin * (1 + lvl.level/5) || 0;
     this.physicalMax = dmg?.physicalMax * (1 + lvl.level/5) || 0;

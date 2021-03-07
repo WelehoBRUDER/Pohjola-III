@@ -884,7 +884,18 @@ body {
 
 #inventoryWindow .equipmentArea .equipmentSlot§ring {
   bottom: 10px;
-  left: 25px;
+  left: 10px;
+}
+
+#inventoryWindow .equipmentArea .equipmentSlot§amulet {
+  bottom: 10px;
+  left: 50%;
+  margin-left: -41px;
+}
+
+#inventoryWindow .equipmentArea .equipmentSlot§talisman {
+  bottom: 10px;
+  right: 10px;
 }
 
 .statusFrame {

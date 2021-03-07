@@ -27,7 +27,10 @@ let player = new PlayerClass({
     new Item({ ...items.broken_dagger, amount: 1 }),
     new Item({ ...items.rusty_large_axe, amount: 1 }),
     new Item(items.wooden_shield),
-    new Item(items.old_wool_shirt)
+    new Item(items.old_wool_shirt),
+    new Item(items.worn_gem_pendant),
+    new Item(items.talisman_of_virtue),
+    new Item(items.ring_of_woes)
   ],
   equipment: {
     weapon: new Item(items.rusty_short_sword),
@@ -35,7 +38,9 @@ let player = new PlayerClass({
     head: new Item(items.old_wool_cap),
     body: new Item(items.old_wool_shirt),
     legs: new Item(items.old_wool_leggings),
-    ring: {}
+    ring: {},
+    amulet: {},
+    talisman: {}
   },
   level: {
     lvl: 1,
@@ -124,6 +129,8 @@ function PlayerClass(base) {
     this.body = equipment.body ?? {};
     this.legs = equipment.legs ?? {};
     this.ring = equipment.ring ?? {};
+    this.amulet = equipment.amulet ?? {};
+    this.talisman = equipment.talisman ?? {};
   }
 
   function Abilitys(ability) {

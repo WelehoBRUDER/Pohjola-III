@@ -438,3 +438,31 @@ const permanentEffects = {
     category: "perk"
   }
 }
+
+const effectsList = [
+ "str",
+ "agi",
+ "vit",
+ "int",
+ "wis",
+ "critChance",
+ "critDmg",
+ "hp",
+ "mp",
+ "physicalDamage",
+ "physicalArmor",
+ "magicalDamage",
+ "magicalArmor",
+ "elementalDamage",
+ "elementalArmor",
+ "attack",
+ "defense",
+ "actionFill",
+ "armorer",
+ "light_weapons",
+ "heavy_weapons",
+ "dodge",
+ "barter",
+ "shield",
+ "blockChance"
+]
