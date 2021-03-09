@@ -22,6 +22,12 @@
           filter: drop-shadow(0px 0px 6px #35c2db);
 }
 
+.mythical {
+  color: #7d35db;
+  -webkit-filter: drop-shadow(0px 0px 6px #7d35db);
+          filter: drop-shadow(0px 0px 6px #7d35db);
+}
+
 .scaled {
   -webkit-transform: scale(0);
           transform: scale(0);
@@ -516,9 +522,9 @@
   left: 50%;
   margin-left: -622px;
   top: 48px;
-  background: rgba(85, 85, 85, 0.95);
-  -webkit-box-shadow: inset 0px 0px 24px 16px rgba(45, 45, 45, 0.95), 0px 0px 12px 8px rgba(30, 30, 30, 0.9);
-          box-shadow: inset 0px 0px 24px 16px rgba(45, 45, 45, 0.95), 0px 0px 12px 8px rgba(30, 30, 30, 0.9);
+  background: #555555;
+  -webkit-box-shadow: inset 0px 0px 24px 16px rgba(45, 45, 45, 0.95), 0px 0px 12px 8px #1e1e1e;
+          box-shadow: inset 0px 0px 24px 16px rgba(45, 45, 45, 0.95), 0px 0px 12px 8px #1e1e1e;
   border: 4px solid rgba(25, 25, 25, 0.95);
 }
 
@@ -830,5 +836,254 @@
   top: -50vh;
   background: rgba(10, 10, 10, 0.5);
   padding: 100vw;
+}
+
+#mainButtons {
+  position: absolute;
+  right: 10px;
+  top: 180px;
+  height: auto;
+  width: 120px;
+}
+
+#mainButtons button {
+  -webkit-transition: 0.075s;
+  transition: 0.075s;
+  position: relative;
+  top: 10px;
+  left: 0px;
+  width: 96px;
+  height: 96px;
+  border: 4px solid silver;
+  background: rgba(12, 12, 12, 0.8);
+  outline: none;
+  border-radius: 6px;
+  -webkit-box-shadow: 0px 0px 5px 4px grey;
+          box-shadow: 0px 0px 5px 4px grey;
+  cursor: pointer;
+}
+
+#mainButtons button img {
+  width: 100%;
+  height: 100%;
+  -webkit-filter: drop-shadow(0px 0px 4px black);
+          filter: drop-shadow(0px 0px 4px black);
+}
+
+#mainButtons button:hover {
+  -webkit-filter: brightness(1.2);
+          filter: brightness(1.2);
+  -webkit-transform: scale(1.025);
+          transform: scale(1.025);
+}
+
+#mainScreenBg {
+  width: 50vw;
+  height: 80vh;
+  background: #323232;
+  border-radius: 12px;
+  border: 4px solid black;
+  -webkit-box-shadow: inset 0px 0px 16px 10px #1b1b1b;
+          box-shadow: inset 0px 0px 16px 10px #1b1b1b;
+  position: absolute;
+  left: 50%;
+  margin-left: -25vw;
+  top: 25px;
+  z-index: -1;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.charDetails {
+  margin: 0px;
+  padding: 0px;
+  font-family: unset;
+  color: white;
+  font-size: 18px;
+  line-height: .95;
+  word-break: break-word;
+  text-align: center;
+  margin: 0;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.charDetails .title {
+  font-size: 42px;
+  color: gold;
+  text-shadow: -4px 4px 6px black;
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  top: 0px;
+}
+
+.charDetails .title2 {
+  top: 225px;
+}
+
+.charDetails .title3 {
+  top: 525px;
+}
+
+.charDetails .abiSlots {
+  width: auto;
+  height: 120px;
+  position: absolute;
+  top: 140px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 100px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.charDetails .abiSlots > div {
+  -webkit-transition: 0.05s;
+  transition: 0.05s;
+  width: 90px;
+  height: 90px;
+  background: #252525;
+  background: radial-gradient(circle, #252525 0%, #1c1c1c 100%);
+  position: relative;
+  -webkit-box-shadow: inset 0px 0px 8px 6px #101010;
+          box-shadow: inset 0px 0px 8px 6px #101010;
+  border: 8px solid black;
+  margin: 0px 1px 1px 0px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  cursor: pointer;
+}
+
+.charDetails .abiSlots > div .charAbility {
+  width: 90px;
+  height: 90px;
+  background: rgba(165, 30, 20, 0.2);
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+
+.charDetails .abiSlots > div .charAbility > img {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.charDetails .abiSlots > div .charAbility > span {
+  font-size: 100px;
+  position: absolute;
+  z-index: 1;
+  left: -5px;
+  top: -12px;
+  color: #701515;
+  text-shadow: 0px 0px 6px black;
+  background: rgba(10, 10, 10, 0.5);
+  padding: 0px 20px 0px 20px;
+}
+
+.charDetails .abiSlots > div:hover {
+  border: 8px solid rgba(196, 196, 196, 0.75);
+}
+
+.charDetails .coreStats, .charDetails .combatStats {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  left: 0px;
+  margin: 0;
+  padding: 0;
+}
+
+.charDetails .coreStats p, .charDetails .combatStats p {
+  font-size: 24px;
+  color: #191919;
+  text-shadow: -1px 1px 2px black;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background: rgba(77, 77, 77, 0.5);
+  border: 2px solid #1d1d1d;
+}
+
+.charDetails .coreStats p span, .charDetails .combatStats p span {
+  color: #646464;
+  text-shadow: -2px 2px 3px #0a0a0a;
+  margin: 0;
+}
+
+.charDetails .coreStats {
+  top: 325px;
+}
+
+.charDetails .combatStats {
+  top: 625px;
+}
+
+.abiAssign {
+  width: auto;
+  max-width: 480px;
+  height: auto;
+  max-height: 400px;
+  overflow: auto;
+  background: rgba(45, 45, 45, 0.75);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  top: 300px;
+  -webkit-filter: drop-shadow(0px 0px 12px black);
+          filter: drop-shadow(0px 0px 12px black);
+}
+
+.abiAssign .charAbility {
+  width: 90px;
+  height: 90px;
+  background: #252525;
+  background: radial-gradient(circle, #252525 0%, #1c1c1c 100%);
+  position: relative;
+  left: 0px;
+  top: 0px;
+  margin: 10px;
+  border: 4px solid black;
+}
+
+.abiAssign .charAbility > img {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.abiAssign .charAbility > span {
+  font-size: 100px;
+  position: absolute;
+  z-index: 1;
+  left: -5px;
+  top: -12px;
+  color: #701515;
+  text-shadow: 0px 0px 6px black;
+  background: rgba(10, 10, 10, 0.5);
+  padding: 0px 20px 0px 20px;
+}
+
+.abiAssign .charAbility:hover {
+  border: 4px solid white;
 }
 /*# sourceMappingURL=lobby.css.map */

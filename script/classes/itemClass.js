@@ -23,17 +23,21 @@ function Item(base) {
   this.crafting = defaultItem.crafting;
   this.tier = defaultItem.tier;
   this.selected = base.selected || false;
+  this.hasRolled = base.hasRolled || false;
   
-  if(this.artifact && (this.effects == {} || this.effects == undefined)) {
+  if(this.artifact && !this.hasRolled) {
+    this.hasRolled = true;
     const currentTier = itemTiers[this.tier];
     let amount = Math.max(random(currentTier.artifactEffectsMax, currentTier.artifactEffectsMin), 1); // <-- 1 on min num
-  
-    this.effects = {};
+    
+    if(this.effects == undefined) this.effects = {};
     while(amount--) {
       const types = ["P", "V"];
-      const effect = effectsList[random(effectsList.length-1)];
+      let effect = effectsList[random(effectsList.length-1)];
       let type = types[random(1)];
+      while(this.effects[effect + type]) effect = effectsList[random(effectsList.length-1)];
       if(effect.includes("crit")) type = "V";
+      else if(effect.includes("Damage") || effect == "attack" || effect == "defense") type = "P";
       let value = random(currentTier["artifactLevel" + type] || 1, 1);
       if((effect == "hp" || effect == "mp") && type == "V") value *= 2;
       this.effects[effect + type] ??= value;

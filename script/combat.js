@@ -122,11 +122,14 @@ let enemiesCombat = [];
 
 function startCombatDebug() {
   hotkey({key: "Escape"});
+  hotkey({key: "Escape"});
+  $(".combatScreen").classList.toggle("hidden");
+  $("#mainScreenBg").classList = "hidden";
   enemiesCombat = [];
-  enemiesCombat.push(new EnemyClass({ ...Enemies.skeleton_warrior, index: 0, level: { lvl: 2 } }));
-  enemiesCombat.push(new EnemyClass({ ...Enemies.skeleton_warrior, index: 1, level: { lvl: 2 } }));
-  enemiesCombat.push(new EnemyClass({...Enemies.skeleton_archer, index: 2, level: {lvl: 2}}));
-  enemiesCombat.push(new EnemyClass({...Enemies.skeleton_knight, index: 3, level: {lvl: 2}}));
+  enemiesCombat.push(new EnemyClass({ ...Enemies.skeleton_knight, index: 0, level: { lvl: 1 } }));
+  enemiesCombat.push(new EnemyClass({ ...Enemies.skeleton_mage, index: 1, level: { lvl: 1 } }));
+  //enemiesCombat.push(new EnemyClass({...Enemies.skeleton_archer, index: 2, level: {lvl: 2}}));
+  //enemiesCombat.push(new EnemyClass({...Enemies.skeleton_knight, index: 3, level: {lvl: 2}}));
   drawEnemies(enemiesCombat);
   slotAbilities();
   global.inCombat = true;
@@ -193,27 +196,27 @@ function drawEnemies(array) {
       enemyFrame.onclick = a => targetEnemy(e.index);
       enemyFrame.append(idle, attack_start, attack_finish, death, hpbar, mpbar, name, actionBar, dropString, statusArea);
       // ENEMY HOVERS
-      const health = `<bcss>line-height: 1.25<bcss><c>red<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>'s Health§
-      <v>enemiesCombat[${e.index}].name<v>'s health represents
+      const health = `<bcss>line-height: 1.25<bcss><c>red<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>§<c>red<c> <f>24px<f>'s Health§
+      <v>enemiesCombat[${e.index}].name<v>§'s health represents
       the amount of hits it can take
       before being§ <c>crimson<c>defeated. §
-      - Maximum health is §<c>red<c><v>enemiesCombat[${e.index}].stats.FhpMax()<v>hp §
-      - Current health is §<c>red<c><v>enemiesCombat[${e.index}].stats.hp<v>hp §
-      - Remaining health is §<c>red<c><v>((enemiesCombat[${e.index}].stats.hp/enemiesCombat[${e.index}].stats.FhpMax())*100).toFixed(1)<v>%`;
+      - Maximum health is §<c>red<c><v>enemiesCombat[${e.index}].stats.FhpMax()<v>§ hp §
+      - Current health is §<c>red<c><v>enemiesCombat[${e.index}].stats.hp<v>§ hp §
+      - Remaining health is §<c>red<c><v>((enemiesCombat[${e.index}].stats.hp/enemiesCombat[${e.index}].stats.FhpMax())*100).toFixed(1)<v>§%`;
       addHoverBox(hpbar, health, "");
-      const mana = `<bcss>line-height: 1.25<bcss><c>#4287f5<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>'s Mana§
-      <v>enemiesCombat[${e.index}].name<v>'s mana represents
+      const mana = `<bcss>line-height: 1.25<bcss><c>#4287f5<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>§<c>#4287f5<c> <f>24px<f>'s Mana§
+      <v>enemiesCombat[${e.index}].name<v>§'s mana represents
       how many abilities that require it,
       the character can use before running dry.
-      - Maximum mana is §<c>#4287f5<c><v>enemiesCombat[${e.index}].stats.FmpMax()<v>mp §
-      - Current mana is §<c>#4287f5<c><v>enemiesCombat[${e.index}].stats.mp<v>mp §
-      - Remaining mana is §<c>#4287f5<c><v>((enemiesCombat[${e.index}].stats.mp/enemiesCombat[${e.index}].stats.FmpMax())*100).toFixed(1)<v>%`;
+      - Maximum mana is §<c>#4287f5<c><v>enemiesCombat[${e.index}].stats.FmpMax()<v>§ mp §
+      - Current mana is §<c>#4287f5<c><v>enemiesCombat[${e.index}].stats.mp<v>§ mp §
+      - Remaining mana is §<c>#4287f5<c><v>((enemiesCombat[${e.index}].stats.mp/enemiesCombat[${e.index}].stats.FmpMax())*100).toFixed(1)<v>§%`;
       addHoverBox(mpbar, mana, "");
-      const action = `<bcss>line-height: 1.25<bcss><c>#59e04a<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>'s Action§
-      <v>enemiesCombat[${e.index}].name<v>'s action represents
+      const action = `<bcss>line-height: 1.25<bcss><c>#59e04a<c> <f>24px<f> <v>enemiesCombat[${e.index}].name<v>§<c>#59e04a<c> <f>24px<f>'s Action§
+      <v>enemiesCombat[${e.index}].name<v>§'s action represents
       how quickly it gets its turn. Once the bar
       is filled, its turn will begin.
-      - Current fillrate is §<c>#59e04a<c><v>(enemiesCombat[${e.index}].actionFill()*60).toFixed(1)<v>%§/s`;
+      - Current fillrate is §<c>#59e04a<c><v>(enemiesCombat[${e.index}].actionFill()*60).toFixed(1)<v>§%§/s`;
       addHoverBox(actionBar, action, "");
       $(".enemiesFlex").append(enemyFrame);
       e.idle();
@@ -275,17 +278,23 @@ function enemyTurn(enemy) {
     setTimeout(e => { enemy.stats.ap = 0; global.isCombatPaused = false }, 1050);
   } else if (!ability.doesNotUseWeapon) {
     let dmg = enemy.regularAttack();
-    dmg.num = Math.round(dmg.num * ability.powerMultiplier);
+    if(!ability.powerMultiplier) dmg = enemy.spellAttack(player, ability);
+    dmg.num = Math.round(dmg.num * (ability?.powerMultiplier !== undefined ? 1 : ability.powerMultiplier));
     if (dmg.num <= 0) dmg.num = 1;
+    console.log(dmg.num);
     enemy.attackAnimation(dmg.num, dmg.blocked, dmg.dodged, dmg.crit);
     ability.onCooldown = ability.cooldown;
     enemy.stats.mp -= ability.mpCost;
-    for (let stat of ability.status_effects) {
-      if (dmg.blocked || dmg.dodged) break;
-      setTimeout(s => {
-        if (noDuplicateStatus(player, stat.status)) player.statuses.push(new statusEffect({ ...statusEffects[stat.status], hasDamaged: 1 }));
-      }, 800);
-    };
+    if(ability.status_effects) {
+      for (let stat of ability.status_effects) {
+        if (dmg.blocked || dmg.dodged) break;
+        setTimeout(s => {
+          if (noDuplicateStatus(player, stat.status)) {
+            if (!player.resistStatus(new statusEffect(statusEffects[stat.status]))) player.statuses.push(new statusEffect({ ...statusEffects[stat.status], hasDamaged: 1 }));
+            else createDroppingString("Resisted!", $(".playerInteract"), "gray");
+          }}, 800);
+      };
+    }
     setTimeout(e => { enemy.stats.ap = 0; global.isCombatPaused = false }, 1050);
   }
 }
@@ -294,8 +303,7 @@ function togetherWeCanKill(index) {
   let playerHP = player.stats.hp;
   for (let i = index; i < enemiesCombat.length; i++) {
     let ability = enemiesCombat[i].strongestAttack();
-    console.log(ability);
-    let dmg = Math.round(enemiesCombat[i].regularAttack().num * ability.powerMultiplier);
+    let dmg = Math.round(enemiesCombat[i].regularAttack().num * (ability?.powerMultiplier !== undefined ? 1 : ability.powerMultiplier));
     playerHP -= dmg;
   }
   return !(playerHP > 0);
@@ -371,6 +379,9 @@ function statusSyntax(status, fontSize = 14) {
         break;
       case "blockChance":
         stat = "Block chance";
+        break;
+      case "dodgeChance":
+        stat = "Dodge chance";
         break;
       case "defense":
         stat = "Defense";
@@ -475,7 +486,10 @@ function targetEnemy(index) {
     if (global.ability.status_effects) {
       for (let stat of global.ability.status_effects) {
         if (dmg.blocked || dmg.dodged) break;
-        if (noDuplicateStatus(enemy, stat.status)) enemy.statuses.push(new statusEffect({ ...statusEffects[stat.status], hasDamaged: 1 }));
+        if (noDuplicateStatus(enemy, stat.status)) {
+          if (!enemy.resistStatus(new statusEffect(statusEffects[stat.status]))) enemy.statuses.push(new statusEffect({ ...statusEffects[stat.status], hasDamaged: 1 }));
+          else createDroppingString("Resisted!", enemyFrame, "gray");
+        } 
       };
     }
     player.stats.ap = 0;

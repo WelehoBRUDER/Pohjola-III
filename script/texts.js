@@ -4,23 +4,23 @@ const texts = {
   your character can take before keeling over.
   When your health reaches 0 points,
   you are §<c>crimson<c>defeated. §
-  - Your maximum health is §<c>red<c><v>player.stats.FhpMax()<v>hp §
-  - Your current health is §<c>red<c><v>player.stats.hp<v>hp §
-  - Your remaining health is §<c>red<c><v>((player.stats.hp/player.stats.FhpMax())*100).toFixed(1)<v>%`,
+  - Your maximum health is §<c>red<c><v>player.stats.FhpMax()<v>§ hp §
+  - Your current health is §<c>red<c><v>player.stats.hp<v>§ hp §
+  - Your remaining health is §<c>red<c><v>((player.stats.hp/player.stats.FhpMax())*100).toFixed(1)<v>§%`,
 
   mana_text: `<bcss>line-height: 1.25<bcss><c>#4287f5<c> <f>30px<f> Your manabar§
   Your mana represents how many abilities
   that use it your character can cast before running out.
   You can replenish mana with potions.
-  - Your maximum mana is §<c>#4287f5<c><v>player.stats.FmpMax()<v>mp §
-  - Your current mana is §<c>#4287f5<c><v>player.stats.mp<v>mp §
-  - Your remaining mana is §<c>#4287f5<c><v>((player.stats.mp/player.stats.FmpMax())*100).toFixed(1)<v>%`,
+  - Your maximum mana is §<c>#4287f5<c><v>player.stats.FmpMax()<v>§ mp §
+  - Your current mana is §<c>#4287f5<c><v>player.stats.mp<v>§ mp §
+  - Your remaining mana is §<c>#4287f5<c><v>((player.stats.mp/player.stats.FmpMax())*100).toFixed(1)<v>§%`,
 
   action_text: `<bcss>line-height: 1.25<bcss><c>#59e04a<c> <f>30px<f> Your actionbar§
   Your action points represent your speed
   during combat. When the bar is filled,
   your turn will begin, pausing combat.
-  - Your current fillrate is § <c>#59e04a<c><v>(player.actionFill()*60).toFixed(1)<v>%§/s`,
+  - Your current fillrate is § <c>#59e04a<c><v>(player.actionFill()*60).toFixed(1)<v>§%§/s`,
 
   regular_attack_text: `<bcss>line-height: 1.1<bcss><c>yellow<c><f>24px<f>[A]ttack§
   No special effects or modifiers.
@@ -72,5 +72,7 @@ const loc = {
   "barter": "Bartering",
   "dodge": "Dodge",
   "armorer": "Armorer",
-  "shield": "Shield"
+  "shield": "Shield",
+  "dodgeChance": "Dodge Chance",
+  "blockChance": "Block Chance"
 }

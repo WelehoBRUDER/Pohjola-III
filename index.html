@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="style/text.css">
 </head>
 <body>
-  <div class="combatScreen">
+  <div class="combatScreen hidden">
     <div class="playerArea">
       <div class="playerHpBar">
         <div class="playerHpLate"></div>
@@ -96,9 +96,21 @@
       <div class="okbutton">NEXT</div>
     </div>
   </div>
+  <div id="mainButtons">
+    <button class="characterDetails" onclick="charDetails()">
+      <img src="gfx/icons/skills.png" alt="">
+    </button>
+  </div>
+  <div id="mainScreenBg" class="hidden"></div>
+  <div class="abiAssign"></div>
 </body>
 </html>
 
+<script src="script/db/items_db.js"></script>
+<script src="script/db/effects_db.js"></script>
+<script src="script/db/abilities_db.js"></script>
+<script src="script/db/perks_db.js"></script>
+<script src="script/db/permanent_effects_db.js"></script>
 <script src="script/lib.js"></script>
 <script src="script/global.js"></script>
 <script src="script/effects.js"></script>

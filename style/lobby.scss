@@ -18,6 +18,11 @@
   filter: drop-shadow(0px 0px 6px #35c2db);
 }
 
+.mythical {
+  color: #7d35db;
+  filter: drop-shadow(0px 0px 6px #7d35db);
+}
+
 .scaled {
   transform: scale(0);
 }
@@ -432,8 +437,8 @@
   left: 50%;
   margin-left: -622px;
   top: 48px;
-  background: rgba(85, 85, 85, 0.95);
-  box-shadow: inset 0px 0px 24px 16px rgba(45, 45, 45, 0.95), 0px 0px 12px 8px rgba(30, 30, 30, 0.9);
+  background: rgba(85, 85, 85, 1);
+  box-shadow: inset 0px 0px 24px 16px rgba(45, 45, 45, 0.95), 0px 0px 12px 8px rgba(30, 30, 30, 1);
   border: 4px solid rgba(25, 25, 25, 0.95);
 
   ::-webkit-scrollbar {
@@ -709,5 +714,231 @@
     top: -50vh;
     background: rgba(10, 10, 10, 0.5);
     padding: 100vw;
+  }
+}
+
+#mainButtons {
+  position: absolute;
+  right: 10px;
+  top: 180px;
+  height: auto;
+  width: 120px;
+
+  button {
+    transition: 0.075s;
+    position: relative;
+    top: 10px;
+    left: 0px;
+    width: 96px;
+    height: 96px;
+    border: 4px solid silver;
+    background: rgba(12, 12, 12, 0.8);
+    outline: none;
+    border-radius: 6px;
+    box-shadow: 0px 0px 5px 4px grey;
+    cursor: pointer;
+
+    img {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0px 0px 4px black);
+    }
+  }
+
+  button:hover {
+    filter: brightness(1.2);
+    transform: scale(1.025);
+  }
+}
+
+#mainScreenBg {
+  width: 50vw;
+  height: 80vh;
+  background: rgba(50, 50, 50, 1);
+  border-radius: 12px;
+  border: 4px solid black;
+  box-shadow: inset 0px 0px 16px 10px rgba(27, 27, 27, 1);
+  position: absolute;
+  left: 50%;
+  margin-left: -25vw;
+  top: 25px;
+  z-index: -1;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.charDetails {
+  margin: 0px;
+  padding: 0px;
+  font-family: unset;
+  color: white;
+  font-size: 18px;
+  line-height: .95;
+  word-break: break-word;
+  text-align: center;
+  margin: 0;
+  user-select: none;
+
+  .title {
+    font-size: 42px;
+    color: gold;
+    text-shadow: -4px 4px 6px black;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0px;
+  }
+
+  .title2 {
+    top: 225px;
+  }
+
+  .title3 {
+    top: 525px;
+  }
+
+  .abiSlots {
+    width: auto;
+    height: 120px;
+    position: absolute;
+    top: 140px;
+    align-items: center;
+    height: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+
+    >div {
+      transition: 0.05s;
+      width: 90px;
+      height: 90px;
+      background: rgb(37, 37, 37);
+      background: radial-gradient(circle, rgba(37, 37, 37, 1) 0%, rgba(28,28,28,1) 100%);
+      position: relative;
+      box-shadow: inset 0px 0px 8px 6px rgb(16, 16, 16);
+      border: 8px solid black;
+      margin: 0px 1px 1px 0px;
+      user-select: none;
+      cursor: pointer;
+
+      .charAbility {
+        width: 90px;
+        height: 90px;
+        background: rgba(165, 30, 20, 0.2);
+        position: absolute;
+        left: 0px;
+        top: 0px;
+  
+        >img {
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+        }
+  
+        >span {
+          font-size: 100px;
+          position: absolute;
+          z-index: 1;
+          left: -5px;
+          top: -12px;
+          color: rgb(112, 21, 21);
+          text-shadow: 0px 0px 6px rgb(0, 0, 0);
+          background: rgba(10, 10, 10, 0.5);
+          padding: 0px 20px 0px 20px;
+        }
+      }
+    }
+
+    >div:hover {
+      border: 8px solid rgba(196, 196, 196, 0.75);
+    }
+    
+  }
+
+  .coreStats, .combatStats {
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    left: 0px;
+    margin: 0;
+    padding: 0;
+
+    p {
+      font-size: 24px;
+      color: rgb(25, 25, 25);
+      text-shadow: -1px 1px 2px rgb(0, 0, 0);
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      background: rgba(77, 77, 77, 0.5);
+      border: 2px solid rgb(29, 29, 29);
+
+      span {
+        color: rgb(100, 100, 100);
+        text-shadow: -2px 2px 3px rgb(10, 10, 10);
+        margin: 0;
+      }
+    }
+  }
+
+  .coreStats {
+    top: 325px;
+  }
+
+  .combatStats {
+    top: 625px;
+  }
+}
+
+.abiAssign {
+  width: auto;
+  max-width: 480px;
+  height: auto;
+  max-height: 400px;
+  overflow: auto;
+  background: rgba(45, 45, 45, 0.75);
+  display: flex;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 300px;
+  filter: drop-shadow(0px 0px 12px black);
+
+  .charAbility {
+    width: 90px;
+    height: 90px;
+    background: rgb(37, 37, 37);
+    background: radial-gradient(circle, rgba(37, 37, 37, 1) 0%, rgba(28,28,28,1) 100%);
+    position: relative;
+    left: 0px;
+    top: 0px;
+    margin: 10px;
+    border: 4px solid black;
+
+    >img {
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    >span {
+      font-size: 100px;
+      position: absolute;
+      z-index: 1;
+      left: -5px;
+      top: -12px;
+      color: rgb(112, 21, 21);
+      text-shadow: 0px 0px 6px rgb(0, 0, 0);
+      background: rgba(10, 10, 10, 0.5);
+      padding: 0px 20px 0px 20px;
+    }
+  }
+
+  .charAbility:hover {
+    border: 4px solid white;
   }
 }

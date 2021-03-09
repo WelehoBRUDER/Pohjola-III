@@ -7,6 +7,7 @@ function statusEffect(base) {
   this.img = base.img;
   this.hasDamaged = base.hasDamaged;
   this.effectType = base.effectType;
+  this.inflict = base.inflict ?? 50;
 } 
 
 function permanentStatus(base) {

@@ -2,16 +2,24 @@ let player = new PlayerClass({
   id: "player_character",
   name: "Avanti!",
   stats: {
-    str: 3,
-    vit: 3,
-    agi: 3,
-    int: 3,
-    wis: 3,
+    str: 1,
+    vit: 1,
+    agi: 1,
+    int: 1,
+    wis: 1,
     ap: 0,
     hp: 60,
     mp: 20,
     critChance: 5,
-    critDmg: 50
+    critDmg: 50,
+  },
+  resistances: {
+    burning: 5,
+    bleeding: 5,
+    stun: 5,
+    power: 5,
+    defense: 5,
+    freezing: 5
   },
   skills: {
     armorer: 0,
@@ -26,6 +34,7 @@ let player = new PlayerClass({
     new Item({ ...items.healing_gem, amount: 1 }),
     new Item({ ...items.broken_dagger, amount: 1 }),
     new Item({ ...items.rusty_large_axe, amount: 1 }),
+    new Item(items.magician_orb_staff),
     new Item(items.wooden_shield),
     new Item(items.old_wool_shirt),
     new Item(items.worn_gem_pendant),
@@ -47,22 +56,18 @@ let player = new PlayerClass({
     pointsPerLvl: 3,
     xp: 13,
     xpNeed: 50,
-    statPoints: 5,
-    skillPoints: 10,
-    perkPoints: 5
+    statPoints: 0,
+    skillPoints: 0,
+    perkPoints: 10
   },
   abilities: {
     slot1: new Ability(Abilities.sharp_stroke),
     slot2: new Ability(Abilities.shield_bash),
-    slot3: new Ability(Abilities.adrenaline_strength),
+    slot3: "empty",
     slot4: "empty",
     slot5: "empty"
   },
-  totalAbilities: [
-    new Ability(Abilities.sharp_stroke),
-    new Ability(Abilities.shield_bash),
-    new Ability(Abilities.adrenaline_strength),
-  ],
+  totalAbilities: [],
   gold: 0,
   statuses: [],
   permanentStatuses: {
@@ -76,6 +81,7 @@ function PlayerClass(base) {
   this.id = base.id ?? "player_character";
   this.name = base.name ?? "Unknown Adventurer";
   this.stats = new Stats(base.stats);
+  this.resistances = new Resistances(base.resistances);
   this.skills = new Skills(base.skills);
   this.inventory = base.inventory ?? [];
   this.equipment = new Equipments(base.equipment);
@@ -111,6 +117,15 @@ function PlayerClass(base) {
     this.ap = stat.ap;
     this.critChance = stat.critChance;
     this.critDmg = stat.critDmg;
+  }
+
+  function Resistances(resist) {
+    this.burning = resist.burning;
+    this.bleeding = resist.bleeding;
+    this.stun = resist.stun;
+    this.power = resist.power;
+    this.defense = resist.defense;
+    this.freezing = resist.freezing;
   }
 
   function Skills(skill) {
@@ -229,7 +244,9 @@ function PlayerClass(base) {
   }
 
   this.skills.Fdodge = () => {
-    return this.skills.dodge;
+    const { v: bonusValue, p: bonusPercentage } = calcValues("dodge", this);
+    let val = Math.floor((this.skills.dodge + bonusValue) * bonusPercentage);
+    return val > 100 ? 100 : val;
   }
 
   this.skills.Fbarter = () => {
@@ -254,6 +271,13 @@ function PlayerClass(base) {
     } return total;
   }
 
+  this.listOfAbilities = () => {
+    let list = [];
+    this.totalAbilities.forEach(a=>list.push(a));
+    Object.entries(this.abilities).forEach(a=>a[1]?.id ? list.push(a[1]) : ""); // Ignores empty ability slots
+    return list;
+  }
+ 
   this.stats.FphysicalArmor = () => {
     let { v: bonusValue, p: bonusPercentage } = calcValues("physicalArmor", this);
     const { v: armorValue, p: armorPercentage } = calcValues("defense", this);
@@ -280,7 +304,7 @@ function PlayerClass(base) {
 
   this.actionFill = () => {
     const { v: bonusValue, p: bonusPercentage } = calcValues("actionFill", this);
-    let value = (0.45 + this.stats.Fagi() / 100 + valueFromItem("itemSpeed", this) + bonusValue) * bonusPercentage;
+    let value = (0.45 + this.stats.Fagi() / 100 + valueFromItem("itemSpeed", this) + bonusValue/100) * bonusPercentage;
     if (value > 3) value = 3;
     else if (value < 0) value = 0;
     return value;
@@ -395,17 +419,44 @@ function PlayerClass(base) {
     let blocked = false;
     if (this.equipment.shield?.id) {
       const { v: bonusValue, p: bonusPercentage } = calcValues("blockChance", this);
-      if (Math.random() >= 0.95 - ((this.skills.Fshield() / 500 + bonusValue) * bonusPercentage)) blocked = true;
+      if (Math.random() >= 0.95 - ((this.skills.Fshield() / 500 + bonusValue / 100) * bonusPercentage)) blocked = true;
     }
     return blocked;
   };
 
   this.attackDodged = () => {
     let dodged = false;
-    const { v: bonusValue, p: bonusPercentage } = calcValues("dodge", this);
-    if (Math.random() >= 0.97 - (((this.skills.Fdodge() / 1000) + (this.stats.Fagi() / 5000) + bonusValue) * bonusPercentage)) dodged = true;
+    const { v: bonusValue, p: bonusPercentage } = calcValues("dodgeChance", this);
+    if (Math.random() >= 0.97 - (((this.skills.Fdodge() / 1000) + (this.stats.Fagi() / 5000) + bonusValue / 1000) * bonusPercentage)) dodged = true;
     return dodged;
   };
+
+  this.dodgeChanceValue = () => {
+    let value = 0;
+    const { v: bonusValue, p: bonusPercentage } = calcValues("dodgeChance", this);
+    value = 0.97 - (((this.skills.Fdodge() / 1000) + (this.stats.Fagi() / 5000) + bonusValue / 1000) * bonusPercentage);
+    return ((1 - value) * 100).toFixed(1);
+  }
+
+  this.blockChanceValue = () => {
+    let value = 0;
+    if (this.equipment.shield?.id) {
+      const { v: bonusValue, p: bonusPercentage } = calcValues("blockChance", this);
+      value = 0.95 - ((this.skills.Fshield() / 500 + bonusValue / 100) * bonusPercentage);
+    } else value = 1;
+    return ((1 - value) * 100).toFixed(1);
+  }
+
+  this.resistStatus = (status) => {
+    let resist = this.resistValue(status.effectType);
+    let inflict = status.inflict;
+    return random(resist) > random(inflict) ? true : false;
+  }
+
+  this.resistValue = (type) => {
+    const { v: bonusValue, p: bonusPercentage } = calcValues(type + "Resist", this);
+    return Math.floor((this.resistances[type] + bonusValue) * bonusPercentage);
+  }
 
   this.updateStat = (int) => {
     let status = this.statuses[int];

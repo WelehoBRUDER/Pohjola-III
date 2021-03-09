@@ -61,3 +61,4 @@ addHoverBox($(".playerActionBar"), texts.action_text, "");
 addHoverBox($(".regularAttack"), texts.regular_attack_text, "");
 addHoverBox($(".combatInventory"), texts.open_inventory_text, "");
 addHoverBox($(".closeLoot"), "<f>18px<f><c>red<c>Any items you haven't selected will be deleted!\n<c>yellow<c><f>16px<f>Select items by clicking them.", "");
+addHoverBox($(".characterDetails"), "<f>18px<f>Details", "");

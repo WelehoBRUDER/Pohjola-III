@@ -214,3 +214,96 @@ function upSkill(skill, e) {
   }
   createCharacter(player);
 }
+
+function charDetails() {
+  if(global.inCombat) return;
+  const bg = $("#mainScreenBg");
+  bg.classList = "";
+  textBoxRemove();
+  bg.textContent = "";
+  bg.innerHTML = `
+  <div class="charDetails">
+    <p class="title">Abilities</p>
+    <div class="abiSlots">
+      <div class="slot1" onclick="assignAbilities(1)"></div>
+      <div class="slot2" onclick="assignAbilities(2)"></div>
+      <div class="slot3" onclick="assignAbilities(3)"></div>
+      <div class="slot4" onclick="assignAbilities(4)"></div>
+      <div class="slot5" onclick="assignAbilities(5)"></div>
+    </div>
+    <p class="title title2">Core Stats</p>
+    <div class="coreStats">
+      <p>Maximum HP: <span>${player.stats.FhpMax()}</span></p>
+      <p>Maximum MP: <span>${player.stats.FmpMax()}</span></p>
+      <p>Strength: <span>${player.stats.Fstr()}</span></p>
+      <p>Agility: <span>${player.stats.Fagi()}</span></p>
+      <p>Vitality: <span>${player.stats.Fvit()}</span></p>
+      <p>Intelligence: <span>${player.stats.Fint()}</span></p>
+      <p>Wisdom: <span>${player.stats.Fwis()}</span></p>
+      <p>Critical Hit Chance:  <span>${player.stats.FcritChance()}%</span></p>
+      <p>Critical Hit Damage:  <span>${player.stats.FcritDmg()}%</span></p>
+    </div>
+    <p class="title title3">Advanced Stats</p>
+    <div class="combatStats">
+      <p>All Damage:  <span>${Math.floor(calcValues("attack", player).p * 100)}%</span></p>
+      <p>All Defense:  <span>${Math.floor(calcValues("defense", player).p * 100)}%</span></p>
+      <p>Physical Damage:  <span>${Math.floor(calcValues("physicalDamage", player).v)} + ${Math.floor(calcValues("physicalDamage", player).p * 100)}%</span></p>
+      <p>Magical Damage:  <span>${Math.floor(calcValues("magicalDamage", player).v)} + ${Math.floor(calcValues("magicalDamage", player).p * 100)}%</span></p>
+      <p>Elemental Damage:  <span>${Math.floor(calcValues("elementalDamage", player).v)} + ${Math.floor(calcValues("elementalDamage", player).p * 100)}%</span></p>
+      <p>Physical Defense:  <span>${Math.floor(calcValues("physicalArmor", player).v)} + ${Math.floor(calcValues("physicalArmor", player).p * 100)}%</span></p>
+      <p>Magical Defense:  <span>${Math.floor(calcValues("magicalArmor", player).v)} + ${Math.floor(calcValues("magicalArmor", player).p * 100)}%</span></p>
+      <p>Elemental Defense:  <span>${Math.floor(calcValues("elementalArmor", player).v)} + ${Math.floor(calcValues("elementalArmor", player).p * 100)}%</span></p>
+      <p>Action Fillrate:  <span>${(player.actionFill() * 60).toFixed(1)}% /s</span></p>
+      <p>Dodge Chance:  <span>${player.dodgeChanceValue()}%</span></p>
+      <p>Block Chance:  <span>${player.blockChanceValue()}%</span></p>
+      <p>Burning Resistance:  <span>${player.resistValue("burning")}</span></p>
+      <p>Bleeding Resistance:  <span>${player.resistValue("bleeding")}</span></p>
+      <p>Freezing Resistance:  <span>${player.resistValue("freezing")}</span></p>
+      <p>Stun Resistance:  <span>${player.resistValue("stun")}</span></p>
+      <p>Power Debuff Resistance:  <span>${player.resistValue("power")}</span></p>
+      <p>Armor Debuff Resistance:  <span>${player.resistValue("defense")}</span></p>
+    </div>
+  </div>
+   
+  `;
+  Object.entries(player.abilities).forEach(a=>a[1]?.id ? $("." + a[0]).append(createAbilitySlot(a[1])) : addHoverBox($("." + a[0]), "Click to assign an ability", ""));
+}
+
+function assignAbilities(slot) {
+  $(".abiAssign").textContent = "";
+  player.totalAbilities.forEach(ability=>{
+    const abi = createAbilitySlot(ability);
+    abi.addEventListener("click", e=>assignAbi(ability, slot));
+    $(".abiAssign").append(abi);
+  })
+}
+
+function assignAbi(abi, slot) {
+  $(".abiAssign").textContent = "";
+  if(player.abilities["slot" + slot]?.id) {
+    player.totalAbilities.push(player.abilities["slot" + slot]);
+  }
+  player.abilities["slot" + slot] = abi;
+  charDetails();
+}
+
+function calcValues(value, kohde) {
+  let val = 0;
+  let per = 1;
+  for (let nimi in kohde.equipment) {
+    const item = kohde.equipment[nimi];
+    if (!item.id) continue;
+    if (item?.effects?.[value + "P"]) per *= 1 + item.effects[value + "P"] / 100;
+    if (item?.effects?.[value + "V"]) val += item.effects[value + "V"];
+  }
+  for (let status of kohde.statuses) {
+    if (status?.effects?.[value + "P"]) per *= 1 + status?.effects?.[value + "P"] / 100;
+    if (status?.effects?.[value + "V"]) val += status?.effects?.[value + "V"];
+  }
+  for (let stat in kohde.permanentStatuses) {
+    const status = kohde.permanentStatuses[stat];
+    if (status?.effects?.[value + "P"]) per *= 1 + status?.effects?.[value + "P"] / 100;
+    if (status?.effects?.[value + "V"]) val += status?.effects?.[value + "V"];
+  }
+  return { v: val, p: per };
+}

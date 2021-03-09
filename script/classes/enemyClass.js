@@ -7,6 +7,7 @@ function EnemyClass(base) {
   this.level = base.level ?? defaultEnemy.level;
   this.equipment = new Equipments(base.equipment ?? defaultEnemy.equipment);
   this.stats = new Stats(base.stats ?? defaultEnemy.stats);
+  this.resistances = new Resistances(base.resistances ?? defaultEnemy.resistances);
   this.skills = new Skills(base.skills ?? defaultEnemy.skills);
   this.inventory = base.inventory.map(itm => new Item(itm)) ?? defaultEnemy.inventory;
   this.level = new Levels(base.level);
@@ -40,6 +41,15 @@ function EnemyClass(base) {
     this.healL = stat.healL;
     this.critChance = stat.critChance;
     this.critDmg = stat.critDmg;
+  }
+
+  function Resistances(resist) {
+    this.burning = resist.burning;
+    this.bleeding = resist.bleeding;
+    this.stun = resist.stun;
+    this.power = resist.power;
+    this.defense = resist.defense;
+    this.freezing = resist.freezing;
   }
 
   function Skills(skill) {
@@ -171,7 +181,6 @@ function EnemyClass(base) {
   }
 
   this.rollCrit = () => {
-    console.log(this.stats.FcritDmg());
     if (this.stats.FcritChance() >= random(100)) return this.stats.FcritDmg()/100;
     else return 0;
   }
@@ -319,17 +328,24 @@ function EnemyClass(base) {
     let blocked = false;
     if (this.equipment.shield?.id) {
       const { v: bonusValue, p: bonusPercentage } = calcValues("blockChance", this);
-      if (Math.random() >= 0.95 - ((this.skills.Fshield() / 500 + bonusValue) * bonusPercentage)) blocked = true;
+      if (Math.random() >= 0.95 - ((this.skills.Fshield() / 500 + bonusValue / 100) * bonusPercentage)) blocked = true;
     }
     return blocked;
   };
 
   this.attackDodged = () => {
     let dodged = false;
-    const { v: bonusValue, p: bonusPercentage } = calcValues("dodge", this);
-    if(Math.random() >= 0.97 - (((this.skills.Fdodge()/1000) + (this.stats.Fagi()/5000) + bonusValue) * bonusPercentage)) dodged = true;
+    const { v: bonusValue, p: bonusPercentage } = calcValues("dodgeChance", this);
+    if (Math.random() >= 0.97 - (((this.skills.Fdodge() / 1000) + (this.stats.Fagi() / 5000) + bonusValue / 1000) * bonusPercentage)) dodged = true;
     return dodged;
   };
+
+  this.resistStatus = (status) => {
+    const { v: bonusValue, p: bonusPercentage } = calcValues(status.effectType + "Resist", this);
+    let resist = Math.floor((this.resistances[status.effectType] + bonusValue) * bonusPercentage);
+    let inflict = status.inflict;
+    return random(resist) >= random(inflict) ? true : false;
+  }
 
   function calcValues(value, kohde) {
     let val = 0;
@@ -386,6 +402,7 @@ function EnemyClass(base) {
     let dodge = target.attackDodged();
     let damages = this.spellDamage(spell);
     let crit = 1 + this.rollCrit();
+    console.log(damages);
     if (damages.physical) damages.physical = Math.floor(damages.physical * crit * damages.physical * crit / (damages.physical * crit + target.stats.FphysicalArmor()));
     if (damages.magical) damages.magical = Math.floor(damages.magical * crit * damages.magical * crit / (damages.magical * crit + target.stats.FmagicalArmor()));
     if (damages.elemental) damages.elemental = Math.floor(damages.elemental * crit * damages.elemental * crit / (damages.elemental * crit + target.stats.FelementalArmor()));
@@ -395,11 +412,12 @@ function EnemyClass(base) {
       damages.elemental *= 1 - target.equipment.shield.blockAmount.elemental / 100;
       block = true;
     }
+    console.log(damages);
     return { num: Math.floor((damages.physical + damages.magical + damages.elemental) * atkPercentage), blocked: block, dodged: dodge, crit: crit };
   }
 
   this.spellDamage = (spell) => {
-    let base;
+    let base = {};
     ["physical", "magical", "elemental"].forEach(type => base[type] = spell.baseDamages[type] || 0);
     for(let dmg in base) {
       const {v: bonusValue, p: bonusPercentage} = calcValues(dmg + "Damage", this);
@@ -407,6 +425,7 @@ function EnemyClass(base) {
       else if(dmg == "magical") base[dmg] = base[dmg] = Math.round(((base[dmg] + bonusValue) * (1 + this.stats.Fint()/20)) * bonusPercentage);
       else if(dmg == "elemental") base[dmg] = Math.round(((base[dmg] + bonusValue) * (1 + this.stats.Fwis()/20)) * bonusPercentage);
     }
+    return base;
   }
 
   this.weaponDamage = () => {
@@ -481,9 +500,9 @@ function EnemyClass(base) {
     let strongest;
     for (let ability of this.abilities) {
       if (ability.onCooldown > 0 || this.stats.mp < ability.mpCost) continue;
-      console.log(ability);
-      console.log(this.regularAttack());
-      let dmg = Math.round(this.regularAttack().num * ability.powerMultiplier);
+      let dmg = 0;
+      if(!ability.powerMultiplier) dmg = Math.round(this.spellAttack(player, ability).num);
+      else dmg = Math.round(this.regularAttack().num * ability.powerMultiplier);
       if (dmg <= 0) dmg = 1;
       if (totalDmg < dmg) {
         totalDmg = dmg;

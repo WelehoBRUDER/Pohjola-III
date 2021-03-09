@@ -16,6 +16,14 @@ let Enemies = {
       critChance: 5,
       critDmg: 50
     },
+    resistances: {
+      burning: 0,
+      bleeding: 0,
+      stun: 0,
+      power: 0,
+      defense: 0,
+      freezing: 0
+    },
     skills: {
       armorer: 5,
       heavy_weapons: 0,
@@ -70,6 +78,14 @@ let Enemies = {
       critChance: 10,
       critDmg: 75
     },
+    resistances: {
+      burning: 0,
+      bleeding: 0,
+      stun: 0,
+      power: 0,
+      defense: 0,
+      freezing: 0
+    },
     skills: {
       armorer: 0,
       heavy_weapons: 10,
@@ -123,6 +139,14 @@ let Enemies = {
       critChance: 5,
       critDmg: 50
     },
+    resistances: {
+      burning: 0,
+      bleeding: 0,
+      stun: 0,
+      power: 0,
+      defense: 0,
+      freezing: 0
+    },
     skills: {
       armorer: 10,
       heavy_weapons: 10,
@@ -154,6 +178,65 @@ let Enemies = {
     ai_prefers: {
       regular: 25,
       debuff: 0
+    },
+    lootTable: "skeleton3"
+  },
+  "skeleton_mage": {
+    id: "skeleton_mage",
+    name: "Skeleton Mage",
+    sprites: "gfx/enemies/skeleton_mage",
+    stats: {
+      str: 3,
+      vit: 4,
+      agi: 8,
+      int: 5,
+      wis: 5,
+      ap: 0,
+      hp: 0,
+      mp: 0,
+      healL: 45,
+      critChance: 7,
+      critDmg: 55
+    },
+    resistances: {
+      burning: 10,
+      bleeding: 0,
+      stun: 10,
+      power: 0,
+      defense: 0,
+      freezing: 10
+    },
+    skills: {
+      armorer: 0,
+      heavy_weapons: 0,
+      light_weapons: 5,
+      shield: 0,
+      dodge: 5,
+      dexterity: 0
+    },
+    inventory: [],
+    equipment: {
+      weapon: new Item(items.magician_orb_staff),
+      shield: {},
+      head: {},
+      body: {},
+      legs: {},
+      ring: {}
+    },
+    level: {
+      lvl: 1,
+      pointsPerLvl: 3,
+      xpGive: 200
+    },
+    abilities: [
+      new Ability(Abilities.mana_blast),
+      new Ability(Abilities.flame_hand)
+    ],
+    statuses: [],
+    stat_template: "mage",
+    ai_prefers: {
+      regular: 0,
+      debuff: 25
     },
     lootTable: "skeleton3"
   }
