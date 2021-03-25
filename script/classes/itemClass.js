@@ -15,6 +15,7 @@ function Item(base) {
   this.blockAmount = new BlockAmounts(defaultItem?.blockAmount, this) ?? {};
   this.itemSpeed = defaultItem.itemSpeed;
   this.weaponType = defaultItem.weaponType;
+  this.armorType = defaultItem.armorType;
   this.price = Math.ceil(defaultItem.price * (1 + base.level/3));
   this.statusEffects = defaultItem.statusEffects;
   this.useLobby = defaultItem.useLobby;
@@ -81,3 +82,60 @@ function Item(base) {
     return this.damages.physicalMax + this.damages.magicalMax + this.damages.magicalMax;
   }
 }
+
+
+const encumbrance = [
+  {
+    // 0, no heavy armor
+    name: "Unhindered",
+    img: "gfx/icons/running-ninja.png",
+    effects: {
+      actionFillP: 5,
+      dodgeChanceV: 25,
+      mpP: 5
+    }
+  },
+  {
+    // 1 heavy armor
+    name: "Agile",
+    img: "gfx/icons/running-ninja-down.png",
+    effects: {
+      actionFillP: 2,
+      dodgeChanceV: 12,
+      mpP: 2
+    }
+  },
+  {
+    // 2 heavy armor
+    name: "Cumbersome",
+    img: "gfx/icons/run.png",
+    effects: {
+      actionFillP: -5
+    }
+  },
+  {
+    // 3 heavy armor
+    name: "Heavily Protected",
+    img: "gfx/icons/run-down.png",
+    effects: {
+      actionFillP: -8,
+      dodgeChanceV: -12,
+      mpP: -5,
+      hpP: 5,
+      defenseP: 10
+    }
+  },
+  {
+    // 4 heavy armor
+    name: "Juggernaught",
+    img: "gfx/icons/brutal-helm.png",
+    effects: {
+      actionFillP: -10,
+      dodgeChanceV: -30,
+      mpP: -10,
+      hpP: 10,
+      defenseP: 15,
+      strV: 5
+    }
+  }
+];

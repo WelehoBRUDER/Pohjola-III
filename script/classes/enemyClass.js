@@ -150,6 +150,7 @@ function EnemyClass(base) {
     setTimeout(a=>createDroppingString(exp + " EXP", frame.querySelector(".enemyDroppingString"), "health"), 600);
     player.level.xp += exp;
     enemiesVanquished.push({...this});
+    state.statistics.enemiesKilled[this.id]++;
     if(enemiesVanquished.length === enemiesCombat.length) setTimeout(a=>endScreenFadeIn("win"), 100);
   }
 

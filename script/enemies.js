@@ -1,4 +1,4 @@
-let Enemies = {
+const Enemies = {
   "skeleton_warrior": {
     id: "skeleton_warrior",
     name: "Skeleton Warrior",

@@ -31,7 +31,29 @@ function createInventory(when = "lobby") {
   <c>gray<c>Physical<c>white<c> Armor: ${player.stats.FphysicalArmor()}
   <c>cyan<c>Magical<c>white<c> Armor: ${player.stats.FmagicalArmor()}
   <c>lightgreen<c>Elemental<c>white<c> Armor: ${player.stats.FelementalArmor()}
-  `))
+  `));
+  try {
+    $(".encumbrance").remove();
+    $(".encImg").remove();
+    $(".encText").remove();
+  }
+  catch { };
+  const encumbranceContainer = create("p");
+  const encImage = create("img");
+  const encText = create("span");
+  encumbranceContainer.classList = "encumbrance";
+  let heavy = 0;
+  Object.entries(player.equipment).forEach(eq=>{
+    if(eq[1].armorType == "heavy") heavy++;
+  });
+  player.heavy = heavy;
+  let heavyHover = `<f>12px<f>Wearing ${player.heavy} pieces of heavy armor.\n`;
+  heavyHover += statusSyntax(encumbrance[player.heavy], 12);
+  encImage.src = encumbrance[player.heavy].img;
+  encText.textContent = encumbrance[player.heavy].name;
+  addHoverBox(encumbranceContainer, heavyHover, "");
+  encumbranceContainer.append(encImage, encText);
+  $(".equipmentArea").append(encumbranceContainer);
   if (when == "combat") {
     for (const i in player.inventory) {
       let itm = player.inventory[i];

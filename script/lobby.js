@@ -240,6 +240,9 @@ function charDetails() {
       <p>Vitality: <span>${player.stats.Fvit()}</span></p>
       <p>Intelligence: <span>${player.stats.Fint()}</span></p>
       <p>Wisdom: <span>${player.stats.Fwis()}</span></p>
+      <p>Physical Armor: <span>${player.stats.FphysicalArmor()}</span></p>
+      <p>Magical Armor: <span>${player.stats.FmagicalArmor()}</span></p>
+      <p>Elemental Armor: <span>${player.stats.FelementalArmor()}</span></p>
       <p>Critical Hit Chance:  <span>${player.stats.FcritChance()}%</span></p>
       <p>Critical Hit Damage:  <span>${player.stats.FcritDmg()}%</span></p>
     </div>
@@ -247,12 +250,12 @@ function charDetails() {
     <div class="combatStats">
       <p>All Damage:  <span>${Math.floor(calcValues("attack", player).p * 100)}%</span></p>
       <p>All Defense:  <span>${Math.floor(calcValues("defense", player).p * 100)}%</span></p>
-      <p>Physical Damage:  <span>${Math.floor(calcValues("physicalDamage", player).v)} + ${Math.floor(calcValues("physicalDamage", player).p * 100)}%</span></p>
-      <p>Magical Damage:  <span>${Math.floor(calcValues("magicalDamage", player).v)} + ${Math.floor(calcValues("magicalDamage", player).p * 100)}%</span></p>
-      <p>Elemental Damage:  <span>${Math.floor(calcValues("elementalDamage", player).v)} + ${Math.floor(calcValues("elementalDamage", player).p * 100)}%</span></p>
-      <p>Physical Defense:  <span>${Math.floor(calcValues("physicalArmor", player).v)} + ${Math.floor(calcValues("physicalArmor", player).p * 100)}%</span></p>
-      <p>Magical Defense:  <span>${Math.floor(calcValues("magicalArmor", player).v)} + ${Math.floor(calcValues("magicalArmor", player).p * 100)}%</span></p>
-      <p>Elemental Defense:  <span>${Math.floor(calcValues("elementalArmor", player).v)} + ${Math.floor(calcValues("elementalArmor", player).p * 100)}%</span></p>
+      <p>Physical Damage:  <span>${Math.floor(calcValues("physicalDamage", player).p * 100)}%</span></p>
+      <p>Magical Damage:  <span>${Math.floor(calcValues("magicalDamage", player).p * 100)}%</span></p>
+      <p>Elemental Damage:  <span>${Math.floor(calcValues("elementalDamage", player).p * 100)}%</span></p>
+      <p>Physical Defense:  <span>${Math.floor(calcValues("physicalArmor", player).p * 100)}%</span></p>
+      <p>Magical Defense:  <span>${Math.floor(calcValues("magicalArmor", player).p * 100)}%</span></p>
+      <p>Elemental Defense:  <span>${Math.floor(calcValues("elementalArmor", player).p * 100)}%</span></p>
       <p>Action Fillrate:  <span>${(player.actionFill() * 60).toFixed(1)}% /s</span></p>
       <p>Dodge Chance:  <span>${player.dodgeChanceValue()}%</span></p>
       <p>Block Chance:  <span>${player.blockChanceValue()}%</span></p>

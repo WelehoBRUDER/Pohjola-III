@@ -66,12 +66,12 @@ const statusEffects = {
   "stunI": {
     id: "stunI",
     name: "Stun I",
-    lastFor: 4,
     effectType: "stun",
     img: "gfx/status/stoned-skull.png",
     effects: {
-      actionFillP: -1000
+      actionFillP: -100
     },
+    lastFor: 4,
     hasDamaged: 0,
   },
   "regenI": {

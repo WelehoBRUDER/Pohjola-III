@@ -930,7 +930,7 @@
 }
 
 .charDetails .title3 {
-  top: 525px;
+  top: 740px;
 }
 
 .charDetails .abiSlots {
@@ -1002,7 +1002,7 @@
 
 .charDetails .coreStats, .charDetails .combatStats {
   width: 100%;
-  text-align: center;
+  text-align: left;
   position: absolute;
   left: 0px;
   margin: 0;
@@ -1010,20 +1010,32 @@
 }
 
 .charDetails .coreStats p, .charDetails .combatStats p {
-  font-size: 24px;
-  color: #191919;
+  font-size: 32px;
+  color: #b8b8b8;
   text-shadow: -1px 1px 2px black;
   margin: 0;
-  padding: 0;
+  margin-top: 2px;
+  padding-left: 100px;
   width: 100%;
-  background: rgba(77, 77, 77, 0.5);
-  border: 2px solid #1d1d1d;
+  background: rgba(77, 77, 77, 0.4);
+  border: 3px solid #1d1d1d;
+  float: left;
 }
 
 .charDetails .coreStats p span, .charDetails .combatStats p span {
-  color: #646464;
+  color: #d8d8d8;
   text-shadow: -2px 2px 3px #0a0a0a;
+  float: right;
   margin: 0;
+  margin-right: 200px;
+}
+
+.charDetails .coreStats p:nth-child(odd), .charDetails .combatStats p:nth-child(odd) {
+  background: rgba(122, 122, 122, 0.4);
+}
+
+.charDetails .coreStats p:hover, .charDetails .combatStats p:hover {
+  border: 3px solid #d8d8d8;
 }
 
 .charDetails .coreStats {
@@ -1031,7 +1043,7 @@
 }
 
 .charDetails .combatStats {
-  top: 625px;
+  top: 825px;
 }
 
 .abiAssign {

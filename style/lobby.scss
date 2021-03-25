@@ -798,7 +798,7 @@
   }
 
   .title3 {
-    top: 525px;
+    top: 740px;
   }
 
   .abiSlots {
@@ -861,27 +861,39 @@
 
   .coreStats, .combatStats {
     width: 100%;
-    text-align: center;
+    text-align: left;
     position: absolute;
     left: 0px;
     margin: 0;
     padding: 0;
 
     p {
-      font-size: 24px;
-      color: rgb(25, 25, 25);
+      font-size: 32px;
+      color: rgb(184, 184, 184);
       text-shadow: -1px 1px 2px rgb(0, 0, 0);
       margin: 0;
-      padding: 0;
+      margin-top: 2px;
+      padding-left: 100px;
       width: 100%;
-      background: rgba(77, 77, 77, 0.5);
-      border: 2px solid rgb(29, 29, 29);
+      background: rgba(77, 77, 77, 0.4);
+      border: 3px solid rgb(29, 29, 29);
+      float: left;
 
       span {
-        color: rgb(100, 100, 100);
+        color: rgb(216, 216, 216);
         text-shadow: -2px 2px 3px rgb(10, 10, 10);
+        float: right;
         margin: 0;
+        margin-right: 200px;
       }
+    }
+
+    p:nth-child(odd) {
+      background: rgba(122, 122, 122, 0.4);
+    }
+
+    p:hover {
+      border: 3px solid rgb(216, 216, 216);
     }
   }
 
@@ -890,7 +902,7 @@
   }
 
   .combatStats {
-    top: 625px;
+    top: 825px;
   }
 }
 

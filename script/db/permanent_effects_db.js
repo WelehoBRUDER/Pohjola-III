@@ -14,6 +14,8 @@ const permanentEffects = {
       vitV: 4,
       agiV: 2,
       hpV: 20,
+      actionFillP: 5,
+      mpP: -50,
     },
     category: "class"
   },
@@ -31,6 +33,7 @@ const permanentEffects = {
       intV: 5,
       wisV: 4,
       mpV: 15,
+      hpP: -30
     },
     category: "class"
   },

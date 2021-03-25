@@ -2,7 +2,7 @@ let player = new PlayerClass({
   id: "player_character",
   name: "Avanti!",
   stats: {
-    str: 1,
+    str: 10,
     vit: 1,
     agi: 1,
     int: 1,
@@ -73,6 +73,7 @@ let player = new PlayerClass({
   permanentStatuses: {
     "warrior_class": new permanentStatus(permanentEffects.warrior_class),
   },
+  heavy: 0,
   perks: {},
   selectedPerks: "warrior"
 })
@@ -93,6 +94,7 @@ function PlayerClass(base) {
   this.permanentStatuses = base.permanentStatuses;
   this.perks = base.perks;
   this.selectedPerks = base.selectedPerks;
+  this.heavy = base.heavy;
 
   this.restoreFull = () => {
     this.stats.hp = this.stats.FhpMax();
@@ -174,6 +176,10 @@ function PlayerClass(base) {
       if (status?.effects?.[value + "P"]) per *= 1 + status?.effects?.[value + "P"] / 100;
       if (status?.effects?.[value + "V"]) val += status?.effects?.[value + "V"];
     }
+    Object.entries(encumbrance[kohde.heavy].effects).forEach(effect=>{
+      if (effect[0] === value + "P") per *= 1 + effect[1] / 100;
+      if (effect[0] === value + "V") val += effect[1];
+    })
     return { v: val, p: per };
   }
 

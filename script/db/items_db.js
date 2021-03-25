@@ -85,6 +85,7 @@ const items = {
     },
     itemSpeed: -0.02,
     skillBonus: "armorer",
+    armorType: "light",
     price: 5,
     img: "gfx/items/breastplate.png",
     tier: "common"
@@ -103,6 +104,7 @@ const items = {
     },
     itemSpeed: -0.01,
     skillBonus: "armorer",
+    armorType: "light",
     price: 2,
     img: "gfx/items/visored-helm.png",
     tier: "common"
@@ -121,6 +123,7 @@ const items = {
     },
     itemSpeed: -0.02,
     skillBonus: "armorer",
+    armorType: "light",
     price: 3,
     img: "gfx/items/leg-armor.png",
     tier: "common"
@@ -144,6 +147,7 @@ const items = {
     },
     itemSpeed: -0.01,
     skillBonus: "shield",
+    armorType: "heavy",
     price: 1,
     crafting: {
       requires: [
@@ -205,7 +209,7 @@ const items = {
     },
     effects: {
       magicalDamageP: 10,
-      mpV: 5
+      mpV: 5,
     },
     itemSpeed: 0.02,
     skillBonus: "heavy_weapons",

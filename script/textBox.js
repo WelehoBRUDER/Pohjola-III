@@ -55,6 +55,12 @@ function addHoverBox(element, text, alt) {
   element.addEventListener('mouseout', (e) => textBoxRemove());
 }
 
+function removeHoverBox(element, text, alt) {
+  element.removeEventListener('mouseover', (e) => textBoxSet(e, text, alt));
+  element.removeEventListener('mousemove', (e) => textBoxMove(e, text, alt));
+  element.removeEventListener('mouseout', (e) => textBoxRemove());
+}
+
 addHoverBox($(".playerHpBar"), texts.health_text, "");
 addHoverBox($(".playerMpBar"), texts.mana_text, "");
 addHoverBox($(".playerActionBar"), texts.action_text, "");

@@ -800,7 +800,7 @@ body {
   position: absolute;
   width: 90%;
   left: 10px;
-  top: 345px;
+  top: 300px;
   height: 120px;
   border: none;
   background: rgba(0, 0, 0, 0);
@@ -808,6 +808,26 @@ body {
 
 #inventoryWindow .equipmentArea > .armorValues:hover {
   border: none;
+}
+
+#inventoryWindow .equipmentArea > .encumbrance {
+  width: auto;
+  height: auto;
+  position: absolute;
+  left: 10px;
+  top: 390px;
+}
+
+#inventoryWindow .equipmentArea > .encumbrance > span {
+  font-size: 17px;
+  color: white;
+  position: relative;
+  top: -20px;
+}
+
+#inventoryWindow .equipmentArea > .encumbrance > img {
+  width: 64px;
+  height: 64px;
 }
 
 #inventoryWindow .equipmentArea > div {

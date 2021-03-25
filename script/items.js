@@ -6,7 +6,7 @@ const itemTiers = {
     artifactLevelV: 3,
     artifactLevelP: 9,
     artifactEffectsMin: 2,
-    artifactEffectsMax: 4
+    artifactEffectsMax: 3
   },
   "uncommon": {
     color: "#9cd0d9",
@@ -14,15 +14,15 @@ const itemTiers = {
     artifactLevelV: 7,
     artifactLevelP: 15,
     artifactEffectsMin: 3,
-    artifactEffectsMax: 5
+    artifactEffectsMax: 4
   },
   "rare": {
     color: "#72cbdb",
     class: "rare",
     artifactLevelV: 10,
     artifactLevelP: 21,
-    artifactEffectsMin: 3,
-    artifactEffectsMax: 6
+    artifactEffectsMin: 4,
+    artifactEffectsMax: 5
   },
   "unusual": {
     color: "#35c2db",
@@ -30,7 +30,7 @@ const itemTiers = {
     artifactLevelV: 14,
     artifactLevelP: 27,
     artifactEffectsMin: 4,
-    artifactEffectsMax: 7
+    artifactEffectsMax: 6
   },
   "mythical": {
     color: "#7d35db",
@@ -38,7 +38,7 @@ const itemTiers = {
     artifactLevelV: 20,
     artifactLevelP: 35,
     artifactEffectsMin: 5,
-    artifactEffectsMax: 9
+    artifactEffectsMax: 8
   },
 }
 
@@ -54,6 +54,7 @@ function itemHover(itm, storePlayerInv=false) {
   if(itm.level > -1) text += `\n<f>14px<f>Level: ${itm.level}/5`;
   if(itm.healAmount) text += `\n<f>14px<f>Heals: §<f>14px<f><c>red<c>${itm.healAmount}hp`;
   if(itm.weaponType) text += `\n<f>14px<f>Weapon type: ${itm.weaponType}`;
+  if(itm.armorType) text += `\n<f>14px<f>Armor type: ${itm.armorType}`;
   if(itm.equipmentSlot) text += `\n<f>14px<f>Equipment slot: ${itm.equipmentSlot}`;
   if(itm.effects) {
     text += `\n<f>16px<f><c>gray<c>Effects:§`;

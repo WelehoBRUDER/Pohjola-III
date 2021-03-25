@@ -1,0 +1,22 @@
+.gameMap {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+  z-index: -5;
+
+  .mapTitle {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 42px;
+    color: white;
+    text-shadow: -5px 5px 4px rgba(25, 25, 25, 0.75);
+    padding: 12px;
+    background: rgb(115, 115, 115);
+    box-shadow: inset 0px 0px 12px 8px rgb(90, 90, 90), 0px 0px 8px 6px rgb(32, 32, 32);
+    top: -42px;
+  }
+}

@@ -402,7 +402,9 @@ function statusSyntax(status, fontSize = 14) {
         stat = "Crit Damage";
         break;
     }
-    if (status.effects?.[effect] > 0 && perc == "V") text += `\t<f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>green<c>▲ up§<f>${fontSize}px<f> by ${status.effects[effect]}${stat.includes("Crit") ? "%" : ""}\n`;
+    if(status.effects?.[effect] < 0 && perc == "V" && stat.includes("Dodge chance")) text += `\t<f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>red<c>▼ down§<f>${fontSize}px<f> by ${Math.abs(status.effects[effect] / 10)}%\n`;
+    else if(status.effects?.[effect] > 0 && perc == "V" && stat.includes("Dodge chance")) text += `\t<f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>green<c>▲ up§<f>${fontSize}px<f> by ${status.effects[effect] / 10}%\n`;
+    else if (status.effects?.[effect] > 0 && perc == "V") text += `\t<f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>green<c>▲ up§<f>${fontSize}px<f> by ${status.effects[effect]}${stat.includes("Crit") ? "%" : ""}\n`;
     else if (status.effects?.[effect] > 0 && perc == "P") text += `\t<f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>green<c>▲ up§<f>${fontSize}px<f> by ${Math.floor(status.effects[effect])}%\n`;
     else if (status.effects?.[effect] < 0 && perc == "V") text += `\t<f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>red<c>▼ down§<f>${fontSize}px<f> by ${Math.abs(status.effects[effect])}${stat.includes("Crit") ? "%" : ""}\n`;
     else if (status.effects?.[effect] < 0 && perc == "P") text += `\t<f>${fontSize}px<f>${stat} §<f>${fontSize}px<f><c>red<c>▼ down§<f>${fontSize}px<f> by ${Math.abs(Math.floor(status.effects[effect]))}%\n`;
