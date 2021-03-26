@@ -24,6 +24,9 @@
 $("#perkWindow .contentArea").addEventListener('mousedown', action1);
 $("#perkWindow .contentArea").addEventListener('mousemove', action2);
 
+$(".gameMap .mapContent").addEventListener('mousedown', action1);
+$(".gameMap .mapContent").addEventListener('mousemove', action2);
+
 let mouseX = 0;
 let mouseY = 0;
 let bgPosX = 0;

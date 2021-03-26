@@ -11,7 +11,10 @@ var global = {
   charOpen: false,
   inStore: true,
   perkOpen: false,
-  itemMenu: false
+  itemMenu: false,
+  playerCurrentPos: 0,
+  playerOldPos: 0,
+  currentDungeon: "cave_of_beginning"
 }
 
 let debug = true;

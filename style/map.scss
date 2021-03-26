@@ -4,7 +4,7 @@
   position: absolute;
   left: 0px;
   top: 0px;
-  overflow: hidden;
+  overflow: auto;
   z-index: -5;
 
   .mapTitle {
@@ -18,5 +18,108 @@
     background: rgb(115, 115, 115);
     box-shadow: inset 0px 0px 12px 8px rgb(90, 90, 90), 0px 0px 8px 6px rgb(32, 32, 32);
     top: -42px;
+    z-index: 3;
   }
+
+  .mapContent {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    overflow: auto;
+
+    .Tile {
+      width: 128px;
+      height: 128px;
+      background: rgb(66, 66, 66);
+      box-shadow: 0px 0px 6px 5px rgba(44, 44, 44, 0.66);
+      box-sizing: border-box;
+      border: 6px solid rgb(32, 32, 32);
+      position: absolute;
+      left: 0px;
+      bottom: 0px;
+
+      .mainImg {
+        width: 116px;
+        height: 116px;
+        border-radius: 8px;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+      }
+
+      > .warrior_class {
+        background: #d1461b;
+        box-shadow: inset 0px 0px 12px 8px #923114;
+      }
+
+      > .mage_class {
+        background: #1bb3d1;
+        box-shadow: inset 0px 0px 12px 8px #127a8f;
+      }
+
+      > .elementalist_class {
+        background: #1ed11b;
+        box-shadow: inset 0px 0px 12px 8px #127910;
+      }
+    }
+  }
+}
+
+
+.controlButtons {
+  width: auto;
+  height: auto;
+  position: absolute;
+  right: 244px;
+  bottom: 144px;
+
+  button {
+    transition: 0.33s;
+    position: absolute;
+    width: 72px;
+    height: 72px;
+    font-size: 48px;
+    text-align: center;
+    border: none;
+    background: rgba(61, 61, 61, 0.9);
+    color: white;
+    border: 4px solid rgb(31, 31, 31);
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: inset 0px 0px 4px 3px rgba(43, 43, 43, 0.88);
+    text-shadow: 0px 0px 10px black;
+    outline: none;
+  }
+
+  button:hover {
+    filter: brightness(1.25);
+  }
+
+  .up {
+    left: 0px;
+    bottom: 72px;
+  }
+
+  .left {
+    left: -72px;
+    bottom: 0px;
+  }
+
+  .right {
+    left: 72px;
+    bottom: 0px;
+  }
+
+  .down {
+    left: 0px;
+    bottom: -72px;
+  }
+}
+
+.unavailable {
+  filter: brightness(0.5);
+  user-select: none;
+  pointer-events: none;
 }
