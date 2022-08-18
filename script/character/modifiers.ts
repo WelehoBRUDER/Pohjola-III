@@ -9,7 +9,7 @@ const defaultModifiers = {
   speed: 1,
 };
 
-function getAllModifiers(char: Character | any) {
+function getAllModifiers(char: Character | Player) {
   const modifiers = { ...defaultModifiers };
   char.traits.forEach((trait: any) => {
     if (trait.modifiers) {
@@ -25,6 +25,11 @@ function getAllModifiers(char: Character | any) {
       });
     }
   });
+  if (char.race?.modifiers) {
+    Object.entries(char.race.modifiers).forEach((modifier: any) => {
+      applyModifierToTotal(modifier, modifiers);
+    });
+  }
   return modifiers;
 }
 

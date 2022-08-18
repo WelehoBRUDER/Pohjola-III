@@ -24,6 +24,11 @@ function getAllModifiers(char) {
             });
         }
     });
+    if (char.race?.modifiers) {
+        Object.entries(char.race.modifiers).forEach((modifier) => {
+            applyModifierToTotal(modifier, modifiers);
+        });
+    }
     return modifiers;
 }
 function applyModifierToTotal(modifier, total) {
