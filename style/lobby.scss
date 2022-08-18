@@ -40,10 +40,10 @@
   left: 0px;
   top: 0px;
   z-index: 4;
-  transition: .5s;
+  transition: 0.5s;
 
   .battleEndContainer {
-    transition: .33s;
+    transition: 0.33s;
     width: 640px;
     height: 480px;
     position: absolute;
@@ -56,7 +56,7 @@
     border: 8px solid rgb(31, 31, 31);
     box-shadow: inset 0px 0px 8px 6px rgb(50, 50, 50);
 
-    >.endTitle {
+    > .endTitle {
       width: 100%;
       height: 80px;
       position: absolute;
@@ -64,7 +64,7 @@
       top: 0px;
       text-align: center;
 
-      >p {
+      > p {
         font-size: 80px;
         font-family: RobotoBolder;
         margin-top: 0px;
@@ -72,14 +72,14 @@
       }
     }
 
-    >.endingText {
+    > .endingText {
       height: 260px;
       width: 100%;
       position: absolute;
       left: 0px;
       top: 120px;
 
-      >pre {
+      > pre {
         width: 100%;
         white-space: break-spaces;
         margin-left: 5px;
@@ -101,7 +101,7 @@
       text-shadow: 0px 0px 4px black;
       text-align: center;
       user-select: none;
-      border: 8px solid black
+      border: 8px solid black;
     }
 
     .okbutton:hover {
@@ -140,7 +140,7 @@
   box-shadow: 0px 0px 8px 6px rgb(39, 39, 39), inset 0px 0px 8px 6px rgb(45, 45, 45);
   z-index: 2;
 
-  >.closeLoot {
+  > .closeLoot {
     transition: 0.05s;
     background: gold;
     color: white;
@@ -156,11 +156,11 @@
     user-select: none;
   }
 
-  >.closeLoot:hover {
+  > .closeLoot:hover {
     border: 8px solid silver;
   }
 
-  >.goldNumber {
+  > .goldNumber {
     font-size: 24px;
     color: gold;
     text-shadow: 0px 0px 4px orange;
@@ -169,7 +169,7 @@
     right: 15px;
   }
 
-  >.lootArea {
+  > .lootArea {
     width: 100%;
     position: absolute;
     left: 0px;
@@ -180,15 +180,15 @@
     margin-top: 10px;
     gap: 10px;
 
-    >.selected {
+    > .selected {
       border: 8px solid rgb(209, 181, 20);
     }
 
-    >.selected:hover {
+    > .selected:hover {
       border: 8px solid rgb(255, 217, 0);
     }
 
-    >div {
+    > div {
       transition: 0.05s;
       position: relative;
       border: 8px solid black;
@@ -198,24 +198,24 @@
       background: rgb(60, 60, 60);
       z-index: 1;
 
-      >div {
+      > div {
         width: 75px;
         height: 75px;
         background: rgb(37, 37, 37);
-        background: radial-gradient(circle, rgba(37, 37, 37, 1) 0%, rgba(28,28,28,1) 100%);
+        background: radial-gradient(circle, rgba(37, 37, 37, 1) 0%, rgba(28, 28, 28, 1) 100%);
         position: absolute;
         box-shadow: inset 0px 0px 8px 6px rgb(16, 16, 16);
         user-select: none;
         left: 0px;
         top: 0px;
 
-        >img {
+        > img {
           width: 75px;
           height: 75px;
           pointer-events: none;
         }
-  
-        >p {
+
+        > p {
           font-size: 18px;
           color: white;
           text-shadow: 0px 0px 4px black;
@@ -225,7 +225,7 @@
         }
       }
     }
-    >div:hover {
+    > div:hover {
       border: 8px solid rgb(187, 187, 187);
     }
   }
@@ -242,7 +242,7 @@
   box-shadow: inset 0px 0px 24px 16px rgba(45, 45, 45, 0.95), 0px 0px 12px 8px rgba(30, 30, 30, 0.9);
   border: 4px solid rgba(25, 25, 25, 0.95);
 
-  >.draggableArea {
+  > .draggableArea {
     width: 100%;
     height: 24px;
     background: rgba(50, 50, 50, 0.9);
@@ -254,14 +254,14 @@
     border-radius: 12px 12px 0px 0px;
   }
 
-  >.contentArea {
+  > .contentArea {
     width: 100%;
     height: 100%;
     position: absolute;
     left: 0px;
     top: 0px;
 
-    >.portrait {
+    > .portrait {
       width: 128px;
       height: 128px;
       border: 4px solid rgba(45, 45, 45, 0.8);
@@ -270,14 +270,14 @@
       left: 10px;
       top: 10px;
     }
-    
-    >.name {
+
+    > .name {
       position: absolute;
       left: 90px;
       top: 10px;
     }
 
-    >.xpBar {
+    > .xpBar {
       width: 420px;
       height: 25px;
       background: rgb(36, 36, 36);
@@ -286,7 +286,7 @@
       left: 160px;
       top: 115px;
 
-      >.barNum {
+      > .barNum {
         transition: 0.1s;
         font-size: 20px;
         color: white;
@@ -299,11 +299,17 @@
         opacity: 0;
       }
 
-      >.barFill {
+      > .barFill {
         width: 100%;
         height: 25px;
         background: rgb(224, 194, 23);
-      background: linear-gradient(90deg,rgba(224, 194, 23, 1) 0%,rgb(253, 214, 85) 10%,rgb(211, 182, 20) 25%,rgb(224, 198, 51) 100%);
+        background: linear-gradient(
+          90deg,
+          rgba(224, 194, 23, 1) 0%,
+          rgb(253, 214, 85) 10%,
+          rgb(211, 182, 20) 25%,
+          rgb(224, 198, 51) 100%
+        );
         box-shadow: inset 0px 0px 6px 4px rgb(218, 142, 3);
         animation-name: BarShine;
         animation-duration: 1s;
@@ -324,7 +330,7 @@
       border: 4px solid black;
       border-radius: 8px;
 
-      >p {
+      > p {
         transition: 0.2s;
         font-size: 12px;
         color: white;
@@ -337,7 +343,7 @@
         opacity: 0;
       }
 
-      >div {
+      > div {
         transition: 0.8s;
         width: 100%;
         height: 100%;
@@ -348,9 +354,15 @@
 
     .hpBar {
       top: 150px;
-      >div {
+      > div {
         background: rgb(165, 30, 20);
-        background: linear-gradient(90deg,rgba(165, 30, 20, 1) 0%,rgb(233, 74, 63) 10%,rgb(202, 53, 42) 25%,rgba(165, 30, 20, 1) 100%);
+        background: linear-gradient(
+          90deg,
+          rgba(165, 30, 20, 1) 0%,
+          rgb(233, 74, 63) 10%,
+          rgb(202, 53, 42) 25%,
+          rgba(165, 30, 20, 1) 100%
+        );
         box-shadow: inset 0px 0px 0.25vw 0.2vw rgb(107, 18, 11);
         animation-name: BarShine;
         animation-duration: 1.8s;
@@ -363,9 +375,15 @@
     .mpBar {
       right: 5px;
       top: 175px;
-      >div {
+      > div {
         background: rgb(20, 88, 165);
-        background: linear-gradient(90deg,rgba(20, 88, 165, 1) 0%,rgb(101, 162, 231) 10%,rgb(69, 133, 207) 25%,rgba(20, 88, 165, 1) 100%);
+        background: linear-gradient(
+          90deg,
+          rgba(20, 88, 165, 1) 0%,
+          rgb(101, 162, 231) 10%,
+          rgb(69, 133, 207) 25%,
+          rgba(20, 88, 165, 1) 100%
+        );
         box-shadow: inset 0px 0px 0.25vw 0.2vw rgb(16, 74, 139);
         animation-name: BarShine;
         animation-duration: 1.8s;
@@ -375,7 +393,8 @@
       }
     }
 
-    .hpBar:hover>p, .mpBar:hover>p {
+    .hpBar:hover > p,
+    .mpBar:hover > p {
       opacity: 1;
     }
 
@@ -384,7 +403,13 @@
       width: 100%;
       height: 100%;
       background: rgb(165, 30, 20);
-      background: linear-gradient(90deg,rgba(165, 30, 20, 1) 0%,rgb(233, 74, 63) 10%,rgb(202, 53, 42) 25%,rgba(165, 30, 20, 1) 100%);
+      background: linear-gradient(
+        90deg,
+        rgba(165, 30, 20, 1) 0%,
+        rgb(233, 74, 63) 10%,
+        rgb(202, 53, 42) 25%,
+        rgba(165, 30, 20, 1) 100%
+      );
       box-shadow: inset 0px 0px 0.25vw 0.2vw rgb(107, 18, 11);
       animation-name: BarShine;
       animation-duration: 3s;
@@ -395,35 +420,35 @@
       bottom: 0px;
     }
 
-    >.xpBar:hover .barNum {
+    > .xpBar:hover .barNum {
       opacity: 1;
     }
 
-    >.baseStats {
+    > .baseStats {
       position: absolute;
       left: 10px;
       top: 190px;
       user-select: none;
     }
 
-    >.baseSkills {
+    > .baseSkills {
       position: absolute;
       left: 200px;
       top: 190px;
       user-select: none;
     }
 
-    >.warrior_class {
+    > .warrior_class {
       background: #d1461b;
       box-shadow: inset 0px 0px 12px 8px #923114;
     }
 
-    >.mage_class {
+    > .mage_class {
       background: #1bb3d1;
       box-shadow: inset 0px 0px 12px 8px #127a8f;
     }
 
-    >.elementalist_class {
+    > .elementalist_class {
       background: #1ed11b;
       box-shadow: inset 0px 0px 12px 8px #127910;
     }
@@ -445,7 +470,7 @@
     display: none;
   }
 
-  >.draggableArea {
+  > .draggableArea {
     width: 100%;
     height: 24px;
     background: rgba(50, 50, 50, 0.9);
@@ -457,7 +482,7 @@
     border-radius: 12px 12px 0px 0px;
   }
 
-  >.contentArea {
+  > .contentArea {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -476,13 +501,13 @@
       z-index: 1;
       filter: brightness(0.95);
 
-      >img {
+      > img {
         width: 128px;
         height: 128px;
         filter: drop-shadow(0px 0px 6px rgba(20, 20, 10, 0.9));
       }
 
-      >p {
+      > p {
         position: absolute;
         color: rgb(190, 190, 190);
         text-shadow: -2px 2px 4px rgb(34, 34, 34);
@@ -495,7 +520,6 @@
         border-radius: 40% 40% 45% 45%;
         padding: 4px;
       }
-
     }
 
     .Perk:hover {
@@ -588,7 +612,7 @@
   box-shadow: -2px 6px 6px 8px rgba(14, 15, 15, 0.85);
   z-index: 5;
 
-  >.title {
+  > .title {
     position: absolute;
     border: 6px solid rgba(165, 30, 20, 1);
     width: calc(100% - 28px);
@@ -604,7 +628,7 @@
       font-family: unset;
       color: white;
       font-size: 18px;
-      line-height: .95;
+      line-height: 0.95;
       white-space: break-spaces;
       word-break: break-word;
       z-index: 5;
@@ -673,7 +697,8 @@
     right: 10px;
   }
 
-  .confirm, .cancel {
+  .confirm,
+  .cancel {
     transition: 0.075s;
     width: 128px;
     font-size: 36px;
@@ -686,7 +711,8 @@
     z-index: 5;
   }
 
-  .confirm:hover, .cancel:hover {
+  .confirm:hover,
+  .cancel:hover {
     filter: brightness(1.25);
   }
 
@@ -777,7 +803,7 @@
   font-family: unset;
   color: white;
   font-size: 18px;
-  line-height: .95;
+  line-height: 0.95;
   word-break: break-word;
   text-align: center;
   margin: 0;
@@ -812,12 +838,12 @@
     transform: translateX(-50%);
     display: flex;
 
-    >div {
+    > div {
       transition: 0.05s;
       width: 90px;
       height: 90px;
       background: rgb(37, 37, 37);
-      background: radial-gradient(circle, rgba(37, 37, 37, 1) 0%, rgba(28,28,28,1) 100%);
+      background: radial-gradient(circle, rgba(37, 37, 37, 1) 0%, rgba(28, 28, 28, 1) 100%);
       position: relative;
       box-shadow: inset 0px 0px 8px 6px rgb(16, 16, 16);
       border: 8px solid black;
@@ -832,14 +858,14 @@
         position: absolute;
         left: 0px;
         top: 0px;
-  
-        >img {
+
+        > img {
           width: 100%;
           height: 100%;
           pointer-events: none;
         }
-  
-        >span {
+
+        > span {
           font-size: 100px;
           position: absolute;
           z-index: 1;
@@ -853,13 +879,13 @@
       }
     }
 
-    >div:hover {
+    > div:hover {
       border: 8px solid rgba(196, 196, 196, 0.75);
     }
-    
   }
 
-  .coreStats, .combatStats {
+  .coreStats,
+  .combatStats {
     width: 100%;
     text-align: left;
     position: absolute;
@@ -924,20 +950,20 @@
     width: 90px;
     height: 90px;
     background: rgb(37, 37, 37);
-    background: radial-gradient(circle, rgba(37, 37, 37, 1) 0%, rgba(28,28,28,1) 100%);
+    background: radial-gradient(circle, rgba(37, 37, 37, 1) 0%, rgba(28, 28, 28, 1) 100%);
     position: relative;
     left: 0px;
     top: 0px;
     margin: 10px;
     border: 4px solid black;
 
-    >img {
+    > img {
       width: 100%;
       height: 100%;
       pointer-events: none;
     }
 
-    >span {
+    > span {
       font-size: 100px;
       position: absolute;
       z-index: 1;
