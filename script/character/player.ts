@@ -37,6 +37,8 @@ class Player extends Character {
     super(char);
     this.race = new Race(char.race) ?? new Race(races.human);
     this.equipment = char.equipment ?? defaultEquipment;
+
+    this.updateAllModifiers();
   }
 }
 
@@ -49,10 +51,11 @@ const player = new Player({
     agi: 10,
     int: 10,
     spi: 10,
-    hp: 10,
-    mp: 10,
-    hpMax: 10,
-    mpMax: 10,
+    hp: 25,
+    mp: 15,
+    hpMax: 0,
+    mpMax: 0,
+    ap: 0,
   },
   defences: {
     physical: 10,
@@ -67,7 +70,10 @@ const player = new Player({
     poison: 10,
     divine: 10,
   },
+  abilities: [new Ability(abilities.sharp_strike)],
   traits: [],
   statuses: [],
   perks: [],
 });
+
+game.initCombat();

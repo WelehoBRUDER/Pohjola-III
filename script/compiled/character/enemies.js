@@ -13,6 +13,7 @@ const enemies = {
             mp: 5,
             hpMax: 5,
             mpMax: 5,
+            ap: 0,
         },
         defences: {
             physical: 10,
@@ -27,6 +28,7 @@ const enemies = {
             poison: 200,
             divine: -50,
         },
+        abilities: [new Ability(abilities.sharp_strike)],
     },
 };
 //# sourceMappingURL=enemies.js.map

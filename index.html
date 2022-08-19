@@ -11,6 +11,7 @@
 
 <body>
   <main class="game">
+    <div id="tooltip"></div>
     <div class="combat">
       <div class="ui">
         <div class="toolbar">
@@ -29,6 +30,7 @@
               <div class="late"></div>
               <p class="value">0%</p>
             </div>
+            <div class="action-slots"></div>
           </div>
           <!-- Player MP Bar -->
           <div class="player-mp bar">
@@ -47,9 +49,19 @@
 
 <!-- Main -->
 <script src="script/compiled/main/elements.js"></script>
+<script src="script/compiled/main/syntax.js"></script>
+<script src="script/compiled/main/tooltip.js"></script>
+
+<!-- Language -->
+<script src="script/compiled/language/general.js"></script>
 
 <!-- Combat -->
 <script src="script/compiled/combat/combat.js"></script>
+
+<!-- Abilities -->
+<script src="script/compiled/ability/ability.js"></script>
+<script src="script/compiled/ability/abilities.js"></script>
+
 
 <!-- Modifiers -->
 <script src="script/compiled/character/modifiers.js"></script>

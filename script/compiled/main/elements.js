@@ -1,7 +1,11 @@
 "use strict";
+/* Tooltip box */
+const tooltipBox = document.querySelector("#tooltip");
 const combatScreen = document.querySelector(".combat");
 const uiScreen = combatScreen.querySelector(".ui");
 const toolbarElement = uiScreen.querySelector(".toolbar");
+const tools = toolbarElement.querySelector(".tools");
+const slots = tools.querySelector(".action-slots");
 /* Player UI related elements */
 const playerHPBar = uiScreen.querySelector(".player-hp");
 const playerMPBar = uiScreen.querySelector(".player-mp");

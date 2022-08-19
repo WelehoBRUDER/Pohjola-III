@@ -106,7 +106,7 @@ main.game {
 
       .bar {
         position: relative;
-        width: 35%;
+        width: 50%;
         height: 3.5rem;
         background: rgb(15, 15, 15);
         box-sizing: border-box;
@@ -194,11 +194,15 @@ main.game {
       }
 
       .tools {
-        width: 30%;
-        height: 9rem;
+        position: relative;
+        height: 10.5rem;
         background: rgb(37, 37, 37);
         box-sizing: border-box;
         border: 0.25rem solid rgb(15, 15, 15);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
 
         .player-action {
           width: 100%;
@@ -206,6 +210,7 @@ main.game {
           border: none;
 
           .fill {
+            transition: none;
             left: 0;
             background: $action;
             background: $action_gradient;
@@ -226,7 +231,99 @@ main.game {
             opacity: 1;
           }
         }
+
+        .action-slots {
+          width: 40rem;
+          height: 6rem;
+          padding: 0rem 1rem;
+          margin-bottom: 0.75rem;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+
+          .action-slot {
+            position: relative;
+            box-sizing: border-box;
+            width: 6rem;
+            height: 6rem;
+            border: 0.25rem solid rgb(54, 54, 54);
+            background: rgb(10, 10, 10);
+            margin: 0 0.25rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            img {
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              user-select: none;
+              -webkit-user-drag: none;
+            }
+
+            .cooldown {
+              position: absolute;
+              left: 0;
+              bottom: 0;
+              width: 100%;
+              height: 100%;
+              background: $health;
+              box-shadow: $health_shadow;
+              filter: brightness(0.5);
+              opacity: 0.7;
+            }
+
+            .cooldown-number {
+              position: relative;
+              font-weight: bold;
+              font-size: 1.75rem;
+              color: rgb(139, 139, 139);
+              text-shadow: -0.15rem 0.2rem 0.2rem $health;
+            }
+
+            &:hover {
+              border: 0.25rem solid rgb(112, 112, 112);
+            }
+          }
+        }
       }
+    }
+  }
+}
+
+#tooltip {
+  width: auto;
+  height: auto;
+  max-width: 55%;
+  background: rgba(20, 20, 20, 0.8);
+  box-sizing: border-box;
+  border: 4px solid gold;
+  padding: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  display: none;
+  pointer-events: none;
+
+  line-height: 16px;
+  color: white;
+  pre {
+    margin: 0;
+    span {
+      margin: 0;
+      color: inherit;
+      font-size: inherit;
+      font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+      text-shadow: 0px 0px 8px black;
+      line-height: inherit;
+    }
+
+    img {
+      width: 22px;
+      vertical-align: middle;
     }
   }
 }
