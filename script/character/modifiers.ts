@@ -30,6 +30,15 @@ function getAllModifiers(char: Character | Player) {
       applyModifierToTotal(modifier, modifiers);
     });
   }
+  if (char.equipment) {
+    Object.entries(char.equipment).forEach((item: any) => {
+      if (item.modifiers) {
+        Object.entries(item.modifiers).forEach((modifier: any) => {
+          applyModifierToTotal(modifier, modifiers);
+        });
+      }
+    });
+  }
   return modifiers;
 }
 

@@ -7,15 +7,61 @@
   <title>Pohjola III</title>
   <link rel="stylesheet" href="style/compiled/main.css">
   <link rel="stylesheet" href="style/compiled/lobby.css">
-  <link rel="stylesheet" href="style/compiled/text.css">
-  <link rel="stylesheet" href="style/compiled/map.css">
 </head>
 
 <body>
+  <main class="game">
+    <div class="combat">
+      <div class="ui">
+        <div class="toolbar">
+          <!-- Player HP Bar -->
+          <div class="player-hp bar">
+            <div class="fill gradient-shine">
+            </div>
+            <div class="late"></div>
+            <p class="value">100/100</p>
+          </div>
+          <!-- Player Toolbar -->
+          <div class="tools">
+            <div class="player-action bar">
+              <div class="fill gradient-shine">
+              </div>
+              <div class="late"></div>
+              <p class="value">0%</p>
+            </div>
+          </div>
+          <!-- Player MP Bar -->
+          <div class="player-mp bar">
+            <div class="fill gradient-shine">
+            </div>
+            <div class="late"></div>
+            <p class="value">100/100</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
 </body>
 
 </html>
 
-<script src="script/compiled/modifiers.js"></script>
-<script src="script/compiled/character.js"></script>
-<script src="script/compiled/player.js"></script>
+<!-- Main -->
+<script src="script/compiled/main/elements.js"></script>
+
+<!-- Combat -->
+<script src="script/compiled/combat/combat.js"></script>
+
+<!-- Modifiers -->
+<script src="script/compiled/character/modifiers.js"></script>
+
+<!-- Items -->
+<script src="script/compiled/item/item.js"></script>
+<script src="script/compiled/item/weapon.js"></script>
+<script src="script/compiled/item/armor.js"></script>
+<script src="script/compiled/item/items.js"></script>
+
+<!-- Characters -->
+<script src="script/compiled/character/character.js"></script>
+<script src="script/compiled/character/enemy.js"></script>
+<script src="script/compiled/character/enemies.js"></script>
+<script src="script/compiled/character/player.js"></script>

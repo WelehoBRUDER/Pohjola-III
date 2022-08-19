@@ -1,38 +1,68 @@
 @font-face {
   font-family: RobotoThin;
-  src: url("../style/font/Roboto-Thin.ttf");
+  src: url("../font/Roboto-Thin.ttf");
   font-weight: normal;
 }
 
 @font-face {
   font-family: RobotoLight;
-  src: url("../style/font/Roboto-Light.ttf");
+  src: url("../font/Roboto-Light.ttf");
   font-weight: normal;
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("../style/font/Roboto-Regular.ttf");
+  src: url("../font/Roboto-Regular.ttf");
   font-weight: normal;
 }
 
 @font-face {
   font-family: RobotoMedium;
-  src: url("../style/font/Roboto-Medium.ttf");
+  src: url("../font/Roboto-Medium.ttf");
   font-weight: normal;
 }
 
 @font-face {
   font-family: RobotoBold;
-  src: url("../style/font/Roboto-Bold.ttf");
+  src: url("../font/Roboto-Bold.ttf");
   font-weight: normal;
 }
 
 @font-face {
   font-family: RobotoBolder;
-  src: url("../style/font/Roboto-Black.ttf");
+  src: url("../font/Roboto-Black.ttf");
   font-weight: normal;
 }
+
+$health: rgb(165, 30, 20);
+$health_light: rgb(218, 60, 49);
+$health_shadow: inset 0px 0px 0.25rem 0.2rem rgb(107, 18, 11);
+$health_gradient: linear-gradient(
+  90deg,
+  rgba(165, 30, 20, 1) 0%,
+  rgb(233, 74, 63) 10%,
+  rgb(202, 53, 42) 25%,
+  rgba(165, 30, 20, 1) 100%
+);
+$mana: rgb(20, 88, 165);
+$mana_light: rgb(0, 128, 218);
+$mana_shadow: inset 0px 0px 0.25rem 0.2rem rgb(16, 74, 139);
+$mana_gradient: linear-gradient(
+  90deg,
+  rgba(20, 88, 165, 1) 0%,
+  rgb(101, 162, 231) 10%,
+  rgb(69, 133, 207) 25%,
+  rgba(20, 88, 165, 1) 100%
+);
+$action: rgb(85, 165, 20);
+$action_gradient: linear-gradient(
+  90deg,
+  rgba(85, 165, 20, 1) 0%,
+  rgb(142, 235, 66) 10%,
+  rgb(110, 196, 40) 25%,
+  rgba(85, 165, 20, 1) 100%
+);
+$action_shadow: inset 0px 0px 0.25rem 0.2rem rgb(10, 10, 10);
 
 body {
   background: rgb(80, 80, 80);
@@ -45,1030 +75,175 @@ body {
   transform: scale(0);
 }
 
-.combatScreen {
+main.game {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  margin: 0px;
+  overflow: hidden;
+}
+
+.combat {
   position: absolute;
-  left: 0px;
-  bottom: 0px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
 
-  .selected {
-    border: 8px solid rgb(209, 181, 20) !important;
-  }
-
-  .selected:hover {
-    border: 8px solid rgb(255, 217, 0) !important;
-  }
-
-  .playerArea {
-    margin: 0px;
-    position: absolute;
-    left: 0px;
-    bottom: 0px;
-    width: 100%;
-
-    .playerHpBar,
-    .playerMpBar {
-      width: 35vw;
-      height: 90px;
-      background: rgb(25, 25, 25);
+  .ui {
+    .toolbar {
       position: absolute;
-      bottom: 0px;
-      box-shadow: inset 0px 0px 0.25vw 0.2vw rgb(10, 10, 10);
-      border: 4px solid black;
-      border-radius: 8px;
-    }
-
-    .playerMpNum,
-    .playerHpNum {
-      transition: 0.2s;
-      font-size: 60px;
-      color: white;
-      text-shadow: -2px 2px 4px rgb(197, 197, 197);
-      text-align: center;
-      position: relative;
-      bottom: 47px;
-      opacity: 0;
-    }
-
-    .playerHpBar:hover > p,
-    .playerMpBar:hover > p {
-      opacity: 1;
-    }
-
-    .fillbar {
-      transition: 0.8s;
+      left: 0;
+      bottom: 0;
       width: 100%;
-      height: 100%;
-      background: rgb(165, 30, 20);
-      background: linear-gradient(
-        90deg,
-        rgba(165, 30, 20, 1) 0%,
-        rgb(233, 74, 63) 10%,
-        rgb(202, 53, 42) 25%,
-        rgba(165, 30, 20, 1) 100%
-      );
-      box-shadow: inset 0px 0px 0.25vw 0.2vw rgb(107, 18, 11);
-      animation-name: BarShine;
-      animation-duration: 3s;
-      background-size: 200% 200%;
-      animation-iteration-count: infinite;
-      animation-timing-function: linear;
-      position: absolute;
-      bottom: 0px;
-    }
-
-    .playerHpBar {
-      left: 0px;
-
-      .playerHpFill {
-      }
-
-      .playerHpLate {
-        transition: 1.45s cubic-bezier(0, 0, 0.15, 1.02);
-        transition-delay: 0.65s;
-        width: 100%;
-        height: 100%;
-        background: rgb(218, 60, 49);
-        background: linear-gradient(
-          90deg,
-          rgba(218, 60, 49, 1) 0%,
-          rgb(255, 120, 110) 10%,
-          rgb(231, 91, 80) 25%,
-          rgba(218, 60, 49, 1) 100%
-        );
-        animation-name: BarShineReverse;
-        animation-duration: 1.25s;
-        background-size: 200% 200%;
-        animation-iteration-count: infinite;
-        animation-timing-function: linear;
-        position: absolute;
-        left: 0px;
-        bottom: 0px;
-      }
-    }
-    .playerMpBar {
-      right: 0px;
-
-      .playerMpFill {
-        background: rgb(20, 88, 165);
-        background: linear-gradient(
-          90deg,
-          rgba(20, 88, 165, 1) 0%,
-          rgb(101, 162, 231) 10%,
-          rgb(69, 133, 207) 25%,
-          rgba(20, 88, 165, 1) 100%
-        );
-        box-shadow: inset 0px 0px 0.25vw 0.2vw rgb(16, 74, 139);
-        animation-name: BarShine;
-        animation-duration: 3s;
-        background-size: 200% 200%;
-        animation-iteration-count: infinite;
-        animation-timing-function: linear;
-        right: 0px;
-      }
-    }
-
-    .playerStatuses {
-      width: calc(30vw - 16px);
-      height: 100px;
-      position: absolute;
-      left: 50%;
-      bottom: 325px;
-      display: flex;
-      transform: translateX(-50%);
-    }
-
-    .playerInteract {
-      width: calc(30vw - 16px);
-      height: 300px;
-      position: absolute;
-      left: 50%;
-      bottom: 0px;
-      transform: translateX(-50%);
-      background: rgb(30, 30, 30);
-      border: 4px solid black;
-      box-shadow: inset 0px 0px 20px 14px rgb(16, 16, 16);
-
-      .playerActionBar {
-        position: absolute;
-        left: -4px;
-        top: -53px;
-        height: 45px;
-        width: 100%;
-        background: rgb(20, 20, 20);
-        border: 4px solid black;
-        box-shadow: inset 0px 0px 0.25vw 0.2vw rgb(10, 10, 10);
-        border-radius: 8px 8px 0px 0px;
-
-        .playerActionNum {
-          font-size: 30px;
-          color: white;
-          text-shadow: -2px 2px 4px rgb(197, 197, 197);
-          text-align: center;
-          position: relative;
-          bottom: 72px;
-        }
-
-        .playerActionFill {
-          background: rgb(85, 165, 20);
-          background: linear-gradient(
-            90deg,
-            rgba(85, 165, 20, 1) 0%,
-            rgb(142, 235, 66) 10%,
-            rgb(110, 196, 40) 25%,
-            rgba(85, 165, 20, 1) 100%
-          );
-          width: 73%;
-          height: 100%;
-          animation-name: BarShine;
-          animation-duration: 1.5s;
-          background-size: 200% 200%;
-          animation-iteration-count: infinite;
-          animation-timing-function: linear;
-          border-radius: 8px 8px 0px 0px;
-        }
-      }
-
-      button {
-        width: 125px;
-        height: 110px;
-        border: 8px solid black;
-        background: rgba(35, 35, 40, 0.75);
-        box-shadow: inset 0px 0px 8px 6px rgba(20, 20, 20, 0.75);
-        transition: 0.25s;
-        cursor: pointer;
-
-        > img {
-          width: 100%;
-          height: 100%;
-          pointer-events: none;
-        }
-      }
-
-      button:hover {
-        border: 8px solid white;
-        transform: scale(1.05);
-      }
-
-      .regularAttack {
-        position: absolute;
-        left: 25px;
-        top: 25px;
-      }
-
-      .combatInventory {
-        position: absolute;
-        left: 155px;
-        top: 25px;
-      }
-
-      .playerAbilities {
-        width: 100%;
-        height: 120px;
-        position: absolute;
-        left: 0px;
-        bottom: 20px;
-        align-items: center;
-
-        .abilityContainer {
-          width: fit-content;
-          height: 100px;
-          position: absolute;
-          left: 50%;
-          transform: translateX(-50%);
-          display: flex;
-
-          > div {
-            transition: 0.05s;
-            width: 90px;
-            height: 90px;
-            background: rgb(37, 37, 37);
-            background: radial-gradient(circle, rgba(37, 37, 37, 1) 0%, rgba(28, 28, 28, 1) 100%);
-            position: relative;
-            box-shadow: inset 0px 0px 8px 6px rgb(16, 16, 16);
-            border: 8px solid black;
-            margin: 0px 1px 1px 0px;
-            user-select: none;
-          }
-
-          > div:hover {
-            border: 8px solid rgba(196, 196, 196, 0.75);
-          }
-
-          .cooldown {
-            font-size: 48px;
-            color: white;
-            text-shadow: 0px 0px 8px black;
-            position: absolute;
-            left: 50%;
-            top: -28px;
-            transform: translateX(-50%);
-            pointer-events: none;
-            z-index: 3;
-          }
-
-          .darkened {
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 10, 10, 0.8);
-            pointer-events: none;
-            position: absolute;
-            left: 0px;
-            top: 0px;
-            z-index: 2;
-          }
-
-          .charAbility {
-            width: 90px;
-            height: 90px;
-            background: rgba(165, 30, 20, 0.2);
-            position: absolute;
-            left: 0px;
-            top: 0px;
-
-            > img {
-              width: 100%;
-              height: 100%;
-              pointer-events: none;
-            }
-
-            > span {
-              font-size: 100px;
-              position: absolute;
-              z-index: 1;
-              left: -5px;
-              top: -12px;
-              color: rgb(112, 21, 21);
-              text-shadow: 0px 0px 6px rgb(0, 0, 0);
-              background: rgba(10, 10, 10, 0.5);
-              padding: 0px 20px 0px 20px;
-            }
-          }
-        }
-      }
-    }
-
-    @keyframes BarShine {
-      0% {
-        background-position: 200% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
-    }
-  }
-  .enemyArea {
-    width: 90vw;
-    height: 40%;
-    position: absolute;
-    left: 5vw;
-    top: 40px;
-    display: grid;
-    place-items: center;
-
-    .enemiesFlex {
-      display: flex;
-      position: relative;
-      top: -150px;
-
-      .enemyFrame {
-        width: 300px;
-        min-height: 100%;
-        height: fit-content;
-        margin: 25px;
-        position: relative;
-        img {
-          position: absolute;
-          width: 270px;
-          height: 360px;
-          top: 60px;
-        }
-
-        .enemyDroppingString {
-          width: 10px;
-          height: 10px;
-          position: absolute;
-          left: -40%;
-          top: 225%;
-          z-index: 1;
-        }
-
-        .enemyName {
-          position: relative;
-          top: -60px;
-          font-size: 24px;
-          color: white;
-          text-shadow: -2px 2px 4px silver;
-          text-align: center;
-        }
-
-        .enemyHpBar,
-        .enemyMpBar {
-          width: 300px;
-          height: 20px;
-          background: rgb(25, 25, 25);
-          position: absolute;
-          top: 0px;
-          box-shadow: inset 0px 0px 0.25vw 0.2vw rgb(10, 10, 10);
-          border: 4px solid black;
-          border-radius: 8px;
-        }
-
-        .enemyMpBar {
-          top: 30px;
-        }
-
-        .enemyHpFill {
-          transition: 0.35s;
-          width: 100%;
-          height: 100%;
-          background: rgb(165, 30, 20);
-          background: linear-gradient(
-            90deg,
-            rgba(165, 30, 20, 1) 0%,
-            rgb(233, 74, 63) 10%,
-            rgb(202, 53, 42) 25%,
-            rgba(165, 30, 20, 1) 100%
-          );
-          animation-name: BarShine;
-          animation-duration: 1.5s;
-          background-size: 200% 200%;
-          animation-iteration-count: infinite;
-          animation-timing-function: linear;
-          box-shadow: inset 0px 0px 0.25vw 0.2vw rgb(107, 18, 11);
-          border-radius: 0.25vw;
-          position: absolute;
-          left: 0px;
-        }
-        .enemyMpFill {
-          transition: 0.35s;
-          width: 100%;
-          height: 100%;
-          background: rgb(20, 88, 165);
-          background: linear-gradient(
-            90deg,
-            rgba(20, 88, 165, 1) 0%,
-            rgb(101, 162, 231) 10%,
-            rgb(69, 133, 207) 25%,
-            rgba(20, 88, 165, 1) 100%
-          );
-          box-shadow: inset 0px 0px 0.25vw 0.2vw rgb(16, 74, 139);
-          animation-name: BarShine;
-          animation-duration: 1.5s;
-          background-size: 200% 200%;
-          animation-iteration-count: infinite;
-          animation-timing-function: linear;
-          border-radius: 0.25vw;
-          position: absolute;
-          left: 0px;
-        }
-
-        .enemyHpLate {
-          transition: 0.95s cubic-bezier(0, 0, 0.15, 1.02);
-          transition-delay: 0.25s;
-          width: 100%;
-          height: 100%;
-          background: rgb(218, 60, 49);
-          background: linear-gradient(
-            90deg,
-            rgba(218, 60, 49, 1) 0%,
-            rgb(255, 120, 110) 10%,
-            rgb(231, 91, 80) 25%,
-            rgba(218, 60, 49, 1) 100%
-          );
-          animation-name: BarShine;
-          animation-duration: 1.25s;
-          background-size: 200% 200%;
-          animation-iteration-count: infinite;
-          animation-timing-function: linear;
-          position: absolute;
-          left: 0px;
-          bottom: 0px;
-          border-radius: 0.25vw;
-        }
-
-        .enemyActionNumber {
-          font-size: 20px;
-          color: white;
-          text-shadow: -2px 2px 4px rgb(197, 197, 197);
-          text-align: center;
-          position: relative;
-          bottom: 42px;
-        }
-
-        .enemyActionBar {
-          position: absolute;
-          top: 440px;
-          height: 25px;
-          width: 100%;
-          background: rgb(20, 20, 20);
-          border: 4px solid black;
-          box-shadow: inset 0px 0px 0.25vw 0.2vw rgb(10, 10, 10);
-          border-radius: 0px 0px 0.25vw 0.25vw;
-
-          .enemyActionFill {
-            background: rgb(85, 165, 20);
-            background: linear-gradient(
-              90deg,
-              rgba(85, 165, 20, 1) 0%,
-              rgb(142, 235, 66) 10%,
-              rgb(110, 196, 40) 25%,
-              rgba(85, 165, 20, 1) 100%
-            );
-            width: 100%;
-            height: 100%;
-            animation-name: BarShine;
-            animation-duration: 1.5s;
-            background-size: 200% 200%;
-            animation-iteration-count: infinite;
-            animation-timing-function: linear;
-            border-radius: 0px 0px 0.25vw 0.25vw;
-          }
-        }
-
-        .enemyStatusArea {
-          width: 308px;
-          height: 36px;
-          position: absolute;
-          left: 0px;
-          top: 400px;
-          display: flex;
-
-          .statusFrameEnemy {
-            width: 32px;
-            height: 32px;
-            position: relative;
-            bottom: 5px;
-            left: 5px;
-            margin: 4px;
-            border: 2px solid rgb(61, 61, 61);
-            background: rgb(37, 37, 37);
-            box-shadow: inset 0px 0px 4px 3px rgb(16, 16, 16);
-            align-items: center;
-
-            > img {
-              position: absolute;
-              left: 0px;
-              top: 0px;
-              width: 32px;
-              height: 32px;
-              pointer-events: none;
-            }
-
-            > p {
-              color: white;
-              font-size: 8px;
-              position: absolute;
-              right: 2px;
-              bottom: -6px;
-              text-shadow: -1px 1px 2px black;
-            }
-          }
-        }
-
-        .enemyMpNumber,
-        .enemyHpNumber {
-          transition: 0.2s;
-          font-size: 18px;
-          color: white;
-          text-shadow: -2px 2px 4px rgb(197, 197, 197);
-          text-align: center;
-          position: relative;
-          bottom: 18px;
-          opacity: 0;
-        }
-
-        .enemyHpBar:hover > p,
-        .enemyMpBar:hover > p {
-          opacity: 1;
-        }
-      }
-    }
-  }
-
-  .enemyAttack {
-    animation-name: enemyAttacks;
-    animation-duration: 1s;
-  }
-
-  @keyframes enemyAttacks {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(0.93);
-    }
-    60% {
-      transform: scale(0.935);
-    }
-    80% {
-      transform: scale(1.09);
-    }
-    90% {
-      transform: scale(1.08);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-}
-
-#inventoryWindow {
-  width: 928px;
-  height: 576px;
-  background: rgba(85, 85, 85, 0.95);
-  position: absolute;
-  left: 50%;
-  margin-left: -464px;
-  top: 48px;
-  box-shadow: inset 0px 0px 24px 16px rgba(45, 45, 45, 0.95), 0px 0px 12px 8px rgba(30, 30, 30, 0.9);
-  border: 4px solid rgba(25, 25, 25, 0.95);
-
-  > .draggableArea {
-    width: 100%;
-    height: 24px;
-    background: rgba(50, 50, 50, 0.9);
-    position: absolute;
-    top: -24px;
-    left: -4px;
-    border: 2px solid rgba(50, 50, 50, 0.9);
-    z-index: 1;
-    border-radius: 12px 12px 0px 0px;
-  }
-
-  .itemsArea {
-    width: 582px;
-    position: absolute;
-    right: 0px;
-    top: 5px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
-    grid-template-rows: auto;
-    margin: 0px;
-    gap: 10px;
-
-    > div {
-      transition: 0.05s;
-      position: relative;
-      border: 8px solid black;
-      transition: 0.05s;
-      width: 75px;
-      height: 75px;
-      background: rgb(60, 60, 60);
-      z-index: 1;
-
-      > div {
-        width: 75px;
-        height: 75px;
-        background: rgb(37, 37, 37);
-        background: radial-gradient(circle, rgba(37, 37, 37, 1) 0%, rgba(28, 28, 28, 1) 100%);
-        position: absolute;
-        box-shadow: inset 0px 0px 8px 6px rgb(16, 16, 16);
-        user-select: none;
-        left: 0px;
-        top: 0px;
-
-        > img {
-          width: 75px;
-          height: 75px;
-          pointer-events: none;
-        }
-
-        > p {
-          font-size: 18px;
-          color: white;
-          text-shadow: 0px 0px 4px black;
-          position: absolute;
-          right: 0px;
-          bottom: -20px;
-        }
-      }
-    }
-
-    > div:hover {
-      border: 8px solid rgb(187, 187, 187);
-    }
-  }
-
-  .equipmentArea {
-    width: 346px;
-    height: 100%;
-    background: rgba(35, 35, 35, 0.6);
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    box-shadow: inset 0px 0px 20px 16px rgba(60, 60, 60, 0.5), 1px 0px 14px 20px rgba(70, 70, 70, 0.5);
-
-    > .armorValues {
-      position: absolute;
-      width: 90%;
-      left: 10px;
-      top: 300px;
-      height: 120px;
-      border: none;
-      background: rgba(0, 0, 0, 0);
-    }
-
-    > .armorValues:hover {
-      border: none;
-    }
-
-    > .encumbrance {
-      width: auto;
       height: auto;
-      position: absolute;
-      left: 10px;
-      top: 390px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-end;
 
-      > span {
-        font-size: 17px;
-        color: white;
+      .bar {
         position: relative;
-        top: -20px;
-      }
+        width: 35%;
+        height: 3.5rem;
+        background: rgb(15, 15, 15);
+        box-sizing: border-box;
+        border: 0.25rem solid rgb(15, 15, 15);
 
-      > img {
-        width: 64px;
-        height: 64px;
-      }
-    }
-
-    > div {
-      position: absolute;
-      border: 8px solid black;
-      transition: 0.05s;
-      width: 75px;
-      height: 75px;
-      background: rgb(60, 60, 60);
-
-      > div {
-        width: 75px;
-        height: 75px;
-        background: rgb(37, 37, 37);
-        background: radial-gradient(circle, rgba(37, 37, 37, 1) 0%, rgba(28, 28, 28, 1) 100%);
-        position: relative;
-        box-shadow: inset 0px 0px 8px 6px rgb(16, 16, 16);
-        user-select: none;
-        margin: 0px;
-
-        > img {
-          width: 75px;
-          height: 75px;
-          pointer-events: none;
-        }
-
-        > p {
-          font-size: 18px;
-          color: white;
-          text-shadow: 0px 0px 4px black;
+        .fill,
+        .late {
+          width: 100%;
+          height: 100%;
           position: absolute;
-          right: 0px;
-          bottom: -20px;
+          top: 0;
+          animation-name: GradientShine;
+          animation-duration: 3s;
+          background-size: 200% 200%;
+          animation-iteration-count: infinite;
+          animation-timing-function: linear;
+
+          &.no-fill {
+            width: 0;
+            box-shadow: none;
+          }
+        }
+
+        .value {
+          transition: 200ms ease-out opacity;
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 0;
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: rgb(255, 255, 255);
+          text-shadow: 0 0 0.5rem rgb(0, 0, 0);
+          z-index: 3;
+          opacity: 0;
+
+          &:hover {
+            opacity: 1;
+          }
+        }
+
+        .fill {
+          transition: 750ms ease-out width;
+          z-index: 2;
+        }
+
+        .late {
+          transition: 800ms ease-out width;
+          transition-delay: 500ms;
+        }
+
+        &.player-hp {
+          left: 0;
+          .fill {
+            left: 0;
+            background: $health;
+            background: $health_gradient;
+            box-shadow: $health_shadow;
+          }
+          .late {
+            left: 0;
+            background: $health_light;
+          }
+        }
+
+        &.player-mp {
+          .fill {
+            right: 0px;
+            background: $mana;
+            background: $mana_gradient;
+            box-shadow: $mana_shadow;
+            transform: scale(-1);
+          }
+          .late {
+            right: 0px;
+            background: $mana_light;
+            transform: scale(-1);
+          }
+        }
+      }
+
+      .tools {
+        width: 30%;
+        height: 9rem;
+        background: rgb(37, 37, 37);
+        box-sizing: border-box;
+        border: 0.25rem solid rgb(15, 15, 15);
+
+        .player-action {
+          width: 100%;
+          height: 2.5rem;
+          border: none;
+
+          .fill {
+            left: 0;
+            background: $action;
+            background: $action_gradient;
+            box-shadow: $action_shadow;
+          }
+
+          &.no-fill > .fill {
+            width: 0;
+            box-shadow: none;
+          }
+
+          &.paused > .fill {
+            filter: grayscale(50%) contrast(0.5);
+            animation-play-state: paused;
+          }
+
+          .value {
+            opacity: 1;
+          }
         }
       }
     }
-
-    > div:hover {
-      border: 8px solid rgb(126, 126, 126);
-    }
-
-    .equipmentSlot§weapon {
-      top: 90px;
-      left: 10px;
-    }
-
-    .equipmentSlot§shield {
-      top: 90px;
-      right: 10px;
-    }
-
-    .equipmentSlot§head {
-      top: 10px;
-      left: 50%;
-      margin-left: -41px;
-    }
-
-    .equipmentSlot§body {
-      top: 120px;
-      left: 50%;
-      margin-left: -41px;
-    }
-
-    .equipmentSlot§legs {
-      top: 240px;
-      left: 50%;
-      margin-left: -41px;
-    }
-
-    .equipmentSlot§ring {
-      bottom: 10px;
-      left: 10px;
-    }
-
-    .equipmentSlot§amulet {
-      bottom: 10px;
-      left: 50%;
-      margin-left: -41px;
-    }
-
-    .equipmentSlot§talisman {
-      bottom: 10px;
-      right: 10px;
-    }
   }
 }
 
-.statusFrame {
-  width: 64px;
-  height: 64px;
-  position: relative;
-  bottom: 10px;
-  left: 10px;
-  margin: 8px;
-  border: 4px solid rgb(61, 61, 61);
-  background: rgb(37, 37, 37);
-  box-shadow: inset 0px 0px 8px 6px rgb(16, 16, 16);
-  align-items: center;
-
-  > img {
-    width: 64px;
-    height: 64px;
-    pointer-events: none;
-  }
-
-  > p {
-    color: white;
-    font-size: 16px;
-    position: absolute;
-    right: 4px;
-    bottom: -12px;
-    text-shadow: -2px 2px 4px black;
-  }
+.gradient-shine {
+  animation-name: GradientShine;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  background-size: 200% 200% !important;
 }
 
-.bloodyScreenEffect {
-  width: 100%;
-  height: 100%;
-  box-shadow: inset 0vw 0vw 8vw 6vw #751322;
-  background: rgba(165, 30, 20, 0.2);
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  opacity: 0;
-  user-select: none;
-  pointer-events: none;
-}
-
-.fadeOut {
-  animation-name: fadeOut;
-  animation-duration: 0.2s;
-  animation-fill-mode: forwards;
-}
-
-.deathFade {
-  animation-name: deathFadeout;
-  animation-duration: 0.6s;
-  animation-fill-mode: forwards;
-}
-
-.dropping {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  animation-name: upAndDown;
-  animation-duration: 1.8s;
-  animation-fill-mode: forwards;
-}
-
-.damage {
-  color: rgb(204, 35, 35);
-  text-shadow: -2px 2px 6px rgb(99, 6, 6);
-}
-
-.neutral {
-  color: rgb(204, 201, 35);
-  text-shadow: -2px 2px 6px rgb(99, 93, 6);
-}
-
-.gray {
-  color: rgb(85, 85, 85);
-  text-shadow: -2px 2px 6px rgb(48, 48, 48);
-}
-
-.crit {
-  color: rgb(204, 125, 35);
-  text-shadow: -2px 2px 6px rgb(133, 79, 8);
-}
-
-.health {
-  color: rgb(111, 204, 35);
-  text-shadow: -2px 2px 6px rgb(17, 99, 6);
-}
-
-.heal {
-  animation-name: heal;
-  animation-duration: 1s;
-}
-
-.shake1 {
-  animation-name: shakeA1;
-  animation-duration: 0.2s;
-}
-
-.shake2 {
-  animation-name: shakeA2;
-  animation-duration: 0.2s;
-}
-
-.shake3 {
-  animation-name: shakeA3;
-  animation-duration: 0.2s;
-}
-
-.shake4 {
-  animation-name: shakeA4;
-  animation-duration: 0.2s;
-}
-
-.canBeTargeted {
-  filter: drop-shadow(0px 0px 16px rgb(114, 23, 23));
-}
-
-@keyframes fadeOut {
+@keyframes GradientShine {
   0% {
-    filter: opacity(1);
+    background-position: 200% 50%;
   }
   100% {
-    filter: opacity(0);
-  }
-}
-
-@keyframes deathFadeout {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes upAndDown {
-  0% {
-    margin-top: 0%;
-  }
-  20% {
-    margin-top: -3%;
-    opacity: 1;
-  }
-  100% {
-    margin-top: 20%;
-    opacity: 0;
-  }
-}
-
-@keyframes heal {
-  0% {
-    filter: grayscale(0) sepia(0) hue-rotate(0);
-  }
-  80% {
-    filter: grayscale(1) sepia(1) hue-rotate(75deg) brightness(7);
-  }
-  100% {
-    filter: grayscale(0) sepia(0) hue-rotate(0) brightness(1);
-  }
-}
-
-@keyframes shakeA1 {
-  0% {
-    margin-left: 10px;
-    margin-top: 5px;
-  }
-  25% {
-    margin-left: -5px;
-    margin-top: 0px;
-  }
-  50% {
-    margin-left: 8px;
-    margin-top: 12px;
-  }
-  75% {
-    margin-left: -3px;
-    margin-top: 4px;
-  }
-  100% {
-    margin-left: 9px;
-    margin-top: -6px;
-  }
-}
-
-@keyframes shakeA2 {
-  0% {
-    margin-left: -10px;
-    margin-top: -5px;
-  }
-  25% {
-    margin-left: 5px;
-    margin-top: 0px;
-  }
-  50% {
-    margin-left: -8px;
-    margin-top: -12px;
-  }
-  75% {
-    margin-left: 3px;
-    margin-top: -4px;
-  }
-  100% {
-    margin-left: -9px;
-    margin-top: 6px;
-  }
-}
-
-@keyframes shakeA3 {
-  0% {
-    margin-left: 9px;
-    margin-top: -4px;
-  }
-  25% {
-    margin-left: -12px;
-    margin-top: 3px;
-  }
-  50% {
-    margin-left: 2px;
-    margin-top: -9px;
-  }
-  75% {
-    margin-left: -6px;
-    margin-top: 1px;
-  }
-  100% {
-    margin-left: 7px;
-    margin-top: -6px;
-  }
-}
-
-@keyframes shakeA4 {
-  0% {
-    margin-left: 18px;
-    margin-top: 17px;
-  }
-  25% {
-    margin-left: -16px;
-    margin-top: -14px;
-  }
-  50% {
-    margin-left: 22px;
-    margin-top: 9px;
-  }
-  75% {
-    margin-left: -11px;
-    margin-top: -2px;
-  }
-  100% {
-    margin-left: 3px;
-    margin-top: 8px;
+    background-position: 0% 50%;
   }
 }

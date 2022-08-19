@@ -1,8 +1,8 @@
 interface I_Equipment {
-  [weapon: string]: any;
-  armor: any;
-  helmet: any;
-  legs: any;
+  weapon: Weapon;
+  armor: Armor;
+  helmet: Armor;
+  legs: Armor;
 }
 
 const defaultEquipment = {
@@ -16,9 +16,7 @@ const races = {
   human: {
     id: "human",
     modifiers: {
-      testModifierV: 25,
-      testModifierP: 12,
-      speedP: 500,
+      expGainP: 5,
     },
   },
 };

@@ -29,6 +29,15 @@ function getAllModifiers(char) {
             applyModifierToTotal(modifier, modifiers);
         });
     }
+    if (char.equipment) {
+        Object.entries(char.equipment).forEach((item) => {
+            if (item.modifiers) {
+                Object.entries(item.modifiers).forEach((modifier) => {
+                    applyModifierToTotal(modifier, modifiers);
+                });
+            }
+        });
+    }
     return modifiers;
 }
 function applyModifierToTotal(modifier, total) {

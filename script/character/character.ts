@@ -31,8 +31,8 @@ class Character {
   stats: I_Stats;
   defences: I_Defences;
   resistances: I_Resistances;
-  traits: any;
-  statuses: any;
+  traits?: any;
+  statuses?: any;
   perks?: any;
   allModifiers?: any;
   constructor(char: Character) {

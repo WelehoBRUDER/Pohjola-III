@@ -9,9 +9,7 @@ const races = {
     human: {
         id: "human",
         modifiers: {
-            testModifierV: 25,
-            testModifierP: 12,
-            speedP: 500,
+            expGainP: 5,
         },
     },
 };
