@@ -7,7 +7,7 @@ function update() {
 
   if (player.stats.ap > 100) {
     player.stats.ap = 100;
-    game.pause();
+    //game.pause();
   }
   const stats = player.getStats();
   const PlayerHealthRemaining = (player.stats.hp / stats.hpMax) * 100;
@@ -32,6 +32,8 @@ function update() {
     cooldown.style.height = `${(ability.onCooldown / ability.cooldown) * 100}%`;
     if (ability.onCooldown > 0) {
       cooldownValue.innerText = ability.onCooldown.toFixed(1) + "s";
+    } else {
+      cooldownValue.innerText = "";
     }
   });
 }
@@ -53,6 +55,7 @@ function createActionSlots() {
       slot.append(image, cooldown, cooldownValue);
       console.log(ability.tooltip());
       tooltip(slot, ability.tooltip());
+      slot.addEventListener("click", ability.setCooldown);
     }
     slots.appendChild(slot);
   }

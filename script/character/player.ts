@@ -1,8 +1,8 @@
 interface I_Equipment {
-  weapon: Weapon;
-  armor: Armor;
-  helmet: Armor;
-  legs: Armor;
+  weapon: Weapon | null;
+  armor: Armor | null;
+  helmet: Armor | null;
+  legs: Armor | null;
 }
 
 const defaultEquipment = {
@@ -33,10 +33,12 @@ class Race {
 class Player extends Character {
   [race: string]: any;
   equipment: I_Equipment;
-  constructor(char: Character) {
+  abilities_total: Ability[];
+  constructor(char: Player) {
     super(char);
     this.race = new Race(char.race) ?? new Race(races.human);
     this.equipment = char.equipment ?? defaultEquipment;
+    this.abilities_total = char.abilities_total ?? [];
 
     this.updateAllModifiers();
   }
@@ -70,7 +72,12 @@ const player = new Player({
     poison: 10,
     divine: 10,
   },
-  abilities: [new Ability(abilities.sharp_strike)],
+  equipment: defaultEquipment,
+  abilities: [
+    new Ability(abilities.sharp_strike),
+    new Ability(abilities.heavy_attack),
+  ],
+  abilities_total: [],
   traits: [],
   statuses: [],
   perks: [],

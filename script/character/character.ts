@@ -33,7 +33,6 @@ class Character {
   defences: I_Defences;
   resistances: I_Resistances;
   abilities: Ability[];
-  abilities_total?: Ability[];
   traits?: any;
   statuses?: any;
   perks?: any;
@@ -45,7 +44,6 @@ class Character {
     this.defences = char.defences;
     this.resistances = char.resistances;
     this.abilities = char.abilities;
-    this.abilities_total = char.abilities_total;
     this.traits = char.traits ?? [];
     this.statuses = char.statuses ?? [];
     this.perks = char.perks ?? [];

@@ -24,6 +24,7 @@ class Player extends Character {
         super(char);
         this.race = new Race(char.race) ?? new Race(races.human);
         this.equipment = char.equipment ?? defaultEquipment;
+        this.abilities_total = char.abilities_total ?? [];
         this.updateAllModifiers();
     }
 }
@@ -55,7 +56,12 @@ const player = new Player({
         poison: 10,
         divine: 10,
     },
-    abilities: [new Ability(abilities.sharp_strike)],
+    equipment: defaultEquipment,
+    abilities: [
+        new Ability(abilities.sharp_strike),
+        new Ability(abilities.heavy_attack),
+    ],
+    abilities_total: [],
     traits: [],
     statuses: [],
     perks: [],

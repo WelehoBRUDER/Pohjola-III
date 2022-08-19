@@ -10,4 +10,14 @@ const abilities = {
     power: 1.25,
     penetration: 0.1,
   } as Ability,
+  heavy_attack: {
+    id: "heavy_attack",
+    icon: "gfx/abilities/strong.png",
+    mpCost: 0,
+    hpCost: 0,
+    type: "attack",
+    cooldown: 3,
+    onCooldown: 0,
+    power: 1.5,
+  } as Ability,
 };

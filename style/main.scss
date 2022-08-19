@@ -281,6 +281,7 @@ main.game {
               font-size: 1.75rem;
               color: rgb(139, 139, 139);
               text-shadow: -0.15rem 0.2rem 0.2rem $health;
+              user-select: none;
             }
 
             &:hover {

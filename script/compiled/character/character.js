@@ -7,7 +7,6 @@ class Character {
         this.defences = char.defences;
         this.resistances = char.resistances;
         this.abilities = char.abilities;
-        this.abilities_total = char.abilities_total;
         this.traits = char.traits ?? [];
         this.statuses = char.statuses ?? [];
         this.perks = char.perks ?? [];
