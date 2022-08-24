@@ -15,6 +15,9 @@ const enemies = {
             mpMax: 5,
             ap: 0,
         },
+        damages: {
+            physical: 4,
+        },
         defences: {
             physical: 10,
             magical: 10,

@@ -38,6 +38,8 @@ class Character {
   perks?: any;
   allModifiers?: any;
   dead?: boolean;
+  getDamage?: any;
+  getDefences?: any;
   constructor(char: Character) {
     this.id = char.id;
     this.name = char.name;
@@ -53,6 +55,19 @@ class Character {
 
     this.getModifiers = () => {
       return getAllModifiers(this);
+    };
+
+    this.getDefences = () => {
+      this.updateAllModifiers();
+      const defences = { ...this.defences };
+      Object.entries(defences).map(([key, value]) => {
+        let modifier = this.allModifiers[key + "_defenceP"] ?? 1;
+        let boost = this.allModifiers[key + "_defenceV"] ?? 0;
+        modifier += this.allModifiers["defenceP"] ?? 0;
+        boost += this.allModifiers["defenceV"] ?? 0;
+        defences[key] = Math.floor((value + boost) * modifier);
+      });
+      return defences;
     };
 
     this.getAbilityModifiers = () => {
@@ -115,5 +130,11 @@ class Character {
     };
 
     this.updateAllModifiers();
+
+    this.getDamage = () => {
+      if (this.equipment?.weapon) {
+        return this.equipment.weapon.damages;
+      } else return this.damages;
+    };
   }
 }

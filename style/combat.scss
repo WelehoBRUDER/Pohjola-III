@@ -5,12 +5,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   .enemies {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+
     .battlecard {
+      transition: 300ms;
       width: 16rem;
       height: 28rem;
       background: rgb(26, 26, 26);
@@ -22,12 +25,10 @@
       align-items: center;
       overflow: hidden;
 
-      &.shake {
-        animation-duration: 0.3s;
-      }
-
-      &.attack {
-        animation-duration: 1.5s;
+      &:hover {
+        transform: scale(1.05);
+        filter: brightness(125%);
+        cursor: pointer;
       }
 
       .name {

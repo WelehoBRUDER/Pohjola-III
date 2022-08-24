@@ -8,9 +8,9 @@ class Ability {
         this.type = ability.type;
         this.cooldown = ability.cooldown;
         this.onCooldown = ability.onCooldown ?? 0;
-        this.damage = ability.damage;
-        this.power = ability.power;
-        this.penetration = ability.penetration;
+        this.damage = ability.damage ?? {};
+        this.power = ability.power ?? 0;
+        this.penetration = ability.penetration ?? 0;
         this.doCooldown = () => {
             if (!this.onCooldown)
                 return;

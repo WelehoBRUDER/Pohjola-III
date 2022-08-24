@@ -1,13 +1,5 @@
 "use strict";
 function update() {
-    if (game.state.paused)
-        return;
-    const speed = player.getSpeed();
-    player.stats.ap += speed;
-    if (player.stats.ap > 100) {
-        player.stats.ap = 100;
-        //game.pause();
-    }
     const stats = player.getStats();
     const PlayerHealthRemaining = (player.stats.hp / stats.hpMax) * 100;
     const PlayerManaRemaining = (player.stats.mp / stats.mpMax) * 100;
@@ -19,13 +11,21 @@ function update() {
     playerAction.innerText = player.stats.ap.toFixed(2) + "%";
     playerHP.innerText = player.stats.hp + "/" + stats.hpMax;
     playerMP.innerText = player.stats.mp + "/" + stats.mpMax;
+    if (game.state.paused)
+        return;
+    const speed = player.getSpeed();
+    player.stats.ap += speed;
+    if (player.stats.ap > 100) {
+        player.stats.ap = 100;
+        //game.pause();
+    }
     combat.enemies.forEach((enemy) => {
         if (enemy.dead)
             return;
         enemy.stats.ap += enemy.getSpeed();
         if (enemy.stats.ap > 100) {
             enemy.stats.ap = 100;
-            //game.pause();
+            enemy.act();
         }
         const enemyStats = enemy.getStats();
         const EnemyHealthRemaining = (enemy.stats.hp / enemyStats.hpMax) * 100;
@@ -71,6 +71,19 @@ function createActionSlots() {
         }
         slots.appendChild(slot);
     }
+}
+function shakeScreen() {
+    let shake = Math.ceil(Math.random() * 9);
+    combatScreen.style.animation = "none";
+    // @ts-ignore
+    combatScreen.style.offsetHeight; // trigger reflow
+    // @ts-ignore
+    combatScreen.style.animation = null;
+    combatScreen.style.animationDuration = `${250 / game.settings.animation_speed}ms`;
+    combatScreen.style.animationName = "shake" + shake;
+    setTimeout(() => {
+        combatScreen.style.animation = "none";
+    }, 250 / game.settings.animation_speed);
 }
 class Combat {
     constructor() {

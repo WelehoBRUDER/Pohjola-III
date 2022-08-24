@@ -15,6 +15,18 @@ class Character {
         this.getModifiers = () => {
             return getAllModifiers(this);
         };
+        this.getDefences = () => {
+            this.updateAllModifiers();
+            const defences = { ...this.defences };
+            Object.entries(defences).map(([key, value]) => {
+                let modifier = this.allModifiers[key + "_defenceP"] ?? 1;
+                let boost = this.allModifiers[key + "_defenceV"] ?? 0;
+                modifier += this.allModifiers["defenceP"] ?? 0;
+                boost += this.allModifiers["defenceV"] ?? 0;
+                defences[key] = Math.floor((value + boost) * modifier);
+            });
+            return defences;
+        };
         this.getAbilityModifiers = () => {
             const mods = {};
             Object.entries(this.allModifiers).forEach(([key, value]) => {
@@ -68,6 +80,13 @@ class Character {
             this.stats.mp = mpMax;
         };
         this.updateAllModifiers();
+        this.getDamage = () => {
+            if (this.equipment?.weapon) {
+                return this.equipment.weapon.damages;
+            }
+            else
+                return this.damages;
+        };
     }
 }
 //# sourceMappingURL=character.js.map

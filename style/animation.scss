@@ -1,3 +1,24 @@
+@keyframes attack {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.93);
+  }
+  60% {
+    transform: scale(0.935);
+  }
+  80% {
+    transform: scale(1.09);
+  }
+  90% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 @keyframes shake1 {
   0% {
     margin-left: 0;

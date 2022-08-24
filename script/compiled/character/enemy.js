@@ -4,31 +4,62 @@ class Enemy extends Character {
         super(enemy);
         this.index = enemy.index ?? -1;
         this.sprite = enemy.sprite;
+        this.damages = { ...enemy.damages };
         this.card = enemy.card;
-        this.init = (index) => {
-            this.restore();
-            this.index = index;
-            createBattlecard(this);
-        };
-        this.shake = () => {
-            // let shake = Math.ceil(Math.random() * 10);
-            // if (shake > 10) shake = 10;
-            const shake = 1;
-            console.log(shake);
-            if (this.card) {
-                this.card.main.style.animation = "none";
-                this.card.main.style.offsetHeight; // trigger reflow
-                this.card.main.style.animation = null;
-                this.card.main.classList.add("shake");
-                this.card.main.style.animationName = "shake" + shake;
-                setTimeout(() => {
-                    if (this.card) {
-                        this.card.main.classList.remove("shake");
-                        this.card.main.style.animation = "none";
-                    }
-                }, 300);
-            }
-        };
+    }
+    init(index) {
+        this.restore();
+        this.index = index;
+        createBattlecard(this);
+    }
+    shake() {
+        let shake = Math.ceil(Math.random() * 9);
+        if (this.card) {
+            this.card.main.style.animation = "none";
+            this.card.main.style.offsetHeight; // trigger reflow
+            this.card.main.style.animation = null;
+            this.card.main.style.animationDuration = `${250 / game.settings.animation_speed}ms`;
+            this.card.main.style.animationName = "shake" + shake;
+            setTimeout(() => {
+                if (this.card) {
+                    this.card.main.style.animation = "none";
+                }
+            }, 250 / game.settings.animation_speed);
+        }
+    }
+    act() {
+        game.pause();
+        console.log("I take action, ok?");
+        this.attack();
+    }
+    attack() {
+        let dmg = calculateDamage(this, player, this.abilities[0]);
+        this.attackAnimation(dmg);
+    }
+    attackAnimation(dmg) {
+        if (this.card) {
+            this.card.main.style.animation = "none";
+            this.card.main.style.offsetHeight; // trigger reflow
+            this.card.main.style.animation = null;
+            this.card.main.classList.add("attack");
+            this.card.main.style.animationDuration = `${1000 / game.settings.animation_speed}ms`;
+            this.card.main.style.animationName = "attack";
+            setTimeout(() => {
+                player.stats.hp -= dmg;
+                update();
+                shakeScreen();
+            }, 800 / game.settings.animation_speed);
+            setTimeout(() => {
+                if (this.card) {
+                    this.card.main.classList.remove("shake");
+                    this.card.main.style.animation = "none";
+                }
+            }, 1000 / game.settings.animation_speed);
+            setTimeout(() => {
+                this.stats.ap = 0;
+                game.resume();
+            }, 1050 / game.settings.animation_speed);
+        }
     }
 }
 function createBattlecard(enemy) {
