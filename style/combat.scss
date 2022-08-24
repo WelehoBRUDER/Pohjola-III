@@ -1,0 +1,141 @@
+@use "./main.scss" as *;
+
+.combat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .enemies {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    .battlecard {
+      width: 16rem;
+      height: 28rem;
+      background: rgb(26, 26, 26);
+      margin: 1.25rem;
+      border-radius: 0.5rem;
+      box-shadow: 0.25rem 0.25rem 0.5rem 0.25rem rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      overflow: hidden;
+
+      .name {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 10%;
+        background: rgb(43, 43, 43);
+        color: white;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+      }
+
+      .sprite {
+        position: relative;
+        border: 0.25rem solid $health;
+        width: 12rem;
+        height: 16rem;
+        margin: 0;
+        border-radius: 10%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: $health_gradient;
+
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 10%;
+          object-fit: cover;
+        }
+      }
+
+      .hp-background,
+      .ap-background {
+        position: relative;
+        width: 100%;
+        height: 2.5rem;
+        background: rgb(15, 15, 15);
+        box-sizing: border-box;
+        border: 0.25rem solid rgb(15, 15, 15);
+
+        .hp-fill,
+        .hp-late,
+        .ap-fill {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          animation-name: GradientShine;
+          animation-duration: 3s;
+          background-size: 200% 200%;
+          animation-iteration-count: infinite;
+          animation-timing-function: linear;
+
+          &.no-fill {
+            width: 0;
+            box-shadow: none;
+          }
+        }
+
+        .hp-value,
+        .ap-value {
+          transition: 200ms ease-out opacity;
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 0;
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: rgb(255, 255, 255);
+          text-shadow: 0 0 0.5rem rgb(0, 0, 0);
+          z-index: 3;
+          opacity: 0;
+
+          &:hover {
+            opacity: 1;
+          }
+        }
+
+        .ap-value {
+          opacity: 1;
+        }
+
+        .hp-fill {
+          transition: 750ms ease-out width;
+          z-index: 2;
+        }
+
+        .hp-late {
+          transition: 800ms ease-out width;
+          transition-delay: 500ms;
+          background: $health_light;
+        }
+
+        .hp-fill {
+          background: $health;
+          background: $health_gradient;
+          box-shadow: $health_shadow;
+        }
+
+        .ap-fill {
+          background: $action;
+          background: $action_gradient;
+          box-shadow: $action_shadow;
+        }
+      }
+    }
+  }
+}

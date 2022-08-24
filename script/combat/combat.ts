@@ -1,5 +1,3 @@
-let tick = setInterval(update, 1000 / 30);
-
 function update() {
   if (game.state.paused) return;
   const speed = player.getSpeed();
@@ -21,6 +19,24 @@ function update() {
   playerAction.innerText = player.stats.ap.toFixed(2) + "%";
   playerHP.innerText = player.stats.hp + "/" + stats.hpMax;
   playerMP.innerText = player.stats.mp + "/" + stats.mpMax;
+
+  combat.enemies.forEach((enemy: Enemy) => {
+    if (enemy.dead) return;
+    enemy.stats.ap += enemy.getSpeed();
+    if (enemy.stats.ap > 100) {
+      enemy.stats.ap = 100;
+      //game.pause();
+    }
+    const enemyStats = enemy.getStats();
+    const EnemyHealthRemaining = (enemy.stats.hp / enemyStats.hpMax) * 100;
+    // @ts-ignore
+    const { main, ap_fill, ap_value, hp_fill, hp_late, hp_value } = enemy.card;
+    ap_value.innerText = enemy.stats.ap.toFixed(2) + "%";
+    hp_value.innerText = enemy.stats.hp + "/" + enemyStats.hpMax;
+    ap_fill.style.width = `${enemy.stats.ap}%`;
+    hp_fill.style.width = `${EnemyHealthRemaining}%`;
+    hp_late.style.width = `${EnemyHealthRemaining}%`;
+  });
 
   player.abilities.forEach((ability, index) => {
     ability.doCooldown();
@@ -53,7 +69,6 @@ function createActionSlots() {
       cooldown.classList.add("cooldown");
       cooldownValue.classList.add("cooldown-number");
       slot.append(image, cooldown, cooldownValue);
-      console.log(ability.tooltip());
       tooltip(slot, ability.tooltip());
       slot.addEventListener("click", ability.setCooldown);
     }
@@ -61,44 +76,24 @@ function createActionSlots() {
   }
 }
 
-interface GameState {
-  paused: boolean;
-}
-
-class Game {
-  state: GameState;
-  language: any;
+class Combat {
+  [id: string]: any;
+  enemies: Enemy[] = [];
   constructor() {
     this.init();
-    this.state = {
-      paused: false,
-    };
-    this.language = english;
-  }
-  init() {
-    console.log("Game initialized");
+    this.id = "combat";
   }
 
-  initCombat() {
-    console.log("Combat initialized");
-    createActionSlots();
-  }
+  init() {}
 
-  pause() {
-    this.state.paused = true;
-  }
-
-  resume() {
-    this.state.paused = false;
-  }
-
-  getLocalizedString(id: string) {
-    let string: string = id;
-    if (this.language[id]) {
-      string = this.language[id];
-    }
-    return string;
+  createCombat(enemies: Enemy[]) {
+    this.enemies = enemies;
+    this.enemies.forEach((enemy) => {
+      // @ts-ignore
+      enemy.init();
+    });
+    game.resume();
   }
 }
 
-const game = new Game();
+const combat = new Combat();

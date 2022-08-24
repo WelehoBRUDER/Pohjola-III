@@ -28,6 +28,7 @@ const enemies = {
             poison: 200,
             divine: -50,
         },
+        sprite: "skeleton_knight/idle.png",
         abilities: [new Ability(abilities.sharp_strike)],
     },
 };

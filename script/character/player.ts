@@ -17,6 +17,9 @@ const races = {
     id: "human",
     modifiers: {
       expGainP: 5,
+      ability_sharp_stroke: {
+        powerV: 0.25,
+      },
     },
   },
 };

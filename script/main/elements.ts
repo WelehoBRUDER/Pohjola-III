@@ -3,6 +3,7 @@ const tooltipBox: HTMLDivElement = document.querySelector("#tooltip")!;
 
 const combatScreen: HTMLDivElement = document.querySelector(".combat")!;
 const uiScreen: HTMLDivElement = combatScreen.querySelector(".ui")!;
+const enemyContainer: HTMLDivElement = combatScreen.querySelector(".enemies")!;
 const toolbarElement: HTMLDivElement = uiScreen.querySelector(".toolbar")!;
 const tools: HTMLDivElement = toolbarElement.querySelector(".tools")!;
 const slots: HTMLDivElement = tools.querySelector(".action-slots")!;

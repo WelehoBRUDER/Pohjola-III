@@ -37,20 +37,41 @@ class Character {
   statuses?: any;
   perks?: any;
   allModifiers?: any;
+  dead?: boolean;
   constructor(char: Character) {
     this.id = char.id;
     this.name = char.name;
-    this.stats = char.stats;
-    this.defences = char.defences;
-    this.resistances = char.resistances;
-    this.abilities = char.abilities;
-    this.traits = char.traits ?? [];
-    this.statuses = char.statuses ?? [];
-    this.perks = char.perks ?? [];
-    this.allModifiers = char.allModifiers ?? {};
+    this.stats = { ...char.stats };
+    this.defences = { ...char.defences };
+    this.resistances = { ...char.resistances };
+    this.abilities = [...char.abilities];
+    this.traits = char.traits ? [...char.traits] : [];
+    this.statuses = char.statuses ? [...char.statuses] : [];
+    this.perks = char.perks ? [...char.perks] : [];
+    this.allModifiers = { ...char.allModifiers } ?? {};
+    this.dead = char.dead ?? false;
 
     this.getModifiers = () => {
       return getAllModifiers(this);
+    };
+
+    this.getAbilityModifiers = () => {
+      const mods: any = {};
+      Object.entries(this.allModifiers).forEach(
+        ([key, value]: [string, any]) => {
+          if (key.startsWith("ability_")) {
+            key = key.replace("ability_", "");
+            if (mods[key]) {
+              Object.entries(value).forEach(([k, v]) => {
+                mods[key][k] = v;
+              });
+            } else {
+              mods[key] = value;
+            }
+          }
+        }
+      );
+      return mods;
     };
 
     this.updateAllModifiers = () => {
@@ -60,7 +81,7 @@ class Character {
     this.getSpeed = () => {
       return +(
         1 *
-        (0.9 + this.stats.agi / 100) *
+        (0.4 + this.stats.agi / 100) *
         this.allModifiers.speedP
       ).toFixed(2);
     };
@@ -85,6 +106,12 @@ class Character {
       stats["mpMax"] =
         (stats["mpMax"] + mpIncrease + stats["int"] * 3) * mpModifier;
       return stats;
+    };
+
+    this.restore = () => {
+      const { hpMax, mpMax } = this.getStats();
+      this.stats.hp = hpMax;
+      this.stats.mp = mpMax;
     };
 
     this.updateAllModifiers();

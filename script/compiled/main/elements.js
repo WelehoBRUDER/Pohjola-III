@@ -3,6 +3,7 @@
 const tooltipBox = document.querySelector("#tooltip");
 const combatScreen = document.querySelector(".combat");
 const uiScreen = combatScreen.querySelector(".ui");
+const enemyContainer = combatScreen.querySelector(".enemies");
 const toolbarElement = uiScreen.querySelector(".toolbar");
 const tools = toolbarElement.querySelector(".tools");
 const slots = tools.querySelector(".action-slots");

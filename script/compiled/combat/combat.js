@@ -1,5 +1,4 @@
 "use strict";
-let tick = setInterval(update, 1000 / 30);
 function update() {
     if (game.state.paused)
         return;
@@ -20,6 +19,24 @@ function update() {
     playerAction.innerText = player.stats.ap.toFixed(2) + "%";
     playerHP.innerText = player.stats.hp + "/" + stats.hpMax;
     playerMP.innerText = player.stats.mp + "/" + stats.mpMax;
+    combat.enemies.forEach((enemy) => {
+        if (enemy.dead)
+            return;
+        enemy.stats.ap += enemy.getSpeed();
+        if (enemy.stats.ap > 100) {
+            enemy.stats.ap = 100;
+            //game.pause();
+        }
+        const enemyStats = enemy.getStats();
+        const EnemyHealthRemaining = (enemy.stats.hp / enemyStats.hpMax) * 100;
+        // @ts-ignore
+        const { main, ap_fill, ap_value, hp_fill, hp_late, hp_value } = enemy.card;
+        ap_value.innerText = enemy.stats.ap.toFixed(2) + "%";
+        hp_value.innerText = enemy.stats.hp + "/" + enemyStats.hpMax;
+        ap_fill.style.width = `${enemy.stats.ap}%`;
+        hp_fill.style.width = `${EnemyHealthRemaining}%`;
+        hp_late.style.width = `${EnemyHealthRemaining}%`;
+    });
     player.abilities.forEach((ability, index) => {
         ability.doCooldown();
         const slot = slots.children[index];
@@ -49,41 +66,27 @@ function createActionSlots() {
             cooldown.classList.add("cooldown");
             cooldownValue.classList.add("cooldown-number");
             slot.append(image, cooldown, cooldownValue);
-            console.log(ability.tooltip());
             tooltip(slot, ability.tooltip());
             slot.addEventListener("click", ability.setCooldown);
         }
         slots.appendChild(slot);
     }
 }
-class Game {
+class Combat {
     constructor() {
+        this.enemies = [];
         this.init();
-        this.state = {
-            paused: false,
-        };
-        this.language = english;
+        this.id = "combat";
     }
-    init() {
-        console.log("Game initialized");
-    }
-    initCombat() {
-        console.log("Combat initialized");
-        createActionSlots();
-    }
-    pause() {
-        this.state.paused = true;
-    }
-    resume() {
-        this.state.paused = false;
-    }
-    getLocalizedString(id) {
-        let string = id;
-        if (this.language[id]) {
-            string = this.language[id];
-        }
-        return string;
+    init() { }
+    createCombat(enemies) {
+        this.enemies = enemies;
+        this.enemies.forEach((enemy) => {
+            // @ts-ignore
+            enemy.init();
+        });
+        game.resume();
     }
 }
-const game = new Game();
+const combat = new Combat();
 //# sourceMappingURL=combat.js.map
