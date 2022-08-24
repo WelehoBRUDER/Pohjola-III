@@ -15,11 +15,7 @@ class Game {
         console.log("Combat initialized");
         createActionSlots();
         // for testing
-        combat.createCombat([
-            new Enemy({ ...enemies.skeleton }),
-            new Enemy({ ...enemies.skeleton }),
-            new Enemy({ ...enemies.skeleton }),
-        ]);
+        combat.createCombat([new Enemy({ ...enemies.skeleton })]);
     }
     pause() {
         this.state.paused = true;
@@ -35,6 +31,37 @@ class Game {
             string = this.language[id];
         }
         return string;
+    }
+    randomShake() {
+        // Randomly generate a shake animation using margins
+        return console.log(`
+      @keyframes shake {
+        0% {
+          margin-left: 0;
+          margin-top: 0;
+        }
+        20% {
+          margin-left: ${Math.round(Math.random() * 10)}px;
+          margin-top: ${Math.round(Math.random() * 10)}px;
+        }
+        40% {
+          margin-left: -${Math.round(Math.random() * 10)}px;
+          margin-top: -${Math.round(Math.random() * 10)}px;
+        }
+        60% {
+          margin-left: ${Math.round(Math.random() * 10)}px;
+          margin-top: ${Math.round(Math.random() * 10)}px;
+        }
+        80% {
+          margin-left: -${Math.round(Math.random() * 10)}px;
+          margin-top: -${Math.round(Math.random() * 10)}px;
+        }
+        100% {
+          margin-left: 0px;
+          margin-top: 0px;
+        }
+      }
+    `);
     }
 }
 class Settings {

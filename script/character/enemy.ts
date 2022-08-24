@@ -12,6 +12,7 @@ class Enemy extends Character {
   card?: Card;
   index?: number;
   init?: (index: number) => void;
+  shake?: () => void;
 
   constructor(enemy: Enemy) {
     super(enemy);
@@ -23,6 +24,21 @@ class Enemy extends Character {
       this.restore();
       this.index = index;
       createBattlecard(this);
+    };
+
+    this.shake = () => {
+      let shake = Math.ceil(Math.random() * 10);
+      if (shake > 10) shake = 10;
+      console.log(shake);
+      if (this.card) {
+        this.card.main.style.offsetHeight; // trigger reflow
+        this.card.main.style.animationName = null;
+        this.card.main.classList.add("shake");
+        this.card.main.style.animationName = "shake" + shake;
+        setTimeout(() => {
+          if (this.card) this.card.main.classList.remove("shake");
+        }, 350);
+      }
     };
   }
 }
