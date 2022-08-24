@@ -80,7 +80,7 @@ function createBattlecard(enemy) {
     <div class="ap-background">
         <div class="ap-fill gradient-shine">
         </div>
-        <p class="ap-value">${enemy.stats.ap.toFixed(2)}%</p>
+        <p class="ap-value">${enemy.stats.ap.toFixed(1)}%</p>
       </div>
     </div>
   `;

@@ -50,7 +50,7 @@ class Character {
         this.getSpeed = () => {
             return +(1 *
                 (0.4 + this.stats.agi / 100) *
-                this.allModifiers.speedP).toFixed(2);
+                this.allModifiers.speedP).toFixed(1);
         };
         this.getStats = () => {
             this.updateAllModifiers();

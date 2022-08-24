@@ -8,7 +8,7 @@ function update() {
     playerMPFill.style.width = `${PlayerManaRemaining}%`;
     playerHPLate.style.width = `${PlayerHealthRemaining}%`;
     playerMPLate.style.width = `${PlayerManaRemaining}%`;
-    playerAction.innerText = player.stats.ap.toFixed(2) + "%";
+    playerAction.innerText = player.stats.ap.toFixed(1) + "%";
     playerHP.innerText = player.stats.hp + "/" + stats.hpMax;
     playerMP.innerText = player.stats.mp + "/" + stats.mpMax;
     if (game.state.paused)
@@ -31,7 +31,7 @@ function update() {
         const EnemyHealthRemaining = (enemy.stats.hp / enemyStats.hpMax) * 100;
         // @ts-ignore
         const { main, ap_fill, ap_value, hp_fill, hp_late, hp_value } = enemy.card;
-        ap_value.innerText = enemy.stats.ap.toFixed(2) + "%";
+        ap_value.innerText = enemy.stats.ap.toFixed(1) + "%";
         hp_value.innerText = enemy.stats.hp + "/" + enemyStats.hpMax;
         ap_fill.style.width = `${enemy.stats.ap}%`;
         hp_fill.style.width = `${EnemyHealthRemaining}%`;

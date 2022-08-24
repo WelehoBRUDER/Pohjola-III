@@ -98,7 +98,7 @@ class Character {
         1 *
         (0.4 + this.stats.agi / 100) *
         this.allModifiers.speedP
-      ).toFixed(2);
+      ).toFixed(1);
     };
 
     this.getStats = () => {
