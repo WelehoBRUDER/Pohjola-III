@@ -11,19 +11,22 @@ class Enemy extends Character {
             createBattlecard(this);
         };
         this.shake = () => {
-            let shake = Math.ceil(Math.random() * 10);
-            if (shake > 10)
-                shake = 10;
+            // let shake = Math.ceil(Math.random() * 10);
+            // if (shake > 10) shake = 10;
+            const shake = 1;
             console.log(shake);
             if (this.card) {
+                this.card.main.style.animation = "none";
                 this.card.main.style.offsetHeight; // trigger reflow
-                this.card.main.style.animationName = null;
+                this.card.main.style.animation = null;
                 this.card.main.classList.add("shake");
                 this.card.main.style.animationName = "shake" + shake;
                 setTimeout(() => {
-                    if (this.card)
+                    if (this.card) {
                         this.card.main.classList.remove("shake");
-                }, 350);
+                        this.card.main.style.animation = "none";
+                    }
+                }, 300);
             }
         };
     }
