@@ -79,18 +79,20 @@ function createActionSlots() {
 
 function shakeScreen() {
   let shake = Math.ceil(Math.random() * 9);
+  bloodyScreen.classList.add("show");
   combatScreen.style.animation = "none";
   // @ts-ignore
   combatScreen.style.offsetHeight; // trigger reflow
   // @ts-ignore
   combatScreen.style.animation = null;
   combatScreen.style.animationDuration = `${
-    250 / game.settings.animation_speed
+    200 / game.settings.animation_speed
   }ms`;
   combatScreen.style.animationName = "shake" + shake;
   setTimeout(() => {
     combatScreen.style.animation = "none";
-  }, 250 / game.settings.animation_speed);
+    bloodyScreen.classList.remove("show");
+  }, 200 / game.settings.animation_speed);
 }
 
 class Combat {

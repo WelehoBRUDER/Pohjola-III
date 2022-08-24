@@ -72,8 +72,8 @@ class Settings {
         this.hotkey_ability_4 = settings?.hotkey_ability_4 || "Digit4";
         this.hotkey_ability_5 = settings?.hotkey_ability_5 || "Digit5";
         this.hotkey_ability_6 = settings?.hotkey_ability_6 || "Digit6";
-        this.tick_speed = settings?.tick_speed || 60;
-        this.animation_speed = settings?.animation_speed || 1;
+        this.tick_speed = settings?.tick_speed || 200;
+        this.animation_speed = settings?.animation_speed || 2;
     }
 }
 const game = new Game();

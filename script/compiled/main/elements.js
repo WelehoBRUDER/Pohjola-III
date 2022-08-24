@@ -1,6 +1,7 @@
 "use strict";
 /* Tooltip box */
 const tooltipBox = document.querySelector("#tooltip");
+const bloodyScreen = document.querySelector("#bloody-screen");
 const combatScreen = document.querySelector(".combat");
 const uiScreen = combatScreen.querySelector(".ui");
 const enemyContainer = combatScreen.querySelector(".enemies");

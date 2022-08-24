@@ -75,6 +75,24 @@ body {
   transform: scale(0);
 }
 
+#bloody-screen {
+  transition: 50ms;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: inset 0vw 0vw 8vw 6vw #751322;
+  background: rgba(165, 30, 20, 0.2);
+  opacity: 0;
+  user-select: none;
+  pointer-events: none;
+
+  &.show {
+    opacity: 1;
+  }
+}
+
 main.game {
   position: absolute;
   top: 0;
