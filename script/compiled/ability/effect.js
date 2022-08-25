@@ -5,7 +5,7 @@ class Effect {
         this.icon = effect.icon;
         this.duration = effect.duration;
         this.type = effect.type;
-        this.effects = effect.effects ? { ...effect.effects } : {};
+        this.modifiers = effect.modifiers ? { ...effect.modifiers } : {};
     }
     tooltip() {
         let tooltip = "<f>1.25rem<f>";
@@ -13,9 +13,9 @@ class Effect {
         tooltip += "<f>1rem<f><c>white<c>";
         tooltip += `${game.getLocalizedString("type")}: ${game.getLocalizedString(this.type)}\n`;
         tooltip += `${game.getLocalizedString("duration")}: ${this.duration}s\n`;
-        if (this.effects) {
+        if (this.modifiers) {
             tooltip += "\n<f>0.9rem<f><c>silver<c>Effects:\n";
-            Object.entries(this.effects).map(([key, value]) => {
+            Object.entries(this.modifiers).map(([key, value]) => {
                 tooltip += " " + effectSyntax(key, value);
             });
         }

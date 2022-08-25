@@ -37,6 +37,9 @@ function calculateDamage(attacker, defender, attack) {
     modifier *= defence;
     // Apply damage
     damage = (damage + boost) * modifier;
+    // Damage isn't supposed to heal!
+    if (damage < 0)
+        damage = 0;
     return Math.floor(damage);
 }
 //# sourceMappingURL=damage.js.map

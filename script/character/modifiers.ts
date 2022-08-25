@@ -48,9 +48,31 @@ function applyModifierToTotal(modifier: any, total: any) {
   const value = modifier[1];
   if (!total?.[key]) {
     total[key] = value;
-    if (key.endsWith("P")) {
-      total[key] = total[key] / 100;
+    if (typeof value === "number") {
+      if (key.endsWith("P")) {
+        total[key] = 1 + total[key] / 100;
+      }
     }
-  } else if (key.endsWith("P")) total[key] += value / 100;
-  else if (key.endsWith("V")) total[key] += value;
+  } else if (typeof value === "number") {
+    if (key.endsWith("P")) total[key] += value / 100;
+    else if (key.endsWith("V")) total[key] += value;
+  } else {
+    total[key] = mergeObjects(total[key], value);
+  }
 }
+
+// This function was found here:
+// https://stackoverflow.com/a/53509503
+const mergeObjects = (obj1: any, obj2: any) => {
+  return Object.entries(obj1).reduce(
+    (prev, [key, value]) => {
+      if (typeof value === "number") {
+        prev[key] = value + (prev[key] || 0);
+      } else {
+        prev[key] = mergeObjects(value, obj2[key]);
+      }
+      return prev;
+    },
+    { ...obj2 }
+  ); // spread to avoid mutating obj2
+};

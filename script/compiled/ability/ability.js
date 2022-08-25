@@ -99,6 +99,11 @@ class Ability {
                     update();
                     shakeScreen();
                 }
+                if (this.effectsToEnemy) {
+                    this.effectsToEnemy.forEach((effect) => {
+                        target.addStatus(effect);
+                    });
+                }
             }
             if (user.id === "player") {
                 setTimeout(() => {

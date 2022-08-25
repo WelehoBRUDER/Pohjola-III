@@ -5,7 +5,7 @@ const effects = {
         icon: "gfx/status/blood.png",
         duration: 6,
         type: "bleed",
-        effects: {
+        modifiers: {
             agiV: 2,
             atkP: -10,
             strP: -10,
