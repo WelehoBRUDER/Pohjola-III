@@ -4,6 +4,8 @@ class Game {
         this.init();
         this.state = {
             paused: false,
+            targeting: false,
+            selected_ability: null,
         };
         this.settings = new Settings();
         this.language = english;
@@ -20,15 +22,33 @@ class Game {
             new Enemy({ ...enemies.skeleton }),
         ]);
     }
-    pause() {
+    pause(options) {
         this.state.paused = true;
-        combatScreen.classList.add("paused");
+        if (options?.disableSkills)
+            combatScreen.classList.add("paused");
         clearInterval(this.tick);
     }
     resume() {
         this.state.paused = false;
         combatScreen.classList.remove("paused");
         this.tick = setInterval(update, 1000 / game.settings.tick_speed);
+    }
+    startTargeting(ability) {
+        this.state.targeting = true;
+        this.state.selected_ability = ability;
+        combatScreen.classList.add("targeting");
+        const slot = slots.querySelector(`.action-slot[data-ability="${ability.id}"]`);
+        if (slot)
+            slot.classList.add("selected");
+    }
+    endTargeting() {
+        this.state.targeting = false;
+        this.state.selected_ability = null;
+        combatScreen.classList.remove("targeting");
+        const slotsArr = document.querySelectorAll(".action-slot");
+        slotsArr.forEach((slot) => {
+            slot.classList.remove("selected");
+        });
     }
     getLocalizedString(id) {
         let string = id;
@@ -103,6 +123,7 @@ class Settings {
         this.hotkey_ability_6 = settings?.hotkey_ability_6 || "Digit6";
         this.tick_speed = settings?.tick_speed || 60;
         this.animation_speed = settings?.animation_speed || 2;
+        this.pause_on_player_turn = settings?.pause_on_player_turn || false;
     }
 }
 const game = new Game();

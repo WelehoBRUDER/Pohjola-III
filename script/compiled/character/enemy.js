@@ -34,18 +34,27 @@ class Enemy extends Character {
             this.dead = true;
         }
         if (this.card) {
-            this.card.hp_fill.style.width = `${(this.stats.hp / this.stats.max_hp) * 100}%`;
-            this.card.hp_value.innerText = `${this.stats.hp}/${this.stats.max_hp}`;
-        }
-        if (this.card) {
             createDroppingText(dmg.toString(), this.card.main);
         }
+        this.updateCard();
         this.shake();
     }
     act() {
         game.pause();
         console.log("I take action, ok?");
         this.attack();
+    }
+    updateCard() {
+        if (this.card) {
+            const stats = this.getStats();
+            const hpRemain = (this.stats.hp / stats.hpMax) * 100;
+            const { main, ap_fill, ap_value, hp_fill, hp_late, hp_value } = this.card;
+            ap_value.innerText = this.stats.ap.toFixed(1) + "%";
+            hp_value.innerText = this.stats.hp + "/" + stats.hpMax;
+            ap_fill.style.width = `${this.stats.ap}%`;
+            hp_fill.style.width = `${hpRemain}%`;
+            hp_late.style.width = `${hpRemain}%`;
+        }
     }
     attack() {
         let ability = this.abilities[0];
@@ -85,6 +94,14 @@ function createBattlecard(enemy) {
     if (enemy.index) {
         battlecard.setAttribute("enemy-data-index", enemy.index.toString());
     }
+    battlecard.addEventListener("click", () => {
+        if (combatScreen.classList.contains("paused"))
+            return;
+        if (game.state.targeting && game.state.selected_ability) {
+            game.state.selected_ability.use(player, enemy);
+            game.endTargeting();
+        }
+    });
     battlecard.innerHTML = `
     <div class="name">${enemy.name}</div>
     <div class="hp-background">

@@ -280,6 +280,14 @@ main.game {
               }
             }
 
+            &.selected {
+              border: 0.25rem solid goldenrod;
+
+              &:hover {
+                border: 0.25rem solid gold;
+              }
+            }
+
             img {
               position: absolute;
               width: 95%;

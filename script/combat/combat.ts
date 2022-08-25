@@ -18,7 +18,9 @@ function update() {
 
   if (player.stats.ap > 100) {
     player.stats.ap = 100;
-    //game.pause();
+    if (game.settings.pause_on_player_turn) {
+      game.pause({ disableSkills: false });
+    }
   }
 
   combat.enemies.forEach((enemy: Enemy) => {
@@ -28,15 +30,7 @@ function update() {
       enemy.stats.ap = 100;
       enemy.act();
     }
-    const enemyStats = enemy.getStats();
-    const EnemyHealthRemaining = (enemy.stats.hp / enemyStats.hpMax) * 100;
-    // @ts-ignore
-    const { main, ap_fill, ap_value, hp_fill, hp_late, hp_value } = enemy.card;
-    ap_value.innerText = enemy.stats.ap.toFixed(1) + "%";
-    hp_value.innerText = enemy.stats.hp + "/" + enemyStats.hpMax;
-    ap_fill.style.width = `${enemy.stats.ap}%`;
-    hp_fill.style.width = `${EnemyHealthRemaining}%`;
-    hp_late.style.width = `${EnemyHealthRemaining}%`;
+    enemy.updateCard();
   });
 
   player.abilities.forEach((ability, index) => {
@@ -71,8 +65,10 @@ function createActionSlots() {
     const image = document.createElement("img");
     slot.classList.add("action-slot");
     slot.setAttribute("data-index", i.toString());
+
     if (player.abilities[i]) {
       const ability = player.abilities[i];
+      slot.setAttribute("data-ability", ability.id);
       image.src = ability.icon;
       const cooldown = document.createElement("div");
       const cooldownValue = document.createElement("p");
@@ -87,13 +83,15 @@ function createActionSlots() {
 }
 
 function useAbility(hotkey: string | null, index?: number | null) {
+  game.endTargeting();
   let _index = index;
   if (hotkey) {
     // Last char in the string is the index
     _index = +hotkey.substring(hotkey.length - 1) as number;
+    _index--;
   }
   if (_index === null || _index === undefined) return;
-  const ability = player.abilities[_index - 1];
+  const ability = player.abilities[_index];
   if (!ability.canUse() || player.stats.ap < 100) return;
   if (ability.type === "attack") {
     const targets: Enemy[] = combat.getLivingEnemies();
@@ -101,6 +99,7 @@ function useAbility(hotkey: string | null, index?: number | null) {
       ability.use(player, targets[0]);
     } else {
       console.log("You have multiple targets, please select one");
+      game.startTargeting(ability);
     }
   } else {
     ability.use(player, player);

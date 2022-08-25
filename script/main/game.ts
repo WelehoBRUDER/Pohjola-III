@@ -1,5 +1,7 @@
 interface GameState {
   paused: boolean;
+  targeting: boolean;
+  selected_ability: Ability | null;
 }
 
 class Game {
@@ -11,6 +13,8 @@ class Game {
     this.init();
     this.state = {
       paused: false,
+      targeting: false,
+      selected_ability: null,
     };
     this.settings = new Settings();
     this.language = english;
@@ -30,9 +34,9 @@ class Game {
     ]);
   }
 
-  pause() {
+  pause(options?: { disableSkills?: boolean }) {
     this.state.paused = true;
-    combatScreen.classList.add("paused");
+    if (options?.disableSkills) combatScreen.classList.add("paused");
     clearInterval(this.tick);
   }
 
@@ -40,6 +44,27 @@ class Game {
     this.state.paused = false;
     combatScreen.classList.remove("paused");
     this.tick = setInterval(update, 1000 / game.settings.tick_speed);
+  }
+
+  startTargeting(ability: Ability) {
+    this.state.targeting = true;
+    this.state.selected_ability = ability;
+    combatScreen.classList.add("targeting");
+    const slot = slots.querySelector(
+      `.action-slot[data-ability="${ability.id}"]`
+    );
+
+    if (slot) slot.classList.add("selected");
+  }
+
+  endTargeting() {
+    this.state.targeting = false;
+    this.state.selected_ability = null;
+    combatScreen.classList.remove("targeting");
+    const slotsArr = document.querySelectorAll(".action-slot");
+    slotsArr.forEach((slot) => {
+      slot.classList.remove("selected");
+    });
   }
 
   getLocalizedString(id: string) {
@@ -117,6 +142,7 @@ class Settings {
   hotkey_ability_6: string;
   tick_speed: number;
   animation_speed: number;
+  pause_on_player_turn: boolean;
   constructor(settings?: Settings) {
     this.hotkey_ability_1 = settings?.hotkey_ability_1 || "Digit1";
     this.hotkey_ability_2 = settings?.hotkey_ability_2 || "Digit2";
@@ -126,6 +152,7 @@ class Settings {
     this.hotkey_ability_6 = settings?.hotkey_ability_6 || "Digit6";
     this.tick_speed = settings?.tick_speed || 60;
     this.animation_speed = settings?.animation_speed || 2;
+    this.pause_on_player_turn = settings?.pause_on_player_turn || false;
   }
 }
 
