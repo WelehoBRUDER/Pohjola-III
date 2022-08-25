@@ -173,6 +173,11 @@
       color: $health;
       text-shadow: -0.25rem 0.25rem 0.75rem $health;
     }
+
+    &.crit {
+      color: orange;
+      text-shadow: -0.25rem 0.25rem 0.75rem rgb(236, 154, 2);
+    }
   }
 
   &.paused {

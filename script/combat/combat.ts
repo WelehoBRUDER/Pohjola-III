@@ -4,6 +4,9 @@ function update() {
     alert("You won!");
   }
 
+  if (player.stats.hp < 0) player.stats.hp = 0;
+  if (player.stats.mp < 0) player.stats.mp = 0;
+
   const stats = player.getStats();
   const PlayerHealthRemaining = (player.stats.hp / stats.hpMax) * 100;
   const PlayerManaRemaining = (player.stats.mp / stats.mpMax) * 100;

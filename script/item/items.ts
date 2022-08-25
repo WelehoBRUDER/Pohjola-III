@@ -6,6 +6,9 @@ const items: any = {
     atk: 5,
     tier: itemTiers.common,
     type: "weapon",
+    modifiers: {
+      critPowerV: 50,
+    },
   } as Weapon,
   // Armors
   ragged_armor: {

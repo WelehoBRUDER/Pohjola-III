@@ -29,9 +29,9 @@ class Game {
     createActionSlots();
     // for testing
     combat.createCombat([
-      new Enemy({ ...enemies.skeleton }),
+      //new Enemy({ ...enemies.skeleton }),
       new Enemy({ ...enemies.skeleton_brute }),
-      new Enemy({ ...enemies.skeleton }),
+      //new Enemy({ ...enemies.skeleton }),
     ]);
   }
 

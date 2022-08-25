@@ -11,10 +11,8 @@ function createDroppingText(
   p.style.transition = "1.4s";
   p.style.animationDuration = "1.4s";
   const { top, left } = origin.getBoundingClientRect();
-  const leftCorner = 0 - origin.offsetWidth / 2;
-  const rightCorner = 0 + origin.offsetWidth;
-  p.style.left = `${left + random(leftCorner, rightCorner)}px`;
-  p.style.top = `${top - random(25, 200)}px`;
+  p.style.left = `${left + random(-60, 60)}px`;
+  p.style.top = `${top - random(25, 100)}px`;
   p.style.fontSize = `${random(60, 80)}px`;
   setTimeout(flyRandomly, 25);
   const currentLeft = +p.style.left.substring(0, p.style.left.length - 2);

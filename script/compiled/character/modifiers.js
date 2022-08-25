@@ -31,8 +31,8 @@ function getAllModifiers(char) {
         });
     }
     if (char.equipment) {
-        Object.entries(char.equipment).forEach((item) => {
-            if (item.modifiers) {
+        Object.values(char.equipment).forEach((item) => {
+            if (item?.modifiers) {
                 Object.entries(item.modifiers).forEach((modifier) => {
                     applyModifierToTotal(modifier, modifiers);
                 });

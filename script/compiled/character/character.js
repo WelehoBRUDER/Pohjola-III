@@ -12,6 +12,8 @@ class Character {
         this.perks = char.perks ? [...char.perks] : [];
         this.allModifiers = { ...char.allModifiers } ?? {};
         this.dead = char.dead ?? false;
+        this.critRate = char.critRate ?? 0;
+        this.critPower = char.critPower ?? 0;
         this.getModifiers = () => {
             return getAllModifiers(this);
         };
@@ -76,6 +78,15 @@ class Character {
             stats["mpMax"] =
                 (stats["mpMax"] + mpIncrease + stats["int"] * 3) * mpModifier;
             return stats;
+        };
+        this.getCrit = () => {
+            const crit = { critRate: this.critRate, critPower: this.critPower };
+            Object.entries(crit).forEach(([key, value]) => {
+                const increase = this.allModifiers[key + "V"] ?? 0;
+                crit[key] = value + increase;
+            });
+            crit["critRate"] += this.getStats().agi / 5;
+            return crit;
         };
         this.restore = () => {
             const { hpMax, mpMax } = this.getStats();

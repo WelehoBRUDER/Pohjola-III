@@ -82,6 +82,8 @@ const player = new Player({
     new Ability(abilities.sharp_strike),
     new Ability(abilities.heavy_attack),
   ],
+  critRate: 3,
+  critPower: 50,
   abilities_total: [],
   traits: [],
   statuses: [],

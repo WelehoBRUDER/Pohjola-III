@@ -74,10 +74,13 @@ class Enemy extends Character {
     }
   }
 
-  hurt(dmg: number): void {
+  hurt(dmg: number, crit: boolean = false): void {
     this.stats.hp -= dmg;
     if (this.card) {
       createDroppingText(dmg.toString(), this.card.main);
+      if (crit) {
+        createDroppingText("CRIT!", this.card.main, "crit");
+      }
     }
     this.updateCard();
     this.shake();

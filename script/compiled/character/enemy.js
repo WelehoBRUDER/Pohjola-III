@@ -44,10 +44,13 @@ class Enemy extends Character {
             }, 2700 / game.settings.animation_speed);
         }
     }
-    hurt(dmg) {
+    hurt(dmg, crit = false) {
         this.stats.hp -= dmg;
         if (this.card) {
             createDroppingText(dmg.toString(), this.card.main);
+            if (crit) {
+                createDroppingText("CRIT!", this.card.main, "crit");
+            }
         }
         this.updateCard();
         this.shake();

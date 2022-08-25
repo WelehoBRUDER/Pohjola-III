@@ -82,13 +82,20 @@ class Ability {
             user.stats.ap = 0;
             this.setCooldown();
             if (this.type === "attack") {
-                const damage = calculateDamage(user, target, this);
+                const { critRate, critPower } = user.getCrit();
+                let damage = calculateDamage(user, target, this);
+                const didCrit = Math.random() < critRate / 100;
+                if (didCrit)
+                    damage = Math.floor(damage * (1 + critPower / 100));
                 if (target.isEnemy) {
-                    target.hurt(damage);
+                    target.hurt(damage, didCrit);
                 }
                 else {
                     player.stats.hp -= damage;
                     createDroppingText(damage.toString(), tools);
+                    if (didCrit) {
+                        createDroppingText("CRIT!", tools, "crit");
+                    }
                     update();
                     shakeScreen();
                 }
