@@ -32,6 +32,6 @@ const enemies = {
       divine: -50,
     },
     sprite: "skeleton_knight/idle.png",
-    abilities: [new Ability(abilities.sharp_strike)],
+    abilities: [new Ability(abilities.physical_attack)],
   } as EnemyBase,
 };

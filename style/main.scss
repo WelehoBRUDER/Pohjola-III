@@ -332,9 +332,7 @@ main.game {
   width: auto;
   height: auto;
   max-width: 55%;
-  background: rgba(20, 20, 20, 0.8);
-  box-sizing: border-box;
-  border: 4px solid gold;
+  background: rgba(20, 20, 20, 0.85);
   padding: 10px;
   position: absolute;
   top: 0;
@@ -342,6 +340,7 @@ main.game {
   z-index: 60;
   display: none;
   pointer-events: none;
+  border-radius: 0.2rem;
 
   line-height: 16px;
   color: white;

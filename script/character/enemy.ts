@@ -52,17 +52,39 @@ class Enemy extends Character {
     }
   }
 
+  die(): void {
+    this.stats.hp = 0;
+    this.dead = true;
+    if (this.card) {
+      this.card.main.style.animation = "none";
+      this.card.main.style.offsetHeight; // trigger reflow
+      this.card.main.style.animation = null;
+      this.card.main.style.transition = `all ${
+        300 / game.settings.animation_speed
+      }ms`;
+      this.card.main.style.animationDuration = `${
+        3000 / game.settings.animation_speed
+      }ms`;
+      this.card.main.style.animationName = "die";
+
+      setTimeout(() => {
+        if (this.card) {
+          this.card.main.classList.add("dead");
+        }
+      }, 2700 / game.settings.animation_speed);
+    }
+  }
+
   hurt(dmg: number): void {
     this.stats.hp -= dmg;
-    if (this.stats.hp <= 0) {
-      this.stats.hp = 0;
-      this.dead = true;
-    }
     if (this.card) {
       createDroppingText(dmg.toString(), this.card.main);
     }
     this.updateCard();
     this.shake();
+    if (this.stats.hp <= 0) {
+      setTimeout(() => this.die(), 250 / game.settings.animation_speed);
+    }
   }
 
   act(): void {
@@ -74,6 +96,7 @@ class Enemy extends Character {
   updateCard(): void {
     if (this.card) {
       const stats = this.getStats();
+      if (this.stats.hp < 0) this.stats.hp = 0;
       const hpRemain = (this.stats.hp / stats.hpMax) * 100;
       const { main, ap_fill, ap_value, hp_fill, hp_late, hp_value } = this.card;
       ap_value.innerText = this.stats.ap.toFixed(1) + "%";

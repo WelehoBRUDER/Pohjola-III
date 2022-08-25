@@ -1,4 +1,9 @@
 function update() {
+  if (combat.getLivingEnemies().length === 0) {
+    game.pause();
+    alert("You won!");
+  }
+
   const stats = player.getStats();
   const PlayerHealthRemaining = (player.stats.hp / stats.hpMax) * 100;
   const PlayerManaRemaining = (player.stats.mp / stats.mpMax) * 100;
