@@ -116,6 +116,7 @@ function createBattlecard(enemy) {
         if (combatScreen.classList.contains("paused"))
             return;
         if (game.state.targeting && game.state.selected_ability) {
+            game.pause();
             game.state.selected_ability.use(player, enemy);
             game.endTargeting();
         }

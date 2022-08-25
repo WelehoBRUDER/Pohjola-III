@@ -30,7 +30,7 @@ class Game {
     // for testing
     combat.createCombat([
       new Enemy({ ...enemies.skeleton }),
-      new Enemy({ ...enemies.skeleton }),
+      new Enemy({ ...enemies.skeleton_brute }),
       new Enemy({ ...enemies.skeleton }),
     ]);
   }
@@ -42,6 +42,7 @@ class Game {
   }
 
   resume() {
+    clearInterval(this.tick);
     this.state.paused = false;
     combatScreen.classList.remove("paused");
     this.tick = setInterval(update, 1000 / game.settings.tick_speed);
@@ -153,7 +154,7 @@ class Settings {
     this.hotkey_ability_6 = settings?.hotkey_ability_6 || "Digit6";
     this.tick_speed = settings?.tick_speed || 60;
     this.animation_speed = settings?.animation_speed || 2;
-    this.pause_on_player_turn = settings?.pause_on_player_turn || true;
+    this.pause_on_player_turn = settings?.pause_on_player_turn || false;
   }
 }
 

@@ -41,6 +41,7 @@ class Character {
   dead?: boolean;
   getDamage?: any;
   getDefences?: any;
+  addStatus?: any;
   constructor(char: Character) {
     this.id = char.id;
     this.name = char.name;
@@ -99,7 +100,7 @@ class Character {
         1 *
         (0.4 + this.stats.agi / 100) *
         this.allModifiers.speedP
-      ).toFixed(1);
+      ).toFixed(2);
     };
 
     this.getStats = () => {
@@ -137,6 +138,17 @@ class Character {
 
     this.getDamage = (): number => {
       return this.getStats().atk;
+    };
+
+    this.addStatus = (status: Effect): void => {
+      const index = this.statuses.findIndex((s: any) => s.id === status.id);
+      const effect = new Effect(status);
+      if (index === -1) {
+        effect.lasts = effect.duration;
+        this.statuses.push(new Effect(status));
+      } else {
+        this.statuses[index].lasts = effect.duration;
+      }
     };
   }
 }

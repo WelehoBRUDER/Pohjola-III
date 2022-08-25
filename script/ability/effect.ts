@@ -28,8 +28,9 @@ class Effect {
     )}\n`;
     tooltip += `${game.getLocalizedString("duration")}: ${this.duration}s\n`;
     if (this.effects) {
+      tooltip += "\n<f>0.9rem<f><c>silver<c>Effects:\n";
       Object.entries(this.effects).map(([key, value]) => {
-        tooltip += effectSyntax(key, value);
+        tooltip += " " + effectSyntax(key, value);
       });
     }
 

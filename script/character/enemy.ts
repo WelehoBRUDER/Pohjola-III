@@ -9,7 +9,6 @@ interface Card {
 
 interface EnemyBase extends Character {
   [sprite: string]: any;
-  damages: I_Damage;
   card?: Card;
   index?: number;
 }
@@ -152,6 +151,7 @@ function createBattlecard(enemy: Enemy) {
   battlecard.addEventListener("click", () => {
     if (combatScreen.classList.contains("paused")) return;
     if (game.state.targeting && game.state.selected_ability) {
+      game.pause();
       game.state.selected_ability.use(player, enemy);
       game.endTargeting();
     }

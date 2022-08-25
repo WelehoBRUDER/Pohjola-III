@@ -70,7 +70,9 @@ class Ability {
         )}: ${game.getLocalizedString(this.damageType)}\n`;
       }
       if (this.power) {
-        tooltip += `${game.getLocalizedString("power")}: ${this.power}x\n`;
+        tooltip += `${game.getLocalizedString("power")}: ${
+          this.power * 100
+        }%\n`;
       }
       if (this.penetration) {
         tooltip += `${game.getLocalizedString("penetration")}: ${
@@ -128,7 +130,7 @@ class Ability {
       if (user.id === "player") {
         setTimeout(() => {
           game.resume();
-        }, 250 / game.settings.animation_speed);
+        }, 300 / game.settings.animation_speed);
       }
       update();
     };

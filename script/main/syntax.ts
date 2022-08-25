@@ -175,13 +175,82 @@ function textSyntax(syn: string = "") {
 // <ct>class name<ct> = add div container
 // <nct>class name<nct> = add new div container
 
+interface Property {
+  addPercentageSuffix: boolean;
+  lowerIsBetter: boolean;
+  multiplyBy: number;
+}
+
+const properties: any = {
+  powerV: {
+    addPercentageSuffix: true,
+    multiplyBy: 100,
+  } as Property,
+  penetrationV: {
+    addPercentageSuffix: true,
+    multiplyBy: 100,
+  } as Property,
+  cooldownP: {
+    lowerIsBetter: true,
+  } as Property,
+  cooldownV: {
+    lowerIsBetter: true,
+  } as Property,
+};
+
+function getProperties(key: string) {
+  const props: Property = {
+    addPercentageSuffix: false,
+    lowerIsBetter: false,
+    multiplyBy: 1,
+  };
+  if (properties[key]) {
+    if (properties[key].addPercentageSuffix) {
+      props.addPercentageSuffix = true;
+    }
+    if (properties[key].lowerIsBetter) {
+      props.lowerIsBetter = true;
+    }
+    if (properties[key].multiplyBy) {
+      props.multiplyBy = properties[key].multiplyBy;
+    }
+  }
+  return props;
+}
+
 function effectSyntax(key: string, value: any) {
+  // Syntax when value is an ability object
   if (key.startsWith("ability_")) {
-  } else if (typeof value === "number") {
+    let text: string = "";
+    const id = key.split("ability_")[1];
+    const ability = new Ability(abilities[id]);
+    const name = game.getLocalizedString(ability.id);
+    text += `<i>${ability.icon}<i><c>goldenrod<c>${name} modified:\n`;
+    Object.entries(value).forEach(([_key, _value]) => {
+      text += " " + effectSyntax(_key, _value);
+    });
+    return text;
+  }
+  // Syntax when value is an effect object
+  else if (key.startsWith("effect_")) {
+    let text: string = "";
+    const id = key.split("effect_")[1];
+    const effect = new Effect(effects[id]);
+    const name = game.getLocalizedString(effect.id);
+    text += `<i>${effect.icon}<i><c>goldenrod<c>${name} effect modified:\n`;
+    Object.entries(value).forEach(([_key, _value]) => {
+      text += " " + effectSyntax(_key, _value);
+    });
+    return text;
+  }
+  // Simple syntax when value is a number
+  else if (typeof value === "number") {
+    const props: Property = getProperties(key);
     const valueType = key.substring(key.length - 1);
     const prefix = value >= 0 ? "+" : "";
-    const suffix = valueType === "P" ? "%" : "";
-    const color = value >= 0 ? "lime" : "red";
+    const suffix = valueType === "P" || props.addPercentageSuffix ? "%" : "";
+    const color = value >= 0 || props.lowerIsBetter ? "lime" : "red";
+    value *= props.multiplyBy;
     key = key.substring(0, key.length - 1);
     const name = game.getLocalizedString(key);
     const increaseDecrease =
@@ -189,7 +258,7 @@ function effectSyntax(key: string, value: any) {
         ? game.getLocalizedString("increases")
         : game.getLocalizedString("decreases");
     const by = game.getLocalizedString("by");
-    const icon = icons[key];
+    const icon = icons[key] ?? "gfx/icons/triple-yin.png";
     return `<c>${color}<c>${increaseDecrease} <i>${icon}<i> ${name} ${by} ${prefix}${value.toFixed(
       1
     )}${suffix}\n`;
