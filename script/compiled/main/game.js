@@ -19,10 +19,12 @@ class Game {
     }
     pause() {
         this.state.paused = true;
+        combatScreen.classList.add("paused");
         clearInterval(this.tick);
     }
     resume() {
         this.state.paused = false;
+        combatScreen.classList.remove("paused");
         this.tick = setInterval(update, 1000 / game.settings.tick_speed);
     }
     getLocalizedString(id) {
@@ -31,6 +33,22 @@ class Game {
             string = this.language[id];
         }
         return string;
+    }
+    controls(e) {
+        if (e.key === "p") {
+            if (this.state.paused) {
+                this.resume();
+            }
+            else {
+                this.pause();
+            }
+        }
+        hotkeys.forEach((hotkey) => {
+            if (e.code === this.settings[hotkey]) {
+                console.log("Hotkey pressed: " + hotkey);
+                useAbility(hotkey);
+            }
+        });
     }
     randomShake() {
         // Randomly generate a shake animation using margins
@@ -64,6 +82,14 @@ class Game {
     `);
     }
 }
+const hotkeys = [
+    "hotkey_ability_1",
+    "hotkey_ability_2",
+    "hotkey_ability_3",
+    "hotkey_ability_4",
+    "hotkey_ability_5",
+    "hotkey_ability_6",
+];
 class Settings {
     constructor(settings) {
         this.hotkey_ability_1 = settings?.hotkey_ability_1 || "Digit1";
@@ -77,4 +103,5 @@ class Settings {
     }
 }
 const game = new Game();
+document.addEventListener("keydown", (e) => game.controls(e));
 //# sourceMappingURL=game.js.map

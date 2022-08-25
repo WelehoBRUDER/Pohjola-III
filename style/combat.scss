@@ -146,4 +146,24 @@
       }
     }
   }
+
+  .jump {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    animation-name: droppingString;
+    animation-fill-mode: forwards;
+
+    &.default {
+      color: $health;
+      text-shadow: -0.25rem 0.25rem 0.75rem $health;
+    }
+  }
+
+  &.paused {
+    .toolbar {
+      filter: brightness(50%);
+      pointer-events: none;
+    }
+  }
 }

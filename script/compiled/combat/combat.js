@@ -49,6 +49,16 @@ function update() {
         else {
             cooldownValue.innerText = "";
         }
+        if (ability.onCooldown <= 0 && !ability.canUse()) {
+            if (!slot.classList.contains("disabled")) {
+                slot.classList.add("disabled");
+            }
+        }
+        else {
+            if (slot.classList.contains("disabled")) {
+                slot.classList.remove("disabled");
+            }
+        }
     });
 }
 function createActionSlots() {
@@ -71,6 +81,17 @@ function createActionSlots() {
         }
         slots.appendChild(slot);
     }
+}
+function useAbility(hotkey, index) {
+    let _index = index;
+    if (hotkey) {
+        // Last char in the string is the index
+        _index = +hotkey.substring(hotkey.length - 1);
+    }
+    const ability = player.abilities[_index];
+    if (!ability.canUse())
+        return;
+    ability.use();
 }
 function shakeScreen() {
     let shake = Math.ceil(Math.random() * 9);

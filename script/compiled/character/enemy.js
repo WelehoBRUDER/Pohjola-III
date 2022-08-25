@@ -46,6 +46,7 @@ class Enemy extends Character {
             this.card.main.style.animationName = "attack";
             setTimeout(() => {
                 player.stats.hp -= dmg;
+                createDroppingText(dmg.toString(), tools);
                 update();
                 shakeScreen();
             }, 800 / game.settings.animation_speed);
@@ -54,11 +55,11 @@ class Enemy extends Character {
                     this.card.main.classList.remove("shake");
                     this.card.main.style.animation = "none";
                 }
-            }, 1000 / game.settings.animation_speed);
+            }, 1050 / game.settings.animation_speed);
             setTimeout(() => {
                 this.stats.ap = 0;
                 game.resume();
-            }, 1050 / game.settings.animation_speed);
+            }, 1100 / game.settings.animation_speed);
         }
     }
 }

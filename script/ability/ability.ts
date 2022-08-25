@@ -1,8 +1,8 @@
 class Ability {
   [id: string]: any;
   icon: string;
-  mpCost: number;
-  hpCost: number;
+  mpCost?: number;
+  hpCost?: number;
   type: string;
   cooldown: number;
   onCooldown: number;
@@ -12,8 +12,8 @@ class Ability {
   constructor(ability: Ability) {
     this.id = ability.id;
     this.icon = ability.icon;
-    this.mpCost = ability.mpCost;
-    this.hpCost = ability.hpCost;
+    this.mpCost = ability.mpCost ?? 0;
+    this.hpCost = ability.hpCost ?? 0;
     this.type = ability.type;
     this.cooldown = ability.cooldown;
     this.onCooldown = ability.onCooldown ?? 0;
@@ -24,7 +24,7 @@ class Ability {
     this.doCooldown = () => {
       if (!this.onCooldown) return;
       if (this.onCooldown > 0) {
-        this.onCooldown -= 1 / 30;
+        this.onCooldown -= 1 / 60;
       } else if (this.onCooldown < 0) {
         this.onCooldown = 0;
       }
@@ -55,5 +55,14 @@ class Ability {
       }
       return tooltip;
     };
+
+    this.canUse = (user: Player | Enemy) => {
+      if (this.onCooldown > 0) return false;
+      if (this.mpCost && user.mp < this.mpCost) return false;
+      if (this.hpCost && user.hp < this.hpCost) return false;
+      return true;
+    };
+
+    this.use = (attacker: Player | Enemy, defender: Player | Enemy) => {};
   }
 }

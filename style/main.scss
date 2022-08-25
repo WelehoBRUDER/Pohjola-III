@@ -272,6 +272,14 @@ main.game {
             justify-content: center;
             align-items: center;
 
+            &.disabled {
+              filter: brightness(50%);
+
+              &:hover {
+                border: 0.25rem solid rgb(54, 54, 54);
+              }
+            }
+
             img {
               position: absolute;
               width: 95%;

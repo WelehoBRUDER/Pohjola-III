@@ -15,6 +15,7 @@ class Game {
     this.settings = new Settings();
     this.language = english;
   }
+
   init() {
     console.log("Game initialized");
   }
@@ -28,11 +29,13 @@ class Game {
 
   pause() {
     this.state.paused = true;
+    combatScreen.classList.add("paused");
     clearInterval(this.tick);
   }
 
   resume() {
     this.state.paused = false;
+    combatScreen.classList.remove("paused");
     this.tick = setInterval(update, 1000 / game.settings.tick_speed);
   }
 
@@ -42,6 +45,22 @@ class Game {
       string = this.language[id];
     }
     return string;
+  }
+
+  controls(e: KeyboardEvent) {
+    if (e.key === "p") {
+      if (this.state.paused) {
+        this.resume();
+      } else {
+        this.pause();
+      }
+    }
+    hotkeys.forEach((hotkey: string) => {
+      if (e.code === this.settings[hotkey]) {
+        console.log("Hotkey pressed: " + hotkey);
+        useAbility(hotkey);
+      }
+    });
   }
 
   randomShake() {
@@ -77,6 +96,15 @@ class Game {
   }
 }
 
+const hotkeys = [
+  "hotkey_ability_1",
+  "hotkey_ability_2",
+  "hotkey_ability_3",
+  "hotkey_ability_4",
+  "hotkey_ability_5",
+  "hotkey_ability_6",
+];
+
 class Settings {
   [hotkey_ability_1: string]: any;
   hotkey_ability_2: string;
@@ -99,3 +127,5 @@ class Settings {
 }
 
 const game = new Game();
+
+document.addEventListener("keydown", (e) => game.controls(e));

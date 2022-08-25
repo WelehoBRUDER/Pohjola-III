@@ -288,3 +288,17 @@
     margin-top: 0px;
   }
 }
+
+@keyframes droppingString {
+  0% {
+    margin-top: 0%;
+  }
+  20% {
+    margin-top: -3%;
+    opacity: 1;
+  }
+  100% {
+    margin-top: 20%;
+    opacity: 0;
+  }
+}
