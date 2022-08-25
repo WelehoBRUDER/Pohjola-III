@@ -28,6 +28,7 @@ const abilities = {
     icon: "gfx/abilities/pointy-sword.png",
     type: "attack",
     damageType: "physical",
+    effectsToEnemy: [effects.wounded],
     cooldown: 4,
     onCooldown: 0,
     power: 1.2,

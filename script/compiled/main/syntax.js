@@ -199,4 +199,22 @@ function textSyntax(syn = "") {
 // § = new span
 // <ct>class name<ct> = add div container
 // <nct>class name<nct> = add new div container
+function effectSyntax(key, value) {
+    if (key.startsWith("ability_")) {
+    }
+    else if (typeof value === "number") {
+        const valueType = key.substring(key.length - 1);
+        const prefix = value >= 0 ? "+" : "";
+        const suffix = valueType === "P" ? "%" : "";
+        const color = value >= 0 ? "lime" : "red";
+        key = key.substring(0, key.length - 1);
+        const name = game.getLocalizedString(key);
+        const increaseDecrease = value >= 0
+            ? game.getLocalizedString("increases")
+            : game.getLocalizedString("decreases");
+        const by = game.getLocalizedString("by");
+        const icon = icons[key];
+        return `<c>${color}<c>${increaseDecrease} <i>${icon}<i> ${name} ${by} ${prefix}${value.toFixed(1)}${suffix}\n`;
+    }
+}
 //# sourceMappingURL=syntax.js.map

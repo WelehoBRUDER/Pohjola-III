@@ -13,6 +13,7 @@ class Ability {
   type: string;
   cooldown: number;
   onCooldown: number;
+  effectsToEnemy?: Effect[];
   damageType?: string;
   damage: number;
   power: number;
@@ -29,6 +30,14 @@ class Ability {
     this.damage = ability.damage ?? 0;
     this.power = ability.power ?? 0;
     this.penetration = ability.penetration ?? 0;
+
+    if (ability.effectsToEnemy) {
+      this.effectsToEnemy = [];
+      ability.effectsToEnemy.map((effect: Effect) => {
+        // This can't be undefined since we have assigned it above!
+        this.effectsToEnemy!.push(new Effect(effects[effect.id]));
+      });
+    }
 
     this.doCooldown = () => {
       if (!this.onCooldown) return;
@@ -82,6 +91,14 @@ class Ability {
         tooltip += `${game.getLocalizedString("cooldown")}: ${
           this.cooldown
         }s\n`;
+      }
+
+      // Ability effects
+      if (this.effectsToEnemy) {
+        tooltip += `${game.getLocalizedString("effects")}: \n`;
+        this.effectsToEnemy.forEach((effect: Effect) => {
+          tooltip += effect.tooltip();
+        });
       }
 
       return tooltip;
