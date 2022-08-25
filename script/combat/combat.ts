@@ -22,7 +22,7 @@ function update() {
   }
 
   combat.enemies.forEach((enemy: Enemy) => {
-    if (enemy.dead) return;
+    if (enemy.dead || game.state.paused) return;
     enemy.stats.ap += enemy.getSpeed();
     if (enemy.stats.ap > 100) {
       enemy.stats.ap = 100;

@@ -15,7 +15,10 @@ class Game {
         console.log("Combat initialized");
         createActionSlots();
         // for testing
-        combat.createCombat([new Enemy({ ...enemies.skeleton })]);
+        combat.createCombat([
+            new Enemy({ ...enemies.skeleton }),
+            new Enemy({ ...enemies.skeleton }),
+        ]);
     }
     pause() {
         this.state.paused = true;

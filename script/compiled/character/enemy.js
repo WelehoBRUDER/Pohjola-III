@@ -4,8 +4,7 @@ class Enemy extends Character {
         super(enemy);
         this.index = enemy.index ?? -1;
         this.sprite = enemy.sprite;
-        this.damages = { ...enemy.damages };
-        this.card = enemy.card;
+        this.card = enemy.card ? { ...enemy.card } : null;
         this.isEnemy = true;
     }
     init(index) {
