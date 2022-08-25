@@ -14,40 +14,61 @@ function calculateDamage(
   defender: Player | Enemy,
   attack: Ability
 ): number {
-  let damage = 0;
+  let damage = attacker.getDamage();
   const attackerStats = attacker.getStats();
-  const damages = attacker.getDamage();
   const defences = defender.getDefences();
-  Object.entries(damages).forEach(([key, value]: [string, any | number]) => {
-    // define values
-    let modifier: number = 1;
-    let boost: number = 0;
-    let defence: number = defences[key];
+  const key = attack.damageType ?? "physical";
 
-    // Add stat boost to modifier
-    modifier += attackerStats[damageBoostingStats[key]] / 20;
+  console.log(attackerStats);
 
-    // Add stat effects to modifier
-    modifier += attacker.allModifiers[key + "_damageP"] ?? 0;
-    modifier += attacker.allModifiers["damageP"] ?? 0;
+  console.log(damage, "1");
 
-    // Add boosts to flat value
-    boost += attacker.allModifiers[key + "_damageV"] ?? 0;
-    modifier += attacker.allModifiers["damageV"] ?? 0;
+  // define values
+  let modifier: number = 1;
+  let boost: number = 0;
+  let defence: number = defences[key];
 
-    // Apply penetration to defence
-    defence *= 1 - (attacker.allModifiers[key + "_penetrationP"] ?? 0);
-    defence *= 1 - (attacker.allModifiers["penetrationP"] ?? 0);
-    defence *= 1 - (attack.penetration ?? 0);
+  console.log(defence, "2");
 
-    // Finalize defence
-    defence = 1 - defence / 100;
+  // Add stat boost to modifier
+  modifier += attackerStats[damageBoostingStats[key]] / 20;
 
-    // Lower damage by defence
-    modifier *= defence;
+  console.log(modifier, "3");
 
-    // Apply damage
-    damage += (value + boost) * modifier;
-  });
+  // Add stat effects to modifier
+  modifier += attacker.allModifiers[key + "_damageP"] ?? 0;
+  modifier += attacker.allModifiers["damageP"] ?? 0;
+
+  console.log(modifier, "4");
+
+  // Add boosts to flat value
+  boost += attacker.allModifiers[key + "_damageV"] ?? 0;
+  modifier += attacker.allModifiers["damageV"] ?? 0;
+
+  console.log(boost, modifier, "5");
+
+  // Apply penetration to defence
+  defence *= 1 - (attacker.allModifiers[key + "_penetrationP"] ?? 0);
+  console.log(defence, "6");
+  defence *= 1 - (attacker.allModifiers["penetrationP"] ?? 0);
+  console.log(defence, "7");
+  defence *= 1 - (attack.penetration ?? 0);
+  console.log(defence, "8");
+
+  // Finalize defence
+  defence = 1 - defence / 100;
+  console.log(defence, "9");
+
+  // Increase damage by attack power
+  modifier *= attack.power ?? 1;
+  console.log(modifier, "10");
+
+  // Lower damage by defence
+  modifier *= defence;
+  console.log(modifier, "11");
+
+  // Apply damage
+  damage = (damage + boost) * modifier;
+
   return Math.floor(damage);
 }

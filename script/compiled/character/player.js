@@ -1,6 +1,6 @@
 "use strict";
 const defaultEquipment = {
-    weapon: null,
+    weapon: { ...items.broken_sword },
     armor: null,
     helmet: null,
     legs: null,
@@ -36,12 +36,14 @@ const player = new Player({
     name: "Player",
     race: races.human,
     stats: {
+        str: 10,
         vit: 10,
         agi: 10,
         int: 10,
         spi: 10,
         hp: 50,
         mp: 30,
+        atk: 5,
         hpMax: 0,
         mpMax: 0,
         ap: 0,

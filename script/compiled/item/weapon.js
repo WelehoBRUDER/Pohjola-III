@@ -9,7 +9,7 @@ class Weapon extends Item {
         this.type = "weapon";
         this.cost = weapon.cost;
         this.speed = weapon.speed;
-        this.damage = weapon.damage;
+        this.atk = weapon.atk;
     }
 }
 //# sourceMappingURL=weapon.js.map

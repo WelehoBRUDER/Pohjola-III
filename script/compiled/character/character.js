@@ -58,8 +58,11 @@ class Character {
             Object.entries(stats).forEach(([key, value]) => {
                 if (key.startsWith("hp") || key.startsWith("mp"))
                     return;
-                const increase = this.allModifiers[key + "V"] ?? 0;
-                const modifier = this.allModifiers[key + "P"] ?? 1;
+                let increase = this.allModifiers[key + "V"] ?? 0;
+                let modifier = this.allModifiers[key + "P"] ?? 1;
+                if (key === "atk" && this.equipment?.weapon) {
+                    increase += this.equipment.weapon.atk;
+                }
                 stats[key] = (value + increase) * modifier;
             });
             // Calculate max hp
@@ -81,11 +84,7 @@ class Character {
         };
         this.updateAllModifiers();
         this.getDamage = () => {
-            if (this.equipment?.weapon) {
-                return this.equipment.weapon.damages;
-            }
-            else
-                return this.damages;
+            return this.getStats().atk;
         };
     }
 }

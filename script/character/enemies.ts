@@ -8,6 +8,7 @@ const enemies = {
       agi: 0,
       int: 0,
       spi: 0,
+      atk: 5,
       hp: 5,
       mp: 5,
       hpMax: 5,

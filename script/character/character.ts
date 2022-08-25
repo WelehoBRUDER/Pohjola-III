@@ -4,6 +4,7 @@ interface I_Stats {
   agi: number;
   int: number;
   spi: number;
+  atk: number;
   hp: number;
   mp: number;
   hpMax: number;
@@ -106,8 +107,11 @@ class Character {
       const stats = { ...this.stats };
       Object.entries(stats).forEach(([key, value]) => {
         if (key.startsWith("hp") || key.startsWith("mp")) return;
-        const increase = this.allModifiers[key + "V"] ?? 0;
-        const modifier = this.allModifiers[key + "P"] ?? 1;
+        let increase = this.allModifiers[key + "V"] ?? 0;
+        let modifier = this.allModifiers[key + "P"] ?? 1;
+        if (key === "atk" && this.equipment?.weapon) {
+          increase += this.equipment.weapon.atk;
+        }
         stats[key] = (value + increase) * modifier;
       });
       // Calculate max hp
@@ -123,7 +127,7 @@ class Character {
       return stats;
     };
 
-    this.restore = () => {
+    this.restore = (): void => {
       const { hpMax, mpMax } = this.getStats();
       this.stats.hp = hpMax;
       this.stats.mp = mpMax;
@@ -131,10 +135,8 @@ class Character {
 
     this.updateAllModifiers();
 
-    this.getDamage = () => {
-      if (this.equipment?.weapon) {
-        return this.equipment.weapon.damages;
-      } else return this.damages;
+    this.getDamage = (): number => {
+      return this.getStats().atk;
     };
   }
 }

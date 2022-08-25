@@ -3,9 +3,7 @@ const items: any = {
     id: "broken_sword",
     price: 10,
     speed: 0,
-    damage: {
-      physical: 5,
-    },
+    atk: 5,
     tier: itemTiers.common,
     type: "weapon",
   } as Weapon,

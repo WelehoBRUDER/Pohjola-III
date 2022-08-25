@@ -77,7 +77,7 @@ function createActionSlots() {
             cooldownValue.classList.add("cooldown-number");
             slot.append(image, cooldown, cooldownValue);
             tooltip(slot, ability.tooltip());
-            slot.addEventListener("click", ability.setCooldown);
+            slot.addEventListener("click", () => useAbility(null, i));
         }
         slots.appendChild(slot);
     }
@@ -88,10 +88,23 @@ function useAbility(hotkey, index) {
         // Last char in the string is the index
         _index = +hotkey.substring(hotkey.length - 1);
     }
-    const ability = player.abilities[_index];
-    if (!ability.canUse())
+    if (_index === null || _index === undefined)
         return;
-    ability.use();
+    const ability = player.abilities[_index - 1];
+    if (!ability.canUse() || player.stats.ap < 100)
+        return;
+    if (ability.type === "attack") {
+        const targets = combat.getLivingEnemies();
+        if (targets.length === 1) {
+            ability.use(player, targets[0]);
+        }
+        else {
+            console.log("You have multiple targets, please select one");
+        }
+    }
+    else {
+        ability.use(player, player);
+    }
 }
 function shakeScreen() {
     let shake = Math.ceil(Math.random() * 9);
@@ -115,6 +128,9 @@ class Combat {
         this.id = "combat";
     }
     init() { }
+    getLivingEnemies() {
+        return this.enemies.filter((enemy) => !enemy.dead);
+    }
     createCombat(enemies) {
         this.enemies = enemies;
         this.enemies.forEach((enemy) => {

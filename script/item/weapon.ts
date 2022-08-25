@@ -6,12 +6,12 @@
 class Weapon extends Item {
   [cost: string]: any;
   speed: number;
-  damage: I_Damage;
+  atk: number;
   constructor(weapon: Weapon) {
     super(weapon);
     this.type = "weapon";
     this.cost = weapon.cost;
     this.speed = weapon.speed;
-    this.damage = weapon.damage;
+    this.atk = weapon.atk;
   }
 }

@@ -6,6 +6,7 @@ class Enemy extends Character {
         this.sprite = enemy.sprite;
         this.damages = { ...enemy.damages };
         this.card = enemy.card;
+        this.isEnemy = true;
     }
     init(index) {
         this.restore();
@@ -27,16 +28,31 @@ class Enemy extends Character {
             }, 250 / game.settings.animation_speed);
         }
     }
+    hurt(dmg) {
+        this.stats.hp -= dmg;
+        if (this.stats.hp <= 0) {
+            this.stats.hp = 0;
+            this.dead = true;
+        }
+        if (this.card) {
+            this.card.hp_fill.style.width = `${(this.stats.hp / this.stats.max_hp) * 100}%`;
+            this.card.hp_value.innerText = `${this.stats.hp}/${this.stats.max_hp}`;
+        }
+        if (this.card) {
+            createDroppingText(dmg.toString(), this.card.main);
+        }
+        this.shake();
+    }
     act() {
         game.pause();
         console.log("I take action, ok?");
         this.attack();
     }
     attack() {
-        let dmg = calculateDamage(this, player, this.abilities[0]);
-        this.attackAnimation(dmg);
+        let ability = this.abilities[0];
+        this.attackAnimation(ability);
     }
-    attackAnimation(dmg) {
+    attackAnimation(ability) {
         if (this.card) {
             this.card.main.style.animation = "none";
             this.card.main.style.offsetHeight; // trigger reflow
@@ -45,10 +61,11 @@ class Enemy extends Character {
             this.card.main.style.animationDuration = `${1000 / game.settings.animation_speed}ms`;
             this.card.main.style.animationName = "attack";
             setTimeout(() => {
-                player.stats.hp -= dmg;
-                createDroppingText(dmg.toString(), tools);
-                update();
-                shakeScreen();
+                ability.use(this, player);
+                // player.stats.hp -= dmg;
+                // createDroppingText(dmg.toString(), tools);
+                // update();
+                // shakeScreen();
             }, 800 / game.settings.animation_speed);
             setTimeout(() => {
                 if (this.card) {
@@ -57,7 +74,6 @@ class Enemy extends Character {
                 }
             }, 1050 / game.settings.animation_speed);
             setTimeout(() => {
-                this.stats.ap = 0;
                 game.resume();
             }, 1100 / game.settings.animation_speed);
         }

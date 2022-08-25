@@ -6,6 +6,7 @@ class Ability {
   type: string;
   cooldown: number;
   onCooldown: number;
+  damageType?: string;
   damage?: I_Damage;
   power?: number;
   penetration?: number;
@@ -17,6 +18,7 @@ class Ability {
     this.type = ability.type;
     this.cooldown = ability.cooldown;
     this.onCooldown = ability.onCooldown ?? 0;
+    this.damageType = ability.damageType ?? "physical";
     this.damage = ability.damage ?? {};
     this.power = ability.power ?? 0;
     this.penetration = ability.penetration ?? 0;
@@ -63,6 +65,21 @@ class Ability {
       return true;
     };
 
-    this.use = (attacker: Player | Enemy, defender: Player | Enemy) => {};
+    this.use = (user: Player | Enemy, target: Player | Enemy) => {
+      user.stats.ap = 0;
+      this.setCooldown();
+      if (this.type === "attack") {
+        const damage = calculateDamage(user, target, this);
+        if (target.isEnemy) {
+          target.hurt(damage);
+        } else {
+          player.stats.hp -= damage;
+          createDroppingText(damage.toString(), tools);
+          update();
+          shakeScreen();
+        }
+      }
+      update();
+    };
   }
 }
