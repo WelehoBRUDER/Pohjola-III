@@ -97,6 +97,17 @@ class Character {
 
     this.updateAllModifiers = () => {
       this.allModifiers = this.getModifiers();
+      this.abilities.forEach((abi: Ability) => {
+        abi.updateStats(this);
+        if (this.id === "player") {
+          const slot: HTMLDivElement = slots.querySelector(
+            `[data-ability="${abi.id}"]`
+          )!;
+          if (slot) {
+            updateTooltip(slot, abi.tooltip());
+          }
+        }
+      });
     };
 
     this.getSpeed = () => {
@@ -107,8 +118,12 @@ class Character {
       ).toFixed(2);
     };
 
-    this.getStats = () => {
-      this.updateAllModifiers();
+    interface statsOptions {
+      dontUpdateModifiers?: boolean;
+    }
+
+    this.getStats = (options?: statsOptions) => {
+      if (!options?.dontUpdateModifiers) this.updateAllModifiers();
       const stats = { ...this.stats };
       Object.entries(stats).forEach(([key, value]) => {
         if (key.startsWith("hp") || key.startsWith("mp")) return;
@@ -162,7 +177,7 @@ class Character {
       const index = this.statuses.findIndex((s: any) => s.id === status.id);
       const effect = new Effect(status);
       if (index === -1) {
-        effect.init(user.allModifiers?.[key]["effect_" + status.id]);
+        effect.init(user.allModifiers?.[key]?.["effect_" + status.id]);
         effect.lasts = effect.duration;
         this.statuses.push(effect);
       } else {
@@ -171,6 +186,7 @@ class Character {
         );
         this.statuses[index].lasts = effect.duration;
       }
+      this.updateAllModifiers();
     };
   }
 }

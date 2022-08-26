@@ -76,5 +76,7 @@ const player = new Player({
     statuses: [],
     perks: [],
 });
+player.updateAllModifiers();
+player.abilities.forEach((abi) => abi.updateStats(player));
 game.initCombat();
 //# sourceMappingURL=player.js.map

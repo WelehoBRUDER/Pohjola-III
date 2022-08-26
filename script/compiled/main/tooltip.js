@@ -1,10 +1,20 @@
 "use strict";
 function tooltip(element, text) {
-    element.addEventListener("mouseover", (e) => {
-        showHover(e, text);
-    });
+    element.addEventListener("mouseover", over);
     element.addEventListener("mousemove", moveHover);
     element.addEventListener("mouseleave", hideHover);
+    function over(e) {
+        showHover(e, text);
+    }
+}
+function updateTooltip(element, text) {
+    element.removeEventListener("mouseover", over);
+    element.removeEventListener("mousemove", moveHover);
+    element.removeEventListener("mouseleave", hideHover);
+    tooltip(element, text);
+    function over(e) {
+        showHover(e, text);
+    }
 }
 function showHover(mouseEvent, text) {
     tooltipBox.textContent = "";

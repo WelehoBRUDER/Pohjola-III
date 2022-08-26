@@ -1,9 +1,21 @@
 function tooltip(element: HTMLElement, text: string) {
-  element.addEventListener("mouseover", (e) => {
-    showHover(e, text);
-  });
+  element.addEventListener("mouseover", over);
   element.addEventListener("mousemove", moveHover);
   element.addEventListener("mouseleave", hideHover);
+
+  function over(e: MouseEvent) {
+    showHover(e, text);
+  }
+}
+
+function updateTooltip(element: HTMLElement, text: string) {
+  element.removeEventListener("mouseover", over);
+  element.removeEventListener("mousemove", moveHover);
+  element.removeEventListener("mouseleave", hideHover);
+  tooltip(element, text);
+  function over(e: MouseEvent) {
+    showHover(e, text);
+  }
 }
 
 function showHover(mouseEvent: MouseEvent, text: string) {

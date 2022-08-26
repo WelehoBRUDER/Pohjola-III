@@ -93,4 +93,7 @@ const player = new Player({
   perks: [],
 });
 
+player.updateAllModifiers();
+player.abilities.forEach((abi) => abi.updateStats(player));
+
 game.initCombat();

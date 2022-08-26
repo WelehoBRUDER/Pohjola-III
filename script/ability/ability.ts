@@ -50,6 +50,8 @@ class Ability {
 
     this.setCooldown = () => {
       this.onCooldown = this.cooldown;
+      console.log(this);
+      console.log(this.onCooldown);
     };
 
     this.tooltip = () => {
@@ -151,11 +153,13 @@ class Ability {
       const baseStats: Ability = { ...abilities[id] };
       id = "ability_" + id;
       Object.entries(this).forEach(([key, value]) => {
+        if (typeof value !== "number" || typeof value === "object") return;
         if (typeof value === "number") {
           const bonus = holder.allModifiers[id]?.[key + "V"] ?? 0;
           const modifier =
             1 + (holder.allModifiers[id]?.[key + "P"] / 100 || 0);
-          this[key] = +(((baseStats[key] || 0) + bonus) * modifier).toFixed(2);
+          const base = baseStats[key] ? baseStats[key] : value;
+          this[key] = +(((base || 0) + bonus) * modifier).toFixed(2);
         } else if (typeof value === "object" && !Array.isArray(value)) {
           this[key] = updateObject(key, value, holder.allModifiers[id]);
         }

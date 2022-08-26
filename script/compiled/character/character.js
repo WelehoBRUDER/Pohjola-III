@@ -48,14 +48,24 @@ class Character {
         };
         this.updateAllModifiers = () => {
             this.allModifiers = this.getModifiers();
+            this.abilities.forEach((abi) => {
+                abi.updateStats(this);
+                if (this.id === "player") {
+                    const slot = slots.querySelector(`[data-ability="${abi.id}"]`);
+                    if (slot) {
+                        updateTooltip(slot, abi.tooltip());
+                    }
+                }
+            });
         };
         this.getSpeed = () => {
             return +(1 *
                 (0.4 + this.stats.agi / 100) *
                 this.allModifiers.speedP).toFixed(2);
         };
-        this.getStats = () => {
-            this.updateAllModifiers();
+        this.getStats = (options) => {
+            if (!options?.dontUpdateModifiers)
+                this.updateAllModifiers();
             const stats = { ...this.stats };
             Object.entries(stats).forEach(([key, value]) => {
                 if (key.startsWith("hp") || key.startsWith("mp"))
@@ -101,7 +111,7 @@ class Character {
             const index = this.statuses.findIndex((s) => s.id === status.id);
             const effect = new Effect(status);
             if (index === -1) {
-                effect.init(user.allModifiers?.[key]["effect_" + status.id]);
+                effect.init(user.allModifiers?.[key]?.["effect_" + status.id]);
                 effect.lasts = effect.duration;
                 this.statuses.push(effect);
             }
@@ -109,6 +119,7 @@ class Character {
                 this.statuses[index].init(user.allModifiers?.[key]["effect_" + status.id]);
                 this.statuses[index].lasts = effect.duration;
             }
+            this.updateAllModifiers();
         };
     }
 }
