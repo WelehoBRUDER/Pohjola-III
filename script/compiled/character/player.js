@@ -10,12 +10,6 @@ const races = {
         id: "human",
         modifiers: {
             expGainP: 5,
-            ability_sharp_strike: {
-                powerV: 0.25,
-                effect_wounded: {
-                    durationP: 20,
-                },
-            },
         },
     },
 };
@@ -55,6 +49,15 @@ class Player extends Character {
                 }
             }
         });
+        for (let i = this.statuses.length - 1; i >= 0; i--) {
+            if (this.statuses[i].lasts <= 0) {
+                const statusElem = playerStatuses.querySelector(".status-effect[data-id='" + this.statuses[i].id + "']");
+                if (statusElem) {
+                    statusElem.remove();
+                }
+                this.statuses.splice(i, 1);
+            }
+        }
     }
 }
 const player = new Player({

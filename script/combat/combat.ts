@@ -20,6 +20,9 @@ function update() {
   playerMP.innerText = player.stats.mp + "/" + stats.mpMax;
   player.update();
 
+  combat.time += 1 / game.settings.tick_speed;
+  combatTime.textContent = `${combat.time.toFixed(1)}s`;
+
   if (game.state.paused) return;
   const speed = player.getSpeed();
   player.stats.ap += speed;
@@ -148,12 +151,35 @@ function createStatusIcon(status: Effect) {
   return statusElement;
 }
 
+function attack() {
+  const ability = new Ability(abilities.player_base_attack);
+  game.endTargeting();
+  const targets: Enemy[] = combat.getLivingEnemies();
+  if (targets.length === 1) {
+    ability.use(player, targets[0]);
+  } else {
+    console.log("You have multiple targets, please select one");
+    game.startTargeting(ability);
+  }
+}
+
+function pass() {
+  if (player.stats.ap >= 100) {
+    player.stats.ap = 0;
+    if (game.settings.pause_on_player_turn) {
+      game.resume();
+    }
+  }
+}
+
 class Combat {
   [id: string]: any;
   enemies: Enemy[] = [];
+  time: number;
   constructor() {
     this.init();
     this.id = "combat";
+    this.time = 0;
   }
 
   init() {}
@@ -163,6 +189,7 @@ class Combat {
   }
 
   createCombat(enemies: Enemy[]) {
+    this.time = 0;
     this.enemies = enemies;
     this.enemies.forEach((enemy) => {
       // @ts-ignore

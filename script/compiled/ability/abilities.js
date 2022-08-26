@@ -1,5 +1,13 @@
 "use strict";
 const abilities = {
+    player_base_attack: {
+        id: "player_base_attack",
+        icon: "gfx/abilities/pointy-sword.png",
+        type: "attack",
+        damageType: "physical",
+        power: 0.5,
+        cooldown: 0,
+    },
     physical_attack: {
         id: "physical_attack",
         icon: "gfx/abilities/pointy-sword.png",
@@ -32,7 +40,7 @@ const abilities = {
         effectsToEnemy: [effects.wounded],
         cooldown: 5,
         onCooldown: 0,
-        power: 1.1,
+        power: 0.8,
     },
     heavy_attack: {
         id: "heavy_attack",
@@ -41,8 +49,7 @@ const abilities = {
         damageType: "physical",
         cooldown: 4,
         onCooldown: 0,
-        power: 1.4,
-        penetration: 0.1,
+        power: 1.2,
     },
 };
 //# sourceMappingURL=abilities.js.map

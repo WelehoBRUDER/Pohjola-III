@@ -190,7 +190,7 @@ class Character {
         effect.inflictTimer = 0;
         this.statuses.push(effect);
       } else {
-        effect.init(user.allModifiers?.[key]["effect_" + status.id]);
+        effect.init(user.allModifiers?.[key]?.["effect_" + status.id]);
         this.statuses[index].lasts = effect.duration;
       }
       this.updateAllModifiers();

@@ -117,6 +117,18 @@ class Enemy extends Character {
         }
       }
     });
+    for (let i = this.statuses.length - 1; i >= 0; i--) {
+      if (this.statuses[i].lasts <= 0) {
+        const statusElem: HTMLDivElement =
+          this.card?.status_effects.querySelector(
+            ".status-effect[data-id='" + this.statuses[i].id + "']"
+          )!;
+        if (statusElem) {
+          statusElem.remove();
+        }
+        this.statuses.splice(i, 1);
+      }
+    }
   }
 
   act(): void {

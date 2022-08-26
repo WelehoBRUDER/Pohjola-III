@@ -8,8 +8,9 @@ const enemyContainer = combatScreen.querySelector(".enemies");
 const toolbarElement = uiScreen.querySelector(".toolbar");
 const tools = toolbarElement.querySelector(".tools");
 const slots = tools.querySelector(".action-slots");
-const playerStatuses = tools.querySelector(".status-effects");
+const combatTime = uiScreen.querySelector(".combat-time");
 /* Player UI related elements */
+const playerStatuses = tools.querySelector(".status-effects");
 const playerHPBar = uiScreen.querySelector(".player-hp");
 const playerMPBar = uiScreen.querySelector(".player-mp");
 const playerActionBar = uiScreen.querySelector(".player-action");
