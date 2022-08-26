@@ -1,20 +1,21 @@
 "use strict";
+function over(e) {
+    // @ts-ignore
+    let text = e.target.getAttribute("data-tooltip");
+    if (text) {
+        showHover(e, text);
+    }
+    else
+        return;
+}
 function tooltip(element, text) {
     element.addEventListener("mouseover", over);
     element.addEventListener("mousemove", moveHover);
     element.addEventListener("mouseleave", hideHover);
-    function over(e) {
-        showHover(e, text);
-    }
+    element.setAttribute("data-tooltip", text);
 }
 function updateTooltip(element, text) {
-    element.removeEventListener("mouseover", over);
-    element.removeEventListener("mousemove", moveHover);
-    element.removeEventListener("mouseleave", hideHover);
-    tooltip(element, text);
-    function over(e) {
-        showHover(e, text);
-    }
+    element.setAttribute("data-tooltip", text);
 }
 function showHover(mouseEvent, text) {
     tooltipBox.textContent = "";
