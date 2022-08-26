@@ -41,12 +41,12 @@ class Ability {
             tooltip += "<f>1.2rem<f>";
             // Ability type
             tooltip += `${game.getLocalizedString("type")}: ${game.getLocalizedString(this.type)}\n`;
+            if (this.power) {
+                tooltip += `<i>${icons.power}<i>${game.getLocalizedString("power")}: ${this.power * 100}%\n`;
+            }
             // Ability attack values
             if (this.damageType) {
-                tooltip += `${game.getLocalizedString("damage_type")}: ${game.getLocalizedString(this.damageType)}\n`;
-            }
-            if (this.power) {
-                tooltip += `${game.getLocalizedString("power")}: ${this.power * 100}%\n`;
+                tooltip += `${game.getLocalizedString("damage_type")}: <i>${icons[this.damageType]}<i>${game.getLocalizedString(this.damageType)}\n`;
             }
             if (this.penetration) {
                 tooltip += `${game.getLocalizedString("penetration")}: ${this.penetration * 100}%\n`;
@@ -60,7 +60,7 @@ class Ability {
             }
             // Ability cooldown
             if (this.cooldown > 0) {
-                tooltip += `${game.getLocalizedString("cooldown")}: ${this.cooldown}s\n`;
+                tooltip += `<i>${icons.cooldown}<i>${game.getLocalizedString("cooldown")}: ${this.cooldown}s\n`;
             }
             // Ability effects
             if (this.effectsToEnemy) {

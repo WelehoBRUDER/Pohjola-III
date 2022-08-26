@@ -47,10 +47,12 @@ class Effect {
       });
     }
 
-    tooltip += `${game.getLocalizedString("type")}: ${game.getLocalizedString(
-      this.type
-    )}\n`;
-    tooltip += `${game.getLocalizedString("duration")}: ${this.duration}s\n`;
+    // tooltip += `${game.getLocalizedString("type")}: ${game.getLocalizedString(
+    //   this.type
+    // )}\n`;
+    tooltip += `<i>${icons.cooldown}<i>${game.getLocalizedString(
+      "duration"
+    )}: ${this.duration}s\n`;
     if (this.modifiers) {
       tooltip += "\n<f>0.9rem<f><c>silver<c>Effects:\n";
       Object.entries(this.modifiers).map(([key, value]) => {
