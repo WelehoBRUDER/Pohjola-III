@@ -4,7 +4,7 @@ const enemies = {
     name: "Skeleton",
     stats: {
       str: 5,
-      vit: 5,
+      vit: 0,
       agi: 0,
       int: 0,
       spi: 0,
@@ -38,7 +38,7 @@ const enemies = {
     name: "Skeleton Brute",
     stats: {
       str: 10,
-      vit: 10,
+      vit: 0,
       agi: -5,
       int: 0,
       spi: 0,
@@ -66,8 +66,8 @@ const enemies = {
     critPower: 50,
     sprite: "skeleton_type/skeleton_brute.png",
     abilities: [
-      new Ability(abilities.sharp_strike),
       new Ability(abilities.physical_attack),
+      new Ability(abilities.sharp_strike),
     ],
   } as EnemyBase,
 };

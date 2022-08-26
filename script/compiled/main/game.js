@@ -18,9 +18,12 @@ class Game {
         createActionSlots();
         // for testing
         combat.createCombat([
-            //new Enemy({ ...enemies.skeleton }),
+            new Enemy({ ...enemies.skeleton }),
             new Enemy({ ...enemies.skeleton_brute }),
-            //new Enemy({ ...enemies.skeleton }),
+            new Enemy({ ...enemies.skeleton }),
+            new Enemy({ ...enemies.skeleton }),
+            new Enemy({ ...enemies.skeleton }),
+            new Enemy({ ...enemies.skeleton }),
         ]);
     }
     pause(options) {
@@ -75,36 +78,40 @@ class Game {
             }
         });
     }
-    randomShake() {
-        // Randomly generate a shake animation using margins
-        return console.log(`
-      @keyframes shake {
+    randomShake(num) {
+        // Randomly generate  shake animations using translate
+        let shakes = "";
+        for (let i = 1; i <= num; i++) {
+            shakes += `
+      @keyframes shake${i} {
         0% {
-          margin-left: 0;
-          margin-top: 0;
+          left: 0rem;
+          top: 0rem;
         }
         20% {
-          margin-left: ${Math.round(Math.random() * 10)}px;
-          margin-top: ${Math.round(Math.random() * 10)}px;
+          left: ${(Math.random() - 0.5).toFixed(1)}rem;
+          top: ${(Math.random() - 0.5).toFixed(1)}rem;
         }
         40% {
-          margin-left: -${Math.round(Math.random() * 10)}px;
-          margin-top: -${Math.round(Math.random() * 10)}px;
+          left: ${(Math.random() - 0.5).toFixed(1)}rem;
+          top: ${(Math.random() - 0.5).toFixed(1)}rem;
         }
         60% {
-          margin-left: ${Math.round(Math.random() * 10)}px;
-          margin-top: ${Math.round(Math.random() * 10)}px;
+          left: ${(Math.random() - 0.5).toFixed(1)}rem;
+          top: ${(Math.random() - 0.5).toFixed(1)}rem;
         }
         80% {
-          margin-left: -${Math.round(Math.random() * 10)}px;
-          margin-top: -${Math.round(Math.random() * 10)}px;
+          left: ${(Math.random() - 0.5).toFixed(1)}rem;
+          top: ${(Math.random() - 0.5).toFixed(1)}rem;
         }
         100% {
-          margin-left: 0px;
-          margin-top: 0px;
+          left: 0rem;
+          top: 0rem;
         }
       }
-    `);
+    `;
+        }
+        console.log(shakes);
     }
 }
 const hotkeys = [

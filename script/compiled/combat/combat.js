@@ -145,6 +145,8 @@ function createStatusIcon(status) {
     return statusElement;
 }
 function attack() {
+    if (player.stats.ap < 100)
+        return;
     const ability = new Ability(abilities.player_base_attack);
     game.endTargeting();
     const targets = combat.getLivingEnemies();

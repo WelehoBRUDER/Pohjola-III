@@ -69,9 +69,15 @@ class Enemy extends Character {
 
       setTimeout(() => {
         if (this.card) {
+          //this.card.main.remove();
           this.card.main.classList.add("dead");
         }
       }, 2700 / game.settings.animation_speed);
+      setTimeout(() => {
+        if (this.card) {
+          this.card.main.remove();
+        }
+      }, 3000 / game.settings.animation_speed);
     }
   }
 
