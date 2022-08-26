@@ -30,19 +30,19 @@ const abilities = {
         type: "attack",
         damageType: "physical",
         effectsToEnemy: [effects.wounded],
-        cooldown: 4,
+        cooldown: 5,
         onCooldown: 0,
-        power: 1.2,
-        penetration: 0.1,
+        power: 1.1,
     },
     heavy_attack: {
         id: "heavy_attack",
         icon: "gfx/abilities/strong.png",
         type: "attack",
         damageType: "physical",
-        cooldown: 3,
+        cooldown: 4,
         onCooldown: 0,
         power: 1.4,
+        penetration: 0.1,
     },
 };
 //# sourceMappingURL=abilities.js.map

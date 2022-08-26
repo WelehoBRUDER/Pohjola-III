@@ -3,10 +3,19 @@ interface EffectObject {
   icon: string;
   duration: number;
   type: string;
+  inflict?: Inflict;
+  modifiers?: any;
 }
 
 interface EffectOptions {
   container?: boolean;
+}
+
+interface Inflict {
+  damageFlat?: number;
+  damagePercent?: number;
+  healingFlat?: number;
+  healingPercent?: number;
 }
 
 class Effect {
@@ -14,6 +23,7 @@ class Effect {
   icon: string;
   duration: number;
   type: string;
+  inflict?: Inflict;
   modifiers?: any;
   constructor(effect: EffectObject) {
     this.id = effect.id;
@@ -21,6 +31,7 @@ class Effect {
     this.duration = effect.duration;
     this.type = effect.type;
     this.modifiers = effect.modifiers ? { ...effect.modifiers } : {};
+    this.inflict = effect.inflict ? { ...effect.inflict } : {};
   }
 
   tooltip(options?: EffectOptions) {
@@ -28,6 +39,14 @@ class Effect {
     if (options?.container) tooltip += "<ct>effect-container<ct>";
     tooltip += `<c>goldenrod<c>${game.getLocalizedString(this.id)}\n`;
     tooltip += "<f>1rem<f><c>white<c>";
+    if (this.inflict) {
+      Object.entries(this.inflict).forEach(([key, value]) => {
+        tooltip += `${game.getLocalizedString(key + "_first")}`;
+        tooltip += ` ${key.includes("Percent") ? value * 100 + "%" : value} `;
+        tooltip += `${game.getLocalizedString(key + "_last")}\n`;
+      });
+    }
+
     tooltip += `${game.getLocalizedString("type")}: ${game.getLocalizedString(
       this.type
     )}\n`;

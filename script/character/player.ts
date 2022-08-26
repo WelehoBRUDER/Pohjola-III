@@ -36,17 +36,50 @@ class Race {
   }
 }
 
+interface PlayerObject extends Character {
+  [race: string]: any;
+  equipment: I_Equipment;
+  abilities_total: Ability[];
+}
+
 class Player extends Character {
   [race: string]: any;
   equipment: I_Equipment;
   abilities_total: Ability[];
-  constructor(char: Player) {
+  constructor(char: PlayerObject) {
     super(char);
     this.race = new Race(char.race) ?? new Race(races.human);
     this.equipment = char.equipment ?? defaultEquipment;
     this.abilities_total = char.abilities_total ?? [];
 
     this.updateAllModifiers();
+  }
+
+  update() {
+    this.statuses.forEach((status: Effect) => {
+      status.lasts -= 1 / 60;
+      if (status.inflict) {
+        status.inflictTimer += 1 / 60;
+        if (status.inflictTimer >= 1) {
+          status.inflictTimer = 0;
+          this.inflict(status);
+        }
+      }
+
+      const statusElem = playerStatuses.querySelector(
+        ".status-effect[data-id='" + status.id + "']"
+      );
+      if (!statusElem) {
+        const statusElement = createStatusIcon(status);
+        playerStatuses.appendChild(statusElement);
+      } else if (statusElem) {
+        const dur: HTMLParagraphElement =
+          statusElem.querySelector(".duration")!;
+        if (dur) {
+          dur.innerText = status.lasts.toFixed(1) + "s";
+        }
+      }
+    });
   }
 }
 

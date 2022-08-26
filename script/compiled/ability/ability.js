@@ -66,7 +66,14 @@ class Ability {
             if (this.effectsToEnemy) {
                 tooltip += `${game.getLocalizedString("effects_to_foe")}: \n`;
                 this.effectsToEnemy.forEach((effect) => {
-                    tooltip += effect.tooltip({ container: true });
+                    if (options?.owner) {
+                        const displayEffect = new Effect(effect);
+                        displayEffect.init(options?.owner?.allModifiers?.["ability_" + this.id]?.["effect_" + effect.id]);
+                        tooltip += displayEffect.tooltip({ container: true });
+                    }
+                    else {
+                        tooltip += effect.tooltip({ container: true });
+                    }
                 });
             }
             return tooltip;

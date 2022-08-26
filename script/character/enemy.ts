@@ -90,9 +90,32 @@ class Enemy extends Character {
     }
   }
 
+  harm(dmg: number): void {
+    this.stats.hp -= dmg;
+    this.updateCard();
+    if (this.stats.hp <= 0) {
+      this.die();
+    }
+  }
+
+  heal(amount: number): void {
+    this.stats.hp += amount;
+    if (this.stats.hp > this.getStats().hpMax) {
+      this.stats.hp = this.getStats().hpMax;
+    }
+    this.updateCard();
+  }
+
   updateStatusEffects(): void {
     this.statuses.forEach((status: Effect) => {
       status.lasts -= 1 / 60;
+      if (status.inflict) {
+        status.inflictTimer += 1 / 60;
+        if (status.inflictTimer >= 1) {
+          status.inflictTimer = 0;
+          this.inflict(status);
+        }
+      }
     });
   }
 
@@ -113,24 +136,13 @@ class Enemy extends Character {
       ap_fill.style.width = `${this.stats.ap}%`;
       hp_fill.style.width = `${hpRemain}%`;
       hp_late.style.width = `${hpRemain}%`;
-      //const statusElements = this.card.status_effects.children;
       this.statuses.forEach((status: Effect) => {
         const statusElem = this.card?.status_effects.querySelector(
           ".status-effect[data-id='" + status.id + "']"
         );
         if (!statusElem) {
-          const statusElement = document.createElement("div");
-          const statusIcon = document.createElement("img");
-          const statusDuration = document.createElement("p");
-          statusElement.classList.add("status-effect");
-          statusIcon.classList.add("icon");
-          statusDuration.classList.add("duration");
-          statusElement.setAttribute("data-id", status.id);
-          statusIcon.src = status.icon;
-          statusDuration.innerText = status.lasts.toFixed(1) + "s";
-          statusElement.append(statusIcon, statusDuration);
+          const statusElement = createStatusIcon(status);
           this.card?.status_effects.appendChild(statusElement);
-          tooltip(statusElement, status.tooltip());
         } else if (statusElem) {
           const dur: HTMLParagraphElement =
             statusElem.querySelector(".duration")!;

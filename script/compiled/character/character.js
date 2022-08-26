@@ -53,7 +53,7 @@ class Character {
                 if (this.id === "player") {
                     const slot = slots.querySelector(`[data-ability="${abi.id}"]`);
                     if (slot) {
-                        updateTooltip(slot, abi.tooltip());
+                        updateTooltip(slot, abi.tooltip({ owner: this }));
                     }
                 }
             });
@@ -75,7 +75,15 @@ class Character {
                 if (key === "atk" && this.equipment?.weapon) {
                     increase += this.equipment.weapon.atk;
                 }
-                stats[key] = (value + increase) * modifier;
+                const flat = value + increase;
+                if (flat < 0) {
+                    // If flat value is negative and modifier is less than 1, it will actually increase the value
+                    // So we need to make sure that the modifier is at least 1
+                    if (modifier < 1) {
+                        modifier = 1 + (1 - modifier);
+                    }
+                }
+                stats[key] = flat * modifier;
             });
             // Calculate max hp
             const hpIncrease = this.allModifiers["hpMaxV"] ?? 0;
@@ -113,13 +121,47 @@ class Character {
             if (index === -1) {
                 effect.init(user.allModifiers?.[key]?.["effect_" + status.id]);
                 effect.lasts = effect.duration;
+                effect.inflictTimer = 0;
                 this.statuses.push(effect);
             }
             else {
-                this.statuses[index].init(user.allModifiers?.[key]["effect_" + status.id]);
+                effect.init(user.allModifiers?.[key]["effect_" + status.id]);
                 this.statuses[index].lasts = effect.duration;
             }
             this.updateAllModifiers();
+        };
+        this.inflict = (status) => {
+            const values = status.inflict;
+            if (values?.damagePercent || values?.damageFlat) {
+                let damage = 0;
+                if (values?.damagePercent)
+                    damage = Math.round(this.getStats({ dontUpdateModifiers: true }).hpMax *
+                        values.damagePercent);
+                if (values?.damageFlat)
+                    damage += values.damageFlat;
+                if (this.isEnemy) {
+                    this.harm(damage);
+                }
+                else
+                    this.stats.hp -= damage;
+                const location = this.isEnemy ? this.card.main : tools;
+                createDroppingText(damage.toString(), location, status.type);
+            }
+            else if (values?.healingFlat || values?.healingPercent) {
+                let healing = 0;
+                if (values?.healingPercent)
+                    healing = Math.round(this.getStats({ dontUpdateModifiers: true }).hpMax *
+                        values.healingPercent);
+                if (values?.healingFlat)
+                    healing += values.healingFlat;
+                if (this.isEnemy) {
+                    this.heal(healing);
+                }
+                else
+                    this.stats.hp += healing;
+                const location = this.isEnemy ? this.card.main : tools;
+                createDroppingText(healing.toString(), location, status.type);
+            }
         };
     }
 }

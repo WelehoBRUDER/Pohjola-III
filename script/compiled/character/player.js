@@ -33,6 +33,29 @@ class Player extends Character {
         this.abilities_total = char.abilities_total ?? [];
         this.updateAllModifiers();
     }
+    update() {
+        this.statuses.forEach((status) => {
+            status.lasts -= 1 / 60;
+            if (status.inflict) {
+                status.inflictTimer += 1 / 60;
+                if (status.inflictTimer >= 1) {
+                    status.inflictTimer = 0;
+                    this.inflict(status);
+                }
+            }
+            const statusElem = playerStatuses.querySelector(".status-effect[data-id='" + status.id + "']");
+            if (!statusElem) {
+                const statusElement = createStatusIcon(status);
+                playerStatuses.appendChild(statusElement);
+            }
+            else if (statusElem) {
+                const dur = statusElem.querySelector(".duration");
+                if (dur) {
+                    dur.innerText = status.lasts.toFixed(1) + "s";
+                }
+            }
+        });
+    }
 }
 const player = new Player({
     id: "player",

@@ -58,9 +58,30 @@ class Enemy extends Character {
             setTimeout(() => this.die(), 250 / game.settings.animation_speed);
         }
     }
+    harm(dmg) {
+        this.stats.hp -= dmg;
+        this.updateCard();
+        if (this.stats.hp <= 0) {
+            this.die();
+        }
+    }
+    heal(amount) {
+        this.stats.hp += amount;
+        if (this.stats.hp > this.getStats().hpMax) {
+            this.stats.hp = this.getStats().hpMax;
+        }
+        this.updateCard();
+    }
     updateStatusEffects() {
         this.statuses.forEach((status) => {
             status.lasts -= 1 / 60;
+            if (status.inflict) {
+                status.inflictTimer += 1 / 60;
+                if (status.inflictTimer >= 1) {
+                    status.inflictTimer = 0;
+                    this.inflict(status);
+                }
+            }
         });
     }
     act() {
@@ -80,22 +101,11 @@ class Enemy extends Character {
             ap_fill.style.width = `${this.stats.ap}%`;
             hp_fill.style.width = `${hpRemain}%`;
             hp_late.style.width = `${hpRemain}%`;
-            //const statusElements = this.card.status_effects.children;
             this.statuses.forEach((status) => {
                 const statusElem = this.card?.status_effects.querySelector(".status-effect[data-id='" + status.id + "']");
                 if (!statusElem) {
-                    const statusElement = document.createElement("div");
-                    const statusIcon = document.createElement("img");
-                    const statusDuration = document.createElement("p");
-                    statusElement.classList.add("status-effect");
-                    statusIcon.classList.add("icon");
-                    statusDuration.classList.add("duration");
-                    statusElement.setAttribute("data-id", status.id);
-                    statusIcon.src = status.icon;
-                    statusDuration.innerText = status.lasts.toFixed(1) + "s";
-                    statusElement.append(statusIcon, statusDuration);
+                    const statusElement = createStatusIcon(status);
                     this.card?.status_effects.appendChild(statusElement);
-                    tooltip(statusElement, status.tooltip());
                 }
                 else if (statusElem) {
                     const dur = statusElem.querySelector(".duration");

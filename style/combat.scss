@@ -193,6 +193,21 @@
       color: orange;
       text-shadow: -0.25rem 0.25rem 0.75rem rgb(236, 154, 2);
     }
+
+    &.bleed {
+      color: crimson;
+      text-shadow: -0.25rem 0.25rem 0.75rem crimson;
+    }
+
+    &.poison {
+      color: purple;
+      text-shadow: -0.25rem 0.25rem 0.75rem purple;
+    }
+
+    &.heal {
+      color: green;
+      text-shadow: -0.25rem 0.25rem 0.75rem green;
+    }
   }
 
   &.paused {

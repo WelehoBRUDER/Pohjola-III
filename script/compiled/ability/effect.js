@@ -6,6 +6,7 @@ class Effect {
         this.duration = effect.duration;
         this.type = effect.type;
         this.modifiers = effect.modifiers ? { ...effect.modifiers } : {};
+        this.inflict = effect.inflict ? { ...effect.inflict } : {};
     }
     tooltip(options) {
         let tooltip = "<f>1.25rem<f>";
@@ -13,6 +14,13 @@ class Effect {
             tooltip += "<ct>effect-container<ct>";
         tooltip += `<c>goldenrod<c>${game.getLocalizedString(this.id)}\n`;
         tooltip += "<f>1rem<f><c>white<c>";
+        if (this.inflict) {
+            Object.entries(this.inflict).forEach(([key, value]) => {
+                tooltip += `${game.getLocalizedString(key + "_first")}`;
+                tooltip += ` ${key.includes("Percent") ? value * 100 + "%" : value} `;
+                tooltip += `${game.getLocalizedString(key + "_last")}\n`;
+            });
+        }
         tooltip += `${game.getLocalizedString("type")}: ${game.getLocalizedString(this.type)}\n`;
         tooltip += `${game.getLocalizedString("duration")}: ${this.duration}s\n`;
         if (this.modifiers) {

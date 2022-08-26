@@ -2,7 +2,6 @@
 function update() {
     if (combat.getLivingEnemies().length === 0) {
         game.pause();
-        alert("You won!");
     }
     if (player.stats.hp < 0)
         player.stats.hp = 0;
@@ -19,6 +18,7 @@ function update() {
     playerAction.innerText = player.stats.ap.toFixed(1) + "%";
     playerHP.innerText = player.stats.hp + "/" + stats.hpMax;
     playerMP.innerText = player.stats.mp + "/" + stats.mpMax;
+    player.update();
     if (game.state.paused)
         return;
     const speed = player.getSpeed();
@@ -127,6 +127,20 @@ function shakeScreen() {
         combatScreen.style.animation = "none";
         bloodyScreen.classList.remove("show");
     }, 200 / game.settings.animation_speed);
+}
+function createStatusIcon(status) {
+    const statusElement = document.createElement("div");
+    const statusIcon = document.createElement("img");
+    const statusDuration = document.createElement("p");
+    statusElement.classList.add("status-effect");
+    statusIcon.classList.add("icon");
+    statusDuration.classList.add("duration");
+    statusElement.setAttribute("data-id", status.id);
+    statusIcon.src = status.icon;
+    statusDuration.innerText = status.lasts.toFixed(1) + "s";
+    statusElement.append(statusIcon, statusDuration);
+    tooltip(statusElement, status.tooltip());
+    return statusElement;
 }
 class Combat {
     constructor() {
