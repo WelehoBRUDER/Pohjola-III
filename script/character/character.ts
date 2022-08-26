@@ -154,13 +154,21 @@ class Character {
       return this.getStats().atk;
     };
 
-    this.addStatus = (status: Effect): void => {
+    this.addStatus = (
+      status: Effect,
+      user: Player | Enemy,
+      key: string
+    ): void => {
       const index = this.statuses.findIndex((s: any) => s.id === status.id);
       const effect = new Effect(status);
       if (index === -1) {
+        effect.init(user.allModifiers?.[key]["effect_" + status.id]);
         effect.lasts = effect.duration;
-        this.statuses.push(new Effect(status));
+        this.statuses.push(effect);
       } else {
+        this.statuses[index].init(
+          user.allModifiers?.[key]["effect_" + status.id]
+        );
         this.statuses[index].lasts = effect.duration;
       }
     };

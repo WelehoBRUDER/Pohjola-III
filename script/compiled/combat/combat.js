@@ -32,6 +32,7 @@ function update() {
     combat.enemies.forEach((enemy) => {
         if (enemy.dead || game.state.paused)
             return;
+        enemy.updateStatusEffects();
         enemy.stats.ap += enemy.getSpeed();
         if (enemy.stats.ap > 100) {
             enemy.stats.ap = 100;

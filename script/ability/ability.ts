@@ -134,7 +134,7 @@ class Ability {
         }
         if (this.effectsToEnemy) {
           this.effectsToEnemy.forEach((effect: Effect) => {
-            target.addStatus(effect);
+            target.addStatus(effect, user, "ability_" + this.id);
           });
         }
       }
@@ -144,6 +144,22 @@ class Ability {
         }, 300 / game.settings.animation_speed);
       }
       update();
+    };
+
+    this.updateStats = (holder: Player | Enemy): void => {
+      let id = this.id;
+      const baseStats: Ability = { ...abilities[id] };
+      id = "ability_" + id;
+      Object.entries(this).forEach(([key, value]) => {
+        if (typeof value === "number") {
+          const bonus = holder.allModifiers[id]?.[key + "V"] ?? 0;
+          const modifier =
+            1 + (holder.allModifiers[id]?.[key + "P"] / 100 || 0);
+          this[key] = +(((baseStats[key] || 0) + bonus) * modifier).toFixed(2);
+        } else if (typeof value === "object" && !Array.isArray(value)) {
+          this[key] = updateObject(key, value, holder.allModifiers[id]);
+        }
+      });
     };
   }
 }

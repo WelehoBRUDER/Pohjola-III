@@ -65,6 +65,9 @@ const enemies = {
     critRate: 3,
     critPower: 50,
     sprite: "skeleton_type/skeleton_brute.png",
-    abilities: [new Ability(abilities.physical_attack)],
+    abilities: [
+      new Ability(abilities.physical_attack),
+      new Ability(abilities.sharp_strike),
+    ],
   } as EnemyBase,
 };

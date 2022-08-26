@@ -5,6 +5,7 @@ interface Card {
   hp_value: HTMLParagraphElement;
   ap_fill: HTMLDivElement;
   ap_value: HTMLParagraphElement;
+  status_effects: HTMLDivElement;
 }
 
 interface EnemyBase extends Character {
@@ -89,6 +90,12 @@ class Enemy extends Character {
     }
   }
 
+  updateStatusEffects(): void {
+    this.statuses.forEach((status: Effect) => {
+      status.lasts -= 1 / 60;
+    });
+  }
+
   act(): void {
     game.pause();
     console.log("I take action, ok?");
@@ -106,6 +113,32 @@ class Enemy extends Character {
       ap_fill.style.width = `${this.stats.ap}%`;
       hp_fill.style.width = `${hpRemain}%`;
       hp_late.style.width = `${hpRemain}%`;
+      //const statusElements = this.card.status_effects.children;
+      this.statuses.forEach((status: Effect) => {
+        const statusElem = this.card?.status_effects.querySelector(
+          ".status-effect[data-id='" + status.id + "']"
+        );
+        if (!statusElem) {
+          const statusElement = document.createElement("div");
+          const statusIcon = document.createElement("img");
+          const statusDuration = document.createElement("p");
+          statusElement.classList.add("status-effect");
+          statusIcon.classList.add("icon");
+          statusDuration.classList.add("duration");
+          statusElement.setAttribute("data-id", status.id);
+          statusIcon.src = status.icon;
+          statusDuration.innerText = status.lasts.toFixed(1) + "s";
+          statusElement.append(statusIcon, statusDuration);
+          this.card?.status_effects.appendChild(statusElement);
+          tooltip(statusElement, status.tooltip());
+        } else if (statusElem) {
+          const dur: HTMLParagraphElement =
+            statusElem.querySelector(".duration")!;
+          if (dur) {
+            dur.innerText = status.lasts.toFixed(1) + "s";
+          }
+        }
+      });
     }
   }
 
@@ -160,6 +193,7 @@ function createBattlecard(enemy: Enemy) {
     }
   });
   battlecard.innerHTML = `
+    <div class="status-effects"></div>
     <div class="name">${enemy.name}</div>
     <div class="hp-background">
       <div class="hp-fill gradient-shine"></div>
@@ -182,5 +216,8 @@ function createBattlecard(enemy: Enemy) {
     hp_value: battlecard.querySelector(".hp-value") as HTMLParagraphElement,
     ap_fill: battlecard.querySelector(".ap-fill") as HTMLDivElement,
     ap_value: battlecard.querySelector(".ap-value") as HTMLParagraphElement,
+    status_effects: battlecard.querySelector(
+      ".status-effects"
+    ) as HTMLDivElement,
   };
 }

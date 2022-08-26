@@ -97,14 +97,16 @@ class Character {
         this.getDamage = () => {
             return this.getStats().atk;
         };
-        this.addStatus = (status) => {
+        this.addStatus = (status, user, key) => {
             const index = this.statuses.findIndex((s) => s.id === status.id);
             const effect = new Effect(status);
             if (index === -1) {
+                effect.init(user.allModifiers?.[key]["effect_" + status.id]);
                 effect.lasts = effect.duration;
-                this.statuses.push(new Effect(status));
+                this.statuses.push(effect);
             }
             else {
+                this.statuses[index].init(user.allModifiers?.[key]["effect_" + status.id]);
                 this.statuses[index].lasts = effect.duration;
             }
         };

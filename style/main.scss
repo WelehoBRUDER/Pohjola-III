@@ -222,6 +222,18 @@ main.game {
         justify-content: space-between;
         align-items: center;
 
+        .status-effects {
+          height: 2rem;
+          width: 100%;
+          position: absolute;
+          top: -2rem;
+          left: 0;
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: center;
+        }
+
         .player-action {
           width: 100%;
           height: 2.5rem;

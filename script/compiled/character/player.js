@@ -10,8 +10,11 @@ const races = {
         id: "human",
         modifiers: {
             expGainP: 5,
-            ability_sharp_stroke: {
+            ability_sharp_strike: {
                 powerV: 0.25,
+                effect_wounded: {
+                    durationP: 20,
+                },
             },
         },
     },

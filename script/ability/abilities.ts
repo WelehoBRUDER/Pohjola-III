@@ -1,4 +1,4 @@
-const abilities = {
+const abilities: any = {
   physical_attack: {
     id: "physical_attack",
     icon: "gfx/abilities/pointy-sword.png",

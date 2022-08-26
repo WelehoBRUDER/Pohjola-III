@@ -76,3 +76,27 @@ const mergeObjects = (obj1: any, obj2: any) => {
     { ...obj2 }
   ); // spread to avoid mutating obj2
 };
+
+const updateObject = (key: string, object: any, mods: any): object => {
+  return Object.entries(object).map(([_key, value]) => {
+    if (typeof value === "number") {
+      const bonus = mods?.[key]?.[_key + "V"] ?? 0;
+      const modifier = 1 + (mods?.[key]?.[_key + "P"] / 100 || 0);
+      return +(((value || 0) + bonus) * modifier).toFixed(2);
+    } else if (typeof value === "object") {
+      return updateObject(_key, value, mods?.[key]);
+    }
+  });
+};
+
+const updateObjectWithoutReturn = (key: string, object: any, mods: any) => {
+  return Object.entries(object).map(([_key, value]) => {
+    if (typeof value === "number") {
+      const bonus = mods?.[key]?.[_key + "V"] ?? 0;
+      const modifier = 1 + (mods?.[key]?.[_key + "P"] / 100 || 0);
+      object[_key] + (((value || 0) + bonus) * modifier).toFixed(2);
+    } else if (typeof value === "object") {
+      return updateObject(_key, value, mods?.[key]);
+    }
+  });
+};

@@ -21,5 +21,26 @@ class Effect {
         }
         return tooltip;
     }
+    init(bonuses) {
+        Object.entries(this).forEach(([key, value]) => {
+            if (typeof value === "number") {
+                let bonus = bonuses?.[key + "V"] || 0;
+                let modifier = 1 + (bonuses?.[key + "P"] / 100 || 0);
+                this[key] = +((value + bonus) * modifier).toFixed(2);
+            }
+            else if (typeof value === "object") {
+                Object.entries(value).forEach(([_key, _value]) => {
+                    if (typeof _value === "number") {
+                        let bonus = bonuses?.[key]?.[_key + "V"] || 0;
+                        let modifier = 1 + (bonuses?.[key]?.[_key + "P"] / 100 || 0);
+                        this[key][_key] = +((_value + bonus) * modifier).toFixed(2);
+                    }
+                    else
+                        updateObjectWithoutReturn(_key, _value, bonuses[key]);
+                });
+            }
+        });
+        return this;
+    }
 }
 //# sourceMappingURL=effect.js.map
