@@ -174,17 +174,19 @@ function createBattlecard(enemy) {
     });
     battlecard.innerHTML = `
     <div class="status-effects"></div>
-    <div class="name">${enemy.name}</div>
-    <div class="hp-background">
-      <div class="hp-fill gradient-shine"></div>
-      <div class="hp-late"></div>
-      <p class="hp-value">${enemy.stats.hp}/${enemy.getStats().hpMax}</p>
-    </div>
-    <div class="sprite"><img src="/gfx/enemies/${enemy.sprite}"></div>
-    <div class="ap-background">
-        <div class="ap-fill gradient-shine">
+    <div class="card">
+      <div class="name">${enemy.name}</div>
+      <div class="hp-background">
+        <div class="hp-fill gradient-shine"></div>
+        <div class="hp-late"></div>
+        <p class="hp-value">${enemy.stats.hp}/${enemy.getStats().hpMax}</p>
+      </div>
+      <div class="sprite"><img src="/gfx/enemies/${enemy.sprite}"></div>
+      <div class="ap-background">
+          <div class="ap-fill gradient-shine">
+          </div>
+          <p class="ap-value">${enemy.stats.ap.toFixed(1)}%</p>
         </div>
-        <p class="ap-value">${enemy.stats.ap.toFixed(1)}%</p>
       </div>
     </div>
   `;
