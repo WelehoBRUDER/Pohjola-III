@@ -7,8 +7,10 @@ class Effect {
         this.type = effect.type;
         this.modifiers = effect.modifiers ? { ...effect.modifiers } : {};
     }
-    tooltip() {
+    tooltip(options) {
         let tooltip = "<f>1.25rem<f>";
+        if (options?.container)
+            tooltip += "<ct>effect-container<ct>";
         tooltip += `<c>goldenrod<c>${game.getLocalizedString(this.id)}\n`;
         tooltip += "<f>1rem<f><c>white<c>";
         tooltip += `${game.getLocalizedString("type")}: ${game.getLocalizedString(this.type)}\n`;

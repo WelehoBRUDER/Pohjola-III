@@ -31,12 +31,12 @@ class Ability {
         };
         this.setCooldown = () => {
             this.onCooldown = this.cooldown;
-            console.log(this);
-            console.log(this.onCooldown);
         };
-        this.tooltip = () => {
-            // Define ability name
+        this.tooltip = (options) => {
             let tooltip = "<f>1.5rem<f>";
+            if (options?.container)
+                tooltip += "<ct>ability-container<ct>";
+            // Define ability name
             tooltip += `${game.getLocalizedString(this.id)}\n`;
             tooltip += "<f>1.2rem<f>";
             // Ability type
@@ -64,9 +64,9 @@ class Ability {
             }
             // Ability effects
             if (this.effectsToEnemy) {
-                tooltip += `${game.getLocalizedString("effects")}: \n`;
+                tooltip += `${game.getLocalizedString("effects_to_foe")}: \n`;
                 this.effectsToEnemy.forEach((effect) => {
-                    tooltip += effect.tooltip();
+                    tooltip += effect.tooltip({ container: true });
                 });
             }
             return tooltip;

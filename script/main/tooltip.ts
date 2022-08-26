@@ -3,7 +3,7 @@ function over(e: MouseEvent) {
   let text = e.target.getAttribute("data-tooltip");
   if (text) {
     showHover(e, text);
-  } else return;
+  }
 }
 
 function tooltip(element: HTMLElement, text: string) {

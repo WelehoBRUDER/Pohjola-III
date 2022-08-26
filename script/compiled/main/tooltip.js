@@ -5,8 +5,6 @@ function over(e) {
     if (text) {
         showHover(e, text);
     }
-    else
-        return;
 }
 function tooltip(element, text) {
     element.addEventListener("mouseover", over);
