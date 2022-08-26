@@ -7,8 +7,24 @@
   align-items: center;
 
   &.targeting {
-    .battlecard {
-      border: 0.25rem solid goldenrod;
+    .enemies {
+      pointer-events: none;
+
+      &:not(:hover) {
+        .battlecard .card {
+          outline: 0.25rem solid goldenrod;
+        }
+      }
+
+      .battlecard {
+        pointer-events: all;
+      }
+
+      .battlecard .card {
+        &:hover {
+          outline: 0.25rem solid goldenrod;
+        }
+      }
     }
   }
 
@@ -46,6 +62,7 @@
         flex-direction: column;
         justify-content: space-evenly;
         align-items: center;
+        outline: 0.25rem solid transparent;
 
         &:hover {
           transform: scale(1.05);
