@@ -66,5 +66,14 @@ const effects = {
             healingPercent: 0.05,
         },
     },
+    attack_1: {
+        id: "attack_1",
+        icon: "gfx/icons/crossed-swords.png",
+        duration: 7.5,
+        type: "buff",
+        modifiers: {
+            atkP: 20,
+        },
+    },
 };
 //# sourceMappingURL=effects.js.map

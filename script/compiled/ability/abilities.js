@@ -80,5 +80,12 @@ const abilities = {
         cooldown: 10,
         mpCost: 10,
     },
+    battle_aura: {
+        id: "battle_aura",
+        icon: "gfx/abilities/battle-gear.png",
+        type: "buff",
+        effectsToSelf: [effects.attack_1],
+        cooldown: 12,
+    },
 };
 //# sourceMappingURL=abilities.js.map

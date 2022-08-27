@@ -125,6 +125,7 @@ const player = new Player({
     new Ability({ ...abilities.heavy_attack }),
     new Ability({ ...abilities.disorienting_blow }),
     new Ability({ ...abilities.flame }),
+    new Ability({ ...abilities.battle_aura }),
     new Ability({ ...abilities.healing_light }),
   ],
   critRate: 3,

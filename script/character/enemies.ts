@@ -32,10 +32,7 @@ const enemies = {
     critRate: 3,
     critPower: 50,
     sprite: "skeleton_type/skeleton_warrior.png",
-    abilities: [
-      { ...abilities.physical_attack },
-      { ...abilities.healing_light },
-    ],
+    abilities: [{ ...abilities.physical_attack }],
   } as EnemyBase,
   skeleton_brute: {
     id: "skeleton_brute",
@@ -70,9 +67,6 @@ const enemies = {
     critRate: 3,
     critPower: 50,
     sprite: "skeleton_type/skeleton_brute.png",
-    abilities: [
-      { ...abilities.physical_attack },
-      { ...abilities.sharp_strike },
-    ],
+    abilities: [{ ...abilities.physical_attack }],
   } as EnemyBase,
 };

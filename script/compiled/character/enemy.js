@@ -120,7 +120,7 @@ class Enemy extends Character {
         if (move.type === "attack") {
             this.attackAnimation(move);
         }
-        else if (move.type === "heal") {
+        else if (move.type === "heal" || move.type === "buff") {
             this.healingAnimation(move, this);
         }
     }

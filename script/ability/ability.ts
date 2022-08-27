@@ -230,6 +230,18 @@ class Ability {
             healingScreen.classList.remove("show");
           }, 200);
         }
+      } else if (this.type === "buff") {
+        if (this.effectsToSelf) {
+          this.effectsToSelf.forEach((effect: Effect) => {
+            target.addStatus(effect, user, "ability_" + this.id);
+          });
+        }
+        if (user.id === "player") {
+          combatScreen.classList.add("buff");
+          setTimeout(() => {
+            combatScreen.classList.remove("buff");
+          }, 200);
+        }
       }
       if (user.id === "player") {
         setTimeout(() => {

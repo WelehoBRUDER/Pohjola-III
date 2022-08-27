@@ -67,4 +67,13 @@ const effects: any = {
       healingPercent: 0.05,
     },
   } as EffectObject,
+  attack_1: {
+    id: "attack_1",
+    icon: "gfx/icons/crossed-swords.png",
+    duration: 7.5,
+    type: "buff",
+    modifiers: {
+      atkP: 20,
+    },
+  } as EffectObject,
 };
