@@ -256,9 +256,7 @@ function effectSyntax(key, value) {
         value *= props.multiplyBy;
         key = key.substring(0, key.length - 1);
         const name = game.getLocalizedString(key);
-        const increaseDecrease = value >= 0
-            ? game.getLocalizedString("increases")
-            : game.getLocalizedString("decreases");
+        const increaseDecrease = value >= 0 ? game.getLocalizedString("increases") : game.getLocalizedString("decreases");
         const by = game.getLocalizedString("by");
         const icon = icons[key] ?? "gfx/icons/triple-yin.png";
         return `<c>${color}<c>${increaseDecrease} <i>${icon}<i> ${name} ${by} ${prefix}${value.toFixed(1)}${suffix}\n`;

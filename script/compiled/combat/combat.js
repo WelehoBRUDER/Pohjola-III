@@ -1,12 +1,12 @@
 "use strict";
 function update() {
-    if (combat.getLivingEnemies().length === 0) {
-        game.pause();
-    }
-    if (player.stats.hp < 0)
+    if (player.stats.hp < 0) {
         player.stats.hp = 0;
-    if (player.stats.mp < 0)
+        combat.end();
+    }
+    if (player.stats.mp < 0) {
         player.stats.mp = 0;
+    }
     const stats = player.getStats({ dontUpdateModifiers: true });
     const PlayerHealthRemaining = (player.stats.hp / stats.hpMax) * 100;
     const PlayerManaRemaining = (player.stats.mp / stats.mpMax) * 100;
@@ -164,10 +164,49 @@ function attack() {
 function pass() {
     if (player.stats.ap >= 100) {
         player.stats.ap = 0;
+        game.state.selected_ability = null;
+        game.endTargeting();
         if (game.settings.pause_on_player_turn) {
             game.resume();
         }
     }
+}
+function defeatedEnemies() {
+    let text = "";
+    text += `<f>2rem<f><c>goldenrod<c>${game.getLocalizedString("defeated_enemies")}:<f>1.5rem<f><c>silver<c>\n`;
+    combat.loot = lootEnemies(combat.enemies);
+    combat.enemies.forEach((enemy) => {
+        text += `${game.getLocalizedString(enemy.id)}\n`;
+    });
+    text += `\n<f>2rem<f><c>goldenrod<c>${game.getLocalizedString("loot_gained")}:<f>1.5rem<f><c>silver<c>\n`;
+    combat.loot.forEach((item) => {
+        text += `${item.amount}x ${game.getLocalizedString(item.item.id)}\n`;
+    });
+    text += `${combat.gold}<c>gold<c> ${game.getLocalizedString("gold")}`;
+    return textSyntax(text);
+}
+function lootEnemies(enemies) {
+    let total = [];
+    let loot = [];
+    enemies.forEach((enemy) => {
+        enemy.dropLoot().forEach((item) => {
+            total.push(item);
+        });
+    });
+    total.forEach((item) => {
+        if (item.gold)
+            combat.gold += item.gold;
+        else {
+            if (!loot.find((i) => i.item.id === item.item.id)) {
+                loot.push(item);
+            }
+            else {
+                const index = loot.findIndex((i) => i.item.id === item.item.id);
+                loot[index].amount += item.amount;
+            }
+        }
+    });
+    return loot;
 }
 class Combat {
     constructor() {
@@ -175,6 +214,8 @@ class Combat {
         this.init();
         this.id = "combat";
         this.time = 0;
+        this.loot = [];
+        this.gold = 0;
     }
     init() { }
     getLivingEnemies() {
@@ -183,11 +224,30 @@ class Combat {
     createCombat(enemies) {
         this.time = 0;
         this.enemies = enemies;
+        this.loot = [];
+        this.gold = 0;
+        combatSummaryBackground.classList.add("hide");
         this.enemies.forEach((enemy) => {
             // @ts-ignore
             enemy.init();
         });
         game.resume();
+    }
+    end() {
+        game.pause({ disableSkills: true });
+        combatSummaryBackground.classList.remove("hide");
+        combatSummaryButtons.innerHTML = "";
+        combatSummaryText.innerHTML = "";
+        if (this.getLivingEnemies().length === 0) {
+            combatSummaryTitle.innerText = game.getLocalizedString("combat_victory");
+            combatSummaryTitle.classList.value = "header victory";
+            combatSummaryText.append(defeatedEnemies());
+            combatSummaryButtons.innerHTML = `<button class="main-button" onclick="game.finish_combat()">${game.getLocalizedString("continue")}</button>`;
+        }
+        else {
+            combatSummaryTitle.innerText = game.getLocalizedString("combat_defeat");
+            combatSummaryTitle.classList.value = "header defeat";
+        }
     }
 }
 const combat = new Combat();

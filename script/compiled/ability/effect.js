@@ -18,9 +18,7 @@ class Effect {
             Object.entries(this.inflict).forEach(([key, value]) => {
                 tooltip += `${game.getLocalizedString(key + "_first")}`;
                 tooltip += ` ${key.includes("Percent") ? value * 100 + "%" : value} `;
-                tooltip += `${game
-                    .getLocalizedString(key + "_last")
-                    .replace("[TYPE]", game.getLocalizedString(this.type))}\n`;
+                tooltip += `${game.getLocalizedString(key + "_last").replace("[TYPE]", game.getLocalizedString(this.type))}\n`;
             });
         }
         // tooltip += `${game.getLocalizedString("type")}: ${game.getLocalizedString(

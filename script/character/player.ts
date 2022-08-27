@@ -60,15 +60,12 @@ class Player extends Character {
         }
       }
 
-      const statusElem = playerStatuses.querySelector(
-        ".status-effect[data-id='" + status.id + "']"
-      );
+      const statusElem = playerStatuses.querySelector(".status-effect[data-id='" + status.id + "']");
       if (!statusElem) {
         const statusElement = createStatusIcon(status);
         playerStatuses.appendChild(statusElement);
       } else if (statusElem) {
-        const dur: HTMLParagraphElement =
-          statusElem.querySelector(".duration")!;
+        const dur: HTMLParagraphElement = statusElem.querySelector(".duration")!;
         if (dur) {
           dur.innerText = status.lasts.toFixed(1) + "s";
         }
@@ -77,9 +74,7 @@ class Player extends Character {
 
     for (let i = this.statuses.length - 1; i >= 0; i--) {
       if (this.statuses[i].lasts <= 0) {
-        const statusElem: HTMLDivElement = playerStatuses.querySelector(
-          ".status-effect[data-id='" + this.statuses[i].id + "']"
-        )!;
+        const statusElem: HTMLDivElement = playerStatuses.querySelector(".status-effect[data-id='" + this.statuses[i].id + "']")!;
         if (statusElem) {
           statusElem.remove();
         }
@@ -117,7 +112,9 @@ const player = new Player({
     thunder: 0,
     curse: 0,
     poison: 0,
+    bleed: 0,
     divine: 0,
+    stun: 0,
   },
   equipment: defaultEquipment,
   abilities: [

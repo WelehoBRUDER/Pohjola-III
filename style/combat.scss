@@ -5,6 +5,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: 100%;
 
   &.targeting {
     .enemies {
@@ -357,5 +359,80 @@
     background: rgb(26, 67, 105);
     box-shadow: 0 0 0.5rem 0.5rem rgb(33, 63, 161);
     z-index: 2;
+  }
+}
+
+.combat-summary-background {
+  transition: background-color 1000ms;
+  z-index: 9;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(10, 10, 10, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &.hide {
+    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0);
+
+    .combat-summary {
+      width: 0;
+      overflow: hidden;
+      box-shadow: none;
+    }
+  }
+
+  .combat-summary {
+    transition: 500ms width;
+    width: 48rem;
+    height: 36rem;
+    background: rgb(24, 24, 24);
+    z-index: 10;
+    box-shadow: 0 0 0.75rem 0.5rem rgb(20, 20, 20);
+
+    .header {
+      width: 100%;
+      height: 25%;
+      background: rgb(10, 10, 10);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 6rem;
+
+      &.defeat {
+        color: rgb(163, 12, 12);
+        text-shadow: -0.1rem 0.25rem 0.4rem rgb(100, 8, 8);
+      }
+
+      &.victory {
+        color: rgb(9, 102, 9);
+        text-shadow: -0.1rem 0.25rem 0.4rem rgb(6, 68, 6);
+      }
+    }
+
+    .summary-text {
+      width: 100%;
+      height: 55%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+      box-shadow: inset 0 0 1rem 0.5rem rgb(15, 15, 15);
+      line-height: 1rem;
+    }
+
+    .options {
+      width: 100%;
+      height: 20%;
+      background: rgb(10, 10, 10);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 }

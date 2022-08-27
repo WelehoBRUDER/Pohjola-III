@@ -12,6 +12,7 @@ interface EnemyBase extends Character {
   [sprite: string]: any;
   card?: Card;
   index?: number;
+  loot?: any[];
 }
 
 class Enemy extends Character {
@@ -19,12 +20,14 @@ class Enemy extends Character {
   card?: Card | null;
   index?: number;
   isEnemy?: boolean;
+  loot?: any[];
 
   constructor(enemy: EnemyBase) {
     super(enemy);
     this.index = enemy.index ?? -1;
     this.sprite = enemy.sprite;
     this.card = enemy.card ? { ...enemy.card } : null;
+    this.loot = enemy.loot ? [...enemy.loot] : [];
     this.isEnemy = true;
   }
 
@@ -39,12 +42,7 @@ class Enemy extends Character {
 
   getRandomMove(): Ability {
     const usables = this.abilities.filter((ability: Ability) => {
-      return (
-        ability.canUse(this) &&
-        (ability.type === "heal"
-          ? this.stats.hp / this.getStats().hpMax < 0.5
-          : true)
-      );
+      return ability.canUse(this) && (ability.type === "heal" ? this.stats.hp / this.getStats().hpMax < 0.5 : true);
     });
     if (usables.length === 0) {
       usables.push(new Ability({ ...abilities.player_base_attack }));
@@ -58,9 +56,7 @@ class Enemy extends Character {
       this.card.main.style.animation = "none";
       this.card.main.style.offsetHeight; // trigger reflow
       this.card.main.style.animation = null;
-      this.card.main.style.animationDuration = `${
-        250 / game.settings.animation_speed
-      }ms`;
+      this.card.main.style.animationDuration = `${250 / game.settings.animation_speed}ms`;
       this.card.main.style.animationName = "shake" + shake;
       setTimeout(() => {
         if (this.card) {
@@ -77,12 +73,8 @@ class Enemy extends Character {
       this.card.main.style.animation = "none";
       this.card.main.style.offsetHeight; // trigger reflow
       this.card.main.style.animation = null;
-      this.card.main.style.transition = `all ${
-        300 / game.settings.animation_speed
-      }ms`;
-      this.card.main.style.animationDuration = `${
-        3000 / game.settings.animation_speed
-      }ms`;
+      this.card.main.style.transition = `all ${300 / game.settings.animation_speed}ms`;
+      this.card.main.style.animationDuration = `${3000 / game.settings.animation_speed}ms`;
       this.card.main.style.animationName = "die";
 
       setTimeout(() => {
@@ -94,6 +86,9 @@ class Enemy extends Character {
       setTimeout(() => {
         if (this.card) {
           this.card.main.remove();
+          if (combat.getLivingEnemies().length === 0) {
+            combat.end();
+          }
         }
       }, 3000 / game.settings.animation_speed);
     }
@@ -143,16 +138,29 @@ class Enemy extends Character {
     });
     for (let i = this.statuses.length - 1; i >= 0; i--) {
       if (this.statuses[i].lasts <= 0) {
-        const statusElem: HTMLDivElement =
-          this.card?.status_effects.querySelector(
-            ".status-effect[data-id='" + this.statuses[i].id + "']"
-          )!;
+        const statusElem: HTMLDivElement = this.card?.status_effects.querySelector(
+          ".status-effect[data-id='" + this.statuses[i].id + "']"
+        )!;
         if (statusElem) {
           statusElem.remove();
         }
         this.statuses.splice(i, 1);
       }
     }
+  }
+
+  dropLoot(): any[] {
+    const loot: any[] = [];
+    if (this.loot) {
+      this.loot.forEach((item: any) => {
+        if (item.gold) {
+          loot.push({ gold: random(item.gold[0], item.gold[1]) });
+        } else if (Math.random() <= item.chance) {
+          loot.push({ item: { ...item.item }, amount: random(item.amount[0], item.amount[1]) });
+        }
+      });
+    }
+    return loot;
   }
 
   act(): void {
@@ -177,15 +185,12 @@ class Enemy extends Character {
       hp_fill.style.width = `${hpRemain}%`;
       hp_late.style.width = `${hpRemain}%`;
       this.statuses.forEach((status: Effect) => {
-        const statusElem = this.card?.status_effects.querySelector(
-          ".status-effect[data-id='" + status.id + "']"
-        );
+        const statusElem = this.card?.status_effects.querySelector(".status-effect[data-id='" + status.id + "']");
         if (!statusElem) {
           const statusElement = createStatusIcon(status);
           this.card?.status_effects.appendChild(statusElement);
         } else if (statusElem) {
-          const dur: HTMLParagraphElement =
-            statusElem.querySelector(".duration")!;
+          const dur: HTMLParagraphElement = statusElem.querySelector(".duration")!;
           if (dur) {
             dur.innerText = status.lasts.toFixed(1) + "s";
           }
@@ -205,9 +210,7 @@ class Enemy extends Character {
       this.card.main.style.offsetHeight; // trigger reflow
       this.card.main.style.animation = null;
       this.card.main.classList.add("attack");
-      this.card.main.style.animationDuration = `${
-        1000 / game.settings.animation_speed
-      }ms`;
+      this.card.main.style.animationDuration = `${1000 / game.settings.animation_speed}ms`;
       this.card.main.style.animationName = "attack";
       setTimeout(() => {
         ability.use(this, player);
@@ -230,9 +233,7 @@ class Enemy extends Character {
       this.card.main.style.offsetHeight; // trigger reflow
       this.card.main.style.animation = null;
       this.card.main.classList.add("heal");
-      this.card.main.style.animationDuration = `${
-        1000 / game.settings.animation_speed
-      }ms`;
+      this.card.main.style.animationDuration = `${1000 / game.settings.animation_speed}ms`;
       this.card.main.style.animationName = "heal";
       setTimeout(() => {
         ability.use(this, target);
@@ -291,8 +292,6 @@ function createBattlecard(enemy: Enemy) {
     hp_value: battlecard.querySelector(".hp-value") as HTMLParagraphElement,
     ap_fill: battlecard.querySelector(".ap-fill") as HTMLDivElement,
     ap_value: battlecard.querySelector(".ap-value") as HTMLParagraphElement,
-    status_effects: battlecard.querySelector(
-      ".status-effects"
-    ) as HTMLDivElement,
+    status_effects: battlecard.querySelector(".status-effects") as HTMLDivElement,
   };
 }

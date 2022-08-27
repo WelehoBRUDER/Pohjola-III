@@ -1,8 +1,10 @@
 "use strict";
 /* Tooltip box */
 const tooltipBox = document.querySelector("#tooltip");
+/* Effects */
 const bloodyScreen = document.querySelector("#bloody-screen");
 const healingScreen = document.querySelector("#healing-screen");
+/* Combat */
 const combatScreen = document.querySelector(".combat");
 const uiScreen = combatScreen.querySelector(".ui");
 const enemyContainer = combatScreen.querySelector(".enemies");
@@ -10,6 +12,12 @@ const toolbarElement = uiScreen.querySelector(".toolbar");
 const tools = toolbarElement.querySelector(".tools");
 const slots = tools.querySelector(".action-slots");
 const combatTime = uiScreen.querySelector(".combat-time");
+/* Combat summary */
+const combatSummaryBackground = combatScreen.querySelector(".combat-summary-background");
+const combatSummary = combatSummaryBackground.querySelector(".combat-summary");
+const combatSummaryTitle = combatSummary.querySelector(".header");
+const combatSummaryText = combatSummary.querySelector(".summary-text");
+const combatSummaryButtons = combatSummary.querySelector(".options");
 /* Player UI related elements */
 const playerStatuses = tools.querySelector(".status-effects");
 const playerHPBar = uiScreen.querySelector(".player-hp");

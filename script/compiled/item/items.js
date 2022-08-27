@@ -22,6 +22,8 @@ const items = {
             elemental: 0,
         },
         tier: itemTiers.common,
+        type: "armor",
+        slot: "armor",
     },
     ragged_hood: {
         id: "ragged_hood",
@@ -33,6 +35,8 @@ const items = {
             elemental: 0,
         },
         tier: itemTiers.common,
+        type: "armor",
+        slot: "helmet",
     },
     ragged_boots: {
         id: "ragged_boots",
@@ -44,6 +48,15 @@ const items = {
             elemental: 0,
         },
         tier: itemTiers.common,
+        type: "armor",
+        slot: "legs",
+    },
+    // Materials
+    bone: {
+        id: "bone",
+        price: 3,
+        tier: itemTiers.common,
+        type: "material",
     },
 };
 //# sourceMappingURL=items.js.map

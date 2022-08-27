@@ -1,16 +1,6 @@
 "use strict";
 /* Possible effect types */
-const effect_types = [
-    "curse",
-    "divine",
-    "fire",
-    "ice",
-    "poison",
-    "thunder",
-    "bleed",
-    "stun",
-    "heal",
-];
+const effect_types = ["curse", "divine", "fire", "ice", "poison", "thunder", "bleed", "stun", "heal"];
 // ability_sharp_strike: {
 //   // This is a nested object to demonstrate how abilities can be modified using effects
 //   powerV: 0.25,

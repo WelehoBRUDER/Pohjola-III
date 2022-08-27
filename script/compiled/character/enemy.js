@@ -5,6 +5,7 @@ class Enemy extends Character {
         this.index = enemy.index ?? -1;
         this.sprite = enemy.sprite;
         this.card = enemy.card ? { ...enemy.card } : null;
+        this.loot = enemy.loot ? [...enemy.loot] : [];
         this.isEnemy = true;
     }
     init(index) {
@@ -17,10 +18,7 @@ class Enemy extends Character {
     }
     getRandomMove() {
         const usables = this.abilities.filter((ability) => {
-            return (ability.canUse(this) &&
-                (ability.type === "heal"
-                    ? this.stats.hp / this.getStats().hpMax < 0.5
-                    : true));
+            return ability.canUse(this) && (ability.type === "heal" ? this.stats.hp / this.getStats().hpMax < 0.5 : true);
         });
         if (usables.length === 0) {
             usables.push(new Ability({ ...abilities.player_base_attack }));
@@ -61,6 +59,9 @@ class Enemy extends Character {
             setTimeout(() => {
                 if (this.card) {
                     this.card.main.remove();
+                    if (combat.getLivingEnemies().length === 0) {
+                        combat.end();
+                    }
                 }
             }, 3000 / game.settings.animation_speed);
         }
@@ -113,6 +114,20 @@ class Enemy extends Character {
                 this.statuses.splice(i, 1);
             }
         }
+    }
+    dropLoot() {
+        const loot = [];
+        if (this.loot) {
+            this.loot.forEach((item) => {
+                if (item.gold) {
+                    loot.push({ gold: random(item.gold[0], item.gold[1]) });
+                }
+                else if (Math.random() <= item.chance) {
+                    loot.push({ item: { ...item.item }, amount: random(item.amount[0], item.amount[1]) });
+                }
+            });
+        }
+        return loot;
     }
     act() {
         game.pause();

@@ -1,9 +1,5 @@
 // This function creates a p-element and makes it jump up in a random direction, then fall down.
-function createDroppingText(
-  text: string,
-  origin: HTMLElement,
-  className: string = "default"
-): void {
+function createDroppingText(text: string, origin: HTMLElement, className: string = "default"): void {
   let p = document.createElement("p");
   p.innerText = text;
   p.classList.add("jump");

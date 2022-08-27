@@ -25,6 +25,8 @@ interface I_Resistances {
   curse: number;
   poison: number;
   divine: number;
+  stun: number;
+  bleed: number;
 }
 
 class Character {
@@ -89,20 +91,18 @@ class Character {
 
     this.getAbilityModifiers = () => {
       const mods: any = {};
-      Object.entries(this.allModifiers).forEach(
-        ([key, value]: [string, any]) => {
-          if (key.startsWith("ability_")) {
-            key = key.replace("ability_", "");
-            if (mods[key]) {
-              Object.entries(value).forEach(([k, v]) => {
-                mods[key][k] = v;
-              });
-            } else {
-              mods[key] = value;
-            }
+      Object.entries(this.allModifiers).forEach(([key, value]: [string, any]) => {
+        if (key.startsWith("ability_")) {
+          key = key.replace("ability_", "");
+          if (mods[key]) {
+            Object.entries(value).forEach(([k, v]) => {
+              mods[key][k] = v;
+            });
+          } else {
+            mods[key] = value;
           }
         }
-      );
+      });
       return mods;
     };
 
@@ -111,9 +111,7 @@ class Character {
       this.abilities.forEach((abi: Ability) => {
         abi.updateStats(this);
         if (this.id === "player") {
-          const slot: HTMLDivElement = slots.querySelector(
-            `[data-ability="${abi.id}"]`
-          )!;
+          const slot: HTMLDivElement = slots.querySelector(`[data-ability="${abi.id}"]`)!;
           if (slot) {
             updateTooltip(slot, abi.tooltip({ owner: this }));
           }
@@ -122,11 +120,7 @@ class Character {
     };
 
     this.getSpeed = () => {
-      const speed = +(
-        1 *
-        (0.4 + this.stats.agi / 100) *
-        this.allModifiers.speedP
-      ).toFixed(2);
+      const speed = +(1 * (0.4 + this.stats.agi / 100) * this.allModifiers.speedP).toFixed(2);
       return speed > 0 ? speed : 0;
     };
 
@@ -157,13 +151,11 @@ class Character {
       // Calculate max hp
       const hpIncrease = this.allModifiers["hpMaxV"] ?? 0;
       const hpModifier = this.allModifiers["hpMaxP"] ?? 1;
-      stats["hpMax"] =
-        (stats["hpMax"] + hpIncrease + stats["vit"] * 5) * hpModifier;
+      stats["hpMax"] = (stats["hpMax"] + hpIncrease + stats["vit"] * 5) * hpModifier;
       // Calculate max mp
       const mpIncrease = this.allModifiers["mpMaxV"] ?? 0;
       const mpModifier = this.allModifiers["mpMaxP"] ?? 1;
-      stats["mpMax"] =
-        (stats["mpMax"] + mpIncrease + stats["int"] * 3) * mpModifier;
+      stats["mpMax"] = (stats["mpMax"] + mpIncrease + stats["int"] * 3) * mpModifier;
       return stats;
     };
 
@@ -189,11 +181,7 @@ class Character {
       return this.getStats().atk;
     };
 
-    this.addStatus = (
-      status: Effect,
-      user: Player | Enemy,
-      key: string
-    ): void => {
+    this.addStatus = (status: Effect, user: Player | Enemy, key: string): void => {
       const index = this.statuses.findIndex((s: any) => s.id === status.id);
       const effect = new Effect(status);
       if (index === -1) {
@@ -212,11 +200,7 @@ class Character {
       const values = status.inflict;
       if (values?.damagePercent || values?.damageFlat) {
         let damage: number = 0;
-        if (values?.damagePercent)
-          damage = Math.round(
-            this.getStats({ dontUpdateModifiers: true }).hpMax *
-              values.damagePercent
-          );
+        if (values?.damagePercent) damage = Math.round(this.getStats({ dontUpdateModifiers: true }).hpMax * values.damagePercent);
         if (values?.damageFlat) damage += values.damageFlat;
         const resist = this.getResistances()[status.type];
         damage = Math.round(damage * (1 - resist / 100)); // This can actually heal the target
@@ -238,11 +222,7 @@ class Character {
         }
       } else if (values?.healingFlat || values?.healingPercent) {
         let healing: number = 0;
-        if (values?.healingPercent)
-          healing = Math.round(
-            this.getStats({ dontUpdateModifiers: true }).hpMax *
-              values.healingPercent
-          );
+        if (values?.healingPercent) healing = Math.round(this.getStats({ dontUpdateModifiers: true }).hpMax * values.healingPercent);
         if (values?.healingFlat) healing += values.healingFlat;
         if (this.isEnemy) {
           this.heal(healing);

@@ -4,7 +4,7 @@ const enemies = {
     name: "Skeleton",
     stats: {
       str: 5,
-      vit: 5,
+      vit: 1,
       agi: 0,
       int: 5,
       spi: 0,
@@ -28,11 +28,22 @@ const enemies = {
       poison: 100,
       bleed: 100,
       divine: -50,
+      stun: 0,
     },
     critRate: 3,
     critPower: 50,
     sprite: "skeleton_type/skeleton_warrior.png",
     abilities: [{ ...abilities.physical_attack }],
+    loot: [
+      {
+        gold: [1, 5],
+      },
+      {
+        item: items.bone,
+        chance: 0.5,
+        amount: [1, 3],
+      },
+    ],
   } as EnemyBase,
   skeleton_brute: {
     id: "skeleton_brute",
@@ -63,10 +74,21 @@ const enemies = {
       poison: 100,
       bleed: 100,
       divine: -50,
+      stun: 0,
     },
     critRate: 3,
     critPower: 50,
     sprite: "skeleton_type/skeleton_brute.png",
     abilities: [{ ...abilities.physical_attack }],
+    loot: [
+      {
+        gold: [5, 10],
+      },
+      {
+        item: items.bone,
+        chance: 0.75,
+        amount: [1, 4],
+      },
+    ],
   } as EnemyBase,
 };

@@ -88,7 +88,9 @@ const player = new Player({
         thunder: 0,
         curse: 0,
         poison: 0,
+        bleed: 0,
         divine: 0,
+        stun: 0,
     },
     equipment: defaultEquipment,
     abilities: [

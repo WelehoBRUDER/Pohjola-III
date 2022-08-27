@@ -22,13 +22,11 @@ const english = {
 
   // effect strings
   damagePercent_first: "Deals",
-  damagePercent_last:
-    "<c>white<c>of the target's <c>gold<c>max health<c>white<c> in [TYPE] <c>crimson<c>damage<c>white<c> every second",
+  damagePercent_last: "<c>white<c>of the target's <c>gold<c>max health<c>white<c> in [TYPE] <c>crimson<c>damage<c>white<c> every second",
   damageFlat_first: "Deals",
   damageFlat_last: "[TYPE] <c>crimson<c>damage<c>white<c> every second",
   healingPercent_first: "<c>lime<c>Heals<c>white<c>",
-  healingPercent_last:
-    "<c>white<c>of the target's <c>gold<c>max health<c>white<c> every second",
+  healingPercent_last: "<c>white<c>of the target's <c>gold<c>max health<c>white<c> every second",
   healingFlat_first: "<c>lime<c>Heals<c>white<c>",
   healingFlat_last: "<c>green<c>health<c>white<c> every second",
 

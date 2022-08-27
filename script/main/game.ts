@@ -28,11 +28,7 @@ class Game {
     console.log("Combat initialized");
     createActionSlots();
     // for testing
-    combat.createCombat([
-      new Enemy({ ...enemies.skeleton }),
-      new Enemy({ ...enemies.skeleton }),
-      new Enemy({ ...enemies.skeleton }),
-    ]);
+    combat.createCombat([new Enemy({ ...enemies.skeleton }), new Enemy({ ...enemies.skeleton }), new Enemy({ ...enemies.skeleton })]);
   }
 
   pause(options?: { disableSkills?: boolean }) {
@@ -52,9 +48,7 @@ class Game {
     this.state.targeting = true;
     this.state.selected_ability = ability;
     combatScreen.classList.add("targeting");
-    const slot = slots.querySelector(
-      `.action-slot[data-ability="${ability.id}"]`
-    );
+    const slot = slots.querySelector(`.action-slot[data-ability="${ability.id}"]`);
 
     if (slot) slot.classList.add("selected");
   }
@@ -130,14 +124,7 @@ class Game {
   }
 }
 
-const hotkeys = [
-  "hotkey_ability_1",
-  "hotkey_ability_2",
-  "hotkey_ability_3",
-  "hotkey_ability_4",
-  "hotkey_ability_5",
-  "hotkey_ability_6",
-];
+const hotkeys = ["hotkey_ability_1", "hotkey_ability_2", "hotkey_ability_3", "hotkey_ability_4", "hotkey_ability_5", "hotkey_ability_6"];
 
 class Settings {
   [hotkey_ability_1: string]: any;

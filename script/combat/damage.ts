@@ -9,11 +9,7 @@ const damageBoostingStats: any = {
   elemental: "spi",
 };
 
-function calculateDamage(
-  attacker: Player | Enemy,
-  defender: Player | Enemy,
-  attack: Ability
-): number {
+function calculateDamage(attacker: Player | Enemy, defender: Player | Enemy, attack: Ability): number {
   let damage = attacker.getDamage();
   const attackerStats = attacker.getStats();
   const defences = defender.getDefences();

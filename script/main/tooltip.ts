@@ -23,15 +23,10 @@ function moveHover(mouseEvent: MouseEvent) {
   tooltipBox.style.left = `${mouseEvent.x + 15}px`;
   tooltipBox.style.top = `${mouseEvent.y - 25}px`;
   if (tooltipBox.offsetLeft + tooltipBox.offsetWidth > innerWidth) {
-    tooltipBox.style.left =
-      innerWidth - tooltipBox.offsetWidth - (innerWidth - mouseEvent.x) + "px";
+    tooltipBox.style.left = innerWidth - tooltipBox.offsetWidth - (innerWidth - mouseEvent.x) + "px";
   }
   if (tooltipBox.offsetTop + tooltipBox.offsetHeight > innerHeight) {
-    tooltipBox.style.top =
-      innerHeight -
-      tooltipBox.offsetHeight -
-      (innerHeight - mouseEvent.y) +
-      "px";
+    tooltipBox.style.top = innerHeight - tooltipBox.offsetHeight - (innerHeight - mouseEvent.y) + "px";
   }
 }
 

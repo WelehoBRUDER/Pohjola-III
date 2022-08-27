@@ -17,11 +17,7 @@ class Game {
         console.log("Combat initialized");
         createActionSlots();
         // for testing
-        combat.createCombat([
-            new Enemy({ ...enemies.skeleton }),
-            new Enemy({ ...enemies.skeleton }),
-            new Enemy({ ...enemies.skeleton }),
-        ]);
+        combat.createCombat([new Enemy({ ...enemies.skeleton }), new Enemy({ ...enemies.skeleton }), new Enemy({ ...enemies.skeleton })]);
     }
     pause(options) {
         this.state.paused = true;
@@ -111,14 +107,7 @@ class Game {
         console.log(shakes);
     }
 }
-const hotkeys = [
-    "hotkey_ability_1",
-    "hotkey_ability_2",
-    "hotkey_ability_3",
-    "hotkey_ability_4",
-    "hotkey_ability_5",
-    "hotkey_ability_6",
-];
+const hotkeys = ["hotkey_ability_1", "hotkey_ability_2", "hotkey_ability_3", "hotkey_ability_4", "hotkey_ability_5", "hotkey_ability_6"];
 class Settings {
     constructor(settings) {
         this.hotkey_ability_1 = settings?.hotkey_ability_1 || "Digit1";
