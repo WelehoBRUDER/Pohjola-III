@@ -6,7 +6,7 @@ class Character {
         this.stats = { ...char.stats };
         this.defences = { ...char.defences };
         this.resistances = { ...char.resistances };
-        this.abilities = [...char.abilities];
+        this.abilities = char.abilities.map((abi) => new Ability(abi));
         this.traits = char.traits ? [...char.traits] : [];
         this.statuses = char.statuses ? [...char.statuses] : [];
         this.perks = char.perks ? [...char.perks] : [];
@@ -28,6 +28,16 @@ class Character {
                 defences[key] = Math.floor((value + boost) * modifier);
             });
             return defences;
+        };
+        this.getResistances = () => {
+            this.updateAllModifiers();
+            const resistances = { ...this.resistances };
+            Object.entries(resistances).map(([key, value]) => {
+                let modifier = this.allModifiers[key + "_resistanceP"] ?? 1;
+                let boost = this.allModifiers[key + "_resistanceV"] ?? 0;
+                resistances[key] = Math.floor((value + boost) * modifier);
+            });
+            return resistances;
         };
         this.getAbilityModifiers = () => {
             const mods = {};
@@ -59,9 +69,10 @@ class Character {
             });
         };
         this.getSpeed = () => {
-            return +(1 *
+            const speed = +(1 *
                 (0.4 + this.stats.agi / 100) *
                 this.allModifiers.speedP).toFixed(2);
+            return speed > 0 ? speed : 0;
         };
         this.getStats = (options) => {
             if (!options?.dontUpdateModifiers)
@@ -139,13 +150,29 @@ class Character {
                         values.damagePercent);
                 if (values?.damageFlat)
                     damage += values.damageFlat;
-                if (this.isEnemy) {
-                    this.harm(damage);
-                }
-                else
-                    this.stats.hp -= damage;
+                const resist = this.getResistances()[status.type];
+                damage = Math.round(damage * (1 - resist / 100)); // This can actually heal the target
                 const location = this.isEnemy ? this.card.main : tools;
-                createDroppingText(damage.toString(), location, status.type);
+                if (damage === 0) {
+                    return createDroppingText("RESIST!", location, "resisted");
+                }
+                if (damage > 0) {
+                    if (this.isEnemy) {
+                        this.harm(damage);
+                    }
+                    else
+                        this.stats.hp -= damage;
+                    createDroppingText(damage.toString(), location, status.type);
+                }
+                else if (damage < 0) {
+                    damage = Math.abs(damage);
+                    if (this.isEnemy) {
+                        this.heal(damage);
+                    }
+                    else
+                        this.stats.hp += damage;
+                    createDroppingText(damage.toString(), location, "heal");
+                }
             }
             else if (values?.healingFlat || values?.healingPercent) {
                 let healing = 0;

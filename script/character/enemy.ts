@@ -31,7 +31,25 @@ class Enemy extends Character {
   init(index: number): void {
     this.restore();
     this.index = index;
+    this.abilities.map((ability: Ability) => {
+      return (ability = new Ability({ ...ability }));
+    });
     createBattlecard(this);
+  }
+
+  getRandomMove(): Ability {
+    const usables = this.abilities.filter((ability: Ability) => {
+      return (
+        ability.canUse(this) &&
+        (ability.type === "heal"
+          ? this.stats.hp / this.getStats().hpMax < 0.5
+          : true)
+      );
+    });
+    if (usables.length === 0) {
+      usables.push(new Ability({ ...abilities.player_base_attack }));
+    }
+    return usables[Math.floor(Math.random() * usables.length)];
   }
 
   shake(): void {
@@ -139,8 +157,12 @@ class Enemy extends Character {
 
   act(): void {
     game.pause();
-    console.log("I take action, ok?");
-    this.attack();
+    const move = this.getRandomMove();
+    if (move.type === "attack") {
+      this.attackAnimation(move);
+    } else if (move.type === "heal") {
+      this.healingAnimation(move, this);
+    }
   }
 
   updateCard(): void {
@@ -189,14 +211,35 @@ class Enemy extends Character {
       this.card.main.style.animationName = "attack";
       setTimeout(() => {
         ability.use(this, player);
-        // player.stats.hp -= dmg;
-        // createDroppingText(dmg.toString(), tools);
-        // update();
-        // shakeScreen();
       }, 800 / game.settings.animation_speed);
       setTimeout(() => {
         if (this.card) {
-          this.card.main.classList.remove("shake");
+          this.card.main.classList.remove("attack");
+          this.card.main.style.animation = "none";
+        }
+      }, 1050 / game.settings.animation_speed);
+      setTimeout(() => {
+        game.resume();
+      }, 1100 / game.settings.animation_speed);
+    }
+  }
+
+  healingAnimation(ability: Ability, target: Enemy): void {
+    if (this.card) {
+      this.card.main.style.animation = "none";
+      this.card.main.style.offsetHeight; // trigger reflow
+      this.card.main.style.animation = null;
+      this.card.main.classList.add("heal");
+      this.card.main.style.animationDuration = `${
+        1000 / game.settings.animation_speed
+      }ms`;
+      this.card.main.style.animationName = "heal";
+      setTimeout(() => {
+        ability.use(this, target);
+      }, 600 / game.settings.animation_speed);
+      setTimeout(() => {
+        if (this.card) {
+          this.card.main.classList.remove("heal");
           this.card.main.style.animation = "none";
         }
       }, 1050 / game.settings.animation_speed);

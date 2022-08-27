@@ -2,6 +2,8 @@
 const tooltipBox: HTMLDivElement = document.querySelector("#tooltip")!;
 
 const bloodyScreen: HTMLDivElement = document.querySelector("#bloody-screen")!;
+const healingScreen: HTMLDivElement =
+  document.querySelector("#healing-screen")!;
 const combatScreen: HTMLDivElement = document.querySelector(".combat")!;
 const uiScreen: HTMLDivElement = combatScreen.querySelector(".ui")!;
 const enemyContainer: HTMLDivElement = combatScreen.querySelector(".enemies")!;

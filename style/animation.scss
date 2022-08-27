@@ -1,24 +1,3 @@
-@keyframes attack {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(0.93);
-  }
-  60% {
-    transform: scale(0.935);
-  }
-  80% {
-    transform: scale(1.09);
-  }
-  90% {
-    transform: scale(1.08);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
 @keyframes shake1 {
   0% {
     left: 0rem;
@@ -318,6 +297,50 @@
     top: 0px;
     transform: translateY(25%);
     opacity: 0;
+  }
+}
+
+@keyframes attack {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.93);
+  }
+  60% {
+    transform: scale(0.935);
+  }
+  80% {
+    transform: scale(1.09);
+  }
+  90% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes heal {
+  0% {
+    top: 0rem;
+    filter: brightness(1);
+  }
+  50% {
+    top: -4rem;
+    filter: brightness(2);
+  }
+  60% {
+    top: -4.2rem;
+    filter: brightness(2.4);
+  }
+  80% {
+    top: -1.8rem;
+    filter: brightness(1.8);
+  }
+  100% {
+    top: 0rem;
+    filter: brightness(1);
   }
 }
 

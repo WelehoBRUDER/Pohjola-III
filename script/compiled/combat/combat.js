@@ -36,6 +36,9 @@ function update() {
             return;
         enemy.updateStatusEffects();
         enemy.stats.ap += enemy.getSpeed();
+        enemy.abilities.forEach((ability) => {
+            ability.doCooldown();
+        });
         if (enemy.stats.ap > 100) {
             enemy.stats.ap = 100;
             enemy.act();
@@ -54,7 +57,7 @@ function update() {
         else {
             cooldownValue.innerText = "";
         }
-        if (ability.onCooldown <= 0 && !ability.canUse()) {
+        if (ability.onCooldown <= 0 && !ability.canUse(player)) {
             if (!slot.classList.contains("disabled")) {
                 slot.classList.add("disabled");
             }
@@ -99,7 +102,7 @@ function useAbility(hotkey, index) {
     if (_index === null || _index === undefined)
         return;
     const ability = player.abilities[_index];
-    if (!ability.canUse() || player.stats.ap < 100)
+    if (!ability.canUse(player) || player.stats.ap < 100)
         return;
     if (ability.type === "attack") {
         const targets = combat.getLivingEnemies();
@@ -147,7 +150,7 @@ function createStatusIcon(status) {
 function attack() {
     if (player.stats.ap < 100)
         return;
-    const ability = new Ability(abilities.player_base_attack);
+    const ability = new Ability({ ...abilities.player_base_attack });
     game.endTargeting();
     const targets = combat.getLivingEnemies();
     if (targets.length === 1) {

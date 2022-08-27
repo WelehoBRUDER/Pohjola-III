@@ -238,9 +238,39 @@
       text-shadow: -0.25rem 0.25rem 0.75rem purple;
     }
 
+    &.fire {
+      color: rgb(255, 72, 0);
+      text-shadow: -0.25rem 0.25rem 0.75rem rgb(255, 81, 0);
+    }
+
+    &.ice {
+      color: rgb(0, 89, 255);
+      text-shadow: -0.25rem 0.25rem 0.75rem rgb(0, 89, 255);
+    }
+
+    &.divine {
+      color: white;
+      text-shadow: -0.25rem 0.25rem 0.75rem white;
+    }
+
+    &.curse {
+      color: rgb(19, 19, 19);
+      text-shadow: -0.25rem 0.25rem 0.75rem rgb(14, 14, 14);
+    }
+
+    &.thunder {
+      color: rgb(168, 156, 45);
+      text-shadow: -0.25rem 0.25rem 0.75rem rgb(184, 159, 50);
+    }
+
     &.heal {
       color: green;
       text-shadow: -0.25rem 0.25rem 0.75rem green;
+    }
+
+    &.resisted {
+      color: rgb(146, 146, 146);
+      text-shadow: -0.25rem 0.25rem 0.75rem rgb(99, 99, 99);
     }
   }
 

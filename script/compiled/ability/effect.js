@@ -18,14 +18,16 @@ class Effect {
             Object.entries(this.inflict).forEach(([key, value]) => {
                 tooltip += `${game.getLocalizedString(key + "_first")}`;
                 tooltip += ` ${key.includes("Percent") ? value * 100 + "%" : value} `;
-                tooltip += `${game.getLocalizedString(key + "_last")}\n`;
+                tooltip += `${game
+                    .getLocalizedString(key + "_last")
+                    .replace("[TYPE]", game.getLocalizedString(this.type))}\n`;
             });
         }
         // tooltip += `${game.getLocalizedString("type")}: ${game.getLocalizedString(
         //   this.type
         // )}\n`;
         tooltip += `<i>${icons.cooldown}<i>${game.getLocalizedString("duration")}: ${this.duration}s\n`;
-        if (this.modifiers) {
+        if (this.modifiers && Object.keys(this.modifiers).length > 0) {
             tooltip += "\n<f>0.9rem<f><c>silver<c>Effects:\n";
             Object.entries(this.modifiers).map(([key, value]) => {
                 tooltip += " " + effectSyntax(key, value);

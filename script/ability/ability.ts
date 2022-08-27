@@ -14,10 +14,13 @@ class Ability {
   cooldown: number;
   onCooldown: number;
   effectsToEnemy?: Effect[];
+  effectsToSelf?: Effect[];
   damageType?: string;
   damage: number;
   power: number;
   penetration: number;
+  healFlat: number;
+  healPercent: number;
   constructor(ability: AbilityObject) {
     this.id = ability.id;
     this.icon = ability.icon;
@@ -26,16 +29,26 @@ class Ability {
     this.type = ability.type;
     this.cooldown = ability.cooldown ?? 0;
     this.onCooldown = ability.onCooldown ?? 0;
-    this.damageType = ability.damageType ?? "physical";
+    this.damageType = ability.damageType;
     this.damage = ability.damage ?? 0;
     this.power = ability.power ?? 0;
     this.penetration = ability.penetration ?? 0;
+    this.healFlat = ability.healFlat ?? 0;
+    this.healPercent = ability.healPercent ?? 0;
 
     if (ability.effectsToEnemy) {
       this.effectsToEnemy = [];
       ability.effectsToEnemy.map((effect: Effect) => {
         // This can't be undefined since we have assigned it above!
         this.effectsToEnemy!.push(new Effect(effects[effect.id]));
+      });
+    }
+
+    if (ability.effectsToSelf) {
+      this.effectsToSelf = [];
+      ability.effectsToSelf.map((effect: Effect) => {
+        // This can't be undefined since we have assigned it above!
+        this.effectsToSelf!.push(new Effect(effects[effect.id]));
       });
     }
 
@@ -73,6 +86,22 @@ class Ability {
         tooltip += `<i>${icons.power}<i>${game.getLocalizedString("power")}: ${
           this.power * 100
         }%\n`;
+      }
+
+      if (this.healFlat || this.healPercent) {
+        if (this.healFlat > 0 && this.healPercent > 0) {
+          tooltip += `<i>${icons.heal}<i>${game.getLocalizedString("heal")}: ${
+            this.healFlat
+          } + ${this.healPercent}%\n`;
+        } else if (this.healFlat > 0) {
+          tooltip += `<i>${icons.heal}<i>${game.getLocalizedString("heal")}: ${
+            this.healFlat
+          }\n`;
+        } else if (this.healPercent > 0) {
+          tooltip += `<i>${icons.heal}<i>${game.getLocalizedString("heal")}: ${
+            this.healPercent
+          }%\n`;
+        }
       }
 
       // Ability attack values
@@ -119,20 +148,38 @@ class Ability {
           }
         });
       }
+      if (this.effectsToSelf) {
+        tooltip += `${game.getLocalizedString("effects_to_self")}: \n`;
+        this.effectsToSelf.forEach((effect: Effect) => {
+          if (options?.owner) {
+            const displayEffect = new Effect(effect);
+            displayEffect.init(
+              options?.owner?.allModifiers?.["ability_" + this.id]?.[
+                "effect_" + effect.id
+              ]
+            );
+            tooltip += displayEffect.tooltip({ container: true });
+          } else {
+            tooltip += effect.tooltip({ container: true });
+          }
+        });
+      }
 
       return tooltip;
     };
 
     this.canUse = (user: Player | Enemy) => {
       if (this.onCooldown > 0) return false;
-      if (this.mpCost && user.mp < this.mpCost) return false;
-      if (this.hpCost && user.hp < this.hpCost) return false;
+      if (this.mpCost && user.stats.mp < this.mpCost) return false;
+      if (this.hpCost && user.stats.hp < this.hpCost) return false;
       return true;
     };
 
     this.use = (user: Player | Enemy, target: Player | Enemy) => {
       user.stats.ap = 0;
       this.setCooldown();
+      if (this.mpCost) user.stats.mp -= this.mpCost;
+      if (this.hpCost) user.stats.hp -= this.hpCost;
       if (this.type === "attack") {
         const { critRate, critPower } = user.getCrit();
         let damage = calculateDamage(user, target, this);
@@ -153,6 +200,35 @@ class Ability {
           this.effectsToEnemy.forEach((effect: Effect) => {
             target.addStatus(effect, user, "ability_" + this.id);
           });
+        }
+      } else if (this.type === "heal") {
+        if (this.healFlat || this.healPercent) {
+          let heal: number = 0;
+          if (this.healFlat) {
+            heal += this.healFlat;
+          }
+          if (this.healPercent) {
+            heal += Math.floor(target.stats.maxHp * this.healPercent);
+          }
+
+          if (target.isEnemy) {
+            target.heal(heal);
+          } else {
+            player.stats.hp += heal;
+            createDroppingText(heal.toString(), tools);
+            update();
+          }
+        }
+        if (this.effectsToSelf) {
+          this.effectsToSelf.forEach((effect: Effect) => {
+            target.addStatus(effect, user, "ability_" + this.id);
+          });
+        }
+        if (user.id === "player") {
+          healingScreen.classList.add("show");
+          setTimeout(() => {
+            healingScreen.classList.remove("show");
+          }, 200);
         }
       }
       if (user.id === "player") {

@@ -13,4 +13,5 @@ const icons: any = {
   elementalDamage: "gfx/status/elemental.png",
   cooldown: "gfx/status/cooldown.png",
   power: "gfx/status/power.png",
+  speed: "gfx/status/speedometer.png",
 };
