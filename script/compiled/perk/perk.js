@@ -50,7 +50,7 @@ class Perk {
             const length = this.requires.length;
             tooltip += `<f>1rem<f>${game.getLocalizedString("requires")}: `;
             this.requires.forEach((perk_id, index) => {
-                const perk = new Perk(perks[perk_id]);
+                const perk = new Perk(perks.find((p) => p.id === perk_id));
                 tooltip += `<c>${perk.owned() ? "lime" : "red"}<c>${game.getLocalizedString(perk_id)}`;
                 if (index < length - 1) {
                     tooltip += ", ";
@@ -83,7 +83,7 @@ function createPerks() {
     const lineSize = 32;
     const lineWidth = 6;
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    const FullPerks = Object.values(perks).map((p) => new Perk(p));
+    const FullPerks = perks.map((p) => new Perk(p));
     // Create perk elements and place them on the screen
     FullPerks.forEach((perk) => {
         const perkDiv = document.createElement("div");

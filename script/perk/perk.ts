@@ -3,6 +3,18 @@ interface Position {
   y: number;
 }
 
+interface PerkObject {
+  id: string;
+  desc: string;
+  pos: Position;
+  icon: string;
+  relative_to?: string;
+  requires?: string[];
+  class?: string;
+  modifiers?: any;
+  commands?: any;
+}
+
 class Perk {
   [work_around: string]: any;
   id: string;
@@ -14,7 +26,7 @@ class Perk {
   class?: string;
   modifiers?: any;
   commands?: any;
-  constructor(perk: Perk) {
+  constructor(perk: PerkObject) {
     this.id = perk.id;
     this.desc = perk.desc;
     this.pos = perk.pos;
@@ -67,7 +79,7 @@ class Perk {
       const length: number = this.requires.length;
       tooltip += `<f>1rem<f>${game.getLocalizedString("requires")}: `;
       this.requires.forEach((perk_id: string, index: number) => {
-        const perk = new Perk(perks[perk_id]);
+        const perk = new Perk(perks.find((p: PerkObject) => p.id === perk_id) as PerkObject);
         tooltip += `<c>${perk.owned() ? "lime" : "red"}<c>${game.getLocalizedString(perk_id)}`;
         if (index < length - 1) {
           tooltip += ", ";
@@ -104,7 +116,7 @@ function createPerks() {
   const lineSize: number = 32;
   const lineWidth: number = 6;
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  const FullPerks: Perk[] = Object.values(perks).map((p: any) => new Perk(p));
+  const FullPerks: Perk[] = perks.map((p: any) => new Perk(p));
   // Create perk elements and place them on the screen
   FullPerks.forEach((perk: Perk | any) => {
     const perkDiv = document.createElement("div");
