@@ -87,6 +87,15 @@ class Game {
     });
   }
 
+  executeCommand(command: string, value: any) {
+    if (command === "add_ability") {
+      let playerHasAbility = player.abilities.findIndex((ability) => ability.id === value.id) !== -1;
+      if (!playerHasAbility) {
+        player.addAbility(value);
+      }
+    }
+  }
+
   randomShake(num: number) {
     // Randomly generate  shake animations using translate
     let shakes: string = "";

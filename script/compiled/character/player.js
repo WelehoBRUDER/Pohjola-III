@@ -27,6 +27,7 @@ class Player extends Character {
         this.equipment = char.equipment ?? defaultEquipment;
         this.abilities_total = char.abilities_total ?? [];
         this.gold = char.gold ?? 0;
+        this.perk_points = char.perk_points ?? 0;
         this.updateAllModifiers();
     }
     addItem(base_item, amount) {
@@ -91,6 +92,15 @@ class Player extends Character {
             this.equipment[slot] = null;
         }
         this.addItem(item);
+    }
+    addAbility(ability) {
+        const ability_class = new Ability(ability);
+        if (this.abilities.length < 6) {
+            this.abilities.push(ability_class);
+        }
+        else {
+            this.abilities_total.push(ability_class);
+        }
     }
     update() {
         this.statuses.forEach((status) => {
@@ -166,6 +176,7 @@ const player = new Player({
     statuses: [],
     perks: [],
     gold: 0,
+    perk_points: 5,
 });
 player.updateAllModifiers();
 player.abilities.forEach((abi) => abi.updateStats(player));

@@ -36,6 +36,7 @@ interface PlayerObject extends Character {
   equipment: I_Equipment;
   abilities_total: Ability[];
   gold: number;
+  perk_points: number;
 }
 
 class Player extends Character {
@@ -44,12 +45,14 @@ class Player extends Character {
   inventory: Weapon | Armor | Material | Item[] = [];
   abilities_total: Ability[];
   gold: number;
+  perk_points: number;
   constructor(char: PlayerObject) {
     super(char);
     this.race = new Race(char.race) ?? new Race(races.human);
     this.equipment = char.equipment ?? defaultEquipment;
     this.abilities_total = char.abilities_total ?? [];
     this.gold = char.gold ?? 0;
+    this.perk_points = char.perk_points ?? 0;
 
     this.updateAllModifiers();
   }
@@ -113,6 +116,15 @@ class Player extends Character {
       this.equipment[slot] = null;
     }
     this.addItem(item as Item);
+  }
+
+  addAbility(ability: any) {
+    const ability_class = new Ability(ability);
+    if (this.abilities.length < 6) {
+      this.abilities.push(ability_class);
+    } else {
+      this.abilities_total.push(ability_class);
+    }
   }
 
   update() {
@@ -191,6 +203,7 @@ const player = new Player({
   statuses: [],
   perks: [],
   gold: 0,
+  perk_points: 5,
 });
 
 player.updateAllModifiers();

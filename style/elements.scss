@@ -84,4 +84,11 @@ pre {
     margin-left: 0.25rem;
     margin-top: 0.25rem;
   }
+
+  .ability-container {
+    .effect-container {
+      border: 0.05rem solid rgb(253, 253, 253);
+      background: rgba(25, 25, 25, 0.9);
+    }
+  }
 }
