@@ -36,10 +36,15 @@
   font-weight: normal;
 }
 
+@font-face {
+  font-family: Fancy;
+  src: url("../font/BaroneysTextured.ttf");
+}
+
 body {
   background: rgb(80, 80, 80);
-  background: radial-gradient(circle, rgba(80, 80, 80, 1) 0%, rgba(28, 28, 28, 1) 100%);
-  font-family: Roboto;
+  background: radial-gradient(circle, rgb(32, 32, 32) 0%, rgb(10, 10, 10) 100%);
+  font-family: "Almendra", serif;
   overflow: hidden;
 }
 
@@ -363,6 +368,10 @@ main.game {
   animation-iteration-count: infinite;
   animation-timing-function: linear;
   background-size: 200% 200% !important;
+}
+
+.no-display {
+  display: none !important;
 }
 
 @keyframes GradientShine {

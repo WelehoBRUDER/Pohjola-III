@@ -34,3 +34,12 @@ const playerMPFill: HTMLDivElement = playerMPBar.querySelector(".fill")!;
 const playerActionFill: HTMLDivElement = playerActionBar.querySelector(".fill")!;
 const playerHPLate: HTMLDivElement = playerHPBar.querySelector(".late")!;
 const playerMPLate: HTMLDivElement = playerMPBar.querySelector(".late")!;
+
+/* Lobby elements */
+const lobbyScreen: HTMLDivElement = document.querySelector(".lobby")!;
+const lobbyHeader: HTMLDivElement = lobbyScreen.querySelector(".lobby-header")!;
+const lobbyHeaderButtons: HTMLDivElement = lobbyHeader.querySelector(".lobby-buttons")!;
+// Lobby sidebar
+const lobbySidebar: HTMLDivElement = lobbyScreen.querySelector(".side-bar")!;
+// Lobby content
+const lobbyContent: HTMLDivElement = lobbyScreen.querySelector(".lobby-content")!;

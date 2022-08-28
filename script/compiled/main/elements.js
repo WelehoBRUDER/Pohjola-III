@@ -31,4 +31,12 @@ const playerMPFill = playerMPBar.querySelector(".fill");
 const playerActionFill = playerActionBar.querySelector(".fill");
 const playerHPLate = playerHPBar.querySelector(".late");
 const playerMPLate = playerMPBar.querySelector(".late");
+/* Lobby elements */
+const lobbyScreen = document.querySelector(".lobby");
+const lobbyHeader = lobbyScreen.querySelector(".lobby-header");
+const lobbyHeaderButtons = lobbyHeader.querySelector(".lobby-buttons");
+// Lobby sidebar
+const lobbySidebar = lobbyScreen.querySelector(".side-bar");
+// Lobby content
+const lobbyContent = lobbyScreen.querySelector(".lobby-content");
 //# sourceMappingURL=elements.js.map

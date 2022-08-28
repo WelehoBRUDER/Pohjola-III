@@ -32,951 +32,111 @@
   z-index: -1 !important;
 }
 
-.battleEndScreen {
+.lobby {
+  position: absolute;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  z-index: 4;
-  transition: 0.5s;
-
-  .battleEndContainer {
-    transition: 0.33s;
-    width: 640px;
-    height: 480px;
-    position: absolute;
-    left: 50%;
-    margin-left: -324px;
-    top: 192px;
-    background: rgb(75, 75, 75);
-    z-index: 5;
-    overflow: hidden;
-    border: 8px solid rgb(31, 31, 31);
-    box-shadow: inset 0px 0px 8px 6px rgb(50, 50, 50);
-
-    > .endTitle {
-      width: 100%;
-      height: 80px;
-      position: absolute;
-      left: 0px;
-      top: 0px;
-      text-align: center;
-
-      > p {
-        font-size: 80px;
-        font-family: RobotoBolder;
-        margin-top: 0px;
-        box-shadow: 0px 0px 10px 8px rgb(36, 36, 36);
-      }
-    }
-
-    > .endingText {
-      height: 260px;
-      width: 100%;
-      position: absolute;
-      left: 0px;
-      top: 120px;
-
-      > pre {
-        width: 100%;
-        white-space: break-spaces;
-        margin-left: 5px;
-      }
-    }
-
-    .okbutton {
-      transition: 0.075s;
-      position: absolute;
-      bottom: 5px;
-      left: 50%;
-      width: 180px;
-      height: 90px;
-      margin-left: -98px;
-      background: rgb(241, 211, 41);
-      box-shadow: inset 0px 0px 6px 4px orange;
-      font-size: 70px;
-      color: rgb(255, 255, 0);
-      text-shadow: 0px 0px 4px black;
-      text-align: center;
-      user-select: none;
-      border: 8px solid black;
-    }
-
-    .okbutton:hover {
-      border: 8px solid rgb(92, 92, 92);
-      cursor: pointer;
-    }
-  }
-}
-
-.loss {
-  color: rgb(192, 32, 32);
-  text-shadow: 0px 0px 6px rgb(117, 29, 29);
-  background: rgb(87, 23, 23);
-}
-
-.win {
-  color: rgb(32, 192, 53);
-  text-shadow: 0px 0px 6px rgb(29, 117, 55);
-  background: rgb(23, 87, 44);
-}
-
-.lootWindow {
-  transition: 0.2s;
-  width: 480px;
-  height: 420px;
-  background: rgb(66, 66, 66);
-  position: absolute;
-  left: 50%;
-  margin-left: -240px;
-  top: 300px;
-  text-align: center;
-  font-size: 48px;
-  color: gold;
-  transform-style: preserve-3d;
-  text-shadow: 0px 0px 4px rgb(133, 118, 35);
-  box-shadow: 0px 0px 8px 6px rgb(39, 39, 39), inset 0px 0px 8px 6px rgb(45, 45, 45);
-  z-index: 2;
-
-  > .closeLoot {
-    transition: 0.05s;
-    background: gold;
-    color: white;
-    font-size: 52px;
-    position: absolute;
-    bottom: -72px;
-    left: 50%;
-    transform: translateX(-50%) translateZ(-10px);
-    padding: 6px;
-    box-shadow: inset 0px 0px 10px 8px orange, 0px 0px 8px 6px rgb(25, 25, 25);
-    z-index: 0;
-    border: 8px solid black;
-    user-select: none;
-  }
-
-  > .closeLoot:hover {
-    border: 8px solid silver;
-  }
-
-  > .goldNumber {
-    font-size: 24px;
-    color: gold;
-    text-shadow: 0px 0px 4px orange;
-    position: absolute;
-    bottom: -5px;
-    right: 15px;
-  }
-
-  > .lootArea {
-    width: 100%;
-    position: absolute;
-    left: 0px;
-    top: 15%;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
-    grid-template-rows: auto;
-    margin-top: 10px;
-    gap: 10px;
-
-    > .selected {
-      border: 8px solid rgb(209, 181, 20);
-    }
-
-    > .selected:hover {
-      border: 8px solid rgb(255, 217, 0);
-    }
-
-    > div {
-      transition: 0.05s;
-      position: relative;
-      border: 8px solid black;
-      transition: 0.05s;
-      width: 75px;
-      height: 75px;
-      background: rgb(60, 60, 60);
-      z-index: 1;
-
-      > div {
-        width: 75px;
-        height: 75px;
-        background: rgb(37, 37, 37);
-        background: radial-gradient(circle, rgba(37, 37, 37, 1) 0%, rgba(28, 28, 28, 1) 100%);
-        position: absolute;
-        box-shadow: inset 0px 0px 8px 6px rgb(16, 16, 16);
-        user-select: none;
-        left: 0px;
-        top: 0px;
-
-        > img {
-          width: 75px;
-          height: 75px;
-          pointer-events: none;
-        }
-
-        > p {
-          font-size: 18px;
-          color: white;
-          text-shadow: 0px 0px 4px black;
-          position: absolute;
-          right: 0px;
-          bottom: -20px;
-        }
-      }
-    }
-    > div:hover {
-      border: 8px solid rgb(187, 187, 187);
-    }
-  }
-}
-
-#characterWindow {
-  position: absolute;
-  width: 620px;
-  height: 440px;
-  left: 50%;
-  margin-left: -422px;
-  top: 48px;
-  background: rgba(85, 85, 85, 0.95);
-  box-shadow: inset 0px 0px 24px 16px rgba(45, 45, 45, 0.95), 0px 0px 12px 8px rgba(30, 30, 30, 0.9);
-  border: 4px solid rgba(25, 25, 25, 0.95);
-
-  > .draggableArea {
-    width: 100%;
-    height: 24px;
-    background: rgba(50, 50, 50, 0.9);
-    position: absolute;
-    top: -24px;
-    left: -2px;
-    border: 2px solid rgba(50, 50, 50, 0.9);
-    z-index: 1;
-    border-radius: 12px 12px 0px 0px;
-  }
-
-  > .contentArea {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-
-    > .portrait {
-      width: 128px;
-      height: 128px;
-      border: 4px solid rgba(45, 45, 45, 0.8);
-      border-radius: 8px;
-      position: absolute;
-      left: 10px;
-      top: 10px;
-    }
-
-    > .name {
-      position: absolute;
-      left: 90px;
-      top: 10px;
-    }
-
-    > .xpBar {
-      width: 420px;
-      height: 25px;
-      background: rgb(36, 36, 36);
-      box-shadow: inset 0px 0px 8px 6px rgb(28, 28, 28), 0px 0px 4px 2px rgb(10, 10, 10);
-      position: absolute;
-      left: 160px;
-      top: 115px;
-
-      > .barNum {
-        transition: 0.1s;
-        font-size: 20px;
-        color: white;
-        text-shadow: 0px 0px 4px 2px black;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        top: -20px;
-        user-select: none;
-        opacity: 0;
-      }
-
-      > .barFill {
-        width: 100%;
-        height: 25px;
-        background: rgb(224, 194, 23);
-        background: linear-gradient(
-          90deg,
-          rgba(224, 194, 23, 1) 0%,
-          rgb(253, 214, 85) 10%,
-          rgb(211, 182, 20) 25%,
-          rgb(224, 198, 51) 100%
-        );
-        box-shadow: inset 0px 0px 6px 4px rgb(218, 142, 3);
-        animation-name: BarShine;
-        animation-duration: 1s;
-        background-size: 200% 200%;
-        animation-iteration-count: infinite;
-        animation-timing-function: linear;
-      }
-    }
-
-    .hpBar,
-    .mpBar {
-      width: 570px;
-      height: 15px;
-      background: rgb(25, 25, 25);
-      position: absolute;
-      left: 10px;
-      box-shadow: inset 0px 0px 0.25vw 0.2vw rgb(10, 10, 10);
-      border: 4px solid black;
-      border-radius: 8px;
-
-      > p {
-        transition: 0.2s;
-        font-size: 12px;
-        color: white;
-        text-shadow: 0px 0px 4px 2px black;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        top: -10px;
-        user-select: none;
-        opacity: 0;
-      }
-
-      > div {
-        transition: 0.8s;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        bottom: 0px;
-      }
-    }
-
-    .hpBar {
-      top: 150px;
-      > div {
-        background: rgb(165, 30, 20);
-        background: linear-gradient(
-          90deg,
-          rgba(165, 30, 20, 1) 0%,
-          rgb(233, 74, 63) 10%,
-          rgb(202, 53, 42) 25%,
-          rgba(165, 30, 20, 1) 100%
-        );
-        box-shadow: inset 0px 0px 0.25vw 0.2vw rgb(107, 18, 11);
-        animation-name: BarShine;
-        animation-duration: 1.8s;
-        background-size: 200% 200%;
-        animation-iteration-count: infinite;
-        animation-timing-function: linear;
-      }
-    }
-
-    .mpBar {
-      right: 5px;
-      top: 175px;
-      > div {
-        background: rgb(20, 88, 165);
-        background: linear-gradient(
-          90deg,
-          rgba(20, 88, 165, 1) 0%,
-          rgb(101, 162, 231) 10%,
-          rgb(69, 133, 207) 25%,
-          rgba(20, 88, 165, 1) 100%
-        );
-        box-shadow: inset 0px 0px 0.25vw 0.2vw rgb(16, 74, 139);
-        animation-name: BarShine;
-        animation-duration: 1.8s;
-        background-size: 200% 200%;
-        animation-iteration-count: infinite;
-        animation-timing-function: linear;
-      }
-    }
-
-    .hpBar:hover > p,
-    .mpBar:hover > p {
-      opacity: 1;
-    }
-
-    .fillbar {
-      transition: 0.8s;
-      width: 100%;
-      height: 100%;
-      background: rgb(165, 30, 20);
-      background: linear-gradient(
-        90deg,
-        rgba(165, 30, 20, 1) 0%,
-        rgb(233, 74, 63) 10%,
-        rgb(202, 53, 42) 25%,
-        rgba(165, 30, 20, 1) 100%
-      );
-      box-shadow: inset 0px 0px 0.25vw 0.2vw rgb(107, 18, 11);
-      animation-name: BarShine;
-      animation-duration: 3s;
-      background-size: 200% 200%;
-      animation-iteration-count: infinite;
-      animation-timing-function: linear;
-      position: absolute;
-      bottom: 0px;
-    }
-
-    > .xpBar:hover .barNum {
-      opacity: 1;
-    }
-
-    > .baseStats {
-      position: absolute;
-      left: 10px;
-      top: 190px;
-      user-select: none;
-    }
-
-    > .baseSkills {
-      position: absolute;
-      left: 200px;
-      top: 190px;
-      user-select: none;
-    }
-
-    > .warrior_class {
-      background: #d1461b;
-      box-shadow: inset 0px 0px 12px 8px #923114;
-    }
-
-    > .mage_class {
-      background: #1bb3d1;
-      box-shadow: inset 0px 0px 12px 8px #127a8f;
-    }
-
-    > .elementalist_class {
-      background: #1ed11b;
-      box-shadow: inset 0px 0px 12px 8px #127910;
-    }
-  }
-}
-
-#perkWindow {
-  position: absolute;
-  width: 1280px;
-  height: 880px;
-  left: 50%;
-  margin-left: -622px;
-  top: 48px;
-  background: rgba(85, 85, 85, 1);
-  box-shadow: inset 0px 0px 24px 16px rgba(45, 45, 45, 0.95), 0px 0px 12px 8px rgba(30, 30, 30, 1);
-  border: 4px solid rgba(25, 25, 25, 0.95);
-
-  ::-webkit-scrollbar {
-    display: none;
-  }
-
-  > .draggableArea {
-    width: 100%;
-    height: 24px;
-    background: rgba(50, 50, 50, 0.9);
-    position: absolute;
-    top: -24px;
-    left: -2px;
-    border: 2px solid rgba(50, 50, 50, 0.9);
-    z-index: 1;
-    border-radius: 12px 12px 0px 0px;
-  }
-
-  > .contentArea {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    user-select: none;
-    overflow: auto;
-
-    .Perk {
-      width: 128px;
-      height: 128px;
-      border-radius: 50%;
-      border: 4px solid rgb(122, 122, 122);
-      position: absolute;
-      transition: 0.1s;
-      z-index: 1;
-      filter: brightness(0.95);
-
-      > img {
-        width: 128px;
-        height: 128px;
-        filter: drop-shadow(0px 0px 6px rgba(20, 20, 10, 0.9));
-      }
-
-      > p {
-        position: absolute;
-        color: rgb(190, 190, 190);
-        text-shadow: -2px 2px 4px rgb(34, 34, 34);
-        font-size: 27px;
-        left: 50%;
-        bottom: -46px;
-        font-family: RobotoBolder;
-        transform: translateX(-50%);
-        background: rgba(122, 122, 122, 0.95);
-        border-radius: 40% 40% 45% 45%;
-        padding: 4px;
-      }
-    }
-
-    .Perk:hover {
-      border: 4px solid rgb(196, 196, 196);
-      filter: brightness(1.05);
-    }
-
-    .unavailable {
-      filter: brightness(0.4);
-    }
-
-    .unavailable:hover {
-      border: 4px solid rgb(170, 170, 175) !important;
-      filter: brightness(0.45) !important;
-    }
-
-    .bought {
-      border: 4px solid rgb(196, 164, 26);
-    }
-
-    .bought:hover {
-      border: 4px solid rgb(245, 205, 28);
-      filter: brightness(1.05);
-    }
-
-    .maxed {
-      border: 4px solid rgb(228, 191, 28);
-      filter: brightness(1.1) drop-shadow(0px 0px 6px gold);
-    }
-
-    .maxed:hover {
-      border: 4px solid rgb(253, 207, 0) !important;
-      filter: brightness(1.15) drop-shadow(0px 0px 8px gold) !important;
-    }
-  }
-}
-
-.connecter {
-  background: rgb(66, 66, 66);
-  box-shadow: inset 0px 0px 4px 2px rgb(53, 53, 53);
-  position: absolute;
-  left: 0px;
-  top: 0px;
-}
-
-#ItemUseMenu {
-  width: 125px;
-  height: auto;
-  min-height: 150px;
-  background: rgba(16, 16, 16, 0.8);
-  border: 4px solid rgba(16, 16, 16, 0.8);
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  z-index: 5;
-
-  p {
-    transition: 0.075s;
-    width: 100%;
-    height: 35px;
-    font-size: 22px;
-    color: rgb(231, 231, 231);
-    text-shadow: -2px 2px 4px rgb(48, 48, 48);
-    background: rgba(64, 64, 64, 0.75);
-    border: 4px solid rgba(16, 16, 16, 0.8);
-    box-sizing: border-box;
-    position: relative;
-    left: 0px;
-    top: 0px;
-    margin: 0px;
-    padding: 0px;
-    user-select: none;
-    cursor: pointer;
-  }
-
-  p:hover {
-    filter: brightness(1.25);
-  }
-}
-
-#useMultiple {
-  width: 320px;
-  height: 240px;
-  position: absolute;
-  left: 50%;
-  top: 25%;
-  margin-left: -160px;
-  background: rgba(32, 32, 32, 0.9);
-  border-radius: 8px;
-  box-shadow: -2px 6px 6px 8px rgba(14, 15, 15, 0.85);
-  z-index: 5;
-
-  > .title {
-    position: absolute;
-    border: 6px solid rgba(165, 30, 20, 1);
-    width: calc(100% - 28px);
-    left: 0px;
-    padding: 8px;
-    text-align: center;
-    border-radius: 6px;
-    z-index: 5;
-
-    pre {
-      margin: 0px;
-      padding: 0px;
-      font-family: unset;
-      color: white;
-      font-size: 18px;
-      line-height: 0.95;
-      white-space: break-spaces;
-      word-break: break-word;
-      z-index: 5;
-    }
-  }
-
-  button {
-    transition: 0.075s;
-    width: 48px;
-    height: auto;
-    border: none;
-    background: rgb(56, 56, 56);
-    color: white;
-    text-shadow: -2px 2px 4px black;
-    font-size: 16px;
-    position: absolute;
-    top: 40%;
-    user-select: none;
-    outline: none;
-    z-index: 5;
-  }
-
-  .amount {
-    font-size: 24px;
-    color: white;
-    text-shadow: -2px 2px 4px black;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 27.5%;
-    z-index: 5;
-  }
-
-  .totalPrice {
-    position: absolute;
-    top: 42.5%;
-    font-size: 26px;
-    color: gold;
-    text-shadow: -2px 2px 4px black;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 5;
-  }
-
-  button:hover {
-    filter: brightness(1.25);
-  }
-
-  button:active {
-    transform: scale(0.93);
-  }
-
-  .lesser {
-    left: 10px;
-  }
-
-  .less {
-    left: 70px;
-  }
-
-  .up {
-    right: 70px;
-  }
-
-  .more {
-    right: 10px;
-  }
-
-  .confirm,
-  .cancel {
-    transition: 0.075s;
-    width: 128px;
-    font-size: 36px;
-    position: absolute;
-    bottom: 10px;
-    text-shadow: -2px 2px 4px black;
-    text-align: center;
-    user-select: none;
-    cursor: pointer;
-    z-index: 5;
-  }
-
-  .confirm:hover,
-  .cancel:hover {
-    filter: brightness(1.25);
-  }
-
-  .confirm {
-    border: 4px solid green;
-    color: rgb(23, 255, 23);
-    background: rgb(23, 148, 23);
-    box-shadow: inset 0px 0px 10px 8px rgb(14, 116, 14);
-    left: 10px;
-  }
-
-  .cancel {
-    border: 4px solid grey;
-    color: rgb(228, 241, 228);
-    background: rgb(138, 139, 138);
-    box-shadow: inset 0px 0px 10px 8px rgb(102, 102, 102);
-    right: 10px;
-  }
-
-  .dim {
-    width: 50vw;
-    height: 50vh;
-    position: absolute;
-    left: -50vw;
-    top: -50vh;
-    background: rgba(10, 10, 10, 0.5);
-    padding: 100vw;
-  }
-}
-
-#mainButtons {
-  position: absolute;
-  right: 10px;
-  top: 180px;
-  height: auto;
-  width: 120px;
-
-  button {
-    transition: 0.075s;
-    position: relative;
-    top: 10px;
-    left: 0px;
-    width: 96px;
-    height: 96px;
-    border: 4px solid silver;
-    background: rgba(12, 12, 12, 0.8);
-    outline: none;
-    border-radius: 6px;
-    box-shadow: 0px 0px 5px 4px grey;
-    cursor: pointer;
-
-    img {
-      width: 100%;
-      height: 100%;
-      filter: drop-shadow(0px 0px 4px black);
-    }
-  }
-
-  button:hover {
-    filter: brightness(1.2);
-    transform: scale(1.025);
-  }
-}
-
-#mainScreenBg {
-  width: 50vw;
-  height: 80vh;
-  background: rgba(50, 50, 50, 1);
-  border-radius: 12px;
-  border: 4px solid black;
-  box-shadow: inset 0px 0px 16px 10px rgba(27, 27, 27, 1);
-  position: absolute;
-  left: 50%;
-  margin-left: -25vw;
-  top: 25px;
-  z-index: -1;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-::-webkit-scrollbar {
-  display: none;
-}
-
-.charDetails {
-  margin: 0px;
-  padding: 0px;
-  font-family: unset;
-  color: white;
-  font-size: 18px;
-  line-height: 0.95;
-  word-break: break-word;
-  text-align: center;
-  margin: 0;
-  user-select: none;
-
-  .title {
-    font-size: 42px;
-    color: gold;
-    text-shadow: -4px 4px 6px black;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 0px;
-  }
-
-  .title2 {
-    top: 225px;
-  }
-
-  .title3 {
-    top: 740px;
-  }
-
-  .abiSlots {
-    width: auto;
-    height: 120px;
-    position: absolute;
-    top: 140px;
-    align-items: center;
-    height: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-
-    > div {
-      transition: 0.05s;
-      width: 90px;
-      height: 90px;
-      background: rgb(37, 37, 37);
-      background: radial-gradient(circle, rgba(37, 37, 37, 1) 0%, rgba(28, 28, 28, 1) 100%);
-      position: relative;
-      box-shadow: inset 0px 0px 8px 6px rgb(16, 16, 16);
-      border: 8px solid black;
-      margin: 0px 1px 1px 0px;
-      user-select: none;
-      cursor: pointer;
-
-      .charAbility {
-        width: 90px;
-        height: 90px;
-        background: rgba(165, 30, 20, 0.2);
-        position: absolute;
-        left: 0px;
-        top: 0px;
-
-        > img {
-          width: 100%;
-          height: 100%;
-          pointer-events: none;
-        }
-
-        > span {
-          font-size: 100px;
-          position: absolute;
-          z-index: 1;
-          left: -5px;
-          top: -12px;
-          color: rgb(112, 21, 21);
-          text-shadow: 0px 0px 6px rgb(0, 0, 0);
-          background: rgba(10, 10, 10, 0.5);
-          padding: 0px 20px 0px 20px;
-        }
-      }
-    }
-
-    > div:hover {
-      border: 8px solid rgba(196, 196, 196, 0.75);
-    }
-  }
-
-  .coreStats,
-  .combatStats {
-    width: 100%;
-    text-align: left;
-    position: absolute;
-    left: 0px;
-    margin: 0;
-    padding: 0;
-
-    p {
-      font-size: 32px;
-      color: rgb(184, 184, 184);
-      text-shadow: -1px 1px 2px rgb(0, 0, 0);
-      margin: 0;
-      margin-top: 2px;
-      padding-left: 100px;
-      width: 100%;
-      background: rgba(77, 77, 77, 0.4);
-      border: 3px solid rgb(29, 29, 29);
-      float: left;
-
-      span {
-        color: rgb(216, 216, 216);
-        text-shadow: -2px 2px 3px rgb(10, 10, 10);
-        float: right;
-        margin: 0;
-        margin-right: 200px;
-      }
-    }
-
-    p:nth-child(odd) {
-      background: rgba(122, 122, 122, 0.4);
-    }
-
-    p:hover {
-      border: 3px solid rgb(216, 216, 216);
-    }
-  }
-
-  .coreStats {
-    top: 325px;
-  }
-
-  .combatStats {
-    top: 825px;
-  }
-}
-
-.abiAssign {
-  width: auto;
-  max-width: 480px;
-  height: auto;
-  max-height: 400px;
-  overflow: auto;
-  background: rgba(45, 45, 45, 0.75);
   display: flex;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 300px;
-  filter: drop-shadow(0px 0px 12px black);
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
 
-  .charAbility {
-    width: 90px;
-    height: 90px;
-    background: rgb(37, 37, 37);
-    background: radial-gradient(circle, rgba(37, 37, 37, 1) 0%, rgba(28, 28, 28, 1) 100%);
-    position: relative;
-    left: 0px;
-    top: 0px;
-    margin: 10px;
-    border: 4px solid black;
-
-    > img {
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-
-    > span {
-      font-size: 100px;
-      position: absolute;
-      z-index: 1;
-      left: -5px;
-      top: -12px;
-      color: rgb(112, 21, 21);
-      text-shadow: 0px 0px 6px rgb(0, 0, 0);
-      background: rgba(10, 10, 10, 0.5);
-      padding: 0px 20px 0px 20px;
-    }
+  .side-bar {
+    width: 20%;
+    height: 100%;
+    border: 0.5rem solid black;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background: rgb(14, 14, 14);
+    box-shadow: inset 0px 0px 1rem 0.8rem rgba(0, 0, 0, 0.5);
   }
 
-  .charAbility:hover {
-    border: 4px solid white;
+  .lobby-view {
+    width: 80%;
+    height: 100%;
+    border: 0.5rem solid black;
+    box-sizing: border-box;
+    background: rgb(20, 20, 20);
+    box-shadow: inset 0px 0px 2rem 1.6rem rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    .lobby-header {
+      width: 100%;
+      height: 4rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.3);
+
+      .lobby-title {
+        width: 30%;
+        h1 {
+          font-size: 3rem;
+          font-weight: bold;
+          color: #d6b442;
+          filter: drop-shadow(0px 0px 4px #ca851d);
+          margin: 0.2rem;
+          letter-spacing: 0.25rem;
+          font-family: "Almendra", serif;
+        }
+      }
+
+      .lobby-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        height: 100%;
+        width: 70%;
+
+        .lobby-button:first-child {
+          border-radius: 1.5rem 0 0 0;
+        }
+
+        .lobby-button:last-child {
+          border-radius: 0 1.5rem 0 0;
+        }
+      }
+    }
+
+    .lobby-content {
+      position: relative;
+      width: 100%;
+      height: calc(100% - 4rem);
+
+      .perk {
+        border: 0.25rem solid silver;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        left: 0;
+        top: 0;
+
+        img {
+          width: 75%;
+          height: 75%;
+          object-fit: contain;
+          filter: drop-shadow(0px 0px 0.5rem #131313);
+        }
+
+        &.adventure {
+          background: rgba(58, 58, 58, 0.5);
+        }
+
+        &.tough {
+          background: rgba(83, 13, 13, 0.75);
+        }
+      }
+    }
   }
 }

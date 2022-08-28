@@ -5,6 +5,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pohjola III</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style/compiled/animation.css">
   <link rel="stylesheet" href="style/compiled/main.css">
   <link rel="stylesheet" href="style/compiled/lobby.css">
@@ -17,7 +21,7 @@
     <div id="tooltip"></div>
     <div id="bloody-screen"></div>
     <div id="healing-screen"></div>
-    <div class="combat">
+    <div class="combat no-display">
       <div class="ui">
         <div class="combat-header">
           <div class="attack" onclick="attack()">Attack</div>
@@ -63,6 +67,18 @@
         </div>
       </div>
     </div>
+    <div class="lobby">
+      <div class="side-bar"></div>
+      <div class="lobby-view">
+        <div class="lobby-header">
+          <div class="lobby-title">
+            <h1>Pohjola III</h1>
+          </div>
+          <div class="lobby-buttons">
+          </div>
+        </div>
+        <div class="lobby-content"></div>
+      </div>
   </main>
 </body>
 
@@ -78,9 +94,15 @@
 <script src="script/compiled/main/tooltip.js"></script>
 <script src="script/compiled/main/game.js"></script>
 
+<!-- Perks -->
+<script src="script/compiled/perk/perk.js"></script>
+<script src="script/compiled/perk/perks.js"></script>
+
+<!-- Lobby -->
+<script src="script/compiled/lobby/lobby.js"></script>
 
 <!-- Combat -->
-<script src="script/compiled/combat/effects.js"></script>
+<script src=" script/compiled/combat/effects.js"></script>
 <script src="script/compiled/combat/damage.js"></script>
 <script src="script/compiled/combat/combat.js"></script>
 

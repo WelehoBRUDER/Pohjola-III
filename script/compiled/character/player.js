@@ -169,5 +169,5 @@ const player = new Player({
 });
 player.updateAllModifiers();
 player.abilities.forEach((abi) => abi.updateStats(player));
-game.initCombat();
+// game.initCombat([new Enemy({ ...enemies.skeleton_brute })]);
 //# sourceMappingURL=player.js.map

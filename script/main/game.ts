@@ -24,11 +24,11 @@ class Game {
     console.log("Game initialized");
   }
 
-  initCombat() {
+  initCombat(foes: Enemy[]) {
     console.log("Combat initialized");
+    combatScreen.classList.remove("no-display");
     createActionSlots();
-    // for testing
-    combat.createCombat([new Enemy({ ...enemies.skeleton })]);
+    combat.createCombat(foes);
   }
 
   pause(options?: { disableSkills?: boolean }) {

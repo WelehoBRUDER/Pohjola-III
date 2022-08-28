@@ -13,11 +13,11 @@ class Game {
     init() {
         console.log("Game initialized");
     }
-    initCombat() {
+    initCombat(foes) {
         console.log("Combat initialized");
+        combatScreen.classList.remove("no-display");
         createActionSlots();
-        // for testing
-        combat.createCombat([new Enemy({ ...enemies.skeleton })]);
+        combat.createCombat(foes);
     }
     pause(options) {
         this.state.paused = true;
