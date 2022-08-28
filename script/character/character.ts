@@ -120,8 +120,20 @@ class Character {
     };
 
     this.getSpeed = () => {
-      const speed = +(1 * (0.4 + this.stats.agi / 100) * this.allModifiers.speedP).toFixed(2);
+      let base = 0.4;
+      if (this.equipment) base += this.getEquipmentSpeed();
+      const speed = +(1 * (base + this.stats.agi / 100) * this.allModifiers.speedP).toFixed(2);
       return speed > 0 ? speed : 0;
+    };
+
+    this.getEquipmentSpeed = (): number => {
+      let speed: number = 0;
+      if (this.equipment) {
+        Object.values(this.equipment).forEach((equip: any) => {
+          speed += equip?.speed || 0;
+        });
+      }
+      return speed / 100;
     };
 
     interface statsOptions {

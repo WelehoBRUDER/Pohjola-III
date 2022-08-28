@@ -1,4 +1,5 @@
 interface I_Equipment {
+  [id: string]: any;
   weapon: Weapon | null;
   armor: Armor | null;
   helmet: Armor | null;
@@ -34,19 +35,84 @@ interface PlayerObject extends Character {
   [race: string]: any;
   equipment: I_Equipment;
   abilities_total: Ability[];
+  gold: number;
 }
 
 class Player extends Character {
   [race: string]: any;
   equipment: I_Equipment;
+  inventory: Weapon | Armor | Material | Item[] = [];
   abilities_total: Ability[];
+  gold: number;
   constructor(char: PlayerObject) {
     super(char);
     this.race = new Race(char.race) ?? new Race(races.human);
     this.equipment = char.equipment ?? defaultEquipment;
     this.abilities_total = char.abilities_total ?? [];
+    this.gold = char.gold ?? 0;
 
     this.updateAllModifiers();
+  }
+
+  addItem(base_item: Item, amount?: number) {
+    base_item.amount = amount || base_item.amount || 1;
+    let item = base_item.updateClass();
+    if (item.type === "weapon" || item.type === "armor") {
+      return this.equip(item as Weapon | Armor, { auto: true, removeFromInventory: true });
+    }
+    if (item.stackable) {
+      let existing_item = this.inventory.find((i: any) => i.id === item.id);
+      if (existing_item) {
+        existing_item.amount += item.amount;
+      } else {
+        this.inventory.push(item);
+      }
+    } else {
+      this.inventory.push(item);
+    }
+  }
+
+  removeItem(item: Item, amount?: number): void {
+    let existing_item = this.inventory.find((i: any) => i.id === item.id);
+    if (existing_item) {
+      existing_item.amount -= amount || item.amount || 1;
+      if (existing_item.amount <= 0) {
+        this.inventory = this.inventory.filter((i: any) => i.id !== item.id);
+      }
+    }
+  }
+
+  equip(item: Weapon | Armor, options?: { auto?: boolean; removeFromInventory?: boolean }) {
+    if (item.type === "weapon") {
+      if (!this.equipment.weapon && options?.auto) {
+        this.equipment.weapon = item as Weapon;
+      } else {
+        this.addItem({ ...this.equipment.weapon } as Item);
+        this.equipment.weapon = item as Weapon;
+      }
+    } else if (item.type === "armor") {
+      if (!this.equipment[item.slot] && options?.auto) {
+        this.equipment[item.slot] = item as Armor;
+      } else {
+        this.addItem({ ...this.equipment[item.slot] } as Item);
+        this.equipment.weapon = item as Weapon;
+      }
+    }
+    if (options?.removeFromInventory) {
+      this.removeItem(item);
+    }
+  }
+
+  unequip(slot: string) {
+    let item;
+    if (slot === "weapon") {
+      item = this.equipment.weapon;
+      this.equipment.weapon = null;
+    } else if (slot === "armor") {
+      item = this.equipment[slot];
+      this.equipment[slot] = null;
+    }
+    this.addItem(item as Item);
   }
 
   update() {
@@ -117,20 +183,14 @@ const player = new Player({
     stun: 0,
   },
   equipment: defaultEquipment,
-  abilities: [
-    new Ability({ ...abilities.sharp_strike }),
-    new Ability({ ...abilities.heavy_attack }),
-    new Ability({ ...abilities.disorienting_blow }),
-    new Ability({ ...abilities.flame }),
-    new Ability({ ...abilities.battle_aura }),
-    new Ability({ ...abilities.healing_light }),
-  ],
+  abilities: [new Ability({ ...abilities.fierce_attack })],
   critRate: 3,
   critPower: 50,
   abilities_total: [],
   traits: [],
   statuses: [],
   perks: [],
+  gold: 0,
 });
 
 player.updateAllModifiers();

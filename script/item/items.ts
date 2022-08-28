@@ -4,12 +4,13 @@ const items: any = {
     price: 10,
     speed: 0,
     atk: 5,
+    stackable: true,
     tier: itemTiers.common,
     type: "weapon",
     modifiers: {
       critPowerV: 50,
     },
-  } as Weapon,
+  },
   // Armors
   ragged_armor: {
     id: "ragged_armor",
@@ -20,6 +21,7 @@ const items: any = {
       magical: 2,
       elemental: 0,
     },
+    stackable: true,
     tier: itemTiers.common,
     type: "armor",
     slot: "armor",
@@ -33,6 +35,7 @@ const items: any = {
       magical: 1,
       elemental: 0,
     },
+    stackable: true,
     tier: itemTiers.common,
     type: "armor",
     slot: "helmet",
@@ -46,6 +49,7 @@ const items: any = {
       magical: 1,
       elemental: 0,
     },
+    stackable: true,
     tier: itemTiers.common,
     type: "armor",
     slot: "legs",
@@ -54,6 +58,7 @@ const items: any = {
   bone: {
     id: "bone",
     price: 3,
+    stackable: true,
     tier: itemTiers.common,
     type: "material",
   },

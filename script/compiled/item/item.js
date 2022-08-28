@@ -36,7 +36,19 @@ class Item {
         this.unique = item.unique ?? false;
         this.tier = item.tier;
         this.type = item.type;
-        this.modifiers = item.modifiers || {};
+        this.modifiers = item.modifiers ? { ...item.modifiers } : {};
+    }
+    updateClass() {
+        if (this.type === "weapon") {
+            return new Weapon({ ...items[this.id], amount: this.amount });
+        }
+        else if (this.type === "armor") {
+            return new Armor({ ...items[this.id], amount: this.amount });
+        }
+        else if (this.type === "material") {
+            return new Material({ ...items[this.id], amount: this.amount });
+        }
+        return this;
     }
 }
 //# sourceMappingURL=item.js.map

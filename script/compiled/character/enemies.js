@@ -5,7 +5,7 @@ const enemies = {
         name: "Skeleton",
         stats: {
             str: 5,
-            vit: 1,
+            vit: 5,
             agi: 0,
             int: 5,
             spi: 0,

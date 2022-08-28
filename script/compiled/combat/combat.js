@@ -1,5 +1,5 @@
 "use strict";
-function update() {
+function update(options) {
     if (player.stats.hp < 0) {
         player.stats.hp = 0;
         combat.end();
@@ -19,6 +19,8 @@ function update() {
     playerHP.innerText = player.stats.hp + "/" + stats.hpMax;
     playerMP.innerText = player.stats.mp + "/" + stats.mpMax;
     player.update();
+    if (options?.updatePlayerOnly)
+        return;
     combat.time += 1 / game.settings.tick_speed;
     combatTime.textContent = `${combat.time.toFixed(1)}s`;
     if (game.state.paused)
@@ -27,6 +29,7 @@ function update() {
     player.stats.ap += speed;
     if (player.stats.ap > 100) {
         player.stats.ap = 100;
+        update({ updatePlayerOnly: true });
         if (game.settings.pause_on_player_turn) {
             game.pause({ disableSkills: false });
         }
@@ -242,12 +245,23 @@ class Combat {
             combatSummaryTitle.innerText = game.getLocalizedString("combat_victory");
             combatSummaryTitle.classList.value = "header victory";
             combatSummaryText.append(defeatedEnemies());
-            combatSummaryButtons.innerHTML = `<button class="main-button" onclick="game.finish_combat()">${game.getLocalizedString("continue")}</button>`;
+            combatSummaryButtons.innerHTML = `<button class="main-button" onclick="combat.finish_combat()">${game.getLocalizedString("continue")}</button>`;
         }
         else {
             combatSummaryTitle.innerText = game.getLocalizedString("combat_defeat");
             combatSummaryTitle.classList.value = "header defeat";
+            combatSummaryText.append(game.getLocalizedString("combat_defeat_text"));
+            combatSummaryButtons.innerHTML = `<button class="main-button" onclick="combat.finish_combat()">${game.getLocalizedString("continue")}</button>`;
         }
+    }
+    finish_combat() {
+        player.gold += this.gold;
+        this.loot.forEach((item) => {
+            player.addItem(new Item({ ...item.item }), item.amount);
+        });
+        this.gold = 0;
+        this.loot = [];
+        combatSummaryBackground.classList.add("hide");
     }
 }
 const combat = new Combat();
