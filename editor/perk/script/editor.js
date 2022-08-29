@@ -188,4 +188,27 @@ perkContainer.onmousedown = (e) => {
   perkContainer.onmousemove = (e) => dragScroll(e);
 };
 
+function savePerks() {
+  let text = "const perks: Perk[] =";
+  text += JSON.stringify(perks, null, 1);
+  text += ";";
+  const saveToFile = confirm("Save to file perks.ts?");
+  if (saveToFile) {
+    const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    saveAs(blob, "perks.ts");
+  } else {
+    console.log(text);
+    navigator.clipboard.writeText(text);
+  }
+}
+
+function saveAs(blob, fileName) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", fileName);
+  document.body.appendChild(link);
+  link.click();
+}
+
 renderPerks();
