@@ -113,7 +113,7 @@ class Character {
             // Calculate max mp
             const mpIncrease = this.allModifiers["mpMaxV"] ?? 0;
             const mpModifier = this.allModifiers["mpMaxP"] ?? 1;
-            stats["mpMax"] = Math.round((stats["mpMax"] + mpIncrease + stats["int"] * 3) * mpModifier);
+            stats["mpMax"] = Math.round((stats["mpMax"] + mpIncrease + stats["int"] * 2 + stats["spi"] * 2) * mpModifier);
             return stats;
         };
         this.getCrit = () => {

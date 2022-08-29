@@ -36,9 +36,9 @@ const english = {
     // Stat tooltips
     str_tt: "Increases physical damage by 5%.",
     agi_tt: "Increases speed by 1 and crit rate by 0.2%.",
-    int_tt: "Increases magical damage by 5% and mana by 3.",
+    int_tt: "Increases magical damage by 5% and mana by 2.",
     vit_tt: "Increases health by 5.",
-    spi_tt: "Increases elemental damage by 5%.",
+    spi_tt: "Increases elemental damage by 5% and mana by 2.",
     atk_tt: "This is your base damage.",
     hpMax_tt: "This is your health.",
     mpMax_tt: "This is your mana.",
