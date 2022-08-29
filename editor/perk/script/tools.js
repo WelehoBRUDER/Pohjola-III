@@ -89,16 +89,13 @@ function perkDetails(options) {
   }
 
   const iconContainer = document.createElement("div");
-  const iconLabel = document.createElement("label");
-  const iconInput = document.createElement("input");
+  const iconLabel = document.createElement("p");
   iconContainer.classList = "content input";
-  iconLabel.innerText = "Icon: ";
-  iconInput.type = "text";
-  iconInput.value = perk.icon || "";
-  iconInput.onchange = (e) => {
-    editing.icon = e.target.value;
+  iconLabel.innerText = "Icon: " + perk.icon || "";
+  iconLabel.onclick = () => {
+    openIconSearch(iconLabel);
   };
-  iconContainer.append(iconLabel, iconInput);
+  iconContainer.append(iconLabel);
 
   perkInfo.append(iconContainer);
   const relativeToContainer = document.createElement("div");

@@ -22,11 +22,11 @@ const perks = [
         pos: { x: -1.5, y: -2.5 },
         icon: "gfx/icons/crossed-swords.png",
         modifiers: {
-            atkP: 5,
+            atkV: 3,
         },
-        commands: {
-            add_ability: { ...abilities.sharp_strike },
-        },
+        // commands: {
+        //   add_ability: { ...abilities.sharp_strike },
+        // },
         class: "power",
         relative_to: "foundation_of_power",
         requires: ["foundation_of_power"],
@@ -62,14 +62,13 @@ const perks = [
         id: "tough_1",
         desc: "tough_desc",
         pos: { x: 1.5, y: 2.5 },
-        icon: "gfx/status/heart-plus.png",
+        icon: "gfx/status/weight-lifting-up.png",
         modifiers: {
-            hpMaxV: 10,
-            vitV: 1,
+            vitV: 3,
         },
-        commands: {
-            add_ability: { ...abilities.healing_light },
-        },
+        // commands: {
+        //   add_ability: { ...abilities.healing_light },
+        // },
         class: "tough",
         relative_to: "foundation_of_power",
         requires: ["foundation_of_power"],
