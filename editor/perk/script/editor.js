@@ -97,6 +97,12 @@ function renderPerks() {
   svg.setAttribute("width", "4000");
   svg.setAttribute("height", "4000");
   perkContainer.append(svg);
+  if (dragData.bgPosX === 0 && dragData.bgPosY === 0) {
+    // Center the background on "foundations_of_power", the first perk
+    const found = perkContainer.querySelector(`.perk[perk-id="0_foundation_of_power"]`);
+    dragData.bgPosX = found.offsetLeft - window.innerWidth / 2 + found.offsetWidth / 2;
+    dragData.bgPosY = found.offsetTop - window.innerHeight / 2 + found.offsetHeight / 2;
+  }
   perkContainer.scrollTo(dragData?.bgPosX || 0, dragData?.bgPosY || 0);
 }
 

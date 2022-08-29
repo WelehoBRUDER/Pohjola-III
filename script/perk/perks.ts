@@ -3,8 +3,8 @@ const perks: PerkObject[] = [
     id: "0_foundation_of_power",
     desc: "0_foundation_of_power_desc",
     pos: {
-      x: 20,
-      y: 8,
+      x: 30.5,
+      y: 17.5,
     },
     icon: "gfx/icons/skills.png",
     modifiers: {

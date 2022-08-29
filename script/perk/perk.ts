@@ -167,6 +167,12 @@ function createPerks() {
   svg.setAttribute("width", "4000");
   svg.setAttribute("height", "4000");
   lobbyContent.append(svg);
+  if (drag_details.bgPosX === 0 && drag_details.bgPosY === 0) {
+    // Center the background on "foundations_of_power", the first perk
+    const found: HTMLDivElement = lobbyContent.querySelector(`.perk[perk-id="0_foundation_of_power"]`)!;
+    drag_details.bgPosX = found.offsetLeft - window.innerWidth / 2 + found.offsetWidth * 3;
+    drag_details.bgPosY = found.offsetTop - window.innerHeight / 2 + found.offsetHeight;
+  }
   lobbyContent.scrollTo(drag_details.bgPosX, drag_details.bgPosY);
 }
 

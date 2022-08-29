@@ -168,7 +168,7 @@ const player = new Player({
         stun: 0,
     },
     equipment: defaultEquipment,
-    abilities: [new Ability({ ...abilities.fierce_attack })],
+    abilities: [],
     critRate: 3,
     critPower: 50,
     abilities_total: [],
