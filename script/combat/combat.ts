@@ -283,3 +283,5 @@ class Combat {
 }
 
 const combat = new Combat();
+
+game.initCombat([new Enemy({ ...enemies.skeleton }), new Enemy({ ...enemies.skeleton }), new Enemy({ ...enemies.skeleton })]);

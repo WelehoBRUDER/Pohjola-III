@@ -66,11 +66,11 @@ function renderPerks() {
     };
     if (perk.relative_to) {
       const found = perkContainer.querySelector(`.perk[perk-id="${perk.relative_to}"]`);
-      perkDiv.style.left = `${perk.pos.x * baseSize + found.offsetLeft}px`;
-      perkDiv.style.top = `${perk.pos.y * baseSize + found.offsetTop}px`;
+      perkDiv.style.left = `${Math.round(perk.pos.x * baseSize + found.offsetLeft)}px`;
+      perkDiv.style.top = `${Math.round(perk.pos.y * baseSize + found.offsetTop)}px`;
     } else {
-      perkDiv.style.left = `${perk.pos.x * baseSize}px`;
-      perkDiv.style.top = `${perk.pos.y * baseSize}px`;
+      perkDiv.style.left = `${Math.round(perk.pos.x * baseSize)}px`;
+      perkDiv.style.top = `${Math.round(perk.pos.y * baseSize)}px`;
     }
     perkDiv.append(img, perk_id);
     perkContainer.append(perkDiv);
@@ -115,8 +115,8 @@ const dragData = {
   bgPosY: 0,
 };
 
-function roundHalf(num) {
-  return Math.round(num * 2) / 2;
+function roundToTwoDecimals(num) {
+  return +num.toFixed(2);
 }
 
 /* Dragging */
@@ -133,7 +133,6 @@ function drag(e) {
   const { bgPosX, bgPosY } = dragData;
   const clientX = e.clientX + bgPosX;
   const clientY = e.clientY + bgPosY;
-  console.log(clientX, clientY);
   if (dragData.dragging) {
     dragData.perk_element.style.left = `${clientX - dragData.perk_element.offsetWidth / 2}px`;
     dragData.perk_element.style.top = `${clientY - dragData.perk_element.offsetHeight / 2}px`;
@@ -141,11 +140,12 @@ function drag(e) {
     // Update perk position
     if (dragData.perk.relative_to) {
       const found = perkContainer.querySelector(`.perk[perk-id="${dragData.perk.relative_to}"]`);
-      dragData.perk.pos.x = roundHalf((clientX - found.offsetLeft) / 64);
-      dragData.perk.pos.y = roundHalf((clientY - found.offsetTop) / 64);
+      console.log(roundToTwoDecimals((clientX - found.offsetLeft) / 64));
+      dragData.perk.pos.x = roundToTwoDecimals((clientX - found.offsetLeft) / 64);
+      dragData.perk.pos.y = roundToTwoDecimals((clientY - found.offsetTop) / 64);
     } else {
-      dragData.perk.pos.x = roundHalf((clientX - perkContainer.offsetLeft) / 64);
-      dragData.perk.pos.y = roundHalf((clientY - perkContainer.offsetTop) / 64);
+      dragData.perk.pos.x = roundToTwoDecimals((clientX - perkContainer.offsetLeft) / 64);
+      dragData.perk.pos.y = roundToTwoDecimals((clientY - perkContainer.offsetTop) / 64);
     }
   }
 }

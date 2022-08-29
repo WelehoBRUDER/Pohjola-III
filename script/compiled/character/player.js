@@ -168,7 +168,12 @@ const player = new Player({
         stun: 0,
     },
     equipment: defaultEquipment,
-    abilities: [],
+    abilities: [
+        new Ability(abilities.flame),
+        new Ability(abilities.sharp_strike),
+        new Ability(abilities.healing_light),
+        new Ability(abilities.disorienting_blow),
+    ],
     critRate: 3,
     critPower: 50,
     abilities_total: [],
@@ -180,5 +185,4 @@ const player = new Player({
 });
 player.updateAllModifiers();
 player.abilities.forEach((abi) => abi.updateStats(player));
-// game.initCombat([new Enemy({ ...enemies.skeleton_brute })]);
 //# sourceMappingURL=player.js.map

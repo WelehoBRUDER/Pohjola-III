@@ -3,8 +3,8 @@ const perks: PerkObject[] = [
     id: "0_foundation_of_power",
     desc: "0_foundation_of_power_desc",
     pos: {
-      x: 30.5,
-      y: 17.5,
+      x: 31.5,
+      y: 19,
     },
     icon: "gfx/icons/skills.png",
     modifiers: {
@@ -36,7 +36,7 @@ const perks: PerkObject[] = [
     id: "agility_2",
     desc: "agility_desc",
     pos: {
-      x: 4.5,
+      x: 3.5,
       y: -0.5,
     },
     icon: "gfx/status/acrobatic.png",
@@ -53,8 +53,8 @@ const perks: PerkObject[] = [
     id: "agility_3",
     desc: "agility_desc",
     pos: {
-      x: 3.5,
-      y: 3,
+      x: 2,
+      y: 2,
     },
     icon: "gfx/icons/running-ninja.png",
     relative_to: "agility_1",
@@ -63,6 +63,22 @@ const perks: PerkObject[] = [
     modifiers: {
       agiV: 1,
       speedP: 5,
+    },
+    commands: {},
+  },
+  {
+    id: "agility_4",
+    desc: "agility_desc",
+    pos: {
+      x: 1.5,
+      y: 3,
+    },
+    icon: "gfx/status/acrobatic.png",
+    relative_to: "agility_2",
+    requires: ["agility_2", "agility_3"],
+    class: "",
+    modifiers: {
+      agiV: 3,
     },
     commands: {},
   },
@@ -85,8 +101,8 @@ const perks: PerkObject[] = [
     id: "power_2",
     desc: "power_desc",
     pos: {
-      x: 1.5,
-      y: -3,
+      x: 1,
+      y: -2.5,
     },
     icon: "gfx/icons/crossed-swords.png",
     relative_to: "power_1",
@@ -102,7 +118,7 @@ const perks: PerkObject[] = [
     desc: "power_desc",
     pos: {
       x: -2,
-      y: -3,
+      y: -2,
     },
     icon: "gfx/icons/swords-power.png",
     relative_to: "power_1",
@@ -132,8 +148,8 @@ const perks: PerkObject[] = [
     id: "smart_2",
     desc: "smart_desc",
     pos: {
-      x: 0.5,
-      y: 3.5,
+      x: 1,
+      y: 3,
     },
     icon: "gfx/status/brain.png",
     relative_to: "smart_1",
@@ -149,8 +165,8 @@ const perks: PerkObject[] = [
     id: "smart_3",
     desc: "smart_desc",
     pos: {
-      x: -3,
-      y: 3,
+      x: -2.5,
+      y: 2.5,
     },
     icon: "gfx/status/brain.png",
     relative_to: "smart_1",
@@ -165,8 +181,8 @@ const perks: PerkObject[] = [
     id: "strength_1",
     desc: "strength_desc",
     pos: {
-      x: 1.5,
-      y: -2.5,
+      x: 2.5,
+      y: -2,
     },
     icon: "gfx/status/biceps.png",
     modifiers: {
@@ -180,8 +196,8 @@ const perks: PerkObject[] = [
     id: "strength_2",
     desc: "strength_desc",
     pos: {
-      x: 1,
-      y: -3,
+      x: 1.5,
+      y: -2,
     },
     icon: "gfx/status/biceps.png",
     relative_to: "strength_1",
@@ -197,8 +213,8 @@ const perks: PerkObject[] = [
     id: "strength_3",
     desc: "strength_desc",
     pos: {
-      x: 4,
-      y: -1,
+      x: 2.5,
+      y: 0,
     },
     icon: "gfx/status/biceps.png",
     relative_to: "strength_1",
@@ -229,8 +245,8 @@ const perks: PerkObject[] = [
     id: "tough_2",
     desc: "tough_desc",
     pos: {
-      x: 3,
-      y: 2.5,
+      x: 2,
+      y: 1.5,
     },
     icon: "gfx/status/weight-lifting-up.png",
     relative_to: "tough_1",
@@ -246,8 +262,8 @@ const perks: PerkObject[] = [
     id: "tough_3",
     desc: "tough_desc",
     pos: {
-      x: 1,
-      y: 3.5,
+      x: 0.5,
+      y: 3,
     },
     icon: "gfx/status/heart-plus.png",
     relative_to: "tough_1",
@@ -278,7 +294,7 @@ const perks: PerkObject[] = [
     id: "will_2",
     desc: "will_desc",
     pos: {
-      x: -3.5,
+      x: -2,
       y: -1.5,
     },
     icon: "gfx/status/wisdom.png",
@@ -295,8 +311,8 @@ const perks: PerkObject[] = [
     id: "will_3",
     desc: "will_desc",
     pos: {
-      x: -2.5,
-      y: 2.5,
+      x: -1.5,
+      y: 1.5,
     },
     icon: "gfx/icons/wizard-face.png",
     relative_to: "will_1",
@@ -305,6 +321,22 @@ const perks: PerkObject[] = [
     modifiers: {
       spiV: 1,
       mpMaxV: 10,
+    },
+    commands: {},
+  },
+  {
+    id: "will_4",
+    desc: "",
+    pos: {
+      x: -1.5,
+      y: 2,
+    },
+    icon: "gfx/icons/magic-swirl.png",
+    relative_to: "will_2",
+    requires: ["will_2", "will_3"],
+    class: "",
+    modifiers: {
+      spiP: 10,
     },
     commands: {},
   },
