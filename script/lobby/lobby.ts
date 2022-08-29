@@ -17,7 +17,7 @@ const lobbyButtons = [
 ];
 
 const lobby = {
-  current_view: "perks_view",
+  current_view: "stages",
 };
 
 function createLobby() {
@@ -34,6 +34,8 @@ function createLobby() {
   });
   if (lobby.current_view === "perks_view") {
     createPerks();
+  } else if (lobby.current_view === "stages") {
+    createFloors();
   }
 }
 

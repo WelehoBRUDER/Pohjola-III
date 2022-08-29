@@ -262,6 +262,7 @@ class Combat {
         this.gold = 0;
         this.loot = [];
         combatSummaryBackground.classList.add("hide");
+        game.endCombatAndGoToLobby();
     }
 }
 const combat = new Combat();

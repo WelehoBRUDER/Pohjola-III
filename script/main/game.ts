@@ -28,7 +28,11 @@ class Game {
     console.log("Combat initialized");
     combatScreen.classList.remove("no-display");
     createActionSlots();
-    combat.createCombat(foes);
+    const enemies = foes.map((foe: any) => {
+      return new Enemy({ ...foe });
+    });
+
+    combat.createCombat(enemies);
   }
 
   pause(options?: { disableSkills?: boolean }) {
@@ -94,6 +98,18 @@ class Game {
         player.addAbility(value);
       }
     }
+  }
+
+  beginCombat(foes: Enemy[]) {
+    lobbyScreen.classList.add("no-display");
+    combatScreen.classList.remove("no-display");
+    player.reset();
+    this.initCombat(foes);
+  }
+
+  endCombatAndGoToLobby() {
+    lobbyScreen.classList.remove("no-display");
+    combatScreen.classList.add("no-display");
   }
 
   randomShake(num: number) {

@@ -73,14 +73,14 @@ const perks: PerkObject[] = [
       x: 1.5,
       y: 3,
     },
-    icon: "gfx/status/acrobatic.png",
+    icon: "gfx/abilities/shield-bash.png",
     relative_to: "agility_2",
     requires: ["agility_2", "agility_3"],
     class: "",
-    modifiers: {
-      agiV: 3,
+    modifiers: {},
+    commands: {
+      add_ability: { ...abilities.disorienting_blow },
     },
-    commands: {},
   },
   {
     id: "power_1",
@@ -347,13 +347,13 @@ const perks: PerkObject[] = [
       x: 1.34,
       y: 2.86,
     },
-    icon: "gfx/abilities/shield-bash.png",
+    icon: "gfx/status/healing.png",
     relative_to: "tough_2",
     requires: ["tough_2", "tough_3"],
     class: "",
     modifiers: {},
     commands: {
-      add_ability: { ...abilities.disorienting_blow },
+      add_ability: { ...abilities.healing_light },
     },
   },
   {

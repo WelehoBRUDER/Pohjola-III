@@ -192,3 +192,13 @@
     }
   }
 }
+
+.stage {
+  color: white;
+  font-size: 2rem;
+  background: black;
+  min-width: 10rem;
+  width: max-content;
+  text-align: center;
+  user-select: none;
+}

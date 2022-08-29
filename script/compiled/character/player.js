@@ -134,6 +134,20 @@ class Player extends Character {
             }
         }
     }
+    reset(options) {
+        const { restoreHealth, restoreMana } = options ?? {};
+        const stats = this.getStats();
+        if (restoreHealth) {
+            this.stats.hp = stats.hpMax;
+        }
+        if (restoreMana) {
+            this.stats.mp = stats.mpMax;
+        }
+        this.abilities.forEach((ability) => {
+            ability.onCooldown = 0;
+        });
+        this.stats.ap = 0;
+    }
 }
 const player = new Player({
     id: "player",

@@ -17,7 +17,10 @@ class Game {
         console.log("Combat initialized");
         combatScreen.classList.remove("no-display");
         createActionSlots();
-        combat.createCombat(foes);
+        const enemies = foes.map((foe) => {
+            return new Enemy({ ...foe });
+        });
+        combat.createCombat(enemies);
     }
     pause(options) {
         this.state.paused = true;
@@ -78,6 +81,16 @@ class Game {
                 player.addAbility(value);
             }
         }
+    }
+    beginCombat(foes) {
+        lobbyScreen.classList.add("no-display");
+        combatScreen.classList.remove("no-display");
+        player.reset();
+        this.initCombat(foes);
+    }
+    endCombatAndGoToLobby() {
+        lobbyScreen.classList.remove("no-display");
+        combatScreen.classList.add("no-display");
     }
     randomShake(num) {
         // Randomly generate  shake animations using translate
