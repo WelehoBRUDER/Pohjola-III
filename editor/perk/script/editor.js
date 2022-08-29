@@ -22,15 +22,47 @@ function renderPerks() {
     perkDiv.style.height = `${baseSize}px`;
     perkDiv.classList.add("perk");
     perkDiv.classList.add(perk.class || "adventure");
+    if (dragData.selected?.id === perk.id) {
+      perkDiv.classList.add("selected");
+      perkDetails({ perk: perk });
+    }
     perkDiv.onmousedown = (e) => {
       clearTimeout(heldDownTimer);
       heldDownTimer = setTimeout(() => {
         startDrag(e);
       }, 100);
     };
-    perkDiv.onmouseup = () => {
+    perkDiv.onmouseup = (e) => {
       clearTimeout(heldDownTimer);
-      perkDetails(perk);
+      if (e.shiftKey && dragData.selected?.id !== perk.id) {
+        if (!dragData.selected.requires.includes(perk.id)) {
+          dragData.selected.requires.push(perk.id);
+        } else {
+          dragData.selected.requires.splice(dragData.selected.requires.indexOf(perk.id), 1);
+        }
+        if (!dragData.selected.relative_to) {
+          dragData.selected.relative_to = perk.id;
+          dragData.selected.pos.x -= perk.pos.x;
+          dragData.selected.pos.y -= perk.pos.y;
+        }
+        perks[perks.findIndex((p) => p.id === dragData.selected?.id)] = dragData.selected;
+        renderPerks();
+      } else if (e.ctrlKey && dragData.selected?.id !== perk.id) {
+        if (!dragData.selected.requires.includes(perk.id)) {
+          dragData.selected.requires.push(perk.id);
+        }
+        if (dragData.selected.relative_to) {
+          dragData.selected.relative_to = perk.id;
+          dragData.selected.pos.x -= perk.pos.x;
+          dragData.selected.pos.y -= perk.pos.y;
+        }
+        perks[perks.findIndex((p) => p.id === dragData.selected?.id)] = dragData.selected;
+        renderPerks();
+      } else {
+        dragData.selected = perk;
+        perkDiv.classList.add("selected");
+        perkDetails({ perk: perk });
+      }
     };
     if (perk.relative_to) {
       const found = perkContainer.querySelector(`.perk[perk-id="${perk.relative_to}"]`);
@@ -65,11 +97,16 @@ function renderPerks() {
   svg.setAttribute("width", "4000");
   svg.setAttribute("height", "4000");
   perkContainer.append(svg);
+  perkContainer.scrollTo(dragData?.bgPosX || 0, dragData?.bgPosY || 0);
 }
 
 const dragData = {
+  scrolling: false,
   dragging: false,
   perk_element: null,
+  selected: null,
+  bgPosX: 0,
+  bgPosY: 0,
 };
 
 function roundHalf(num) {
@@ -87,18 +124,22 @@ function startDrag(e) {
 }
 
 function drag(e) {
+  const { bgPosX, bgPosY } = dragData;
+  const clientX = e.clientX + bgPosX;
+  const clientY = e.clientY + bgPosY;
+  console.log(clientX, clientY);
   if (dragData.dragging) {
-    dragData.perk_element.style.left = `${e.clientX - dragData.perk_element.offsetWidth / 2}px`;
-    dragData.perk_element.style.top = `${e.clientY - dragData.perk_element.offsetHeight / 2}px`;
+    dragData.perk_element.style.left = `${clientX - dragData.perk_element.offsetWidth / 2}px`;
+    dragData.perk_element.style.top = `${clientY - dragData.perk_element.offsetHeight / 2}px`;
 
     // Update perk position
     if (dragData.perk.relative_to) {
       const found = perkContainer.querySelector(`.perk[perk-id="${dragData.perk.relative_to}"]`);
-      dragData.perk.pos.x = roundHalf((e.clientX - found.offsetLeft) / 64);
-      dragData.perk.pos.y = roundHalf((e.clientY - found.offsetTop) / 64);
+      dragData.perk.pos.x = roundHalf((clientX - found.offsetLeft) / 64);
+      dragData.perk.pos.y = roundHalf((clientY - found.offsetTop) / 64);
     } else {
-      dragData.perk.pos.x = roundHalf((e.clientX - perkContainer.offsetLeft) / 64);
-      dragData.perk.pos.y = roundHalf((e.clientY - perkContainer.offsetTop) / 64);
+      dragData.perk.pos.x = roundHalf((clientX - perkContainer.offsetLeft) / 64);
+      dragData.perk.pos.y = roundHalf((clientY - perkContainer.offsetTop) / 64);
     }
   }
 }
@@ -122,5 +163,29 @@ function addPerk() {
   });
   renderPerks();
 }
+
+/* Scroll by dragging */
+function dragScroll(e) {
+  const offsetX = e.clientX - dragData.lastX;
+  const offsetY = e.clientY - dragData.lastY;
+  if (dragData.scrolling) {
+    perkContainer.scrollTo(dragData.bgPosX - offsetX, dragData.bgPosY - offsetY);
+  }
+}
+
+perkContainer.onmousedown = (e) => {
+  if (dragData.dragging || !e.target.classList.contains("perks")) return;
+  dragData.scrolling = true;
+  dragData.lastX = e.clientX;
+  dragData.lastY = e.clientY;
+  dragData.bgPosX = perkContainer.scrollLeft;
+  dragData.bgPosY = perkContainer.scrollTop;
+  perkContainer.onmouseup = () => {
+    dragData.scrolling = false;
+    perkContainer.onmouseup = null;
+    perkContainer.onmousemove = null;
+  };
+  perkContainer.onmousemove = (e) => dragScroll(e);
+};
 
 renderPerks();

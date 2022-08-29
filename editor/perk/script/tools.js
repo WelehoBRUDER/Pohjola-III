@@ -1,89 +1,92 @@
 let editing = {};
 
-function perkDetails(perk) {
+function perkDetails(options) {
   perkInfo.innerHTML = "";
-  editing = { ...perk };
-  Object.entries(perk).forEach(([key, value]) => {
-    const content = document.createElement("div");
-    let keyElem = document.createElement("p");
-    let valueElem = document.createElement("p");
-    content.classList = "content";
-    keyElem.innerText = key + ": ";
-    keyElem.style.color = "gold";
-    if (Array.isArray(value)) {
-      valueElem.innerText = value.join(", ");
-    } else if (typeof value === "object") {
-      valueElem.innerText = JSON.stringify(value);
-    } else {
-      valueElem.innerText = value || "none";
-    }
-    if (typeof value === "string") {
-      valueElem = document.createElement("input");
-      valueElem.value = value;
-      valueElem.onchange = (e) => {
-        editing[key] = e.target.value;
-      };
-    } else if (key === "commands" && value) {
-      valueElem = document.createElement("div");
-      Object.entries(value).forEach(([_key, _value]) => {
-        const mod = document.createElement("div");
-        const Key = document.createElement("input");
-        const Value = document.createElement("textarea");
-        Key.value = _key;
-        Value.value = JSON.stringify(_value);
-        Key.onchange = (e) => {
-          editing.commands[e.target.value] = editing.commands[_key];
-          delete editing.commands[_key];
-        };
-        Value.onchange = (e) => {
-          editing.commands[_key] = JSON.parse(e.target.value);
-        };
-        mod.append(Key, Value);
-        valueElem.append(mod);
-      });
-    } else if (key === "modifiers" && value) {
-      valueElem = document.createElement("div");
-      Object.entries(value).forEach(([_key, _value]) => {
-        const cmd = document.createElement("div");
-        const Key = document.createElement("input");
-        let Value = document.createElement("input");
-        Key.value = _key;
-        console.log(typeof _value);
-        if (typeof _value === "number") {
-          Value.value = _value;
-          Value.inputMode = "numeric";
-          Value.type = "number";
-        } else {
-          Value = document.createElement("textarea");
-          Value.value = JSON.stringify(_value);
-        }
-        Value.value = JSON.stringify(_value);
-        Key.onchange = (e) => {
-          editing.modifiers[e.target.value] = editing.modifiers[_key];
-          delete editing.modifiers[_key];
-        };
-        Value.onchange = (e) => {
-          editing.modifiers[_key] = JSON.parse(e.target.value);
-        };
-        cmd.append(Key, Value);
-        valueElem.append(cmd);
-      });
-    }
-    content.append(keyElem, valueElem);
-    perkInfo.append(content);
-  });
+  if (options.perk) {
+    editing = { ...options.perk };
+  } else {
+    editing = {
+      id: "",
+      desc: "",
+      pos: { x: 0, y: 0 },
+      icon: "",
+      relative_to: "",
+      requires: [],
+      class: "",
+      modifiers: {},
+      commands: {},
+    };
+  }
 
-  perkInfo.innerHTML = `
-  <div class="content">
-    <p class="title">ID: <span>${perk.id}</span></p>
-  </div>
-  <div class="content">
-    <p class="title">Description: <span>${perk.desc}</span></p>
-  </div>
-  <div class="content">
-    <p class="title">Position: <span>x: ${perk.pos.x}, y: ${perk.pos.y}</span></p>
-  </div>
-  `;
+  const perk = options.perk || editing;
+
+  if (options.new) {
+    // id
+    const idContent = document.createElement("div");
+    const idLabel = document.createElement("label");
+    const idInput = document.createElement("input");
+    idContent.classList.add("content");
+    idLabel.innerText = "ID:";
+    idInput.type = "text";
+    idInput.value = "";
+    idInput.onchange = (e) => {
+      editing.id = e.target.value;
+    };
+    idContent.append(idLabel, idInput);
+    perkInfo.append(idContent);
+    // desc
+    const descContent = document.createElement("div");
+    const descLabel = document.createElement("label");
+    const descInput = document.createElement("input");
+    descContent.classList.add("content");
+    descLabel.innerText = "Desc_id:";
+    descInput.type = "text";
+
+    descInput.value = "";
+    descInput.onchange = (e) => {
+      editing.desc = e.target.value;
+    };
+    descContent.append(descLabel, descInput);
+    perkInfo.append(descContent);
+    // pos x
+    const posX = document.createElement("div");
+    const posXLabel = document.createElement("label");
+    const posXInput = document.createElement("input");
+    posX.classList.add("content");
+    posXLabel.innerText = "X:";
+    posXInput.type = "number";
+    posXInput.value = 0;
+    posXInput.onchange = (e) => {
+      editing.pos.x = e.target.value;
+    };
+    posX.append(posXLabel, posXInput);
+    perkInfo.append(posX);
+    // pos y
+    const posY = document.createElement("div");
+    const posYLabel = document.createElement("label");
+    const posYInput = document.createElement("input");
+    posY.classList.add("content");
+    posYLabel.innerText = "Y:";
+    posYInput.type = "number";
+    posYInput.value = 0;
+    posYInput.onchange = (e) => {
+      editing.pos.y = e.target.value;
+    };
+    posY.append(posYLabel, posYInput);
+    perkInfo.append(posY);
+  } else {
+    perkInfo.innerHTML = `
+    <div class="content">
+      <p class="title">ID: <span>${perk.id}</span></p>
+    </div>
+    <div class="content">
+      <p class="title">Description: <span>${perk.desc}</span></p>
+    </div>
+    <div class="content">
+      <p class="title">Position: <span>x: ${perk.pos.x}, y: ${perk.pos.y}</span></p>
+    </div>
+    `;
+  }
 
   const iconContainer = document.createElement("div");
   const iconLabel = document.createElement("label");
@@ -91,7 +94,7 @@ function perkDetails(perk) {
   iconContainer.classList = "content input";
   iconLabel.innerText = "Icon: ";
   iconInput.type = "text";
-  iconInput.value = perk.icon;
+  iconInput.value = perk.icon || "";
   iconInput.onchange = (e) => {
     editing.icon = e.target.value;
   };
@@ -145,15 +148,8 @@ function perkDetails(perk) {
   perkInfo.append(modifiers);
 }
 
-function addPerk() {
-  let id = prompt("Enter a unique ID for the perk");
-  perks.push({
-    id: id,
-    icon: "gfx/icons/totem-head.png",
-    pos: { x: 10, y: 0 },
-    requires: [],
-  });
-  renderPerks();
+function addPerk(perk) {
+  perks.push(perk);
 }
 
 function editPerk(options) {
@@ -163,6 +159,8 @@ function editPerk(options) {
 function savePerk() {
   if (!editing) return;
   const index = perks.findIndex((p) => p.id === editing.id);
-  perks[index] = editing;
+  if (index === -1) {
+    addPerk(editing);
+  } else perks[index] = editing;
   renderPerks();
 }

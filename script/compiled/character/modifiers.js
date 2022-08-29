@@ -18,6 +18,13 @@ function getAllModifiers(char) {
             });
         }
     });
+    char.perks.forEach((perk) => {
+        if (perk.modifiers) {
+            Object.entries(perk.modifiers).forEach((modifier) => {
+                applyModifierToTotal(modifier, modifiers);
+            });
+        }
+    });
     char.statuses.forEach((status) => {
         if (status.modifiers) {
             Object.entries(status.modifiers).forEach((modifier) => {

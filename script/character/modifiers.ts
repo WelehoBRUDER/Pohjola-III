@@ -19,6 +19,13 @@ function getAllModifiers(char: Character | Player) {
       });
     }
   });
+  char.perks.forEach((perk: any) => {
+    if (perk.modifiers) {
+      Object.entries(perk.modifiers).forEach((modifier: any) => {
+        applyModifierToTotal(modifier, modifiers);
+      });
+    }
+  });
   char.statuses.forEach((status: any) => {
     if (status.modifiers) {
       Object.entries(status.modifiers).forEach((modifier: any) => {

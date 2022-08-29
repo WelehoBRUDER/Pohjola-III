@@ -158,16 +158,16 @@ class Character {
             modifier = 1 + (1 - modifier);
           }
         }
-        stats[key] = flat * modifier;
+        stats[key] = Math.round(flat * modifier);
       });
       // Calculate max hp
       const hpIncrease = this.allModifiers["hpMaxV"] ?? 0;
       const hpModifier = this.allModifiers["hpMaxP"] ?? 1;
-      stats["hpMax"] = (stats["hpMax"] + hpIncrease + stats["vit"] * 5) * hpModifier;
+      stats["hpMax"] = Math.round((stats["hpMax"] + hpIncrease + stats["vit"] * 5) * hpModifier);
       // Calculate max mp
       const mpIncrease = this.allModifiers["mpMaxV"] ?? 0;
       const mpModifier = this.allModifiers["mpMaxP"] ?? 1;
-      stats["mpMax"] = (stats["mpMax"] + mpIncrease + stats["int"] * 3) * mpModifier;
+      stats["mpMax"] = Math.round((stats["mpMax"] + mpIncrease + stats["int"] * 3) * mpModifier);
       return stats;
     };
 
