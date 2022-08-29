@@ -62,18 +62,23 @@
 
 pre {
   margin: 0;
+  font-size: 1.2rem;
   span {
     margin: 0;
     color: inherit;
     font-size: inherit;
     font-family: "Almendra", serif;
     text-shadow: 0px 0px 8px black;
-    line-height: inherit;
+    line-height: 1.3rem;
   }
 
   img {
     width: 1.2rem;
     vertical-align: middle;
+  }
+
+  img.medium {
+    width: 1.6rem;
   }
 
   .effect-container,

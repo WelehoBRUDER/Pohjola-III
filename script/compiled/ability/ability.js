@@ -42,12 +42,12 @@ class Ability {
             this.onCooldown = this.cooldown;
         };
         this.tooltip = (options) => {
-            let tooltip = "<f>1.5rem<f>";
+            let tooltip = "";
             if (options?.container)
                 tooltip += "<ct>ability-container<ct>";
             // Define ability name
-            tooltip += `${game.getLocalizedString(this.id)}\n`;
-            tooltip += "<f>1.2rem<f>";
+            tooltip += `<f>1.5rem<f><c>goldenrod<c><i>${this.icon}[medium]<i> ${game.getLocalizedString(this.id)}\n`;
+            tooltip += "<f>1.2rem<f><c>white<c>";
             // Ability type
             tooltip += `${game.getLocalizedString("type")}: ${game.getLocalizedString(this.type)}\n`;
             if (this.power) {

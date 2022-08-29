@@ -7,9 +7,6 @@ const items: any = {
     stackable: true,
     tier: itemTiers.common,
     type: "weapon",
-    modifiers: {
-      critPowerV: 50,
-    },
   },
   // Armors
   ragged_armor: {

@@ -126,8 +126,30 @@ const perks: PerkObject[] = [
     class: "",
     modifiers: {},
     commands: {
-      add_ability: { ...abilities.fierce_attack },
+      add_ability: { ...abilities.battle_aura },
     },
+  },
+  {
+    id: "power_4",
+    desc: "power_desc",
+    pos: {
+      x: -1.67,
+      y: -1.88,
+    },
+    icon: "gfx/icons/crossed-swords.png",
+    relative_to: "power_2",
+    requires: ["power_2", "power_3"],
+    class: "",
+    modifiers: {
+      ability_battle_aura: {
+        cooldownP: -5,
+        effect_attack_1: {
+          durationV: 1.5,
+        },
+      },
+      critPowerP: 5,
+    },
+    commands: {},
   },
   {
     id: "smart_1",
@@ -174,8 +196,35 @@ const perks: PerkObject[] = [
     class: "",
     modifiers: {},
     commands: {
-      add_ability: { ...abilities.flame },
+      add_ability: {
+        ...abilities.flame,
+      },
     },
+  },
+  {
+    id: "smart_4",
+    desc: "smart_desc",
+    pos: {
+      x: -2.33,
+      y: 2.34,
+    },
+    icon: "gfx/icons/bookmarklet.png",
+    relative_to: "smart_2",
+    requires: ["smart_2", "smart_3"],
+    class: "",
+    modifiers: {
+      ability_flame: {
+        cooldownP: -5,
+        effect_burning: {
+          inflict: {
+            damageFlatP: 50,
+          },
+          durationP: 10,
+        },
+      },
+      intV: 1,
+    },
+    commands: {},
   },
   {
     id: "strength_1",
@@ -227,6 +276,22 @@ const perks: PerkObject[] = [
     commands: {},
   },
   {
+    id: "strength_4",
+    desc: "strength_desc",
+    pos: {
+      x: 2.72,
+      y: 0.44,
+    },
+    icon: "gfx/icons/totem-head.png",
+    relative_to: "strength_2",
+    requires: ["strength_2", "strength_3"],
+    class: "",
+    modifiers: {},
+    commands: {
+      add_ability: { ...abilities.fierce_attack },
+    },
+  },
+  {
     id: "tough_1",
     desc: "tough_desc",
     pos: {
@@ -274,6 +339,22 @@ const perks: PerkObject[] = [
       hpMaxP: 5,
     },
     commands: {},
+  },
+  {
+    id: "tough_4",
+    desc: "tough_desc",
+    pos: {
+      x: 1.34,
+      y: 2.86,
+    },
+    icon: "gfx/abilities/shield-bash.png",
+    relative_to: "tough_2",
+    requires: ["tough_2", "tough_3"],
+    class: "",
+    modifiers: {},
+    commands: {
+      add_ability: { ...abilities.disorienting_blow },
+    },
   },
   {
     id: "will_1",

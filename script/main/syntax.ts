@@ -228,7 +228,7 @@ function effectSyntax(key: string, value: any) {
     Object.entries(value).forEach(([_key, _value]) => {
       text += " " + effectSyntax(_key, _value);
     });
-    return text;
+    return text + "\n";
   }
   // Syntax when value is an effect object
   else if (key.startsWith("effect_")) {
@@ -256,5 +256,11 @@ function effectSyntax(key: string, value: any) {
     const by = game.getLocalizedString("by");
     const icon = icons[key] ?? "gfx/icons/triple-yin.png";
     return `<c>${color}<c>${increaseDecrease} <i>${icon}<i> ${name} ${by} ${prefix}${value.toFixed(1)}${suffix}\n`;
+  } else if (typeof value === "object") {
+    let text: string = "";
+    Object.entries(value).forEach(([_key, _value]) => {
+      text += " " + effectSyntax(_key, _value);
+    });
+    return text;
   }
 }

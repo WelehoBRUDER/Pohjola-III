@@ -79,7 +79,7 @@ class Perk {
 
     if (this.requires) {
       const length: number = this.requires.length;
-      tooltip += `<f>1rem<f>${game.getLocalizedString("requires")}: `;
+      tooltip += `<f>1.2rem<f>${game.getLocalizedString("requires")}: `;
       this.requires.forEach((perk_id: string, index: number) => {
         const perk = new Perk(perks.find((p: PerkObject) => p.id === perk_id) as PerkObject);
         tooltip += `<c>${perk.owned() ? "lime" : "red"}<c>${game.getLocalizedString(perk_id)}`;
@@ -94,15 +94,15 @@ class Perk {
       Object.entries(this.commands).forEach(([key, value]: [string, any]) => {
         if (key === "add_ability") {
           const ability = new Ability({ ...value });
-          tooltip += `<f>1rem<f>${game.getLocalizedString(key)}:\n`;
+          tooltip += `<f>1.3rem<f>${game.getLocalizedString(key)}:\n`;
           tooltip += ability.tooltip({ container: true, owner: player });
-          tooltip += "§<nct>-<nct><f>1rem<f><c>white<c>\n";
+          tooltip += "§<nct>-<nct><f>1.2rem<f><c>white<c>\n";
         }
       });
     }
 
     if (this.modifiers && Object.keys(this.modifiers).length > 0) {
-      tooltip += "\n<f>0.9rem<f><c>silver<c>Effects:\n";
+      tooltip += "\n<f>1.2rem<f><c>silver<c>Effects:\n";
       Object.entries(this.modifiers).map(([key, value]) => {
         tooltip += " " + effectSyntax(key, value);
       });
@@ -136,11 +136,11 @@ function createPerks() {
     tooltip(perkDiv, perk.tooltip());
     if (perk.relative_to) {
       const found: HTMLDivElement = lobbyContent.querySelector(`.perk[perk-id="${perk.relative_to}"]`)!;
-      perkDiv.style.left = `${perk.pos.x * baseSize + found.offsetLeft}px`;
-      perkDiv.style.top = `${perk.pos.y * baseSize + found.offsetTop}px`;
+      perkDiv.style.left = `${Math.round(perk.pos.x * baseSize + found.offsetLeft)}px`;
+      perkDiv.style.top = `${Math.round(perk.pos.y * baseSize + found.offsetTop)}px`;
     } else {
-      perkDiv.style.left = `${perk.pos.x * baseSize}px`;
-      perkDiv.style.top = `${perk.pos.y * baseSize}px`;
+      perkDiv.style.left = `${Math.round(perk.pos.x * baseSize)}px`;
+      perkDiv.style.top = `${Math.round(perk.pos.y * baseSize)}px`;
     }
     perkDiv.append(img);
     lobbyContent.append(perkDiv);

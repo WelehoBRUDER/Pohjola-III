@@ -9,11 +9,11 @@ class Effect {
         this.inflict = effect.inflict ? { ...effect.inflict } : {};
     }
     tooltip(options) {
-        let tooltip = "<f>1.25rem<f>";
+        let tooltip = "";
         if (options?.container)
             tooltip += "<ct>effect-container<ct>";
-        tooltip += `<c>goldenrod<c>${game.getLocalizedString(this.id)}\n`;
-        tooltip += "<f>1rem<f><c>white<c>";
+        tooltip += `<f>1.5rem<f><c>goldenrod<c><i>${this.icon}[medium]<i> ${game.getLocalizedString(this.id)}\n`;
+        tooltip += "<f>1.2rem<f><c>white<c>";
         if (this.inflict) {
             Object.entries(this.inflict).forEach(([key, value]) => {
                 tooltip += `${game.getLocalizedString(key + "_first")}`;
@@ -26,7 +26,7 @@ class Effect {
         // )}\n`;
         tooltip += `<i>${icons.cooldown}<i>${game.getLocalizedString("duration")}: ${this.duration}s\n`;
         if (this.modifiers && Object.keys(this.modifiers).length > 0) {
-            tooltip += "\n<f>0.9rem<f><c>silver<c>Effects:\n";
+            tooltip += "\n<f>1.2rem<f><c>silver<c>Effects:\n";
             Object.entries(this.modifiers).map(([key, value]) => {
                 tooltip += " " + effectSyntax(key, value);
             });
