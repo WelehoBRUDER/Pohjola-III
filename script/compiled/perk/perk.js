@@ -30,6 +30,7 @@ class Perk {
     assign() {
         if (this.owned())
             return;
+        hideHover();
         if (player.perk_points >= 1) {
             player.perk_points--;
             player.perks.push({ ...this });
@@ -137,5 +138,44 @@ function createPerks() {
     svg.setAttribute("width", "4000");
     svg.setAttribute("height", "4000");
     lobbyContent.append(svg);
+    lobbyContent.scrollTo(drag_details.bgPosX, drag_details.bgPosY);
+}
+const drag_details = {
+    lastX: 0,
+    lastY: 0,
+    dragging: false,
+    bgPosX: 0,
+    bgPosY: 0,
+};
+/* Scroll by dragging */
+function dragPerks(e) {
+    const offsetX = e.clientX - drag_details.lastX;
+    const offsetY = e.clientY - drag_details.lastY;
+    if (drag_details.dragging) {
+        lobbyContent.scrollTo(drag_details.bgPosX - offsetX, drag_details.bgPosY - offsetY);
+    }
+}
+try {
+    if (lobbyContent) {
+        lobbyContent.onmousedown = (e) => {
+            drag_details.dragging = true;
+            drag_details.lastX = e.clientX;
+            drag_details.lastY = e.clientY;
+            drag_details.bgPosX = lobbyContent.scrollLeft;
+            drag_details.bgPosY = lobbyContent.scrollTop;
+            lobbyContent.onmouseup = () => {
+                drag_details.dragging = false;
+                lobbyContent.onmouseup = null;
+                lobbyContent.onmousemove = null;
+            };
+            lobbyContent.onmousemove = (e) => dragPerks(e);
+        };
+        lobbyContent.onwheel = (e) => {
+            e.preventDefault();
+        };
+    }
+}
+catch {
+    console.log("Could not find lobbyContent, this must be the editor.");
 }
 //# sourceMappingURL=perk.js.map

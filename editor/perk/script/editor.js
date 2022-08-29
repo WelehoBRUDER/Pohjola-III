@@ -189,8 +189,9 @@ perkContainer.onmousedown = (e) => {
 };
 
 function savePerks() {
-  let text = "const perks: Perk[] =";
-  text += JSON.stringify(perks, null, 1);
+  const __perks = perks.sort((a, b) => (a.id > b.id ? 1 : -1));
+  let text = "const perks: PerkObject[] =";
+  text += JSON.stringify(__perks, null, 1);
   text += ";";
   const saveToFile = confirm("Save to file perks.ts?");
   if (saveToFile) {

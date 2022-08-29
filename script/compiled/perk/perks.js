@@ -1,9 +1,12 @@
 "use strict";
 const perks = [
     {
-        id: "foundation_of_power",
-        desc: "foundation_of_power_desc",
-        pos: { x: 10, y: 6 },
+        id: "0_foundation_of_power",
+        desc: "0_foundation_of_power_desc",
+        pos: {
+            x: 20,
+            y: 8,
+        },
         icon: "gfx/icons/skills.png",
         modifiers: {
             atkV: 1,
@@ -15,89 +18,296 @@ const perks = [
         },
         class: "adventure",
     },
-    // Power related
-    {
-        id: "power_1",
-        desc: "power_desc",
-        pos: { x: -1.5, y: -2.5 },
-        icon: "gfx/icons/crossed-swords.png",
-        modifiers: {
-            atkV: 3,
-        },
-        // commands: {
-        //   add_ability: { ...abilities.sharp_strike },
-        // },
-        class: "power",
-        relative_to: "foundation_of_power",
-        requires: ["foundation_of_power"],
-    },
-    // strength related
-    {
-        id: "strength_1",
-        desc: "strength_desc",
-        pos: { x: 1.5, y: -2.5 },
-        icon: "gfx/status/biceps.png",
-        modifiers: {
-            strV: 3,
-        },
-        class: "strength",
-        relative_to: "foundation_of_power",
-        requires: ["foundation_of_power"],
-    },
-    // agility related
     {
         id: "agility_1",
         desc: "agility_desc",
-        pos: { x: 3, y: 0 },
+        pos: {
+            x: 3,
+            y: 0,
+        },
         icon: "gfx/status/acrobatic.png",
         modifiers: {
             agiV: 3,
         },
         class: "agility",
-        relative_to: "foundation_of_power",
-        requires: ["foundation_of_power"],
+        relative_to: "0_foundation_of_power",
+        requires: ["0_foundation_of_power"],
     },
-    // Tough related
     {
-        id: "tough_1",
-        desc: "tough_desc",
-        pos: { x: 1.5, y: 2.5 },
-        icon: "gfx/status/weight-lifting-up.png",
-        modifiers: {
-            vitV: 3,
+        id: "agility_2",
+        desc: "agility_desc",
+        pos: {
+            x: 4.5,
+            y: -0.5,
         },
-        // commands: {
-        //   add_ability: { ...abilities.healing_light },
-        // },
-        class: "tough",
-        relative_to: "foundation_of_power",
-        requires: ["foundation_of_power"],
+        icon: "gfx/status/acrobatic.png",
+        relative_to: "agility_1",
+        requires: ["agility_1"],
+        class: "",
+        modifiers: {
+            agiV: 1,
+            agiP: 5,
+        },
+        commands: {},
     },
-    // Intelligence related
+    {
+        id: "agility_3",
+        desc: "agility_desc",
+        pos: {
+            x: 3.5,
+            y: 3,
+        },
+        icon: "gfx/icons/running-ninja.png",
+        relative_to: "agility_1",
+        requires: ["agility_1"],
+        class: "",
+        modifiers: {
+            agiV: 1,
+            speedP: 5,
+        },
+        commands: {},
+    },
+    {
+        id: "power_1",
+        desc: "power_desc",
+        pos: {
+            x: -1.5,
+            y: -2.5,
+        },
+        icon: "gfx/icons/crossed-swords.png",
+        modifiers: {
+            atkV: 3,
+        },
+        class: "power",
+        relative_to: "0_foundation_of_power",
+        requires: ["0_foundation_of_power"],
+    },
+    {
+        id: "power_2",
+        desc: "power_desc",
+        pos: {
+            x: 1.5,
+            y: -3,
+        },
+        icon: "gfx/icons/crossed-swords.png",
+        relative_to: "power_1",
+        requires: ["power_1"],
+        class: "",
+        modifiers: {
+            atkP: 7,
+        },
+        commands: {},
+    },
+    {
+        id: "power_3",
+        desc: "power_desc",
+        pos: {
+            x: -2,
+            y: -3,
+        },
+        icon: "gfx/icons/swords-power.png",
+        relative_to: "power_1",
+        requires: ["power_1"],
+        class: "",
+        modifiers: {},
+        commands: {
+            add_ability: { ...abilities.fierce_attack },
+        },
+    },
     {
         id: "smart_1",
         desc: "smart_desc",
-        pos: { x: -1.5, y: 2.5 },
+        pos: {
+            x: -1.5,
+            y: 2.5,
+        },
         icon: "gfx/status/brain.png",
         modifiers: {
             intV: 3,
         },
         class: "smart",
-        relative_to: "foundation_of_power",
-        requires: ["foundation_of_power"],
+        relative_to: "0_foundation_of_power",
+        requires: ["0_foundation_of_power"],
     },
-    // Spirit related
+    {
+        id: "smart_2",
+        desc: "smart_desc",
+        pos: {
+            x: 0.5,
+            y: 3.5,
+        },
+        icon: "gfx/status/brain.png",
+        relative_to: "smart_1",
+        requires: ["smart_1"],
+        class: "",
+        modifiers: {
+            intV: 1,
+            intP: 5,
+        },
+        commands: {},
+    },
+    {
+        id: "smart_3",
+        desc: "smart_desc",
+        pos: {
+            x: -3,
+            y: 3,
+        },
+        icon: "gfx/status/brain.png",
+        relative_to: "smart_1",
+        requires: ["smart_1"],
+        class: "",
+        modifiers: {},
+        commands: {
+            add_ability: { ...abilities.flame },
+        },
+    },
+    {
+        id: "strength_1",
+        desc: "strength_desc",
+        pos: {
+            x: 1.5,
+            y: -2.5,
+        },
+        icon: "gfx/status/biceps.png",
+        modifiers: {
+            strV: 3,
+        },
+        class: "strength",
+        relative_to: "0_foundation_of_power",
+        requires: ["0_foundation_of_power"],
+    },
+    {
+        id: "strength_2",
+        desc: "strength_desc",
+        pos: {
+            x: 1,
+            y: -3,
+        },
+        icon: "gfx/status/biceps.png",
+        relative_to: "strength_1",
+        requires: ["strength_1"],
+        class: "",
+        modifiers: {
+            strV: 1,
+            strP: 5,
+        },
+        commands: {},
+    },
+    {
+        id: "strength_3",
+        desc: "strength_desc",
+        pos: {
+            x: 4,
+            y: -1,
+        },
+        icon: "gfx/status/biceps.png",
+        relative_to: "strength_1",
+        requires: ["strength_1"],
+        class: "",
+        modifiers: {
+            strV: 1,
+            strP: 5,
+        },
+        commands: {},
+    },
+    {
+        id: "tough_1",
+        desc: "tough_desc",
+        pos: {
+            x: 1.5,
+            y: 2.5,
+        },
+        icon: "gfx/status/weight-lifting-up.png",
+        modifiers: {
+            vitV: 3,
+        },
+        class: "tough",
+        relative_to: "0_foundation_of_power",
+        requires: ["0_foundation_of_power"],
+    },
+    {
+        id: "tough_2",
+        desc: "tough_desc",
+        pos: {
+            x: 3,
+            y: 2.5,
+        },
+        icon: "gfx/status/weight-lifting-up.png",
+        relative_to: "tough_1",
+        requires: ["tough_1"],
+        class: "",
+        modifiers: {
+            vitV: 1,
+            vitP: 4,
+        },
+        commands: {},
+    },
+    {
+        id: "tough_3",
+        desc: "tough_desc",
+        pos: {
+            x: 1,
+            y: 3.5,
+        },
+        icon: "gfx/status/heart-plus.png",
+        relative_to: "tough_1",
+        requires: ["tough_1"],
+        class: "",
+        modifiers: {
+            vitV: 1,
+            hpMaxP: 5,
+        },
+        commands: {},
+    },
     {
         id: "will_1",
         desc: "will_desc",
-        pos: { x: -3, y: 0 },
+        pos: {
+            x: -3,
+            y: 0,
+        },
         icon: "gfx/status/wisdom.png",
         modifiers: {
             spiV: 3,
         },
         class: "will",
-        relative_to: "foundation_of_power",
-        requires: ["foundation_of_power"],
+        relative_to: "0_foundation_of_power",
+        requires: ["0_foundation_of_power"],
+    },
+    {
+        id: "will_2",
+        desc: "will_desc",
+        pos: {
+            x: -3.5,
+            y: -1.5,
+        },
+        icon: "gfx/status/wisdom.png",
+        relative_to: "will_1",
+        requires: ["will_1"],
+        class: "",
+        modifiers: {
+            spiV: 1,
+            spiP: 5,
+        },
+        commands: {},
+    },
+    {
+        id: "will_3",
+        desc: "will_desc",
+        pos: {
+            x: -2.5,
+            y: 2.5,
+        },
+        icon: "gfx/icons/wizard-face.png",
+        relative_to: "will_1",
+        requires: ["will_1"],
+        class: "",
+        modifiers: {
+            spiV: 1,
+            mpMaxV: 10,
+        },
+        commands: {},
     },
 ];
 //# sourceMappingURL=perks.js.map

@@ -111,6 +111,12 @@
       position: relative;
       width: 100%;
       height: calc(100% - 4rem);
+      overflow: auto;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
 
       .perk {
         border: 0.25rem solid silver;
