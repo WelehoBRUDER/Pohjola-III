@@ -53,6 +53,37 @@
     align-items: center;
     background: rgb(14, 14, 14);
     box-shadow: inset 0px 0px 1rem 0.8rem rgba(0, 0, 0, 0.5);
+    color: rgb(214, 214, 214);
+
+    .title {
+      width: 100%;
+      font-size: 2rem;
+      color: gold;
+      text-align: center;
+      margin: 0.5rem 0;
+    }
+
+    .stat {
+      display: flex;
+      align-items: center;
+      user-select: none;
+
+      span {
+        font-size: 1.5rem;
+      }
+
+      img {
+        width: 2rem;
+        -webkit-user-drag: none;
+      }
+
+      &:hover {
+        filter: brightness(150%);
+        span {
+          text-decoration: underline;
+        }
+      }
+    }
   }
 
   .lobby-view {

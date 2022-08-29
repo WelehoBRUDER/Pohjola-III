@@ -65,7 +65,7 @@ class Game {
 
   getLocalizedString(id: string) {
     let string: string = id;
-    if (this.language[id]) {
+    if (this.language[id] !== undefined) {
       string = this.language[id];
     }
     return string;
@@ -76,7 +76,7 @@ class Game {
       if (this.state.paused) {
         this.resume();
       } else {
-        this.pause();
+        this.pause({ disableSkills: true });
       }
     }
     hotkeys.forEach((hotkey: string) => {

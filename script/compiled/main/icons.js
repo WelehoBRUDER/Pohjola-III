@@ -6,6 +6,8 @@ const icons = {
     vit: "gfx/status/weight-lifting-up.png",
     spi: "gfx/status/wisdom.png",
     atk: "gfx/icons/crossed-swords.png",
+    hpMax: "gfx/status/heart-plus.png",
+    mpMax: "gfx/icons/magic-swirl.png",
     physical: "gfx/status/physical.png",
     magical: "gfx/status/magical.png",
     elemental: "gfx/status/elemental.png",
@@ -15,5 +17,8 @@ const icons = {
     cooldown: "gfx/status/cooldown.png",
     power: "gfx/status/power.png",
     speed: "gfx/status/speedometer.png",
+    critRate: "gfx/status/power.png",
+    critPower: "gfx/status/power.png",
+    placeholder: "gfx/icons/triple-yin.png",
 };
 //# sourceMappingURL=icons.js.map

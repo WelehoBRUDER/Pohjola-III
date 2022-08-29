@@ -39,6 +39,7 @@ class Perk {
                     game.executeCommand(key, value);
                 });
             }
+            player.restore();
             createPerks();
         }
     }
@@ -84,6 +85,7 @@ function createPerks() {
     const lineSize = 32;
     const lineWidth = 6;
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    sideBarDetails();
     const FullPerks = perks.map((p) => new Perk(p));
     // Create perk elements and place them on the screen
     FullPerks.forEach((perk) => {
