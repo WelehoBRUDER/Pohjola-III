@@ -51,7 +51,7 @@ class Ability {
             // Ability type
             tooltip += `${game.getLocalizedString("type")}: ${game.getLocalizedString(this.type)}\n`;
             if (this.power) {
-                tooltip += `<i>${icons.power}<i>${game.getLocalizedString("power")}: ${this.power * 100}%\n`;
+                tooltip += `<i>${icons.power}<i>${game.getLocalizedString("power")}: ${Math.floor(this.power * 100)}%\n`;
             }
             if (this.healFlat || this.healPercent) {
                 if (this.healFlat > 0 && this.healPercent > 0) {
@@ -69,7 +69,7 @@ class Ability {
                 tooltip += `${game.getLocalizedString("damage_type")}: <i>${icons[this.damageType]}<i>${game.getLocalizedString(this.damageType)}\n`;
             }
             if (this.penetration) {
-                tooltip += `${game.getLocalizedString("penetration")}: ${this.penetration * 100}%\n`;
+                tooltip += `${game.getLocalizedString("penetration")}: ${Math.floor(this.penetration * 100)}%\n`;
             }
             // Ability cost
             if (this.mpCost > 0) {

@@ -11,6 +11,8 @@ const english = {
   atk: "Attack",
   hp: "Health",
   mp: "Mana",
+  atkV: "Attack buff",
+  atkP: "Attack buff",
   hpMax: "Max Health",
   mpMax: "Max Mana",
   ap: "Action Points",

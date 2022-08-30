@@ -1,5 +1,6 @@
 "use strict";
 /* I decided to create a skill tree instead of putting skills in perks */
+const skills = [];
 class Skill {
     constructor(skill) {
         this.id = skill.id;

@@ -74,6 +74,10 @@ function applyModifierToTotal(modifier, total) {
             total[key] += value;
     }
     else {
+        console.log("target: ", total[key]);
+        console.log("total:", total);
+        console.log("key", key);
+        console.log("value", value);
         total[key] = mergeObjects(total[key], value);
     }
 }
@@ -85,6 +89,8 @@ const mergeObjects = (obj1, obj2) => {
             prev[key] = value + (prev[key] || 0);
         }
         else {
+            if (obj2 === undefined)
+                obj2 = {};
             prev[key] = mergeObjects(value, obj2[key]);
         }
         return prev;

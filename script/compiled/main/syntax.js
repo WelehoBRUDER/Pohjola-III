@@ -201,6 +201,9 @@ const properties = {
     cooldownV: {
         lowerIsBetter: true,
     },
+    atkPV: {
+        addPercentageSuffix: true,
+    },
 };
 function getProperties(key) {
     const props = {

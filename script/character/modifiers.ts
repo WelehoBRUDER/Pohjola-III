@@ -72,6 +72,10 @@ function applyModifierToTotal(modifier: any, total: any) {
     if (key.endsWith("P")) total[key] += value / 100;
     else if (key.endsWith("V")) total[key] += value;
   } else {
+    console.log("target: ", total[key]);
+    console.log("total:", total);
+    console.log("key", key);
+    console.log("value", value);
     total[key] = mergeObjects(total[key], value);
   }
 }
@@ -84,6 +88,7 @@ const mergeObjects = (obj1: any, obj2: any) => {
       if (typeof value === "number") {
         prev[key] = value + (prev[key] || 0);
       } else {
+        if (obj2 === undefined) obj2 = {};
         prev[key] = mergeObjects(value, obj2[key]);
       }
       return prev;

@@ -17,6 +17,7 @@ class Game {
         console.log("Combat initialized");
         combatScreen.classList.remove("no-display");
         createActionSlots();
+        player.updateAllModifiers();
         const enemies = foes.map((foe) => {
             return new Enemy({ ...foe });
         });

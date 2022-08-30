@@ -1,4 +1,5 @@
 /* I decided to create a skill tree instead of putting skills in perks */
+const skills: SkillObject[] = [];
 
 interface SkillObject {
   id: string;
