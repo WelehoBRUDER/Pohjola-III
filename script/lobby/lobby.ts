@@ -20,7 +20,7 @@ const lobbyButtons = [
 ];
 
 const lobby = {
-  current_view: "skills_view",
+  current_view: "inventory",
 };
 
 function createLobby() {
@@ -40,6 +40,8 @@ function createLobby() {
     createPerks();
   } else if (lobby.current_view === "skills_view") {
     createSkills();
+  } else if (lobby.current_view === "inventory") {
+    createInventory();
   } else if (lobby.current_view === "stages") {
     createFloors();
   }

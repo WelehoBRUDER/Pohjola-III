@@ -4,7 +4,7 @@ const abilities: any = {
     icon: "gfx/abilities/pointy-sword.png",
     type: "attack",
     damageType: "physical",
-    power: 0.5,
+    power: 1,
     cooldown: 0,
   },
   physical_attack: {
@@ -49,7 +49,7 @@ const abilities: any = {
     cooldown: 6,
     penetration: 0,
     onCooldown: 0,
-    power: 1,
+    power: 1.5,
   },
   disorienting_blow: {
     id: "disorienting_blow",
@@ -59,7 +59,7 @@ const abilities: any = {
     effectsToEnemy: [effects.dazed],
     cooldown: 10,
     onCooldown: 0,
-    power: 0.6,
+    power: 0.75,
   },
   flame: {
     id: "flame",

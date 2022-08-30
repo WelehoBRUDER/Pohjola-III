@@ -58,6 +58,7 @@ class Player extends Character {
     this.equipment = char.equipment ?? defaultEquipment;
     this.abilities_total = char.abilities_total ?? [];
     this.gold = char.gold ?? 0;
+    this.inventory = char.inventory ?? [];
     this.perk_points = char.perk_points ?? 0;
     this.skill_points = char.skill_points ?? 0;
     this.level = char.level ?? 1;
@@ -252,6 +253,7 @@ const player = new Player({
   abilities: [],
   critRate: 3,
   critPower: 50,
+  inventory: [new Weapon({ ...items.broken_sword }), new Weapon({ ...items.broken_sword }), new Weapon({ ...items.broken_sword })],
   abilities_total: [],
   traits: [],
   statuses: [],
