@@ -37,7 +37,7 @@ const itemTiers: I_ItemTiers = {
   epic: {
     id: "epic",
     level: 4,
-    color: "#ff0000",
+    color: "#7d35db",
   },
   legendary: {
     id: "legendary",
@@ -77,5 +77,31 @@ class Item {
       return new Material({ ...items[this.id], amount: this.amount });
     }
     return this;
+  }
+
+  tooltip(): string {
+    let tooltip = "<f>1.5rem<f>";
+    tooltip += `<c>${this.tier.color}<c>${game.getLocalizedString(this.id)}\n`;
+    tooltip += "<f>1.25rem<f><c>white<c>";
+    if (this.type === "weapon") {
+      tooltip += `<i>${icons.atk}<i> Attack: ${this.atk}\n`;
+    } else if (this.type === "armor") {
+      tooltip += `Armor: ${this.armor}\n`;
+    }
+
+    if (this.speed !== undefined) {
+      tooltip += `<i>${icons.speed}<i> Speed: ${this.speed}\n`;
+    }
+
+    tooltip += `Price: ${this.price}`;
+
+    if (this.modifiers && Object.keys(this.modifiers).length > 0) {
+      tooltip += "\n<f>1.2rem<f><c>silver<c>Effects:\n";
+      Object.entries(this.modifiers).map(([key, value]) => {
+        tooltip += " " + effectSyntax(key, value);
+      });
+    }
+
+    return tooltip;
   }
 }

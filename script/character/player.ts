@@ -253,7 +253,7 @@ const player = new Player({
   abilities: [],
   critRate: 3,
   critPower: 50,
-  inventory: [new Weapon({ ...items.broken_sword }), new Weapon({ ...items.broken_sword }), new Weapon({ ...items.broken_sword })],
+  inventory: [new Weapon({ ...items.broken_sword }), new Weapon({ ...items.broken_sword }), new Weapon({ ...items.epic_sword })],
   abilities_total: [],
   traits: [],
   statuses: [],

@@ -8,6 +8,18 @@ const items: any = {
     tier: itemTiers.common,
     type: "weapon",
   },
+  epic_sword: {
+    id: "epic_sword",
+    price: 1000,
+    speed: 0,
+    atk: 50,
+    stackable: true,
+    tier: itemTiers.epic,
+    type: "weapon",
+    modifiers: {
+      speedP: 10,
+    },
+  },
   // Armors
   ragged_armor: {
     id: "ragged_armor",

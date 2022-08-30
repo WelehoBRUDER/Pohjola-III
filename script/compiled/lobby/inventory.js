@@ -12,10 +12,11 @@ function createInventory() {
         slot.classList.add("inventory-slot");
         slot.setAttribute("data-index", index.toString());
         slot.setAttribute("data-item", item.id);
+        slot.classList.add(item.tier.id);
         const image = document.createElement("img");
         image.src = item.icon ?? icons.placeholder;
         slot.append(image);
-        //tooltip(slot, item.tooltip());
+        tooltip(slot, item.tooltip());
         //slot.addEventListener("click", () => useItem(null, i));
         inventoryGrid.append(slot);
     });
