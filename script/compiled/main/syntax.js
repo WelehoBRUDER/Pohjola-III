@@ -187,6 +187,12 @@ function textSyntax(syn = "") {
     }
 }
 const properties = {
+    critRateV: {
+        addPercentageSuffix: true,
+    },
+    critPowerV: {
+        addPercentageSuffix: true,
+    },
     powerV: {
         addPercentageSuffix: true,
         multiplyBy: 100,

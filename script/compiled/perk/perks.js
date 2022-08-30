@@ -126,7 +126,7 @@ const perks = [
         requires: ["power_1"],
         class: "",
         modifiers: {
-            critRateP: 2.5,
+            critRateV: 2.5,
             atkV: 2,
         },
     },
@@ -148,7 +148,7 @@ const perks = [
                     durationV: 1.5,
                 },
             },
-            critPowerP: 5,
+            critPowerV: 5,
         },
         commands: {},
     },

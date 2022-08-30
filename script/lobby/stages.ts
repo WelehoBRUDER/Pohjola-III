@@ -45,6 +45,14 @@ const floors: any = [
         id: "undead_menace",
         foes: [new Enemy(enemies.skeleton_brute)],
       }),
+      new Stage({
+        id: "stage_4",
+        foes: [new Enemy(enemies.skeleton_brute), new Enemy(enemies.skeleton)],
+      }),
+      new Stage({
+        id: "stage_5",
+        foes: [new Enemy(enemies.skeleton), new Enemy(enemies.skeleton_brute), new Enemy(enemies.skeleton)],
+      }),
     ],
   },
 ];

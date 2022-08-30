@@ -31,6 +31,9 @@ const english = {
     stats: "Stats",
     defences: "Defences",
     resists: "Resistances",
+    gold: "Gold",
+    perk_points: "Perk Points",
+    skill_points: "Skill Points",
     // effect strings
     damageFlat: "Damage per second",
     damagePercent: "Damage per second",

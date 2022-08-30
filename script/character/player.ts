@@ -38,6 +38,8 @@ interface PlayerObject extends Character {
   gold: number;
   perk_points: number;
   skill_points: number;
+  level: number;
+  xp: number;
 }
 
 class Player extends Character {
@@ -48,6 +50,8 @@ class Player extends Character {
   gold: number;
   perk_points: number;
   skill_points: number;
+  level: number;
+  xp: number;
   constructor(char: PlayerObject) {
     super(char);
     this.race = new Race(char.race) ?? new Race(races.human);
@@ -56,6 +60,8 @@ class Player extends Character {
     this.gold = char.gold ?? 0;
     this.perk_points = char.perk_points ?? 0;
     this.skill_points = char.skill_points ?? 0;
+    this.level = char.level ?? 1;
+    this.xp = char.xp ?? 0;
 
     this.updateAllModifiers();
   }
@@ -178,6 +184,36 @@ class Player extends Character {
     });
     this.stats.ap = 0;
   }
+
+  xpForNextLevel(): number {
+    if (this.level <= 5) {
+      return this.level * 10;
+    } else {
+      return Math.floor(Math.pow(this.level, 1.2) * 10);
+    }
+  }
+
+  addXP(xp: number) {
+    const boost = this.allModifiers["xp_boost"] ?? 1;
+    this.xp += Math.floor(xp * boost);
+    this.levelUp();
+  }
+
+  addGold(gold: number) {
+    const boost = this.allModifiers["gold_boost"] ?? 1;
+    this.gold += Math.floor(gold * boost);
+  }
+
+  levelUp(): void {
+    if (this.xp >= this.xpForNextLevel()) {
+      this.xp -= this.xpForNextLevel();
+      this.level += 1;
+      this.perk_points += 1;
+      this.skill_points += 1;
+      this.restore();
+    }
+    sideBarDetails();
+  }
 }
 
 const player = new Player({
@@ -222,8 +258,10 @@ const player = new Player({
   perks: [],
   skills: [],
   gold: 0,
-  perk_points: 5,
-  skill_points: 8,
+  perk_points: 0,
+  skill_points: 0,
+  level: 1,
+  xp: 0,
 });
 
 player.updateAllModifiers();

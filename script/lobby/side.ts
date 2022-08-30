@@ -1,5 +1,22 @@
 function sideBarDetails() {
   lobbySidebar.innerHTML = "";
+  const misc = document.createElement("div");
+  misc.classList.add("misc");
+  const miscStats = ["gold", "perk_points", "skill_points", "level", "xp"];
+  miscStats.forEach((stat) => {
+    const statElement = document.createElement("div");
+    statElement.classList.add("stat");
+    statElement.innerText = game.getLocalizedString(stat) + ":";
+    const valueElement = document.createElement("div");
+    valueElement.classList.add("value");
+    valueElement.innerText = player[stat];
+    if (stat === "xp") {
+      valueElement.innerText += " / " + player.xpForNextLevel();
+    }
+    statElement.append(valueElement);
+    misc.append(statElement);
+  });
+  lobbySidebar.append(misc);
   const characterDetails = document.createElement("div");
   characterDetails.classList.add("character-details");
   const stats = player.getStats();

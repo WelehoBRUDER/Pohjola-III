@@ -190,7 +190,8 @@ function defeatedEnemies(): HTMLPreElement {
   combat.loot.forEach((item) => {
     text += `${item.amount}x ${game.getLocalizedString(item.item.id)}\n`;
   });
-  text += `${combat.gold}<c>gold<c> ${game.getLocalizedString("gold")}`;
+  text += `${combat.gold}<c>gold<c> ${game.getLocalizedString("gold")}\n`;
+  text += `<c>silver<c>${combat.xp}<c>lime<c> ${game.getLocalizedString("xp")}`;
   return textSyntax(text);
 }
 
@@ -198,6 +199,7 @@ function lootEnemies(enemies: Enemy[]) {
   let total: any[] = [];
   let loot: any[] = [];
   enemies.forEach((enemy) => {
+    combat.xp += enemy.xp || 0;
     enemy.dropLoot().forEach((item) => {
       total.push(item);
     });
@@ -222,12 +224,14 @@ class Combat {
   time: number;
   loot: any[];
   gold: number;
+  xp: number;
   constructor() {
     this.init();
     this.id = "combat";
     this.time = 0;
     this.loot = [];
     this.gold = 0;
+    this.xp = 0;
   }
 
   init() {}
@@ -241,6 +245,7 @@ class Combat {
     this.enemies = enemies;
     this.loot = [];
     this.gold = 0;
+    this.xp = 0;
     combatSummaryBackground.classList.add("hide");
     this.enemies.forEach((enemy) => {
       // @ts-ignore
@@ -272,11 +277,13 @@ class Combat {
   }
 
   finish_combat() {
-    player.gold += this.gold;
+    player.addGold(this.gold);
+    player.addXP(this.xp);
     this.loot.forEach((item) => {
       player.addItem(new Item({ ...item.item }), item.amount);
     });
     this.gold = 0;
+    this.xp = 0;
     this.loot = [];
     combatSummaryBackground.classList.add("hide");
     game.endCombatAndGoToLobby();

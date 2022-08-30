@@ -49,7 +49,7 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     background: rgb(14, 14, 14);
     box-shadow: inset 0px 0px 1rem 0.8rem rgba(0, 0, 0, 0.5);
@@ -69,11 +69,11 @@
       user-select: none;
 
       span {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
       }
 
       img {
-        width: 2rem;
+        width: 1.5rem;
         -webkit-user-drag: none;
         margin-right: 0.4rem;
       }
@@ -82,6 +82,20 @@
         filter: brightness(150%);
         span {
           text-decoration: underline;
+        }
+      }
+    }
+
+    .misc {
+      margin: 0;
+
+      .stat {
+        font-size: 1.5rem;
+        color: white;
+
+        .value {
+          color: silver;
+          margin-left: 0.3rem;
         }
       }
     }
@@ -202,11 +216,6 @@
   text-align: center;
   user-select: none;
 }
-
-// .lobby-content {
-//   display: flex;
-//   flex-wrap: wrap;
-// }
 
 .skill-trees {
   position: absolute;

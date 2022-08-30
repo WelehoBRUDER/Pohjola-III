@@ -7,6 +7,7 @@ class Enemy extends Character {
         this.card = enemy.card ? { ...enemy.card } : null;
         this.loot = enemy.loot ? [...enemy.loot] : [];
         this.isEnemy = true;
+        this.xp = enemy.xp ?? 0;
     }
     init(index) {
         this.restore();

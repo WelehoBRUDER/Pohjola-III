@@ -181,6 +181,12 @@ interface Property {
 }
 
 const properties: any = {
+  critRateV: {
+    addPercentageSuffix: true,
+  } as Property,
+  critPowerV: {
+    addPercentageSuffix: true,
+  } as Property,
   powerV: {
     addPercentageSuffix: true,
     multiplyBy: 100,

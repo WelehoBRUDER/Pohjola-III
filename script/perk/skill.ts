@@ -179,6 +179,7 @@ function getSkill(id: string) {
 // This has been made in a very stupid way :D
 function createSkills() {
   lobbyContent.innerHTML = "";
+  sideBarDetails();
   const SkillTrees = document.createElement("div");
   SkillTrees.classList.add("skill-trees");
   const _skills = skills.map((skill: SkillObject) => new Skill(skill));

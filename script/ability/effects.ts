@@ -51,10 +51,10 @@ const effects: any = {
   regeneration_1: {
     id: "regeneration_1",
     icon: "gfx/status/heart-plus.png",
-    duration: 6,
+    duration: 8,
     type: "heal",
     inflict: {
-      healingPercent: 0.05,
+      healingFlat: 5,
     },
   } as EffectObject,
   attack_1: {

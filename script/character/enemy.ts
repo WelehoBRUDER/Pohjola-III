@@ -13,6 +13,7 @@ interface EnemyBase extends Character {
   card?: Card;
   index?: number;
   loot?: any[];
+  xp?: number;
 }
 
 class Enemy extends Character {
@@ -21,7 +22,7 @@ class Enemy extends Character {
   index?: number;
   isEnemy?: boolean;
   loot?: any[];
-
+  xp?: number;
   constructor(enemy: EnemyBase) {
     super(enemy);
     this.index = enemy.index ?? -1;
@@ -29,6 +30,7 @@ class Enemy extends Character {
     this.card = enemy.card ? { ...enemy.card } : null;
     this.loot = enemy.loot ? [...enemy.loot] : [];
     this.isEnemy = true;
+    this.xp = enemy.xp ?? 0;
   }
 
   init(index: number): void {

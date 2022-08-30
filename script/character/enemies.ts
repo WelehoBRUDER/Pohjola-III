@@ -44,6 +44,7 @@ const enemies = {
         amount: [1, 3],
       },
     ],
+    xp: 10,
   },
   skeleton_brute: {
     id: "skeleton_brute",
@@ -90,5 +91,6 @@ const enemies = {
         amount: [1, 4],
       },
     ],
+    xp: 30,
   },
 };
