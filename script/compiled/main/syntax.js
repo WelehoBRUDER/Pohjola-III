@@ -204,6 +204,25 @@ const properties = {
     atkPV: {
         addPercentageSuffix: true,
     },
+    strPV: {
+        addPercentageSuffix: true,
+    },
+    agiPV: {
+        addPercentageSuffix: true,
+    },
+    vitPV: {
+        addPercentageSuffix: true,
+    },
+    intPV: {
+        addPercentageSuffix: true,
+    },
+    spiPV: {
+        addPercentageSuffix: true,
+    },
+    damagePercentV: {
+        addPercentageSuffix: true,
+        multiplyBy: 100,
+    },
 };
 function getProperties(key) {
     const props = {

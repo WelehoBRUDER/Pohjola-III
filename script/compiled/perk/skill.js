@@ -90,6 +90,25 @@ class Skill {
         let tooltip = "";
         tooltip += `<f>1.5rem<f><c>goldenrod<c>${this.id}\n`;
         tooltip += "<f>1.2rem<f><c>white<c>";
+        if (this.requirements.length > 0) {
+            tooltip += "Requirements:\n";
+            this.requirements.forEach((req) => {
+                if (req.skill) {
+                    const skill = getSkill(req.skill);
+                    if (skill) {
+                        if (skill.currentLevel < req.level) {
+                            tooltip += `<c>red<c>${req.skill} lvl: ${req.level}\n`;
+                        }
+                        else {
+                            tooltip += `<c>green<c>${req.skill} lvl: ${req.level}\n`;
+                        }
+                    }
+                    else {
+                        tooltip += `<c>red<c>${req.skill} lvl: ${req.level}\n`;
+                    }
+                }
+            });
+        }
         const currentLevel = this.getCurrentLevel();
         const nextLevel = this.getNextLevel();
         if (currentLevel) {
@@ -139,6 +158,8 @@ function getSkill(id) {
 // This has been made in a very stupid way :D
 function createSkills() {
     lobbyContent.innerHTML = "";
+    const SkillTrees = document.createElement("div");
+    SkillTrees.classList.add("skill-trees");
     const _skills = skills.map((skill) => new Skill(skill));
     _skills.forEach((skill) => {
         const skillWrapper = document.createElement("div");
@@ -189,8 +210,9 @@ function createSkills() {
             });
             skillWrapper.append(upgradesWrapper);
         }
-        lobbyContent.append(skillWrapper);
+        SkillTrees.append(skillWrapper);
     });
+    lobbyContent.append(SkillTrees);
 }
 function createSkillElement(skill) {
     const skillElement = document.createElement("div");

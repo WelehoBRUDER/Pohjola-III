@@ -35,6 +35,7 @@ function createLobby() {
     }
     lobbyHeaderButtons.append(buttonElement);
   });
+  lobbyContent.onwheel = null;
   if (lobby.current_view === "perks_view") {
     createPerks();
   } else if (lobby.current_view === "skills_view") {

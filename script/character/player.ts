@@ -213,12 +213,7 @@ const player = new Player({
     stun: 0,
   },
   equipment: defaultEquipment,
-  abilities: [
-    new Ability(abilities.flame),
-    new Ability(abilities.sharp_strike),
-    new Ability(abilities.healing_light),
-    new Ability(abilities.disorienting_blow),
-  ],
+  abilities: [],
   critRate: 3,
   critPower: 50,
   abilities_total: [],

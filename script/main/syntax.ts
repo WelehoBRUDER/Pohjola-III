@@ -198,6 +198,25 @@ const properties: any = {
   atkPV: {
     addPercentageSuffix: true,
   } as Property,
+  strPV: {
+    addPercentageSuffix: true,
+  } as Property,
+  agiPV: {
+    addPercentageSuffix: true,
+  } as Property,
+  vitPV: {
+    addPercentageSuffix: true,
+  } as Property,
+  intPV: {
+    addPercentageSuffix: true,
+  } as Property,
+  spiPV: {
+    addPercentageSuffix: true,
+  } as Property,
+  damagePercentV: {
+    addPercentageSuffix: true,
+    multiplyBy: 100,
+  } as Property,
 };
 
 function getProperties(key: string) {

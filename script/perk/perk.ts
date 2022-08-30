@@ -117,6 +117,9 @@ function createPerks() {
   const baseSize: number = 64;
   const lineSize: number = 32;
   const lineWidth: number = 6;
+  lobbyContent.onwheel = (e: WheelEvent) => {
+    e.preventDefault();
+  };
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   sideBarDetails();
   const FullPerks: Perk[] = perks.map((p: any) => new Perk(p));
@@ -208,9 +211,6 @@ try {
         lobbyContent.onmousemove = null;
       };
       lobbyContent.onmousemove = (e) => dragPerks(e);
-    };
-    lobbyContent.onwheel = (e: WheelEvent) => {
-      e.preventDefault();
     };
   }
 } catch {

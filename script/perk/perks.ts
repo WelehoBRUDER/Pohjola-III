@@ -77,9 +77,9 @@ const perks: PerkObject[] = [
     relative_to: "agility_2",
     requires: ["agility_2", "agility_3"],
     class: "",
-    modifiers: {},
-    commands: {
-      add_ability: { ...abilities.disorienting_blow },
+    modifiers: {
+      agiV: 3,
+      speedP: 5,
     },
   },
   {
@@ -124,9 +124,9 @@ const perks: PerkObject[] = [
     relative_to: "power_1",
     requires: ["power_1"],
     class: "",
-    modifiers: {},
-    commands: {
-      add_ability: { ...abilities.battle_aura },
+    modifiers: {
+      critRateP: 2.5,
+      atkV: 2,
     },
   },
   {
@@ -194,11 +194,9 @@ const perks: PerkObject[] = [
     relative_to: "smart_1",
     requires: ["smart_1"],
     class: "",
-    modifiers: {},
-    commands: {
-      add_ability: {
-        ...abilities.flame,
-      },
+    modifiers: {
+      intV: 1,
+      intP: 5,
     },
   },
   {
@@ -286,10 +284,11 @@ const perks: PerkObject[] = [
     relative_to: "strength_2",
     requires: ["strength_2", "strength_3"],
     class: "",
-    modifiers: {},
-    commands: {
-      add_ability: { ...abilities.fierce_attack },
+    modifiers: {
+      strV: 3,
+      atkP: 5,
     },
+    commands: {},
   },
   {
     id: "tough_1",
@@ -351,10 +350,11 @@ const perks: PerkObject[] = [
     relative_to: "tough_2",
     requires: ["tough_2", "tough_3"],
     class: "",
-    modifiers: {},
-    commands: {
-      add_ability: { ...abilities.healing_light },
+    modifiers: {
+      vitV: 1,
+      hpMaxP: 7.5,
     },
+    commands: {},
   },
   {
     id: "will_1",

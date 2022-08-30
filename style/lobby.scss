@@ -203,6 +203,23 @@
   user-select: none;
 }
 
+// .lobby-content {
+//   display: flex;
+//   flex-wrap: wrap;
+// }
+
+.skill-trees {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
 .skill-wrapper {
   position: relative;
   width: 24rem;
@@ -211,7 +228,11 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  margin: 1rem;
+  margin: 2.5rem;
+
+  * {
+    margin: 0;
+  }
 
   .connector-bottom {
     position: absolute;
