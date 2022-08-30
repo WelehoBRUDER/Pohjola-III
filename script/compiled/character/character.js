@@ -10,6 +10,7 @@ class Character {
         this.traits = char.traits ? [...char.traits] : [];
         this.statuses = char.statuses ? [...char.statuses] : [];
         this.perks = char.perks ? [...char.perks] : [];
+        this.skills = char.skills ? [...char.skills] : [];
         this.allModifiers = { ...char.allModifiers } ?? {};
         this.dead = char.dead ?? false;
         this.critRate = char.critRate ?? 0;

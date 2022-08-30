@@ -37,6 +37,7 @@ interface PlayerObject extends Character {
   abilities_total: Ability[];
   gold: number;
   perk_points: number;
+  skill_points: number;
 }
 
 class Player extends Character {
@@ -46,6 +47,7 @@ class Player extends Character {
   abilities_total: Ability[];
   gold: number;
   perk_points: number;
+  skill_points: number;
   constructor(char: PlayerObject) {
     super(char);
     this.race = new Race(char.race) ?? new Race(races.human);
@@ -53,6 +55,7 @@ class Player extends Character {
     this.abilities_total = char.abilities_total ?? [];
     this.gold = char.gold ?? 0;
     this.perk_points = char.perk_points ?? 0;
+    this.skill_points = char.skill_points ?? 0;
 
     this.updateAllModifiers();
   }
@@ -222,8 +225,10 @@ const player = new Player({
   traits: [],
   statuses: [],
   perks: [],
+  skills: [],
   gold: 0,
   perk_points: 5,
+  skill_points: 8,
 });
 
 player.updateAllModifiers();

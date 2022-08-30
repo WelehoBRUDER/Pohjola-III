@@ -57,6 +57,7 @@ const abilities = {
         type: "attack",
         damageType: "physical",
         cooldown: 5,
+        penetration: 0,
         onCooldown: 0,
         power: 1,
     },

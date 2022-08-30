@@ -7,6 +7,9 @@ const lobbyButtons = [
         id: "perks_view",
     },
     {
+        id: "skills_view",
+    },
+    {
         id: "inventory",
     },
     {
@@ -17,7 +20,7 @@ const lobbyButtons = [
     },
 ];
 const lobby = {
-    current_view: "stages",
+    current_view: "skills_view",
 };
 function createLobby() {
     lobbyHeaderButtons.innerHTML = "";
@@ -33,6 +36,9 @@ function createLobby() {
     });
     if (lobby.current_view === "perks_view") {
         createPerks();
+    }
+    else if (lobby.current_view === "skills_view") {
+        createSkills();
     }
     else if (lobby.current_view === "stages") {
         createFloors();

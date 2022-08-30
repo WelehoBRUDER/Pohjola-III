@@ -44,7 +44,7 @@ const enemies = {
         amount: [1, 3],
       },
     ],
-  } as EnemyBase,
+  },
   skeleton_brute: {
     id: "skeleton_brute",
     name: "Skeleton Brute",
@@ -90,5 +90,5 @@ const enemies = {
         amount: [1, 4],
       },
     ],
-  } as EnemyBase,
+  },
 };

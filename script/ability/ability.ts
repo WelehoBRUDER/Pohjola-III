@@ -236,12 +236,13 @@ class Ability {
       Object.entries(this).forEach(([key, value]) => {
         if (typeof value !== "number" || typeof value === "object") return;
         if (typeof value === "number") {
+          if (key === "onCooldown") return;
           const bonus = holder.allModifiers[id]?.[key + "V"] ?? 0;
           const modifier = 1 + (holder.allModifiers[id]?.[key + "P"] / 100 || 0);
-          const base = baseStats[key] ? baseStats[key] : value;
+          const base = baseStats[key] !== undefined ? baseStats[key] : value;
           this[key] = +(((base || 0) + bonus) * modifier).toFixed(2);
         } else if (typeof value === "object" && !Array.isArray(value)) {
-          this[key] = updateObject(key, value, holder.allModifiers[id]);
+          this[key] = { ...updateObject(key, value, holder.allModifiers[id]) };
         }
       });
     };

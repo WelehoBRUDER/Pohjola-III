@@ -19,9 +19,17 @@ function getAllModifiers(char: Character | Player) {
       });
     }
   });
-  char.perks.forEach((perk: any) => {
+  char.perks?.forEach((perk: any) => {
     if (perk.modifiers) {
       Object.entries(perk.modifiers).forEach((modifier: any) => {
+        applyModifierToTotal(modifier, modifiers);
+      });
+    }
+  });
+  char.skills?.forEach((skill: Skill) => {
+    const mods = skill.getCurrentLevel();
+    if (mods?.modifiers) {
+      Object.entries(mods.modifiers).forEach((modifier: any) => {
         applyModifierToTotal(modifier, modifiers);
       });
     }

@@ -18,9 +18,17 @@ function getAllModifiers(char) {
             });
         }
     });
-    char.perks.forEach((perk) => {
+    char.perks?.forEach((perk) => {
         if (perk.modifiers) {
             Object.entries(perk.modifiers).forEach((modifier) => {
+                applyModifierToTotal(modifier, modifiers);
+            });
+        }
+    });
+    char.skills?.forEach((skill) => {
+        const mods = skill.getCurrentLevel();
+        if (mods?.modifiers) {
+            Object.entries(mods.modifiers).forEach((modifier) => {
                 applyModifierToTotal(modifier, modifiers);
             });
         }
