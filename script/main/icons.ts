@@ -18,5 +18,9 @@ const icons: any = {
   speed: "gfx/status/speedometer.png",
   critRate: "gfx/status/power.png",
   critPower: "gfx/status/power.png",
+  weapon: "gfx/icons/piercing-sword.png",
+  helmet: "gfx/icons/viking-helmet.png",
+  armor: "gfx/icons/armor-vest.png",
+  legs: "gfx/icons/steeltoe-boots.png",
   placeholder: "gfx/icons/triple-yin.png",
 };

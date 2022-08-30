@@ -83,10 +83,18 @@ class Item {
     let tooltip = "<f>1.5rem<f>";
     tooltip += `<c>${this.tier.color}<c>${game.getLocalizedString(this.id)}\n`;
     tooltip += "<f>1.25rem<f><c>white<c>";
+    tooltip += `${game.getLocalizedString("tier")}: <c>${this.tier.color}<c>${game.getLocalizedString(this.tier.id)}\n`;
+    tooltip += "<c>white<c>";
     if (this.type === "weapon") {
       tooltip += `<i>${icons.atk}<i> Attack: ${this.atk}\n`;
-    } else if (this.type === "armor") {
-      tooltip += `Armor: ${this.armor}\n`;
+    }
+
+    if (this.defence) {
+      tooltip += `${game.getLocalizedString("defences")}:\n`;
+      Object.entries(this.defence).forEach(([key, value]) => {
+        tooltip += `<i>${icons[key]}<i> ${game.getLocalizedString(key)}: ${value}\n`;
+      });
+      tooltip += "\n";
     }
 
     if (this.speed !== undefined) {

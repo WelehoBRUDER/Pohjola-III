@@ -27,7 +27,7 @@ function getAllModifiers(char: Character | Player) {
     }
   });
   char.skills?.forEach((skill: Skill) => {
-    const mods = skill.getCurrentLevel();
+    const mods = skill.getCurrentLevel({ increment: true });
     if (mods?.modifiers) {
       Object.entries(mods.modifiers).forEach((modifier: any) => {
         applyModifierToTotal(modifier, modifiers);
@@ -72,10 +72,6 @@ function applyModifierToTotal(modifier: any, total: any) {
     if (key.endsWith("P")) total[key] += value / 100;
     else if (key.endsWith("V")) total[key] += value;
   } else {
-    console.log("target: ", total[key]);
-    console.log("total:", total);
-    console.log("key", key);
-    console.log("value", value);
     total[key] = mergeObjects(total[key], value);
   }
 }

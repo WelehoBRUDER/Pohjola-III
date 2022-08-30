@@ -7,11 +7,13 @@ class Weapon extends Item {
   [cost: string]: any;
   speed: number;
   atk: number;
+  slot: string;
   constructor(weapon: Weapon) {
     super(weapon);
     this.type = "weapon";
     this.cost = weapon.cost;
     this.speed = weapon.speed;
     this.atk = weapon.atk;
+    this.slot = "weapon";
   }
 }

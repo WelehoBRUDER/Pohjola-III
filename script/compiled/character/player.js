@@ -1,8 +1,8 @@
 "use strict";
 const defaultEquipment = {
-    weapon: { ...items.broken_sword },
-    armor: null,
+    weapon: new Weapon({ ...items.broken_sword }),
     helmet: null,
+    armor: null,
     legs: null,
 };
 const races = {
@@ -34,12 +34,9 @@ class Player extends Character {
         this.xp = char.xp ?? 0;
         this.updateAllModifiers();
     }
-    addItem(base_item, amount) {
+    addItem(base_item, amount, options) {
         base_item.amount = amount || base_item.amount || 1;
         let item = base_item.updateClass();
-        if (item.type === "weapon" || item.type === "armor") {
-            return this.equip(item, { auto: true, removeFromInventory: true });
-        }
         if (item.stackable) {
             let existing_item = this.inventory.find((i) => i.id === item.id);
             if (existing_item) {
@@ -55,34 +52,28 @@ class Player extends Character {
     }
     removeItem(item, amount) {
         let existing_item = this.inventory.find((i) => i.id === item.id);
+        console.log(existing_item);
         if (existing_item) {
             existing_item.amount -= amount || item.amount || 1;
+            console.log(existing_item);
+            console.log(existing_item.amount);
             if (existing_item.amount <= 0) {
                 this.inventory = this.inventory.filter((i) => i.id !== item.id);
             }
         }
     }
     equip(item, options) {
-        if (item.type === "weapon") {
-            if (!this.equipment.weapon && options?.auto) {
-                this.equipment.weapon = item;
-            }
-            else {
-                this.addItem({ ...this.equipment.weapon });
-                this.equipment.weapon = item;
-            }
-        }
-        else if (item.type === "armor") {
-            if (!this.equipment[item.slot] && options?.auto) {
-                this.equipment[item.slot] = item;
-            }
-            else {
-                this.addItem({ ...this.equipment[item.slot] });
-                this.equipment.weapon = item;
+        let equipment = item.updateClass();
+        if (!this.equipment[equipment.slot]) {
+            equipment.amount = 1;
+            this.equipment[equipment.slot] = equipment;
+            if (options?.removeFromInventory) {
+                this.removeItem(item, 1);
             }
         }
-        if (options?.removeFromInventory) {
-            this.removeItem(item);
+        else {
+            this.unequip(equipment.slot);
+            this.equip(item, options);
         }
     }
     unequip(slot) {
@@ -216,7 +207,7 @@ const player = new Player({
     abilities: [],
     critRate: 3,
     critPower: 50,
-    inventory: [new Weapon({ ...items.broken_sword }), new Weapon({ ...items.broken_sword }), new Weapon({ ...items.epic_sword })],
+    inventory: [new Weapon({ ...items.broken_sword }), new Weapon({ ...items.epic_sword }), new Armor({ ...items.ragged_armor })],
     abilities_total: [],
     traits: [],
     statuses: [],
@@ -224,10 +215,11 @@ const player = new Player({
     skills: [],
     gold: 0,
     perk_points: 0,
-    skill_points: 0,
+    skill_points: 5,
     level: 1,
     xp: 0,
 });
 player.updateAllModifiers();
 player.abilities.forEach((abi) => abi.updateStats(player));
+player.addItem(new Weapon({ ...items.broken_sword }), 203);
 //# sourceMappingURL=player.js.map

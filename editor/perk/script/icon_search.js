@@ -61,6 +61,10 @@ const all_icons = [
   "gfx/status/speedometer.png",
   "gfx/status/stoned-skull.png",
   "gfx/status/ward.png",
+  "gfx/icons/piercing-sword.png",
+  "gfx/icons/viking-helmet.png",
+  "gfx/icons/armor-vest.png",
+  "gfx/icons/steeltoe-boots.png",
 ];
 
 function renderIcons(icons, elem) {

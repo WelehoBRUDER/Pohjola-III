@@ -40,8 +40,8 @@ class Character {
   critPower?: number;
   traits?: any;
   statuses?: any;
-  perks: Perk[];
-  skills: Skill[];
+  perks?: Perk[];
+  skills?: Skill[];
   allModifiers?: any;
   dead?: boolean;
   getDamage?: any;

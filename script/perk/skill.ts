@@ -40,12 +40,13 @@ class Skill {
     }
   }
 
-  getCurrentLevel(): any {
+  getCurrentLevel(options?: { increment: boolean }): any {
     let mods = {};
     let lvl = this.isOwned ? this.currentLevel - 1 : getSkill(this.id)?.currentLevel;
     if (lvl === undefined) return null;
-    if (lvl >= this.levels.length) lvl = this.levels.length - 1;
-    for (let i = 0; i <= lvl; i++) {
+    if (lvl >= this.levels.length) lvl = this.levels.length;
+    if (options?.increment) lvl++;
+    for (let i = 0; i < lvl; i++) {
       mods = mergeObjects(mods, this.levels[i]);
     }
     if (lvl === 0) return this.levels[0];
@@ -92,7 +93,7 @@ class Skill {
     } else {
       this.currentLevel++;
       player.skill_points--;
-      player.skills.push(new Skill({ ...this, isOwned: true, upgrades: [] }));
+      player.skills?.push(new Skill({ ...this, isOwned: true, upgrades: [] }));
       if (this.levels[0]?.commands) {
         Object.entries(this.levels[0]?.commands).forEach(([key, value]: [string, any]) => {
           game.executeCommand(key, value);

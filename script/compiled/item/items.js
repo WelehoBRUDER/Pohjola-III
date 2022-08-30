@@ -32,7 +32,7 @@ const items = {
             elemental: 0,
         },
         stackable: true,
-        tier: itemTiers.common,
+        tier: itemTiers.uncommon,
         type: "armor",
         slot: "armor",
     },

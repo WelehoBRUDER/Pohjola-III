@@ -20,7 +20,7 @@ const lobbyButtons = [
     },
 ];
 const lobby = {
-    current_view: "inventory",
+    current_view: "skills_view",
 };
 function createLobby() {
     lobbyHeaderButtons.innerHTML = "";
