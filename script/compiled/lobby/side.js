@@ -14,6 +14,7 @@ function sideBarDetails() {
         if (stat === "xp") {
             valueElement.innerText += " / " + player.xpForNextLevel();
         }
+        tooltip(statElement, game.getLocalizedString(stat + "_tt"));
         statElement.append(valueElement);
         misc.append(statElement);
     });

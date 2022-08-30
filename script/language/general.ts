@@ -35,6 +35,11 @@ const english = {
   gold: "Gold",
   perk_points: "Perk Points",
   skill_points: "Skill Points",
+  gold_tt: "Gold is used to buy items and equipment.",
+  perk_points_tt: "Perk Points are used to unlock Perks",
+  skill_points_tt: "Skill Points are used to unlock and upgrade Skills",
+  level_tt: "Your character's current level",
+  xp_tt: "Your experience, when it reaches the limit, you will level up",
 
   // effect strings
   damageFlat: "Damage per second",
