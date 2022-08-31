@@ -15,18 +15,26 @@ function createInventory() {
   inventory.forEach((item: any) => {
     const slot = createSlot(item);
     //slot.addEventListener("click", () => useItem(null, i));
+    slot.addEventListener("mouseover", () => {
+      hoverEquipSlot(item);
+    });
+    slot.addEventListener("mouseleave", () => {
+      removeHoverEquipSlot(item);
+    });
     inventoryGrid.append(slot);
   });
 
   Object.entries(player.equipment).forEach(([slot, item]: [string, Item]) => {
     const slotElement = createSlot(item, { isEquipped: true, slot: slot });
     slotElement.classList.add("equip");
+    slotElement.setAttribute("data-item-slot", slot);
     inventoryEquipment.append(slotElement);
   });
 
   window.onresize = () => {
     resizeInventoryContainer();
   };
+
   function resizeInventoryContainer() {
     let width = lobbyContent.offsetWidth - 270;
     const slotSize = 90;
@@ -112,6 +120,20 @@ function clickItem(
       });
     }
     createContextMenu(buttons, options.pos);
+  }
+}
+
+function hoverEquipSlot(item: Item) {
+  const slot = document.querySelector(`[data-item-slot=${item.slot}]`);
+  if (slot) {
+    slot.classList.add("hover");
+  }
+}
+
+function removeHoverEquipSlot(item: Item) {
+  const slot = document.querySelector(`[data-item-slot=${item.slot}]`);
+  if (slot) {
+    slot.classList.remove("hover");
   }
 }
 

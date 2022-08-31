@@ -79,24 +79,41 @@ function update(options) {
 function createActionSlots() {
     slots.innerHTML = "";
     for (let i = 0; i < 6; i++) {
-        const slot = document.createElement("div");
-        const image = document.createElement("img");
-        slot.classList.add("action-slot");
-        slot.setAttribute("data-index", i.toString());
+        let slot;
         if (player.abilities[i]) {
             const ability = player.abilities[i];
-            slot.setAttribute("data-ability", ability.id);
-            image.src = ability.icon;
+            slot = createAbilitySlot(ability, { manage: false }, i);
+        }
+        else {
+            slot = createAbilitySlot(undefined, { manage: false }, i);
+        }
+        slots.appendChild(slot);
+    }
+}
+function createAbilitySlot(ability, options, index = 0) {
+    const slot = document.createElement("div");
+    const image = document.createElement("img");
+    slot.classList.add("action-slot");
+    slot.setAttribute("data-index", index.toString());
+    if (ability) {
+        slot.setAttribute("data-ability", ability.id);
+        image.src = ability.icon;
+        if (options?.manage) {
+            slot.append(image);
+            tooltip(slot, ability.tooltip());
+            //slot.addEventListener("click", () => useAbility(null, index));
+        }
+        else {
             const cooldown = document.createElement("div");
             const cooldownValue = document.createElement("p");
             cooldown.classList.add("cooldown");
             cooldownValue.classList.add("cooldown-number");
             slot.append(image, cooldown, cooldownValue);
             tooltip(slot, ability.tooltip());
-            slot.addEventListener("click", () => useAbility(null, i));
+            slot.addEventListener("click", () => useAbility(null, index));
         }
-        slots.appendChild(slot);
     }
+    return slot;
 }
 function useAbility(hotkey, index) {
     game.endTargeting();

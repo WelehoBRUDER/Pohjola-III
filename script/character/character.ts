@@ -75,6 +75,13 @@ class Character {
         let boost = this.allModifiers[key + "_defenceV"] ?? 0;
         modifier += this.allModifiers["defenceP"] ?? 0;
         boost += this.allModifiers["defenceV"] ?? 0;
+        if (this.equipment) {
+          Object.entries(this.equipment).forEach(([slot, item]: any) => {
+            if (item?.defence) {
+              boost += item.defence[key] ?? 0;
+            }
+          });
+        }
         defences[key] = Math.floor((value + boost) * modifier);
       });
       return defences;
@@ -124,7 +131,11 @@ class Character {
     this.getSpeed = () => {
       let base = 0.4;
       if (this.equipment) base += this.getEquipmentSpeed();
-      const speed = +(1 * (base + this.getStats({ dontUpdateModifiers: true }).agi / 100) * this.allModifiers.speedP).toFixed(2);
+      const speed = +(
+        1 *
+        (base + this.getStats({ dontUpdateModifiers: true }).agi / 100) *
+        this.allModifiers.speedP
+      ).toFixed(2);
       return speed > 0 ? speed : 0;
     };
 
@@ -165,11 +176,15 @@ class Character {
       // Calculate max hp
       const hpIncrease = this.allModifiers["hpMaxV"] ?? 0;
       const hpModifier = this.allModifiers["hpMaxP"] ?? 1;
-      stats["hpMax"] = Math.round((stats["hpMax"] + hpIncrease + stats["vit"] * 5) * hpModifier);
+      stats["hpMax"] = Math.round(
+        (stats["hpMax"] + hpIncrease + stats["vit"] * 5) * hpModifier
+      );
       // Calculate max mp
       const mpIncrease = this.allModifiers["mpMaxV"] ?? 0;
       const mpModifier = this.allModifiers["mpMaxP"] ?? 1;
-      stats["mpMax"] = Math.round((stats["mpMax"] + mpIncrease + stats["int"] * 2 + stats["spi"] * 2) * mpModifier);
+      stats["mpMax"] = Math.round(
+        (stats["mpMax"] + mpIncrease + stats["int"] * 2 + stats["spi"] * 2) * mpModifier
+      );
       return stats;
     };
 
@@ -214,7 +229,10 @@ class Character {
       const values = status.inflict;
       if (values?.damagePercent || values?.damageFlat) {
         let damage: number = 0;
-        if (values?.damagePercent) damage = Math.round(this.getStats({ dontUpdateModifiers: true }).hpMax * values.damagePercent);
+        if (values?.damagePercent)
+          damage = Math.round(
+            this.getStats({ dontUpdateModifiers: true }).hpMax * values.damagePercent
+          );
         if (values?.damageFlat) damage += values.damageFlat;
         const resist = this.getResistances()[status.type];
         damage = Math.round(damage * (1 - resist / 100)); // This can actually heal the target
@@ -236,7 +254,10 @@ class Character {
         }
       } else if (values?.healingFlat || values?.healingPercent) {
         let healing: number = 0;
-        if (values?.healingPercent) healing = Math.round(this.getStats({ dontUpdateModifiers: true }).hpMax * values.healingPercent);
+        if (values?.healingPercent)
+          healing = Math.round(
+            this.getStats({ dontUpdateModifiers: true }).hpMax * values.healingPercent
+          );
         if (values?.healingFlat) healing += values.healingFlat;
         if (this.isEnemy) {
           this.heal(healing);

@@ -82,25 +82,45 @@ function update(options?: { updatePlayerOnly: boolean }) {
 function createActionSlots() {
   slots.innerHTML = "";
   for (let i = 0; i < 6; i++) {
-    const slot = document.createElement("div");
-    const image = document.createElement("img");
-    slot.classList.add("action-slot");
-    slot.setAttribute("data-index", i.toString());
-
+    let slot;
     if (player.abilities[i]) {
       const ability = player.abilities[i];
-      slot.setAttribute("data-ability", ability.id);
-      image.src = ability.icon;
+      slot = createAbilitySlot(ability, { manage: false }, i);
+    } else {
+      slot = createAbilitySlot(undefined, { manage: false }, i);
+    }
+    slots.appendChild(slot);
+  }
+}
+
+function createAbilitySlot(
+  ability?: Ability,
+  options?: { manage?: boolean },
+  index: number = 0
+): HTMLDivElement {
+  const slot = document.createElement("div");
+  const image = document.createElement("img");
+  slot.classList.add("action-slot");
+  slot.setAttribute("data-index", index.toString());
+
+  if (ability) {
+    slot.setAttribute("data-ability", ability.id);
+    image.src = ability.icon;
+    if (options?.manage) {
+      slot.append(image);
+      tooltip(slot, ability.tooltip());
+      //slot.addEventListener("click", () => useAbility(null, index));
+    } else {
       const cooldown = document.createElement("div");
       const cooldownValue = document.createElement("p");
       cooldown.classList.add("cooldown");
       cooldownValue.classList.add("cooldown-number");
       slot.append(image, cooldown, cooldownValue);
       tooltip(slot, ability.tooltip());
-      slot.addEventListener("click", () => useAbility(null, i));
+      slot.addEventListener("click", () => useAbility(null, index));
     }
-    slots.appendChild(slot);
   }
+  return slot;
 }
 
 function useAbility(hotkey: string | null, index?: number | null) {
@@ -184,12 +204,16 @@ function pass() {
 
 function defeatedEnemies(): HTMLPreElement {
   let text: string = "";
-  text += `<f>2rem<f><c>goldenrod<c>${game.getLocalizedString("defeated_enemies")}:<f>1.5rem<f><c>silver<c>\n`;
+  text += `<f>2rem<f><c>goldenrod<c>${game.getLocalizedString(
+    "defeated_enemies"
+  )}:<f>1.5rem<f><c>silver<c>\n`;
   combat.loot = lootEnemies(combat.enemies);
   combat.enemies.forEach((enemy) => {
     text += `${game.getLocalizedString(enemy.id)}\n`;
   });
-  text += `\n<f>2rem<f><c>goldenrod<c>${game.getLocalizedString("loot_gained")}:<f>1.5rem<f><c>silver<c>\n`;
+  text += `\n<f>2rem<f><c>goldenrod<c>${game.getLocalizedString(
+    "loot_gained"
+  )}:<f>1.5rem<f><c>silver<c>\n`;
   combat.loot.forEach((item) => {
     text += `${item.amount}x ${game.getLocalizedString(item.item.id)}\n`;
   });

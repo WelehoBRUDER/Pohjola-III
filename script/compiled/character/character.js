@@ -26,6 +26,13 @@ class Character {
                 let boost = this.allModifiers[key + "_defenceV"] ?? 0;
                 modifier += this.allModifiers["defenceP"] ?? 0;
                 boost += this.allModifiers["defenceV"] ?? 0;
+                if (this.equipment) {
+                    Object.entries(this.equipment).forEach(([slot, item]) => {
+                        if (item?.defence) {
+                            boost += item.defence[key] ?? 0;
+                        }
+                    });
+                }
                 defences[key] = Math.floor((value + boost) * modifier);
             });
             return defences;
@@ -73,7 +80,9 @@ class Character {
             let base = 0.4;
             if (this.equipment)
                 base += this.getEquipmentSpeed();
-            const speed = +(1 * (base + this.getStats({ dontUpdateModifiers: true }).agi / 100) * this.allModifiers.speedP).toFixed(2);
+            const speed = +(1 *
+                (base + this.getStats({ dontUpdateModifiers: true }).agi / 100) *
+                this.allModifiers.speedP).toFixed(2);
             return speed > 0 ? speed : 0;
         };
         this.getEquipmentSpeed = () => {

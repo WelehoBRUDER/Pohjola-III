@@ -20,7 +20,7 @@ const lobbyButtons = [
     },
 ];
 const lobby = {
-    current_view: "inventory",
+    current_view: "char_view",
 };
 function createLobby() {
     lobbyHeaderButtons.innerHTML = "";
@@ -35,7 +35,10 @@ function createLobby() {
         lobbyHeaderButtons.append(buttonElement);
     });
     lobbyContent.onwheel = null;
-    if (lobby.current_view === "perks_view") {
+    if (lobby.current_view === "char_view") {
+        createCharView();
+    }
+    else if (lobby.current_view === "perks_view") {
         createPerks();
     }
     else if (lobby.current_view === "skills_view") {
