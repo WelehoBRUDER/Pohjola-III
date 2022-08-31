@@ -455,6 +455,10 @@
       background: rgba(43, 43, 43, 0.7);
       overflow: hidden;
       overflow-x: auto;
+
+      .action-slot {
+        margin: 5px;
+      }
     }
 
     .total-abilities {
@@ -465,6 +469,10 @@
       overflow-y: auto;
       display: flex;
       flex-wrap: wrap;
+
+      .action-slot {
+        margin: 5px;
+      }
     }
   }
 }

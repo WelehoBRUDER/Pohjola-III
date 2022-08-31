@@ -13,12 +13,71 @@ function createCharView() {
     totalAbilities.classList.add("total-abilities");
     const abilities = player.abilities;
     const abilities_total = player.abilities_total;
-    abilities.forEach((ability, index) => {
-        const slot = createAbilitySlot(ability, { manage: true }, index);
+    for (let i = 0; i < 6; i++) {
+        let slot;
+        if (player.abilities[i]) {
+            const ability = player.abilities[i];
+            slot = createAbilitySlot(ability, { manage: true }, i);
+            slot.onclick = (e) => {
+                const options = [
+                    {
+                        text: "unassign_ability",
+                        action: () => {
+                            player.unassignAbility(i);
+                        },
+                    },
+                ];
+                createContextMenu(options, { x: e.clientX, y: e.clientY });
+            };
+        }
+        else {
+            slot = createAbilitySlot(undefined, { manage: true }, i);
+        }
         abilityToolbar.append(slot);
-    });
+    }
     abilities_total.forEach((ability, index) => {
         const slot = createAbilitySlot(ability, { manage: true }, index);
+        slot.onclick = (e) => {
+            const options = [
+                {
+                    text: "assign_to_slot_1" + isSlotEmpty(0),
+                    action: () => {
+                        player.assignAbility(ability, 0);
+                    },
+                },
+                {
+                    text: "assign_to_slot_2" + isSlotEmpty(1),
+                    action: () => {
+                        player.assignAbility(ability, 1);
+                    },
+                },
+                {
+                    text: "assign_to_slot_3" + isSlotEmpty(2),
+                    action: () => {
+                        player.assignAbility(ability, 2);
+                    },
+                },
+                {
+                    text: "assign_to_slot_4" + isSlotEmpty(3),
+                    action: () => {
+                        player.assignAbility(ability, 3);
+                    },
+                },
+                {
+                    text: "assign_to_slot_5" + isSlotEmpty(4),
+                    action: () => {
+                        player.assignAbility(ability, 4);
+                    },
+                },
+                {
+                    text: "assign_to_slot_6" + isSlotEmpty(5),
+                    action: () => {
+                        player.assignAbility(ability, 5);
+                    },
+                },
+            ];
+            createContextMenu(options, { x: e.clientX, y: e.clientY });
+        };
         totalAbilities.append(slot);
     });
     abilityManagement.append(abilityToolbar, totalAbilities);
@@ -35,5 +94,8 @@ function createCharView() {
         totalAbilities.style.width = width + "px";
     }
     resizeAbilities();
+}
+function isSlotEmpty(slot) {
+    return player.abilities[slot] ? "" : " (empty)";
 }
 //# sourceMappingURL=char_view.js.map

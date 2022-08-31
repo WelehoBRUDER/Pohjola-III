@@ -143,6 +143,23 @@ class Player extends Character {
         });
         this.stats.ap = 0;
     }
+    assignAbility(ability, slot) {
+        this.abilities_total = this.abilities_total.filter((a) => a.id !== ability.id);
+        const old = this.abilities[slot];
+        if (old) {
+            this.abilities_total.push(old);
+        }
+        this.abilities[slot] = ability;
+        createCharView();
+    }
+    unassignAbility(slot) {
+        const ability = this.abilities[slot];
+        if (ability) {
+            this.abilities_total.push(ability);
+            this.abilities.splice(slot, 1);
+        }
+        createCharView();
+    }
     xpForNextLevel() {
         if (this.level <= 5) {
             return this.level * 10;
@@ -209,8 +226,12 @@ const player = new Player({
     abilities: [],
     critRate: 3,
     critPower: 50,
-    inventory: [new Weapon({ ...items.broken_sword }), new Weapon({ ...items.epic_sword }), new Armor({ ...items.ragged_armor })],
-    abilities_total: [],
+    inventory: [
+        new Weapon({ ...items.broken_sword }),
+        new Weapon({ ...items.epic_sword }),
+        new Armor({ ...items.ragged_armor }),
+    ],
+    abilities_total: [new Ability({ ...abilities.flame })],
     traits: [],
     statuses: [],
     perks: [],

@@ -226,4 +226,29 @@ class Ability {
         };
     }
 }
+function createAbilitySlot(ability, options, index = 0) {
+    const slot = document.createElement("div");
+    const image = document.createElement("img");
+    slot.classList.add("action-slot");
+    slot.setAttribute("data-index", index.toString());
+    if (ability) {
+        slot.setAttribute("data-ability", ability.id);
+        image.src = ability.icon;
+        if (options?.manage) {
+            slot.append(image);
+            tooltip(slot, ability.tooltip());
+            //slot.addEventListener("click", () => useAbility(null, index));
+        }
+        else {
+            const cooldown = document.createElement("div");
+            const cooldownValue = document.createElement("p");
+            cooldown.classList.add("cooldown");
+            cooldownValue.classList.add("cooldown-number");
+            slot.append(image, cooldown, cooldownValue);
+            tooltip(slot, ability.tooltip());
+            slot.addEventListener("click", () => useAbility(null, index));
+        }
+    }
+    return slot;
+}
 //# sourceMappingURL=ability.js.map

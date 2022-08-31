@@ -95,7 +95,10 @@ class Player extends Character {
     }
   }
 
-  equip(item: Weapon | Armor, options?: { auto?: boolean; removeFromInventory?: boolean }) {
+  equip(
+    item: Weapon | Armor,
+    options?: { auto?: boolean; removeFromInventory?: boolean }
+  ) {
     let equipment = item.updateClass();
     if (!this.equipment[equipment.slot]) {
       equipment.amount = 1;
@@ -141,7 +144,9 @@ class Player extends Character {
         }
       }
 
-      const statusElem = playerStatuses.querySelector(".status-effect[data-id='" + status.id + "']");
+      const statusElem = playerStatuses.querySelector(
+        ".status-effect[data-id='" + status.id + "']"
+      );
       if (!statusElem) {
         const statusElement = createStatusIcon(status);
         playerStatuses.appendChild(statusElement);
@@ -155,7 +160,9 @@ class Player extends Character {
 
     for (let i = this.statuses.length - 1; i >= 0; i--) {
       if (this.statuses[i].lasts <= 0) {
-        const statusElem: HTMLDivElement = playerStatuses.querySelector(".status-effect[data-id='" + this.statuses[i].id + "']")!;
+        const statusElem: HTMLDivElement = playerStatuses.querySelector(
+          ".status-effect[data-id='" + this.statuses[i].id + "']"
+        )!;
         if (statusElem) {
           statusElem.remove();
         }
@@ -177,6 +184,27 @@ class Player extends Character {
       ability.onCooldown = 0;
     });
     this.stats.ap = 0;
+  }
+
+  assignAbility(ability: Ability, slot: number) {
+    this.abilities_total = this.abilities_total.filter(
+      (a: Ability) => a.id !== ability.id
+    );
+    const old = this.abilities[slot];
+    if (old) {
+      this.abilities_total.push(old);
+    }
+    this.abilities[slot] = ability;
+    createCharView();
+  }
+
+  unassignAbility(slot: number) {
+    const ability = this.abilities[slot];
+    if (ability) {
+      this.abilities_total.push(ability);
+      this.abilities.splice(slot, 1);
+    }
+    createCharView();
   }
 
   xpForNextLevel(): number {
@@ -248,8 +276,12 @@ const player = new Player({
   abilities: [],
   critRate: 3,
   critPower: 50,
-  inventory: [new Weapon({ ...items.broken_sword }), new Weapon({ ...items.epic_sword }), new Armor({ ...items.ragged_armor })],
-  abilities_total: [],
+  inventory: [
+    new Weapon({ ...items.broken_sword }),
+    new Weapon({ ...items.epic_sword }),
+    new Armor({ ...items.ragged_armor }),
+  ],
+  abilities_total: [new Ability({ ...abilities.flame })],
   traits: [],
   statuses: [],
   perks: [],
