@@ -42,6 +42,8 @@ const english = {
     // effect strings
     damageFlat: "Damage per second",
     damagePercent: "Damage per second",
+    healingFlat: "Healing per second",
+    healingPercent: "Healing per second",
     damagePercent_first: "Deals",
     damagePercent_last: "<c>white<c>of the target's <c>gold<c>max health<c>white<c> in [TYPE] <c>crimson<c>damage<c>white<c> every second",
     damageFlat_first: "Deals",

@@ -8,4 +8,116 @@ skills.push({
       },
     },
   ],
+  upgrades: [
+    {
+      id: "flame_upgrade_1",
+      requirements: [{ skill: "flame", level: 1 }],
+      levels: [
+        {
+          modifiers: {
+            ability_flame: {
+              powerV: 0.05,
+              effect_burning: {
+                inflict: {
+                  damageFlatP: 25,
+                },
+              },
+            },
+          },
+        },
+        {
+          modifiers: {
+            ability_flame: {
+              powerV: 0.05,
+              effect_burning: {
+                inflict: {
+                  damageFlatP: 25,
+                },
+              },
+            },
+          },
+        },
+        {
+          modifiers: {
+            ability_flame: {
+              powerV: 0.05,
+              effect_burning: {
+                inflict: {
+                  damageFlatP: 25,
+                },
+              },
+            },
+          },
+        },
+        {
+          modifiers: {
+            ability_flame: {
+              powerV: 0.05,
+              effect_burning: {
+                inflict: {
+                  damageFlatP: 25,
+                },
+              },
+            },
+          },
+        },
+      ],
+    },
+    {
+      id: "flame_upgrade_2",
+      requirements: [{ skill: "flame", level: 1 }],
+      levels: [
+        {
+          modifiers: {
+            ability_flame: {
+              powerV: 0.05,
+              effect_burning: {
+                inflict: {
+                  damageFlatV: 2,
+                },
+                modifiers: {
+                  atkPV: -5,
+                  agiPV: -5,
+                },
+              },
+            },
+          },
+        },
+      ],
+    },
+    {
+      id: "flame_upgrade_3",
+      requirements: [{ skill: "flame", level: 1 }],
+      levels: [
+        {
+          modifiers: {
+            ability_flame: {
+              cooldownP: -5,
+            },
+          },
+        },
+        {
+          modifiers: {
+            ability_flame: {
+              cooldownP: -5,
+            },
+          },
+        },
+        {
+          modifiers: {
+            ability_flame: {
+              cooldownP: -5,
+            },
+          },
+        },
+        {
+          modifiers: {
+            ability_flame: {
+              cooldownP: -5,
+            },
+          },
+        },
+      ],
+    },
+  ],
 });

@@ -29,10 +29,10 @@ const effects: any = {
   burning: {
     id: "burning",
     icon: "gfx/status/flamer.png",
-    duration: 8,
+    duration: 6,
     type: "fire",
     inflict: {
-      damageFlat: 4,
+      damageFlat: 2,
     },
     modifiers: {
       atkP: -15,
@@ -42,7 +42,7 @@ const effects: any = {
   dazed: {
     id: "dazed",
     icon: "gfx/status/stoned-skull.png",
-    duration: 5,
+    duration: 4,
     type: "stun",
     modifiers: {
       speedP: -1000,

@@ -18,6 +18,7 @@ class Perk {
             return true;
         let required = this.requires.length;
         this.requires.forEach((perk) => {
+            // @ts-ignore
             if (player.perks.findIndex((p) => p.id === perk) > -1) {
                 required--;
             }
@@ -25,6 +26,7 @@ class Perk {
         return required === 0;
     }
     owned() {
+        // @ts-ignore
         return player.perks.findIndex((p) => p.id === this.id) > -1;
     }
     assign() {
@@ -33,7 +35,7 @@ class Perk {
         hideHover();
         if (player.perk_points >= 1) {
             player.perk_points--;
-            player.perks.push({ ...this });
+            player.perks?.push({ ...this });
             if (this.commands) {
                 Object.entries(this.commands).forEach(([key, value]) => {
                     game.executeCommand(key, value);

@@ -73,6 +73,9 @@ class Ability {
     this.tooltip = (options?: options) => {
       let tooltip = "";
       if (options?.container) tooltip += "<ct>ability-container<ct>";
+      if (options?.owner) {
+        this.updateStats(options.owner);
+      }
       // Define ability name
       tooltip += `<f>1.5rem<f><c>goldenrod<c><i>${this.icon}[medium]<i> ${game.getLocalizedString(this.id)}\n`;
       tooltip += "<f>1.2rem<f><c>white<c>";

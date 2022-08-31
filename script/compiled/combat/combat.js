@@ -8,6 +8,10 @@ function update(options) {
         player.stats.mp = 0;
     }
     const stats = player.getStats({ dontUpdateModifiers: true });
+    if (player.stats.hp > stats.hpMax)
+        player.stats.hp = stats.hpMax;
+    if (player.stats.mp > stats.mpMax)
+        player.stats.mp = stats.mpMax;
     const PlayerHealthRemaining = (player.stats.hp / stats.hpMax) * 100;
     const PlayerManaRemaining = (player.stats.mp / stats.mpMax) * 100;
     playerActionFill.style.width = `${player.stats.ap}%`;

@@ -154,7 +154,9 @@ class Player extends Character {
     addXP(xp) {
         const boost = this.allModifiers["xp_boost"] ?? 1;
         this.xp += Math.floor(xp * boost);
-        this.levelUp();
+        while (this.xp >= this.xpForNextLevel()) {
+            this.levelUp();
+        }
     }
     addGold(gold) {
         const boost = this.allModifiers["gold_boost"] ?? 1;
