@@ -55,15 +55,17 @@ function createSlot(item, options) {
             slot.append(amount);
         }
         if (options?.isEquipped) {
-            slot.onclick = () => {
-                player.unequip(item.slot);
-                createInventory();
+            slot.onclick = (e) => {
+                clickItem(item, {
+                    shift: e.shiftKey,
+                    equipped: true,
+                    pos: { x: e.clientX, y: e.clientY },
+                });
             };
         }
         else {
-            slot.onclick = () => {
-                player.equip(item, { removeFromInventory: true });
-                createInventory();
+            slot.onclick = (e) => {
+                clickItem(item, { shift: e.shiftKey, pos: { x: e.clientX, y: e.clientY } });
             };
         }
         tooltip(slot, item.tooltip());
@@ -76,4 +78,59 @@ function createSlot(item, options) {
     }
     return slot;
 }
+function clickItem(item, options) {
+    if (options?.shift) {
+        if (options?.equipped) {
+            player.unequip(item.slot);
+            createInventory();
+        }
+        else {
+            player.equip(item, { removeFromInventory: true });
+            createInventory();
+        }
+    }
+    else if (options?.pos) {
+        const buttons = [];
+        if (options?.equipped) {
+            buttons.push({
+                text: "unequip_item",
+                action: () => {
+                    player.unequip(item.slot);
+                    createInventory();
+                },
+            });
+        }
+        else {
+            buttons.push({
+                text: "equip_item",
+                action: () => {
+                    player.equip(item, { removeFromInventory: true });
+                    createInventory();
+                },
+            });
+        }
+        createContextMenu(buttons, options.pos);
+    }
+}
+function createContextMenu(options, pos) {
+    contextMenu.innerHTML = "";
+    setTimeout(() => {
+        options.forEach((option) => {
+            const menuOption = document.createElement("div");
+            menuOption.classList.add("option");
+            menuOption.innerText = game.getLocalizedString(option.text);
+            menuOption.onclick = () => {
+                option.action();
+                removeContextMenu();
+            };
+            contextMenu.append(menuOption);
+        });
+        contextMenu.style.top = pos.y + "px";
+        contextMenu.style.left = pos.x + "px";
+    });
+}
+function removeContextMenu() {
+    contextMenu.innerHTML = "";
+}
+window.addEventListener("click", removeContextMenu);
 //# sourceMappingURL=inventory.js.map

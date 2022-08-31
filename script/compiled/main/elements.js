@@ -1,6 +1,8 @@
 "use strict";
 /* Tooltip box */
 const tooltipBox = document.querySelector("#tooltip");
+/* Context menu */
+const contextMenu = document.querySelector("#context-menu");
 /* Effects */
 const bloodyScreen = document.querySelector("#bloody-screen");
 const healingScreen = document.querySelector("#healing-screen");

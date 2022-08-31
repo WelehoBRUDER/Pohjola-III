@@ -1,6 +1,9 @@
 /* Tooltip box */
 const tooltipBox: HTMLDivElement = document.querySelector("#tooltip")!;
 
+/* Context menu */
+const contextMenu: HTMLDivElement = document.querySelector("#context-menu")!;
+
 /* Effects */
 const bloodyScreen: HTMLDivElement = document.querySelector("#bloody-screen")!;
 const healingScreen: HTMLDivElement = document.querySelector("#healing-screen")!;
@@ -15,8 +18,11 @@ const slots: HTMLDivElement = tools.querySelector(".action-slots")!;
 const combatTime: HTMLDivElement = uiScreen.querySelector(".combat-time")!;
 
 /* Combat summary */
-const combatSummaryBackground: HTMLDivElement = combatScreen.querySelector(".combat-summary-background")!;
-const combatSummary: HTMLDivElement = combatSummaryBackground.querySelector(".combat-summary")!;
+const combatSummaryBackground: HTMLDivElement = combatScreen.querySelector(
+  ".combat-summary-background"
+)!;
+const combatSummary: HTMLDivElement =
+  combatSummaryBackground.querySelector(".combat-summary")!;
 const combatSummaryTitle: HTMLDivElement = combatSummary.querySelector(".header")!;
 const combatSummaryText: HTMLDivElement = combatSummary.querySelector(".summary-text")!;
 const combatSummaryButtons: HTMLDivElement = combatSummary.querySelector(".options")!;
