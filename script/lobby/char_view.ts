@@ -38,47 +38,54 @@ function createCharView() {
 
   abilities_total.forEach((ability, index) => {
     const slot = createAbilitySlot(ability, { manage: true }, index);
-    slot.onclick = (e) => {
-      const options = [
-        {
-          text: "assign_to_slot_1" + isSlotEmpty(0),
-          action: () => {
-            player.assignAbility(ability, 0);
-          },
+    const options = [
+      {
+        text: "assign_to_slot_1" + isSlotEmpty(0),
+        action: () => {
+          player.assignAbility(ability, 0);
         },
-        {
-          text: "assign_to_slot_2" + isSlotEmpty(1),
-          action: () => {
-            player.assignAbility(ability, 1);
-          },
+      },
+      {
+        text: "assign_to_slot_2" + isSlotEmpty(1),
+        action: () => {
+          player.assignAbility(ability, 1);
         },
-        {
-          text: "assign_to_slot_3" + isSlotEmpty(2),
-          action: () => {
-            player.assignAbility(ability, 2);
-          },
+      },
+      {
+        text: "assign_to_slot_3" + isSlotEmpty(2),
+        action: () => {
+          player.assignAbility(ability, 2);
         },
-        {
-          text: "assign_to_slot_4" + isSlotEmpty(3),
-          action: () => {
-            player.assignAbility(ability, 3);
-          },
+      },
+      {
+        text: "assign_to_slot_4" + isSlotEmpty(3),
+        action: () => {
+          player.assignAbility(ability, 3);
         },
-        {
-          text: "assign_to_slot_5" + isSlotEmpty(4),
-          action: () => {
-            player.assignAbility(ability, 4);
-          },
+      },
+      {
+        text: "assign_to_slot_5" + isSlotEmpty(4),
+        action: () => {
+          player.assignAbility(ability, 4);
         },
-        {
-          text: "assign_to_slot_6" + isSlotEmpty(5),
-          action: () => {
-            player.assignAbility(ability, 5);
-          },
+      },
+      {
+        text: "assign_to_slot_6" + isSlotEmpty(5),
+        action: () => {
+          player.assignAbility(ability, 5);
         },
-      ];
-      createContextMenu(options, { x: e.clientX, y: e.clientY });
-    };
+      },
+    ];
+    dragElem(
+      slot,
+      [abilityToolbar],
+      createContextMenu,
+      assignToDraggedSlot,
+      options,
+      true,
+      ability,
+      true
+    );
     totalAbilities.append(slot);
   });
 
@@ -103,4 +110,9 @@ function createCharView() {
 
 function isSlotEmpty(slot: number) {
   return player.abilities[slot] ? "" : " (empty)";
+}
+
+function assignToDraggedSlot(ability: Ability, slot: HTMLElement) {
+  const index = parseInt(slot.getAttribute("data-index")!);
+  player.assignAbility(ability, index);
 }

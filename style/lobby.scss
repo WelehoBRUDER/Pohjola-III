@@ -458,6 +458,10 @@
 
       .action-slot {
         margin: 5px;
+
+        &:hover {
+          cursor: pointer;
+        }
       }
     }
 
@@ -472,6 +476,10 @@
 
       .action-slot {
         margin: 5px;
+
+        &:hover {
+          cursor: pointer;
+        }
       }
     }
   }
