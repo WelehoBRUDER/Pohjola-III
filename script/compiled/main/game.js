@@ -68,12 +68,20 @@ class Game {
                 this.pause({ disableSkills: true });
             }
         }
+        else if (e.key === "Shift") {
+            displayExtraText();
+        }
         hotkeys.forEach((hotkey) => {
             if (e.code === this.settings[hotkey]) {
                 console.log("Hotkey pressed: " + hotkey);
                 useAbility(hotkey);
             }
         });
+    }
+    controlsUp(e) {
+        if (e.key === "Shift") {
+            hideExtraText();
+        }
     }
     executeCommand(command, value) {
         if (command === "add_ability") {
@@ -129,7 +137,14 @@ class Game {
         console.log(shakes);
     }
 }
-const hotkeys = ["hotkey_ability_1", "hotkey_ability_2", "hotkey_ability_3", "hotkey_ability_4", "hotkey_ability_5", "hotkey_ability_6"];
+const hotkeys = [
+    "hotkey_ability_1",
+    "hotkey_ability_2",
+    "hotkey_ability_3",
+    "hotkey_ability_4",
+    "hotkey_ability_5",
+    "hotkey_ability_6",
+];
 class Settings {
     constructor(settings) {
         this.hotkey_ability_1 = settings?.hotkey_ability_1 || "Digit1";
@@ -145,4 +160,5 @@ class Settings {
 }
 const game = new Game();
 document.addEventListener("keydown", (e) => game.controls(e));
+document.addEventListener("keyup", (e) => game.controlsUp(e));
 //# sourceMappingURL=game.js.map

@@ -83,6 +83,8 @@ class Game {
       } else {
         this.pause({ disableSkills: true });
       }
+    } else if (e.key === "Shift") {
+      displayExtraText();
     }
     hotkeys.forEach((hotkey: string) => {
       if (e.code === this.settings[hotkey]) {
@@ -92,9 +94,16 @@ class Game {
     });
   }
 
+  controlsUp(e: KeyboardEvent) {
+    if (e.key === "Shift") {
+      hideExtraText();
+    }
+  }
+
   executeCommand(command: string, value: any) {
     if (command === "add_ability") {
-      let playerHasAbility = player.abilities.findIndex((ability) => ability.id === value.id) !== -1;
+      let playerHasAbility =
+        player.abilities.findIndex((ability) => ability.id === value.id) !== -1;
       if (!playerHasAbility) {
         player.addAbility(value);
       }
@@ -150,7 +159,14 @@ class Game {
   }
 }
 
-const hotkeys = ["hotkey_ability_1", "hotkey_ability_2", "hotkey_ability_3", "hotkey_ability_4", "hotkey_ability_5", "hotkey_ability_6"];
+const hotkeys = [
+  "hotkey_ability_1",
+  "hotkey_ability_2",
+  "hotkey_ability_3",
+  "hotkey_ability_4",
+  "hotkey_ability_5",
+  "hotkey_ability_6",
+];
 
 class Settings {
   [hotkey_ability_1: string]: any;
@@ -178,3 +194,4 @@ class Settings {
 const game = new Game();
 
 document.addEventListener("keydown", (e) => game.controls(e));
+document.addEventListener("keyup", (e) => game.controlsUp(e));

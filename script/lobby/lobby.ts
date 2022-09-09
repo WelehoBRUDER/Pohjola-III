@@ -20,7 +20,7 @@ const lobbyButtons = [
 ];
 
 const lobby = {
-  current_view: "char_view",
+  current_view: "inventory",
 };
 
 function createLobby() {

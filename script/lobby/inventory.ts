@@ -78,7 +78,8 @@ function createSlot(item: Item, options?: { isEquipped?: boolean; slot?: string 
         clickItem(item, { shift: e.shiftKey, pos: { x: e.clientX, y: e.clientY } });
       };
     }
-    tooltip(slot, item.tooltip());
+    const compare = item.compare(player.equipment[item?.slot ?? ""]);
+    tooltip(slot, item.tooltip(), compare ? (compare as string) : undefined);
   } else if (options?.isEquipped) {
     const image = document.createElement("img");
     image.src = icons[options.slot || "placeholder"];

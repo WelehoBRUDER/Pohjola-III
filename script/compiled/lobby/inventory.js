@@ -75,7 +75,8 @@ function createSlot(item, options) {
                 clickItem(item, { shift: e.shiftKey, pos: { x: e.clientX, y: e.clientY } });
             };
         }
-        tooltip(slot, item.tooltip());
+        const compare = item.compare(player.equipment[item?.slot ?? ""]);
+        tooltip(slot, item.tooltip(), compare ? compare : undefined);
     }
     else if (options?.isEquipped) {
         const image = document.createElement("img");

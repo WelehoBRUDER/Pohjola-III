@@ -39,6 +39,8 @@ const english = {
     skill_points_tt: "Skill Points are used to unlock and upgrade Skills",
     level_tt: "Your character's current level",
     xp_tt: "Your experience, when it reaches the limit, you will level up",
+    shift_to_compare: "\n<c>yellow<c>Hold shift to compare to equipped item",
+    effective_change: "Effective changes",
     // effect strings
     damageFlat: "Damage per second",
     damagePercent: "Damage per second",

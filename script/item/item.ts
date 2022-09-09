@@ -79,11 +79,54 @@ class Item {
     return this;
   }
 
+  compare(item: Weapon | Armor): boolean | string {
+    if (!item) return false;
+    let text = "";
+    text += `<c>goldenrod<c>${game.getLocalizedString("effective_change")}:\n`;
+
+    if (this.atk) {
+      const value = this.atk - item.atk;
+      const color = value > 0 ? "lime" : value === 0 ? "white" : "red";
+      text += `<i>${icons.atk}<i><c>white<c> ${game.getLocalizedString(
+        "atk"
+      )}: <c>${color}<c>${value}\n`;
+    }
+
+    if (this.defence) {
+      Object.entries(this.defence).forEach(([key, value]: any) => {
+        const _value = value - item.defence[key];
+        const color = _value > 0 ? "lime" : _value === 0 ? "white" : "red";
+        text += `<i>${icons[key]}<i><c>white<c> ${game.getLocalizedString(
+          key
+        )}: <c>${color}<c>${_value}\n`;
+      });
+    }
+
+    if (this.speed !== undefined) {
+      const value = this.speed - item.speed;
+      const color = value > 0 ? "lime" : value === 0 ? "white" : "red";
+      text += `<i>${icons.speed}<i><c>white<c> ${game.getLocalizedString(
+        "speed"
+      )}: <c>${color}<c>${value}\n`;
+    }
+
+    if (this.modifiers && item?.modifiers) {
+      const mods = mergeObjects(item.modifiers, this.modifiers, { subtract: true });
+      Object.entries(mods).map(([key, value]) => {
+        return (text += " " + effectSyntax(key, value));
+      });
+    }
+
+    return text;
+  }
+
   tooltip(): string {
     let tooltip = "<f>1.5rem<f>";
     tooltip += `<c>${this.tier.color}<c>${game.getLocalizedString(this.id)}\n`;
     tooltip += "<f>1.25rem<f><c>white<c>";
-    tooltip += `${game.getLocalizedString("tier")}: <c>${this.tier.color}<c>${game.getLocalizedString(this.tier.id)}\n`;
+    tooltip += `${game.getLocalizedString("tier")}: <c>${
+      this.tier.color
+    }<c>${game.getLocalizedString(this.tier.id)}\n`;
     tooltip += "<c>white<c>";
     if (this.type === "weapon") {
       tooltip += `<i>${icons.atk}<i> Attack: ${this.atk}\n`;

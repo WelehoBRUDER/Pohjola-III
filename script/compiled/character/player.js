@@ -245,4 +245,5 @@ const player = new Player({
 player.updateAllModifiers();
 player.abilities.forEach((abi) => abi.updateStats(player));
 player.addItem(new Weapon({ ...items.broken_sword }), 203);
+player.addItem(new Weapon({ ...items.ragged_armor }), 1);
 //# sourceMappingURL=player.js.map
