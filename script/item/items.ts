@@ -1,4 +1,4 @@
-const items = {
+const weapons = {
   broken_sword: {
     id: "broken_sword",
     price: 10,
@@ -20,7 +20,9 @@ const items = {
       speedP: 10,
     },
   },
-  // Armors
+};
+
+const armors = {
   ragged_armor: {
     id: "ragged_armor",
     price: 10,
@@ -63,7 +65,9 @@ const items = {
     type: "armor",
     slot: "legs",
   },
-  // Materials
+};
+
+const materials = {
   bone: {
     id: "bone",
     price: 3,
@@ -71,4 +75,10 @@ const items = {
     tier: itemTiers.common,
     type: "material",
   },
+};
+
+const items = {
+  ...weapons,
+  ...armors,
+  ...materials,
 } as const;
