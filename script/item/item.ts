@@ -48,6 +48,17 @@ const itemTiers: I_ItemTiers = {
 
 const itemTypes = ["weapon", "armor", "consumable", "material"];
 
+interface ItemObject {
+  [id: string]: any;
+  price: number;
+  amount?: number;
+  stackable?: boolean;
+  unique?: boolean;
+  tier: I_Tier;
+  type: string;
+  modifiers?: any;
+}
+
 class Item {
   [id: string]: any;
   price: number;
@@ -57,7 +68,7 @@ class Item {
   tier: I_Tier;
   type: string;
   modifiers?: any;
-  constructor(item: Item) {
+  constructor(item: ItemObject) {
     this.id = item.id;
     this.price = item.price;
     this.amount = item.amount ?? 1;
@@ -68,13 +79,29 @@ class Item {
     this.modifiers = item.modifiers ? { ...item.modifiers } : {};
   }
 
-  updateClass(): Weapon | Armor | Material {
+  /* Using @ts-ignore because intellisense can't deal with typed object lists */
+  updateClass(price?: number): Weapon | Armor | Material {
     if (this.type === "weapon") {
-      return new Weapon({ ...items[this.id], amount: this.amount });
+      return new Weapon({
+        // @ts-ignore
+        ...items[this.id],
+        amount: this.amount,
+        price: price ?? this.price,
+      });
     } else if (this.type === "armor") {
-      return new Armor({ ...items[this.id], amount: this.amount });
+      return new Armor({
+        // @ts-ignore
+        ...items[this.id],
+        amount: this.amount,
+        price: price ?? this.price,
+      });
     } else if (this.type === "material") {
-      return new Material({ ...items[this.id], amount: this.amount });
+      return new Material({
+        // @ts-ignore
+        ...items[this.id],
+        amount: this.amount,
+        price: price ?? this.price,
+      });
     }
     return this;
   }
@@ -83,38 +110,45 @@ class Item {
     if (player.equipment?.[this.slot]?.id === this.id) return false;
     if (!item) return false;
     let text = "";
-    text += `<c>goldenrod<c>${game.getLocalizedString("effective_change")}:\n`;
+    text += `<c>goldenrod<c>${game.getLocalizedString(this.id)}\n`;
 
     if (this.atk) {
       const value = this.atk - item.atk;
-      const color = value > 0 ? "lime" : value === 0 ? "white" : "red";
-      text += `<i>${icons.atk}<i><c>white<c> ${game.getLocalizedString(
-        "atk"
-      )}: <c>${color}<c>${value}\n`;
+      if (value !== 0) {
+        const color = value > 0 ? "lime" : "red";
+        text += `<i>${icons.atk}<i><c>white<c> ${game.getLocalizedString(
+          "atk"
+        )}: <c>${color}<c>${value}\n`;
+      }
     }
 
     if (this.defence) {
       Object.entries(this.defence).forEach(([key, value]: any) => {
         const _value = value - item.defence[key];
-        const color = _value > 0 ? "lime" : _value === 0 ? "white" : "red";
-        text += `<i>${icons[key]}<i><c>white<c> ${game.getLocalizedString(
-          key
-        )}: <c>${color}<c>${_value}\n`;
+        if (_value !== 0) {
+          const color = _value > 0 ? "lime" : "red";
+          text += `<i>${icons[key]}<i><c>white<c> ${game.getLocalizedString(
+            key
+          )}: <c>${color}<c>${_value}\n`;
+        }
       });
     }
 
     if (this.speed !== undefined) {
       const value = this.speed - item.speed;
-      const color = value > 0 ? "lime" : value === 0 ? "white" : "red";
-      text += `<i>${icons.speed}<i><c>white<c> ${game.getLocalizedString(
-        "speed"
-      )}: <c>${color}<c>${value}\n`;
+      if (value !== 0) {
+        const color = value > 0 ? "lime" : "red";
+        text += `<i>${icons.speed}<i><c>white<c> ${game.getLocalizedString(
+          "speed"
+        )}: <c>${color}<c>${value}\n`;
+      }
     }
 
     if (this.modifiers && item?.modifiers) {
       const mods = mergeObjects(this.modifiers, item.modifiers, { subtract: true });
       Object.entries(mods).map(([key, value]: any) => {
         if (!this.modifiers[key]) value = -value;
+        if (value === 0) return;
         return (text += " " + effectSyntax(key, value));
       });
     }

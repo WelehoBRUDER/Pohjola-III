@@ -1,4 +1,4 @@
-const items: any = {
+const items = {
   broken_sword: {
     id: "broken_sword",
     price: 10,
@@ -71,4 +71,4 @@ const items: any = {
     tier: itemTiers.common,
     type: "material",
   },
-};
+} as const;

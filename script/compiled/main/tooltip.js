@@ -50,7 +50,7 @@ function displayExtraText(override) {
     if ((tooltipInfo.extraText === "" || displayingExtraText) && !override)
         return;
     tooltipBox.textContent = "";
-    tooltipBox.append(textSyntax(tooltipInfo.text));
+    //tooltipBox.append(textSyntax(tooltipInfo.text));
     tooltipBox.append(textSyntax(tooltipInfo.extraText));
     displayingExtraText = true;
 }

@@ -55,13 +55,26 @@ function createSlot(item, options) {
         const image = document.createElement("img");
         image.src = item.icon ?? icons.placeholder;
         slot.append(image);
-        if (item.amount && item.amount > 1) {
+        if ((item.amount && item.amount > 1) || options?.buy) {
             const amount = document.createElement("div");
             amount.classList.add("amount");
-            amount.innerText = item.amount.toString();
+            amount.innerText = item?.amount?.toString() || "";
+            if (options?.buy) {
+                amount.innerText = item.price.toString();
+                amount.classList.add("price");
+            }
             slot.append(amount);
         }
-        if (options?.isEquipped) {
+        if (options?.buy) {
+            slot.onclick = (e) => {
+                clickItem(item, {
+                    shift: e.shiftKey,
+                    pos: { x: e.clientX, y: e.clientY },
+                    buy: true,
+                });
+            };
+        }
+        else if (options?.isEquipped) {
             slot.onclick = (e) => {
                 clickItem(item, {
                     shift: e.shiftKey,
@@ -87,7 +100,7 @@ function createSlot(item, options) {
     return slot;
 }
 function clickItem(item, options) {
-    if (options?.shift) {
+    if (options?.shift && !options.buy && !options.sell) {
         if (options?.equipped) {
             player.unequip(item.slot);
             createInventory();
@@ -99,7 +112,15 @@ function clickItem(item, options) {
     }
     else if (options?.pos) {
         const buttons = [];
-        if (options?.equipped) {
+        if (options.buy) {
+            buttons.push({
+                text: "buy_item",
+                action: () => {
+                    buyItem(item);
+                },
+            });
+        }
+        else if (options?.equipped) {
             buttons.push({
                 text: "unequip_item",
                 action: () => {
@@ -136,6 +157,7 @@ function createContextMenu(options, pos) {
     contextMenu.innerHTML = "";
     setTimeout(() => {
         options.forEach((option) => {
+            console.log(option);
             const menuOption = document.createElement("div");
             menuOption.classList.add("option");
             menuOption.innerText = game.getLocalizedString(option.text);

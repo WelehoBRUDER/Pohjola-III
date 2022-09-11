@@ -50,7 +50,10 @@ function createInventory() {
   resizeInventoryContainer();
 }
 
-function createSlot(item: Item, options?: { isEquipped?: boolean; slot?: string }) {
+function createSlot(
+  item: Item,
+  options?: { isEquipped?: boolean; slot?: string; buy?: boolean; sell?: boolean }
+) {
   const slot = document.createElement("div");
   slot.classList.add("inventory-slot");
   if (item) {
@@ -59,13 +62,26 @@ function createSlot(item: Item, options?: { isEquipped?: boolean; slot?: string 
     const image = document.createElement("img");
     image.src = item.icon ?? icons.placeholder;
     slot.append(image);
-    if (item.amount && item.amount > 1) {
+    if ((item.amount && item.amount > 1) || options?.buy) {
       const amount = document.createElement("div");
       amount.classList.add("amount");
-      amount.innerText = item.amount.toString();
+      amount.innerText = item?.amount?.toString() || "";
+      if (options?.buy) {
+        amount.innerText = item.price.toString();
+        amount.classList.add("price");
+      }
+
       slot.append(amount);
     }
-    if (options?.isEquipped) {
+    if (options?.buy) {
+      slot.onclick = (e) => {
+        clickItem(item, {
+          shift: e.shiftKey,
+          pos: { x: e.clientX, y: e.clientY },
+          buy: true,
+        });
+      };
+    } else if (options?.isEquipped) {
       slot.onclick = (e) => {
         clickItem(item, {
           shift: e.shiftKey,
@@ -91,9 +107,15 @@ function createSlot(item: Item, options?: { isEquipped?: boolean; slot?: string 
 
 function clickItem(
   item: Item,
-  options?: { shift?: boolean; equipped?: boolean; pos?: { x: number; y: number } }
+  options?: {
+    shift?: boolean;
+    equipped?: boolean;
+    pos?: { x: number; y: number };
+    buy?: boolean;
+    sell?: boolean;
+  }
 ) {
-  if (options?.shift) {
+  if (options?.shift && !options.buy && !options.sell) {
     if (options?.equipped) {
       player.unequip(item.slot);
       createInventory();
@@ -103,7 +125,14 @@ function clickItem(
     }
   } else if (options?.pos) {
     const buttons: any[] = [];
-    if (options?.equipped) {
+    if (options.buy) {
+      buttons.push({
+        text: "buy_item",
+        action: () => {
+          buyItem(item);
+        },
+      });
+    } else if (options?.equipped) {
       buttons.push({
         text: "unequip_item",
         action: () => {
@@ -142,6 +171,7 @@ function createContextMenu(options: any[], pos: { x: number; y: number }) {
   contextMenu.innerHTML = "";
   setTimeout(() => {
     options.forEach((option: any) => {
+      console.log(option);
       const menuOption = document.createElement("div");
       menuOption.classList.add("option");
       menuOption.innerText = game.getLocalizedString(option.text);

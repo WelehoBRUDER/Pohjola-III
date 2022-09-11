@@ -94,7 +94,8 @@ function textSyntax(syn: string = "") {
       } else if (currentLine.startsWith("<i>")) {
         const [, source, text = ""] = currentLine.split("<i>");
         const img = document.createElement("img");
-        const className = source.indexOf("[") != -1 ? source.split("[")[1].split("]")[0] : "";
+        const className =
+          source.indexOf("[") != -1 ? source.split("[")[1].split("]")[0] : "";
         img.src = runVariableTest(source.replace("[" + className + "]", ""));
         [lineText] = text.split("<");
         selectedSpan.append(img);
@@ -223,6 +224,9 @@ const properties: any = {
     addPercentageSuffix: true,
     multiplyBy: 100,
   } as Property,
+  durationV: {
+    addSuffix: "s",
+  } as Property,
 };
 
 function getProperties(key: string) {
@@ -275,15 +279,25 @@ function effectSyntax(key: string, value: any) {
     const props: Property = getProperties(key);
     const valueType = key.substring(key.length - 1);
     const prefix = value >= 0 ? "+" : "";
-    const suffix = valueType === "P" || props.addPercentageSuffix ? "%" : "";
+    const suffix =
+      valueType === "P" || props.addPercentageSuffix
+        ? "%"
+        : props.addSuffix
+        ? props.addSuffix
+        : "";
     const color = value >= 0 || props.lowerIsBetter ? "lime" : "red";
     value *= props.multiplyBy;
     key = key.substring(0, key.length - 1);
     const name = game.getLocalizedString(key);
-    const increaseDecrease = value >= 0 ? game.getLocalizedString("increases") : game.getLocalizedString("decreases");
+    const increaseDecrease =
+      value >= 0
+        ? game.getLocalizedString("increases")
+        : game.getLocalizedString("decreases");
     const by = game.getLocalizedString("by");
     const icon = icons[key] ?? "gfx/icons/triple-yin.png";
-    return `<c>${color}<c>${increaseDecrease} <i>${icon}<i> ${name} ${by} ${prefix}${value.toFixed(1)}${suffix}\n`;
+    return `<c>${color}<c>${increaseDecrease} <i>${icon}<i> ${name} ${by} ${prefix}${value.toFixed(
+      1
+    )}${suffix}\n`;
   } else if (typeof value === "object") {
     let text: string = "";
     Object.entries(value).forEach(([_key, _value]) => {

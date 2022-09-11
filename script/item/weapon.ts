@@ -3,12 +3,19 @@
   By default there's no cost to it.
 */
 
+interface WeaponObject extends ItemObject {
+  [cost: string]: any;
+  speed: number;
+  atk: number;
+  slot?: string;
+}
+
 class Weapon extends Item {
   [cost: string]: any;
   speed: number;
   atk: number;
   slot: string;
-  constructor(weapon: Weapon) {
+  constructor(weapon: WeaponObject) {
     super(weapon);
     this.type = "weapon";
     this.cost = weapon.cost;

@@ -58,6 +58,14 @@
     box-shadow: inset 0px 0px 0.25rem 0.2rem rgb(12, 12, 12), 0px 0px 0.25rem 0.2rem rgb(12, 12, 12);
     color: goldenrod;
   }
+
+  &:first-child {
+    border-radius: 1.5rem 0 0 0;
+  }
+
+  &:last-child {
+    border-radius: 0 1.5rem 0 0;
+  }
 }
 
 pre {

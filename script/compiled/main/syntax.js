@@ -229,6 +229,9 @@ const properties = {
         addPercentageSuffix: true,
         multiplyBy: 100,
     },
+    durationV: {
+        addSuffix: "s",
+    },
 };
 function getProperties(key) {
     const props = {
@@ -279,12 +282,18 @@ function effectSyntax(key, value) {
         const props = getProperties(key);
         const valueType = key.substring(key.length - 1);
         const prefix = value >= 0 ? "+" : "";
-        const suffix = valueType === "P" || props.addPercentageSuffix ? "%" : "";
+        const suffix = valueType === "P" || props.addPercentageSuffix
+            ? "%"
+            : props.addSuffix
+                ? props.addSuffix
+                : "";
         const color = value >= 0 || props.lowerIsBetter ? "lime" : "red";
         value *= props.multiplyBy;
         key = key.substring(0, key.length - 1);
         const name = game.getLocalizedString(key);
-        const increaseDecrease = value >= 0 ? game.getLocalizedString("increases") : game.getLocalizedString("decreases");
+        const increaseDecrease = value >= 0
+            ? game.getLocalizedString("increases")
+            : game.getLocalizedString("decreases");
         const by = game.getLocalizedString("by");
         const icon = icons[key] ?? "gfx/icons/triple-yin.png";
         return `<c>${color}<c>${increaseDecrease} <i>${icon}<i> ${name} ${by} ${prefix}${value.toFixed(1)}${suffix}\n`;

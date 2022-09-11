@@ -125,14 +125,6 @@
         align-items: center;
         height: 100%;
         width: 70%;
-
-        .lobby-button:first-child {
-          border-radius: 1.5rem 0 0 0;
-        }
-
-        .lobby-button:last-child {
-          border-radius: 0 1.5rem 0 0;
-        }
       }
     }
 
@@ -163,6 +155,8 @@
           height: 75%;
           object-fit: contain;
           filter: drop-shadow(0px 0px 0.5rem #131313);
+          pointer-events: none;
+          user-select: none;
         }
 
         &.unavailable {
@@ -311,6 +305,21 @@
   width: 100%;
   height: 100%;
   display: flex;
+
+  &.store {
+    flex-direction: column;
+
+    .options {
+      height: 4rem;
+      width: 100%;
+      display: flex;
+    }
+
+    .inventory-container {
+      height: calc(100% - 4rem);
+      width: calc(100% - 0.4rem);
+    }
+  }
 }
 
 .inventory-container {
@@ -396,6 +405,10 @@
     color: white;
     text-shadow: -0.25rem 0.25rem 0.5rem black;
     pointer-events: none;
+
+    &.price {
+      color: gold;
+    }
   }
 
   &.common {
