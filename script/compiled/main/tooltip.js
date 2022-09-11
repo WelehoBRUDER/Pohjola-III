@@ -5,7 +5,6 @@ const tooltipInfo = {
 };
 let displayingExtraText = false;
 function tooltip(element, text, extraText) {
-    console.log(extraText);
     element.onmouseover = (e) => {
         showHover(e, text, extraText);
     };

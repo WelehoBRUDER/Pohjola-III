@@ -52,11 +52,8 @@ class Player extends Character {
     }
     removeItem(item, amount) {
         let existing_item = this.inventory.find((i) => i.id === item.id);
-        console.log(existing_item);
         if (existing_item) {
             existing_item.amount -= amount || item.amount || 1;
-            console.log(existing_item);
-            console.log(existing_item.amount);
             if (existing_item.amount <= 0) {
                 this.inventory = this.inventory.filter((i) => i.id !== item.id);
             }

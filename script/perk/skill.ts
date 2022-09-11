@@ -77,6 +77,9 @@ class Skill {
           } else {
             return (available = false);
           }
+        } else if (req.skill_total) {
+          const skillLevel = getSkillTotalLevel(req.skill_total);
+          if (skillLevel < req.level) return (available = false);
         }
       });
     }
@@ -95,9 +98,11 @@ class Skill {
       player.skill_points--;
       player.skills?.push(new Skill({ ...this, isOwned: true, upgrades: [] }));
       if (this.levels[0]?.commands) {
-        Object.entries(this.levels[0]?.commands).forEach(([key, value]: [string, any]) => {
-          game.executeCommand(key, value);
-        });
+        Object.entries(this.levels[0]?.commands).forEach(
+          ([key, value]: [string, any]) => {
+            game.executeCommand(key, value);
+          }
+        );
       }
     }
     createSkills();
@@ -121,6 +126,18 @@ class Skill {
             }
           } else {
             tooltip += `<c>red<c>${req.skill} lvl: ${req.level}\n`;
+          }
+        }
+        if (req.skill_total) {
+          const skill = getSkillTotalLevel(req.skill_total);
+          if (skill < req.level) {
+            tooltip += `<c>red<c>${game.getLocalizedString(req.skill_total)} ${game
+              .getLocalizedString("leveled_times")
+              .replace("{times}", req.level)} \n`;
+          } else {
+            tooltip += `<c>green<c>${game.getLocalizedString(req.skill_total)} ${game
+              .getLocalizedString("leveled_times")
+              .replace("{times}", req.level)} \n`;
           }
         }
       });
@@ -175,6 +192,16 @@ class Skill {
 
 function getSkill(id: string) {
   return player.skills?.find((skill) => skill.id === id);
+}
+
+function getSkillTotalLevel(id: string) {
+  let totalLevel = 0;
+  player.skills?.forEach((skill) => {
+    if (skill.id.startsWith(id)) {
+      totalLevel += skill.currentLevel;
+    }
+  });
+  return totalLevel;
 }
 
 // This has been made in a very stupid way :D

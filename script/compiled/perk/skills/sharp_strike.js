@@ -9,12 +9,7 @@ skills.push({
             },
         },
     ],
-    requirements: [
-        { skill: "fierce_attack", level: 1 },
-        { skill: "fierce_attack_upgrade_1", level: 1 },
-        { skill: "fierce_attack_upgrade_2", level: 1 },
-        { skill: "fierce_attack_upgrade_3", level: 1 },
-    ],
+    requirements: [{ skill_total: "fierce_attack", level: 4 }],
     upgrades: [
         {
             id: "sharp_strike_upgrade_1",

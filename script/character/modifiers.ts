@@ -79,11 +79,13 @@ function applyModifierToTotal(modifier: any, total: any) {
 // This function was found here:
 // https://stackoverflow.com/a/53509503
 const mergeObjects = (obj1: any, obj2: any, options?: { subtract?: boolean }) => {
+  console.log(obj1);
   return Object.entries(obj1).reduce(
     (prev, [key, value]) => {
       if (typeof value === "number") {
         if (options?.subtract) {
           prev[key] = value - (prev[key] || 0);
+          if (!prev[key]) prev[key] = value;
         } else {
           prev[key] = value + (prev[key] || 0);
         }

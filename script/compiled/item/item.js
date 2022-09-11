@@ -51,6 +51,8 @@ class Item {
         return this;
     }
     compare(item) {
+        if (player.equipment?.[this.slot]?.id === this.id)
+            return false;
         if (!item)
             return false;
         let text = "";
@@ -73,8 +75,10 @@ class Item {
             text += `<i>${icons.speed}<i><c>white<c> ${game.getLocalizedString("speed")}: <c>${color}<c>${value}\n`;
         }
         if (this.modifiers && item?.modifiers) {
-            const mods = mergeObjects(item.modifiers, this.modifiers, { subtract: true });
+            const mods = mergeObjects(this.modifiers, item.modifiers, { subtract: true });
             Object.entries(mods).map(([key, value]) => {
+                if (!this.modifiers[key])
+                    value = -value;
                 return (text += " " + effectSyntax(key, value));
             });
         }

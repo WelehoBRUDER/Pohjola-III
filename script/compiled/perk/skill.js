@@ -62,6 +62,11 @@ class Skill {
                         return (available = false);
                     }
                 }
+                else if (req.skill_total) {
+                    const skillLevel = getSkillTotalLevel(req.skill_total);
+                    if (skillLevel < req.level)
+                        return (available = false);
+                }
             });
         }
         return available;
@@ -107,6 +112,19 @@ class Skill {
                     }
                     else {
                         tooltip += `<c>red<c>${req.skill} lvl: ${req.level}\n`;
+                    }
+                }
+                if (req.skill_total) {
+                    const skill = getSkillTotalLevel(req.skill_total);
+                    if (skill < req.level) {
+                        tooltip += `<c>red<c>${game.getLocalizedString(req.skill_total)} ${game
+                            .getLocalizedString("leveled_times")
+                            .replace("{times}", req.level)} \n`;
+                    }
+                    else {
+                        tooltip += `<c>green<c>${game.getLocalizedString(req.skill_total)} ${game
+                            .getLocalizedString("leveled_times")
+                            .replace("{times}", req.level)} \n`;
                     }
                 }
             });
@@ -156,6 +174,15 @@ class Skill {
 }
 function getSkill(id) {
     return player.skills?.find((skill) => skill.id === id);
+}
+function getSkillTotalLevel(id) {
+    let totalLevel = 0;
+    player.skills?.forEach((skill) => {
+        if (skill.id.startsWith(id)) {
+            totalLevel += skill.currentLevel;
+        }
+    });
+    return totalLevel;
 }
 // This has been made in a very stupid way :D
 function createSkills() {

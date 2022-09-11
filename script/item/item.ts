@@ -80,6 +80,7 @@ class Item {
   }
 
   compare(item: Weapon | Armor): boolean | string {
+    if (player.equipment?.[this.slot]?.id === this.id) return false;
     if (!item) return false;
     let text = "";
     text += `<c>goldenrod<c>${game.getLocalizedString("effective_change")}:\n`;
@@ -111,8 +112,9 @@ class Item {
     }
 
     if (this.modifiers && item?.modifiers) {
-      const mods = mergeObjects(item.modifiers, this.modifiers, { subtract: true });
-      Object.entries(mods).map(([key, value]) => {
+      const mods = mergeObjects(this.modifiers, item.modifiers, { subtract: true });
+      Object.entries(mods).map(([key, value]: any) => {
+        if (!this.modifiers[key]) value = -value;
         return (text += " " + effectSyntax(key, value));
       });
     }

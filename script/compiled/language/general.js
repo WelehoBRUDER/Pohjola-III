@@ -41,6 +41,7 @@ const english = {
     xp_tt: "Your experience, when it reaches the limit, you will level up",
     shift_to_compare: "\n<c>yellow<c>Hold shift to compare to equipped item",
     effective_change: "Effective changes",
+    leveled_times: "leveled {times} times.",
     // effect strings
     damageFlat: "Damage per second",
     damagePercent: "Damage per second",
