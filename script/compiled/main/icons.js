@@ -24,5 +24,6 @@ const icons = {
     armor: "gfx/icons/armor-vest.png",
     legs: "gfx/icons/steeltoe-boots.png",
     placeholder: "gfx/icons/triple-yin.png",
+    penetration: "gfx/icons/cracked-shield.png",
 };
 //# sourceMappingURL=icons.js.map

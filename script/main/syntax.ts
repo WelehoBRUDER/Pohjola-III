@@ -233,6 +233,7 @@ function getProperties(key: string) {
   const props: Property = {
     addPercentageSuffix: false,
     lowerIsBetter: false,
+    addSuffix: null,
     multiplyBy: 1,
   };
   if (properties[key]) {
@@ -244,6 +245,9 @@ function getProperties(key: string) {
     }
     if (properties[key].multiplyBy) {
       props.multiplyBy = properties[key].multiplyBy;
+    }
+    if (properties[key].addSuffix) {
+      props.addSuffix = properties[key].addSuffix;
     }
   }
   return props;
@@ -289,13 +293,13 @@ function effectSyntax(key: string, value: any) {
     value *= props.multiplyBy;
     key = key.substring(0, key.length - 1);
     const name = game.getLocalizedString(key);
-    const increaseDecrease =
-      value >= 0
-        ? game.getLocalizedString("increases")
-        : game.getLocalizedString("decreases");
-    const by = game.getLocalizedString("by");
-    const icon = icons[key] ?? "gfx/icons/triple-yin.png";
-    return `<c>${color}<c>${increaseDecrease} <i>${icon}<i> ${name} ${by} ${prefix}${value.toFixed(
+    const id = key.substring(0, key.length - 1);
+    const icon = icons[key]
+      ? icons[key]
+      : icons[id]
+      ? icons[id]
+      : "gfx/icons/triple-yin.png";
+    return `<c>white<c> <i>${icon}<i> ${name}: <c>${color}<c>${prefix}${value.toFixed(
       1
     )}${suffix}\n`;
   } else if (typeof value === "object") {
