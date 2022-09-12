@@ -32,6 +32,14 @@ function createStore(options) {
             storeGrid.append(slot);
         });
     }
+    else {
+        const inventory = player.inventory;
+        inventory.forEach((item) => {
+            item = item.updateClass();
+            const slot = createSlot(item, { sell: true });
+            storeGrid.append(slot);
+        });
+    }
     storeContainer.append(storeGrid);
     storeScreen.append(buyingSelling, storeContainer);
     lobbyContent.append(storeScreen);
@@ -55,5 +63,10 @@ function buyItem(item) {
     player.addGold(-item.price);
     player.addItem(item);
     sideBarDetails();
+}
+function sellItem(item) {
+    player.addGold(item.price);
+    player.removeItem(item, 1);
+    createStore({ selling: true });
 }
 //# sourceMappingURL=store.js.map

@@ -30,6 +30,13 @@ function createStore(options?: { selling?: boolean }) {
       const slot = createSlot(item, { buy: true });
       storeGrid.append(slot);
     });
+  } else {
+    const inventory = player.inventory;
+    inventory.forEach((item: Item) => {
+      item = item.updateClass();
+      const slot = createSlot(item, { sell: true });
+      storeGrid.append(slot);
+    });
   }
   storeContainer.append(storeGrid);
   storeScreen.append(buyingSelling, storeContainer);
@@ -56,4 +63,10 @@ function buyItem(item: Item) {
   player.addGold(-item.price);
   player.addItem(item);
   sideBarDetails();
+}
+
+function sellItem(item: Item) {
+  player.addGold(item.price);
+  player.removeItem(item, 1);
+  createStore({ selling: true });
 }

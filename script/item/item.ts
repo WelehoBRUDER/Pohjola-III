@@ -32,12 +32,12 @@ const itemTiers: I_ItemTiers = {
   rare: {
     id: "rare",
     level: 3,
-    color: "#0000ff",
+    color: "#006aff",
   },
   epic: {
     id: "epic",
     level: 4,
-    color: "#7d35db",
+    color: "#903fe0",
   },
   legendary: {
     id: "legendary",
@@ -56,6 +56,7 @@ interface ItemObject {
   unique?: boolean;
   tier: I_Tier;
   type: string;
+  icon?: string;
   modifiers?: any;
 }
 
@@ -67,6 +68,7 @@ class Item {
   unique?: boolean;
   tier: I_Tier;
   type: string;
+  icon?: string;
   modifiers?: any;
   constructor(item: ItemObject) {
     this.id = item.id;
@@ -77,6 +79,7 @@ class Item {
     this.tier = item.tier;
     this.type = item.type;
     this.modifiers = item.modifiers ? { ...item.modifiers } : {};
+    if (item.icon) this.icon = item.icon;
   }
 
   /* Using @ts-ignore because intellisense can't deal with typed object lists */

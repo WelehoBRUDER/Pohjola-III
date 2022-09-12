@@ -275,7 +275,6 @@ const player = new Player({
   critPower: 50,
   inventory: [
     new Weapon({ ...items.broken_sword }),
-    new Weapon({ ...items.epic_sword }),
     new Armor({ ...items.ragged_armor }),
   ],
   abilities_total: [new Ability({ ...abilities.flame })],

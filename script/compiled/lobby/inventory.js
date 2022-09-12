@@ -74,6 +74,15 @@ function createSlot(item, options) {
                 });
             };
         }
+        else if (options?.sell) {
+            slot.onclick = (e) => {
+                clickItem(item, {
+                    shift: e.shiftKey,
+                    pos: { x: e.clientX, y: e.clientY },
+                    sell: true,
+                });
+            };
+        }
         else if (options?.isEquipped) {
             slot.onclick = (e) => {
                 clickItem(item, {
@@ -112,11 +121,19 @@ function clickItem(item, options) {
     }
     else if (options?.pos) {
         const buttons = [];
-        if (options.buy) {
+        if (options?.buy) {
             buttons.push({
                 text: "buy_item",
                 action: () => {
                     buyItem(item);
+                },
+            });
+        }
+        else if (options?.sell) {
+            buttons.push({
+                text: "sell_item",
+                action: () => {
+                    sellItem(item);
                 },
             });
         }
