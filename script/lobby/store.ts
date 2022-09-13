@@ -28,6 +28,9 @@ function createStore(options?: { selling?: boolean }) {
       let item = new Item({ ...merchantItem.item, price: merchantItem.price });
       item = item.updateClass();
       const slot = createSlot(item, { buy: true });
+      if (item.price > player.gold) {
+        slot.classList.add("disabled");
+      }
       storeGrid.append(slot);
     });
   } else {
@@ -56,17 +59,76 @@ const sellingOptions = [
   },
 ];
 
-function buyItem(item: Item) {
-  if (item.price > player.gold) {
+function buyItem(item: Item, amount: number = 1) {
+  if (item.price * amount > player.gold) {
     return;
   }
-  player.addGold(-item.price);
-  player.addItem(item);
+  player.addGold(-item.price * amount);
+  player.addItem(item, amount);
   sideBarDetails();
 }
 
-function sellItem(item: Item) {
-  player.addGold(item.price);
-  player.removeItem(item, 1);
+function sellItem(item: Item, amount: number = 1) {
+  player.addGold(item.price * amount);
+  player.removeItem(item, amount);
   createStore({ selling: true });
+}
+
+const promptValues = {
+  itemAmount: 1 as number,
+  itemMax: 99 as number,
+  mode: "buying" as string,
+  item: null as Item | null,
+};
+
+function updateAmount(amount: number) {
+  if (amount > promptValues.itemMax) amount = promptValues.itemMax;
+  promptValues.itemAmount = amount;
+  if (promptValues.itemAmount < 1) {
+    promptValues.itemAmount = 1;
+  }
+  itemPromptAmount.innerText = promptValues.itemAmount.toString();
+  itemPromptSlider.value = promptValues.itemAmount.toString();
+  itemPromptPrice.innerText = (
+    promptValues.itemAmount * (promptValues?.item?.price || 0)
+  ).toString();
+}
+
+function increaseAmount() {
+  updateAmount(promptValues.itemAmount + 1);
+}
+
+function decreaseAmount() {
+  updateAmount(promptValues.itemAmount - 1);
+}
+
+function createAmountPrompt(item: Item, maxAmount: number, mode: string = "buying") {
+  itemPrompt.classList.remove("disabled");
+  promptValues.itemAmount = 1;
+  itemPromptSlider.max = maxAmount.toString();
+  promptValues.itemMax = maxAmount;
+  promptValues.item = item;
+  promptValues.mode = mode;
+  itemPromptTitle.innerText = game.getLocalizedString(item.id);
+  updateAmount(1);
+}
+
+function destroyAmountPrompt() {
+  itemPrompt.classList.add("disabled");
+  promptValues.itemAmount = 1;
+}
+
+function cancelAmount() {
+  destroyAmountPrompt();
+}
+
+function confirmAmount() {
+  if (promptValues.item) {
+    if (promptValues.mode === "buying") {
+      buyItem(promptValues.item, promptValues.itemAmount);
+    } else {
+      sellItem(promptValues.item, promptValues.itemAmount);
+    }
+  }
+  destroyAmountPrompt();
 }

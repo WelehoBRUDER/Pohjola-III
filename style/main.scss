@@ -394,6 +394,114 @@ main.game {
   }
 }
 
+#item-amount-prompt {
+  transition: height 250ms ease-out;
+  width: 20rem;
+  height: 16rem;
+  padding-bottom: 1.5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  background: rgba(45, 45, 45, 0.75);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 0 1rem 0.6rem rgb(25, 25, 25);
+
+  &.disabled {
+    pointer-events: none;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: none;
+  }
+
+  .header {
+    width: 100%;
+    background: rgb(45, 45, 45);
+    text-align: center;
+
+    .title {
+      color: goldenrod;
+      text-shadow: 0 0 1rem gold;
+    }
+  }
+
+  .amount {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 1.5rem;
+    color: white;
+
+    .amount-text {
+      font-size: 1.5rem;
+      text-shadow: 0 0 0.5rem black;
+    }
+
+    .amount-button {
+      width: 2rem;
+      height: 2rem;
+      background: rgba(0, 0, 0, 0.5);
+      border: 0.2rem solid black;
+      border-radius: 0.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+      &:hover {
+        cursor: pointer;
+        background: rgba(0, 0, 0, 0.75);
+      }
+    }
+  }
+
+  .price {
+    color: gold;
+    font-size: 1.75rem;
+    text-shadow: 0 0 0.75rem goldenrod;
+  }
+
+  .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    margin-top: 2rem;
+
+    .button {
+      width: 7.5rem;
+      height: 2.5rem;
+      background: rgba(0, 0, 0, 0.5);
+      border: 0.2rem solid black;
+      border-radius: 0.5rem;
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: white;
+      box-sizing: border-box;
+
+      &:first-child {
+        border: 0.2rem solid lime;
+      }
+
+      &:last-child {
+        border: 0.2rem solid red;
+      }
+
+      &:hover {
+        cursor: pointer;
+        border: 0.2rem solid gold;
+        box-shadow: 0rem 0rem 0.3rem 1px gold;
+      }
+    }
+  }
+}
+
 @keyframes GradientShine {
   0% {
     background-position: 200% 50%;

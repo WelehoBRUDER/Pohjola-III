@@ -22,6 +22,23 @@
     <div id="bloody-screen"></div>
     <div id="healing-screen"></div>
     <div id="context-menu"></div>
+    <div id="item-amount-prompt" class="disabled">
+      <div class="header">
+        <h2 class="title">[item.name]</h2>
+      </div>
+      <div class="amount">
+        <button class="amount-button" id="amount-decrease" onClick="decreaseAmount()">-</button>
+        <p class="amount-text">1</p>
+        <button class="amount-button" id="amount-increase" onClick="increaseAmount()">+</button>
+      </div>
+      <div class="price">500</div>
+      <input type="range" min="1" max="99" value="1" class="slider" id="amount-slider"
+        oninput="updateAmount(this.value)">
+      <div class="buttons">
+        <button class="button" onClick="confirmAmount()">Confirm</button>
+        <button class="button" onClick="cancelAmount()">Cancel</button>
+      </div>
+    </div>
     <div class="combat no-display">
       <div class="ui">
         <div class="combat-header">

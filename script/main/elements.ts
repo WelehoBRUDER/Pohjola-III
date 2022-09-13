@@ -8,6 +8,13 @@ const contextMenu: HTMLDivElement = document.querySelector("#context-menu")!;
 const bloodyScreen: HTMLDivElement = document.querySelector("#bloody-screen")!;
 const healingScreen: HTMLDivElement = document.querySelector("#healing-screen")!;
 
+/* Item prompt */
+const itemPrompt: HTMLDivElement = document.querySelector("#item-amount-prompt")!;
+const itemPromptAmount: HTMLParagraphElement = itemPrompt.querySelector(".amount-text")!;
+const itemPromptSlider: HTMLInputElement = itemPrompt.querySelector(".slider")!;
+const itemPromptPrice: HTMLDivElement = itemPrompt.querySelector(".price")!;
+const itemPromptTitle: HTMLElement = itemPrompt.querySelector(".title")!;
+
 /* Combat */
 const combatScreen: HTMLDivElement = document.querySelector(".combat")!;
 const uiScreen: HTMLDivElement = combatScreen.querySelector(".ui")!;

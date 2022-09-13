@@ -129,7 +129,7 @@ class Item {
         if (this.speed !== undefined) {
             tooltip += `<i>${icons.speed}<i> Speed: ${this.speed}\n`;
         }
-        tooltip += `Price: ${this.price}`;
+        tooltip += `Price: <c>gold<c>${this.price}¤`;
         if (this.modifiers && Object.keys(this.modifiers).length > 0) {
             tooltip += "\n<f>1.2rem<f><c>silver<c>Effects:\n";
             Object.entries(this.modifiers).map(([key, value]) => {

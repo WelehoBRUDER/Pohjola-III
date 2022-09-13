@@ -140,11 +140,23 @@ function clickItem(
           buyItem(item);
         },
       });
+      buttons.push({
+        text: "buy_multiple_item",
+        action: () => {
+          createAmountPrompt(item, 100);
+        },
+      });
     } else if (options?.sell) {
       buttons.push({
         text: "sell_item",
         action: () => {
           sellItem(item);
+        },
+      });
+      buttons.push({
+        text: "sell_multiple_item",
+        action: () => {
+          createAmountPrompt(item, item.amount || 1, "selling");
         },
       });
     } else if (options?.equipped) {

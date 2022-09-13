@@ -6,6 +6,12 @@ const contextMenu = document.querySelector("#context-menu");
 /* Effects */
 const bloodyScreen = document.querySelector("#bloody-screen");
 const healingScreen = document.querySelector("#healing-screen");
+/* Item prompt */
+const itemPrompt = document.querySelector("#item-amount-prompt");
+const itemPromptAmount = itemPrompt.querySelector(".amount-text");
+const itemPromptSlider = itemPrompt.querySelector(".slider");
+const itemPromptPrice = itemPrompt.querySelector(".price");
+const itemPromptTitle = itemPrompt.querySelector(".title");
 /* Combat */
 const combatScreen = document.querySelector(".combat");
 const uiScreen = combatScreen.querySelector(".ui");
