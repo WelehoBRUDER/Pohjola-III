@@ -38,8 +38,7 @@ function createInventory() {
   function resizeInventoryContainer() {
     let width = lobbyContent.offsetWidth - 270;
     const slotSize = 90;
-    const slotsPerRow =
-      Math.floor(width / slotSize) > 2 ? Math.floor(width / slotSize) : 2;
+    const slotsPerRow = Math.floor(width / slotSize) > 2 ? Math.floor(width / slotSize) : 2;
     width = slotsPerRow * slotSize;
     inventoryContainer.style.width = width + "px";
     inventoryGrid.style.width = width + "px";
@@ -50,10 +49,7 @@ function createInventory() {
   resizeInventoryContainer();
 }
 
-function createSlot(
-  item: Item,
-  options?: { isEquipped?: boolean; slot?: string; buy?: boolean; sell?: boolean }
-) {
+function createSlot(item: Item, options?: { isEquipped?: boolean; slot?: string; buy?: boolean; sell?: boolean }) {
   const slot = document.createElement("div");
   slot.classList.add("inventory-slot");
   if (item) {
@@ -67,7 +63,7 @@ function createSlot(
       amount.classList.add("amount");
       amount.innerText = item?.amount?.toString() || "";
       if (options?.buy) {
-        amount.innerText = item.price.toString();
+        amount.innerText = compactNumber(item.price);
         amount.classList.add("price");
       }
 

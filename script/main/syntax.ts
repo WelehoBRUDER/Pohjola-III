@@ -94,8 +94,7 @@ function textSyntax(syn: string = "") {
       } else if (currentLine.startsWith("<i>")) {
         const [, source, text = ""] = currentLine.split("<i>");
         const img = document.createElement("img");
-        const className =
-          source.indexOf("[") != -1 ? source.split("[")[1].split("]")[0] : "";
+        const className = source.indexOf("[") != -1 ? source.split("[")[1].split("]")[0] : "";
         img.src = runVariableTest(source.replace("[" + className + "]", ""));
         [lineText] = text.split("<");
         selectedSpan.append(img);
@@ -283,25 +282,14 @@ function effectSyntax(key: string, value: any) {
     const props: Property = getProperties(key);
     const valueType = key.substring(key.length - 1);
     const prefix = value >= 0 ? "+" : "";
-    const suffix =
-      valueType === "P" || props.addPercentageSuffix
-        ? "%"
-        : props.addSuffix
-        ? props.addSuffix
-        : "";
+    const suffix = valueType === "P" || props.addPercentageSuffix ? "%" : props.addSuffix ? props.addSuffix : "";
     const color = value >= 0 || props.lowerIsBetter ? "lime" : "red";
     value *= props.multiplyBy;
     key = key.substring(0, key.length - 1);
     const name = game.getLocalizedString(key);
     const id = key.substring(0, key.length - 1);
-    const icon = icons[key]
-      ? icons[key]
-      : icons[id]
-      ? icons[id]
-      : "gfx/icons/triple-yin.png";
-    return `<c>white<c> <i>${icon}<i> ${name}: <c>${color}<c>${prefix}${value.toFixed(
-      1
-    )}${suffix}\n`;
+    const icon = icons[key] ? icons[key] : icons[id] ? icons[id] : "gfx/icons/triple-yin.png";
+    return `<c>white<c> <i>${icon}<i> ${name}: <c>${color}<c>${prefix}${value.toFixed(1)}${suffix}\n`;
   } else if (typeof value === "object") {
     let text: string = "";
     Object.entries(value).forEach(([_key, _value]) => {
@@ -309,4 +297,8 @@ function effectSyntax(key: string, value: any) {
     });
     return text;
   }
+}
+
+function compactNumber(num: number): string {
+  return Intl.NumberFormat("en-UK", { notation: "compact" }).format(num).toLowerCase();
 }

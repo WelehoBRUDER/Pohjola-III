@@ -369,7 +369,7 @@
   width: 80px;
   height: 80px;
   margin: 5px;
-  background: black;
+  background: rgba(0, 0, 0, 0.9);
   border: 0.25rem solid silver;
   box-sizing: border-box;
   padding: 0;
@@ -402,7 +402,7 @@
 
   .amount {
     position: absolute;
-    bottom: -4px;
+    bottom: 0px;
     right: 2px;
     display: flex;
     justify-content: center;
@@ -410,6 +410,9 @@
     font-size: 1.2rem;
     color: white;
     text-shadow: -0.25rem 0.25rem 0.5rem black;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 0;
+    height: 1.2rem;
     pointer-events: none;
 
     &.price {
@@ -445,6 +448,12 @@
     color: #dbd035;
     filter: drop-shadow(0px 0px 4px #dbd035);
     border-color: #dbd035;
+  }
+
+  &.perfect {
+    color: #ed11ab;
+    filter: drop-shadow(0px 0px 4px #ed11ab);
+    border-color: #ed11ab;
   }
 }
 

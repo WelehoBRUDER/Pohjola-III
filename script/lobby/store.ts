@@ -89,9 +89,7 @@ function updateAmount(amount: number) {
   }
   itemPromptAmount.innerText = promptValues.itemAmount.toString();
   itemPromptSlider.value = promptValues.itemAmount.toString();
-  itemPromptPrice.innerText = (
-    promptValues.itemAmount * (promptValues?.item?.price || 0)
-  ).toString();
+  itemPromptPrice.innerText = compactNumber(promptValues.itemAmount * (promptValues?.item?.price || 0));
 }
 
 function increaseAmount() {

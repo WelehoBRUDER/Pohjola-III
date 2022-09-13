@@ -60,7 +60,7 @@ function createSlot(item, options) {
             amount.classList.add("amount");
             amount.innerText = item?.amount?.toString() || "";
             if (options?.buy) {
-                amount.innerText = item.price.toString();
+                amount.innerText = compactNumber(item.price);
                 amount.classList.add("price");
             }
             slot.append(amount);

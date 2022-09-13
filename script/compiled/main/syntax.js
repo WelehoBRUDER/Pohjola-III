@@ -286,21 +286,13 @@ function effectSyntax(key, value) {
         const props = getProperties(key);
         const valueType = key.substring(key.length - 1);
         const prefix = value >= 0 ? "+" : "";
-        const suffix = valueType === "P" || props.addPercentageSuffix
-            ? "%"
-            : props.addSuffix
-                ? props.addSuffix
-                : "";
+        const suffix = valueType === "P" || props.addPercentageSuffix ? "%" : props.addSuffix ? props.addSuffix : "";
         const color = value >= 0 || props.lowerIsBetter ? "lime" : "red";
         value *= props.multiplyBy;
         key = key.substring(0, key.length - 1);
         const name = game.getLocalizedString(key);
         const id = key.substring(0, key.length - 1);
-        const icon = icons[key]
-            ? icons[key]
-            : icons[id]
-                ? icons[id]
-                : "gfx/icons/triple-yin.png";
+        const icon = icons[key] ? icons[key] : icons[id] ? icons[id] : "gfx/icons/triple-yin.png";
         return `<c>white<c> <i>${icon}<i> ${name}: <c>${color}<c>${prefix}${value.toFixed(1)}${suffix}\n`;
     }
     else if (typeof value === "object") {
@@ -310,5 +302,8 @@ function effectSyntax(key, value) {
         });
         return text;
     }
+}
+function compactNumber(num) {
+    return Intl.NumberFormat("en-UK", { notation: "compact" }).format(num).toLowerCase();
 }
 //# sourceMappingURL=syntax.js.map

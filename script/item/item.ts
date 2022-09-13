@@ -44,6 +44,11 @@ const itemTiers: I_ItemTiers = {
     level: 5,
     color: "#ffff00",
   },
+  perfect: {
+    id: "perfect",
+    level: 6,
+    color: "#ed11ab",
+  },
 };
 
 const itemTypes = ["weapon", "armor", "consumable", "material"];
@@ -119,9 +124,7 @@ class Item {
       const value = this.atk - item.atk;
       if (value !== 0) {
         const color = value > 0 ? "lime" : "red";
-        text += `<i>${icons.atk}<i><c>white<c> ${game.getLocalizedString(
-          "atk"
-        )}: <c>${color}<c>${value}\n`;
+        text += `<i>${icons.atk}<i><c>white<c> ${game.getLocalizedString("atk")}: <c>${color}<c>${value}\n`;
       }
     }
 
@@ -130,9 +133,7 @@ class Item {
         const _value = value - item.defence[key];
         if (_value !== 0) {
           const color = _value > 0 ? "lime" : "red";
-          text += `<i>${icons[key]}<i><c>white<c> ${game.getLocalizedString(
-            key
-          )}: <c>${color}<c>${_value}\n`;
+          text += `<i>${icons[key]}<i><c>white<c> ${game.getLocalizedString(key)}: <c>${color}<c>${_value}\n`;
         }
       });
     }
@@ -141,9 +142,7 @@ class Item {
       const value = this.speed - item.speed;
       if (value !== 0) {
         const color = value > 0 ? "lime" : "red";
-        text += `<i>${icons.speed}<i><c>white<c> ${game.getLocalizedString(
-          "speed"
-        )}: <c>${color}<c>${value}\n`;
+        text += `<i>${icons.speed}<i><c>white<c> ${game.getLocalizedString("speed")}: <c>${color}<c>${value}\n`;
       }
     }
 
@@ -163,9 +162,7 @@ class Item {
     let tooltip = "<f>1.5rem<f>";
     tooltip += `<c>${this.tier.color}<c>${game.getLocalizedString(this.id)}\n`;
     tooltip += "<f>1.25rem<f><c>white<c>";
-    tooltip += `${game.getLocalizedString("tier")}: <c>${
-      this.tier.color
-    }<c>${game.getLocalizedString(this.tier.id)}\n`;
+    tooltip += `${game.getLocalizedString("tier")}: <c>${this.tier.color}<c>${game.getLocalizedString(this.tier.id)}\n`;
     tooltip += "<c>white<c>";
     if (this.type === "weapon") {
       tooltip += `<i>${icons.atk}<i> Attack: ${this.atk}\n`;
@@ -183,7 +180,7 @@ class Item {
       tooltip += `<i>${icons.speed}<i> Speed: ${this.speed}\n`;
     }
 
-    tooltip += `Price: <c>gold<c>${this.price}¤`;
+    tooltip += `Price: <c>gold<c>${compactNumber(this.price)}\n`;
 
     if (this.modifiers && Object.keys(this.modifiers).length > 0) {
       tooltip += "\n<f>1.2rem<f><c>silver<c>Effects:\n";

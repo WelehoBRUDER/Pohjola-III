@@ -97,7 +97,7 @@ const weapons = {
         id: "astral_spear",
         price: 3000,
         speed: 5,
-        atk: 50,
+        atk: 500,
         stackable: true,
         icon: "gfx/items/spear-hook.png",
         tier: itemTiers.epic,

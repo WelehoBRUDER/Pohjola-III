@@ -25,6 +25,11 @@ const itemTiers = {
         level: 5,
         color: "#ffff00",
     },
+    perfect: {
+        id: "perfect",
+        level: 6,
+        color: "#ed11ab",
+    },
 };
 const itemTypes = ["weapon", "armor", "consumable", "material"];
 class Item {
@@ -129,7 +134,7 @@ class Item {
         if (this.speed !== undefined) {
             tooltip += `<i>${icons.speed}<i> Speed: ${this.speed}\n`;
         }
-        tooltip += `Price: <c>gold<c>${this.price}¤`;
+        tooltip += `Price: <c>gold<c>${compactNumber(this.price)}\n`;
         if (this.modifiers && Object.keys(this.modifiers).length > 0) {
             tooltip += "\n<f>1.2rem<f><c>silver<c>Effects:\n";
             Object.entries(this.modifiers).map(([key, value]) => {
