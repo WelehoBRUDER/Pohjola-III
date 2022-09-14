@@ -99,7 +99,6 @@ function increaseAmount() {
 function decreaseAmount() {
   updateAmount(promptValues.itemAmount - 1);
 }
-
 function createAmountPrompt(item: Item, maxAmount: number, mode: string = "buying") {
   itemPrompt.classList.remove("disabled");
   promptValues.itemAmount = 1;

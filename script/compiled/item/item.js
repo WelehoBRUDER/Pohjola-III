@@ -92,7 +92,7 @@ class Item {
                 const _value = value - item.defence[key];
                 if (_value !== 0) {
                     const color = _value > 0 ? "lime" : "red";
-                    text += `<i>${icons[key]}<i><c>white<c> ${game.getLocalizedString(key)}: <c>${color}<c>${_value}\n`;
+                    text += `<i>${icons[key]}<i><c>white<c> ${game.getLocalizedString(key)}: <c>${color}<c>${_value}%\n`;
                 }
             });
         }
@@ -127,7 +127,7 @@ class Item {
         if (this.defence) {
             tooltip += `${game.getLocalizedString("defences")}:\n`;
             Object.entries(this.defence).forEach(([key, value]) => {
-                tooltip += `<i>${icons[key]}<i> ${game.getLocalizedString(key)}: ${value}\n`;
+                tooltip += `<i>${icons[key]}<i> ${game.getLocalizedString(key)}: ${value}%\n`;
             });
             tooltip += "\n";
         }
