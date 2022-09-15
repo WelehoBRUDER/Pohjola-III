@@ -174,16 +174,12 @@ function pass() {
 
 function defeatedEnemies(): HTMLPreElement {
   let text: string = "";
-  text += `<f>2rem<f><c>goldenrod<c>${game.getLocalizedString(
-    "defeated_enemies"
-  )}:<f>1.5rem<f><c>silver<c>\n`;
+  text += `<f>2rem<f><c>goldenrod<c>${game.getLocalizedString("defeated_enemies")}:<f>1.5rem<f><c>silver<c>\n`;
   combat.loot = lootEnemies(combat.enemies);
   combat.enemies.forEach((enemy) => {
     text += `${game.getLocalizedString(enemy.id)}\n`;
   });
-  text += `\n<f>2rem<f><c>goldenrod<c>${game.getLocalizedString(
-    "loot_gained"
-  )}:<f>1.5rem<f><c>silver<c>\n`;
+  text += `\n<f>2rem<f><c>goldenrod<c>${game.getLocalizedString("loot_gained")}:<f>1.5rem<f><c>silver<c>\n`;
   combat.loot.forEach((item) => {
     text += `${item.amount}x ${game.getLocalizedString(item.item.id)}\n`;
   });
@@ -222,6 +218,7 @@ class Combat {
   loot: any[];
   gold: number;
   xp: number;
+  defeat: boolean;
   constructor() {
     this.init();
     this.id = "combat";
@@ -229,6 +226,7 @@ class Combat {
     this.loot = [];
     this.gold = 0;
     this.xp = 0;
+    this.defeat = false;
   }
 
   init() {}
@@ -243,6 +241,8 @@ class Combat {
     this.loot = [];
     this.gold = 0;
     this.xp = 0;
+    this.defeat = false;
+    enemyContainer.innerHTML = "";
     combatSummaryBackground.classList.add("hide");
     this.enemies.forEach((enemy) => {
       // @ts-ignore
@@ -264,6 +264,7 @@ class Combat {
         "continue"
       )}</button>`;
     } else {
+      this.defeat = true;
       combatSummaryTitle.innerText = game.getLocalizedString("combat_defeat");
       combatSummaryTitle.classList.value = "header defeat";
       combatSummaryText.append(game.getLocalizedString("combat_defeat_text"));
@@ -282,6 +283,9 @@ class Combat {
     this.gold = 0;
     this.xp = 0;
     this.loot = [];
+    if (this.defeat) {
+      player.xp -= Math.ceil(player.xp * (random(50, 70) / 100));
+    }
     combatSummaryBackground.classList.add("hide");
     game.endCombatAndGoToLobby();
   }

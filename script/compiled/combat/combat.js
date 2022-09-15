@@ -218,6 +218,7 @@ class Combat {
         this.loot = [];
         this.gold = 0;
         this.xp = 0;
+        this.defeat = false;
     }
     init() { }
     getLivingEnemies() {
@@ -229,6 +230,8 @@ class Combat {
         this.loot = [];
         this.gold = 0;
         this.xp = 0;
+        this.defeat = false;
+        enemyContainer.innerHTML = "";
         combatSummaryBackground.classList.add("hide");
         this.enemies.forEach((enemy) => {
             // @ts-ignore
@@ -248,6 +251,7 @@ class Combat {
             combatSummaryButtons.innerHTML = `<button class="main-button" onclick="combat.finish_combat()">${game.getLocalizedString("continue")}</button>`;
         }
         else {
+            this.defeat = true;
             combatSummaryTitle.innerText = game.getLocalizedString("combat_defeat");
             combatSummaryTitle.classList.value = "header defeat";
             combatSummaryText.append(game.getLocalizedString("combat_defeat_text"));
@@ -263,6 +267,9 @@ class Combat {
         this.gold = 0;
         this.xp = 0;
         this.loot = [];
+        if (this.defeat) {
+            player.xp -= Math.ceil(player.xp * (random(50, 70) / 100));
+        }
         combatSummaryBackground.classList.add("hide");
         game.endCombatAndGoToLobby();
     }

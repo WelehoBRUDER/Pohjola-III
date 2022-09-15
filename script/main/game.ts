@@ -102,8 +102,7 @@ class Game {
 
   executeCommand(command: string, value: any) {
     if (command === "add_ability") {
-      let playerHasAbility =
-        player.abilities.findIndex((ability) => ability.id === value.id) !== -1;
+      let playerHasAbility = player.abilities.findIndex((ability) => ability.id === value.id) !== -1;
       if (!playerHasAbility) {
         player.addAbility(value);
       }
@@ -120,6 +119,7 @@ class Game {
   endCombatAndGoToLobby() {
     lobbyScreen.classList.remove("no-display");
     combatScreen.classList.add("no-display");
+    sideBarDetails();
   }
 
   randomShake(num: number) {

@@ -1,6 +1,10 @@
 "use strict";
 class Stage {
     constructor({ id, foes }) {
+        if (!id)
+            throw new Error("Stage must have an id");
+        if (!foes)
+            throw new Error("How could you forget the foes?");
         this.id = id;
         this.foes = [...foes];
     }
@@ -21,6 +25,7 @@ class Stage {
 const floors = [
     {
         id: "floor_1",
+        map: "southern_plains",
         stages: [
             new Stage({
                 id: "tutorial",
@@ -42,11 +47,16 @@ const floors = [
                 id: "stage_5",
                 foes: [new Enemy(enemies.skeleton), new Enemy(enemies.skeleton_brute), new Enemy(enemies.skeleton)],
             }),
+            new Stage({
+                id: "stage_6",
+                foes: [new Enemy(enemies.skeleton_brute), new Enemy(enemies.skeleton_brute)],
+            }),
         ],
     },
 ];
 function createFloors() {
-    lobbyContent.innerHTML = "";
+    lobbyContent.innerHTML = "<div class='floors'></div>";
+    const floorsElement = document.querySelector(".floors");
     floors.forEach((floor) => {
         const stageElement = document.createElement("div");
         stageElement.classList.add("stage");
@@ -54,11 +64,12 @@ function createFloors() {
         stageElement.onclick = () => {
             createStages(floor.stages);
         };
-        lobbyContent.append(stageElement);
+        floorsElement.append(stageElement);
     });
 }
 function createStages(stages) {
-    lobbyContent.innerHTML = "";
+    lobbyContent.innerHTML = "<div class='stages'></div>";
+    const stagesElement = document.querySelector(".stages");
     stages.forEach((stage) => {
         const stageElement = document.createElement("div");
         stageElement.classList.add("stage");
@@ -67,7 +78,7 @@ function createStages(stages) {
         stageElement.onclick = () => {
             stage.start();
         };
-        lobbyContent.append(stageElement);
+        stagesElement.append(stageElement);
     });
 }
 //# sourceMappingURL=stages.js.map

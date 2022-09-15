@@ -100,6 +100,7 @@ class Game {
     endCombatAndGoToLobby() {
         lobbyScreen.classList.remove("no-display");
         combatScreen.classList.add("no-display");
+        sideBarDetails();
     }
     randomShake(num) {
         // Randomly generate  shake animations using translate

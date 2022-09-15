@@ -20,7 +20,7 @@ const lobbyButtons = [
     },
 ];
 const lobby = {
-    current_view: "store",
+    current_view: "stages",
 };
 function createLobby() {
     lobbyHeaderButtons.innerHTML = "";

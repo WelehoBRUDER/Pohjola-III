@@ -512,3 +512,20 @@
     }
   }
 }
+
+.world-map {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 60rem;
+  height: 60rem;
+  transform: translateX(-50%) translateY(-50%);
+  .map-area {
+    width: 30rem;
+    height: 30rem;
+    &:hover {
+      cursor: pointer;
+      filter: brightness(1.5);
+    }
+  }
+}
