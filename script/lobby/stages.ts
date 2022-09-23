@@ -23,10 +23,14 @@ class Stage {
     this.foes.forEach((foe) => {
       text += `<c>silver<c>${game.getLocalizedString(foe.id)}\n`;
     });
+    if (player.completed_stages.includes(this.id)) {
+      text += `<c>lime<c>${game.getLocalizedString("completed")}`;
+    }
     return text;
   }
 
   start(): void {
+    currentStage = this.id;
     game.beginCombat(this.foes);
   }
 }
@@ -64,6 +68,8 @@ const floors: any = [
   },
 ];
 
+let currentStage: string = "";
+
 function createFloors() {
   lobbyContent.innerHTML = "<div class='floors'></div>";
   const floorsElement = document.querySelector(".floors")!;
@@ -85,6 +91,9 @@ function createStages(stages: Stage[]) {
     const stageElement = document.createElement("div");
     stageElement.classList.add("stage");
     stageElement.innerText = game.getLocalizedString(stage.id);
+    if (player.completed_stages.includes(stage.id)) {
+      stageElement.classList.add("complete");
+    }
     tooltip(stageElement, stage.tooltip());
     stageElement.onclick = () => {
       stage.start();

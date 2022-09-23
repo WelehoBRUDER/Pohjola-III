@@ -184,14 +184,46 @@
   }
 }
 
-.stage {
-  color: white;
-  font-size: 2rem;
-  background: black;
-  min-width: 10rem;
-  width: max-content;
-  text-align: center;
-  user-select: none;
+.stages,
+.floors {
+  width: calc(100% - 3rem);
+  height: min-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 1.5rem;
+  gap: 1.5rem;
+
+  .stage {
+    color: white;
+    font-size: 2rem;
+    padding: 0.5rem;
+    background: rgb(37, 37, 37);
+    text-shadow: -3px 3px 6px black;
+    min-width: 10rem;
+    width: max-content;
+    text-align: center;
+    user-select: none;
+    box-shadow: 0 0 0.2rem 0.4rem rgb(17, 17, 17);
+    border: 0.5rem solid rgb(54, 54, 54);
+    border-radius: 1rem;
+
+    &.complete {
+      border: 0.5rem solid gold;
+    }
+
+    &:hover {
+      cursor: pointer;
+      filter: brightness(1.5);
+      box-shadow: 0 0 0.3rem 0.6rem rgb(17, 17, 17);
+    }
+  }
+}
+
+.floors > .stage {
+  background: rgb(78, 78, 78);
 }
 
 .skill-trees {

@@ -32,6 +32,7 @@ class Player extends Character {
         this.skill_points = char.skill_points ?? 0;
         this.level = char.level ?? 1;
         this.xp = char.xp ?? 0;
+        this.completed_stages = char.completed_stages ?? [];
         this.updateAllModifiers();
     }
     addItem(base_item, amount, options) {
@@ -223,10 +224,7 @@ const player = new Player({
     abilities: [],
     critRate: 3,
     critPower: 50,
-    inventory: [
-        new Weapon({ ...items.broken_sword }),
-        new Armor({ ...items.ragged_armor }),
-    ],
+    inventory: [new Weapon({ ...items.broken_sword }), new Armor({ ...items.ragged_armor })],
     abilities_total: [new Ability({ ...abilities.flame })],
     traits: [],
     statuses: [],

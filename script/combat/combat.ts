@@ -285,6 +285,10 @@ class Combat {
     this.loot = [];
     if (this.defeat) {
       player.xp -= Math.ceil(player.xp * (random(50, 70) / 100));
+    } else {
+      if (!player.completed_stages.includes(currentStage)) {
+        player.completed_stages.push(currentStage);
+      }
     }
     combatSummaryBackground.classList.add("hide");
     game.endCombatAndGoToLobby();

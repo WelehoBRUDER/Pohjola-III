@@ -52,6 +52,7 @@ class Player extends Character {
   skill_points: number;
   level: number;
   xp: number;
+  completed_stages: string[];
   constructor(char: PlayerObject) {
     super(char);
     this.race = new Race(char.race) ?? new Race(races.human);
@@ -63,6 +64,7 @@ class Player extends Character {
     this.skill_points = char.skill_points ?? 0;
     this.level = char.level ?? 1;
     this.xp = char.xp ?? 0;
+    this.completed_stages = char.completed_stages ?? [];
 
     this.updateAllModifiers();
   }
@@ -92,10 +94,7 @@ class Player extends Character {
     }
   }
 
-  equip(
-    item: Weapon | Armor,
-    options?: { auto?: boolean; removeFromInventory?: boolean }
-  ) {
+  equip(item: Weapon | Armor, options?: { auto?: boolean; removeFromInventory?: boolean }) {
     let equipment = item.updateClass();
     if (!this.equipment[equipment.slot]) {
       equipment.amount = 1;
@@ -141,9 +140,7 @@ class Player extends Character {
         }
       }
 
-      const statusElem = playerStatuses.querySelector(
-        ".status-effect[data-id='" + status.id + "']"
-      );
+      const statusElem = playerStatuses.querySelector(".status-effect[data-id='" + status.id + "']");
       if (!statusElem) {
         const statusElement = createStatusIcon(status);
         playerStatuses.appendChild(statusElement);
@@ -184,9 +181,7 @@ class Player extends Character {
   }
 
   assignAbility(ability: Ability, slot: number) {
-    this.abilities_total = this.abilities_total.filter(
-      (a: Ability) => a.id !== ability.id
-    );
+    this.abilities_total = this.abilities_total.filter((a: Ability) => a.id !== ability.id);
     const old = this.abilities[slot];
     if (old) {
       this.abilities_total.push(old);
@@ -273,10 +268,7 @@ const player = new Player({
   abilities: [],
   critRate: 3,
   critPower: 50,
-  inventory: [
-    new Weapon({ ...items.broken_sword }),
-    new Armor({ ...items.ragged_armor }),
-  ],
+  inventory: [new Weapon({ ...items.broken_sword }), new Armor({ ...items.ragged_armor })],
   abilities_total: [new Ability({ ...abilities.flame })],
   traits: [],
   statuses: [],
