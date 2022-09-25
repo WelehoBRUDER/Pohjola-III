@@ -545,6 +545,19 @@
   }
 }
 
+.stats {
+  .stat {
+    width: 16rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: right;
+    gap: 1rem;
+    font-size: 1.5rem;
+  }
+}
+
 .world-map {
   position: absolute;
   left: 50%;

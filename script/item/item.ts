@@ -165,19 +165,21 @@ class Item {
     tooltip += `${game.getLocalizedString("tier")}: <c>${this.tier.color}<c>${game.getLocalizedString(this.tier.id)}\n`;
     tooltip += "<c>white<c>";
     if (this.type === "weapon") {
-      tooltip += `<i>${icons.atk}<i> Attack: ${this.atk}\n`;
+      tooltip += `<i>${icons.atk}<i> Attack: <c>yellow<c>${this.atk}<c>white<c>\n`;
     }
 
     if (this.defence) {
       tooltip += `${game.getLocalizedString("defences")}:\n`;
       Object.entries(this.defence).forEach(([key, value]) => {
-        tooltip += `<i>${icons[key]}<i> ${game.getLocalizedString(key)}: ${value}%\n`;
+        tooltip += `<i>${icons[key]}<i> ${game.getLocalizedString(key)}: <c>${
+          typeColors[key]
+        }<c>${value}%<c>white<c>\n`;
       });
       tooltip += "\n";
     }
 
     if (this.speed !== undefined) {
-      tooltip += `<i>${icons.speed}<i> Speed: ${this.speed}\n`;
+      tooltip += `<i>${icons.speed}<i> Speed: <c>cyan<c>${this.speed}<c>white<c>\n`;
     }
 
     tooltip += `Price: <c>gold<c>${compactNumber(this.price)}\n`;
@@ -192,3 +194,9 @@ class Item {
     return tooltip;
   }
 }
+
+const typeColors: any = {
+  physical: "#EEC049",
+  magical: "#49CDEE",
+  elemental: "#49EE52",
+};

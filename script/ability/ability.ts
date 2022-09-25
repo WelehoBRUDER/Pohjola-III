@@ -77,48 +77,34 @@ class Ability {
         this.updateStats(options.owner);
       }
       // Define ability name
-      tooltip += `<f>1.5rem<f><c>goldenrod<c><i>${
-        this.icon
-      }[medium]<i> ${game.getLocalizedString(this.id)}\n`;
+      tooltip += `<f>1.5rem<f><c>goldenrod<c><i>${this.icon}[medium]<i> ${game.getLocalizedString(this.id)}\n`;
       tooltip += "<f>1.2rem<f><c>white<c>";
 
       // Ability type
-      tooltip += `${game.getLocalizedString("type")}: ${game.getLocalizedString(
-        this.type
-      )}\n`;
+      tooltip += `${game.getLocalizedString("type")}: ${game.getLocalizedString(this.type)}\n`;
 
       if (this.power) {
-        tooltip += `<i>${icons.power}<i>${game.getLocalizedString("power")}: ${Math.floor(
-          this.power * 100
-        )}%\n`;
+        tooltip += `<i>${icons.power}<i>${game.getLocalizedString("power")}: ${Math.floor(this.power * 100)}%\n`;
       }
 
       if (this.healFlat || this.healPercent) {
         if (this.healFlat > 0 && this.healPercent > 0) {
-          tooltip += `<i>${icons.heal}<i>${game.getLocalizedString("heal")}: ${
-            this.healFlat
-          } + ${this.healPercent}%\n`;
+          tooltip += `<i>${icons.heal}<i>${game.getLocalizedString("heal")}: ${this.healFlat} + ${this.healPercent}%\n`;
         } else if (this.healFlat > 0) {
-          tooltip += `<i>${icons.heal}<i>${game.getLocalizedString("heal")}: ${
-            this.healFlat
-          }\n`;
+          tooltip += `<i>${icons.heal}<i>${game.getLocalizedString("heal")}: ${this.healFlat}\n`;
         } else if (this.healPercent > 0) {
-          tooltip += `<i>${icons.heal}<i>${game.getLocalizedString("heal")}: ${
-            this.healPercent
-          }%\n`;
+          tooltip += `<i>${icons.heal}<i>${game.getLocalizedString("heal")}: ${this.healPercent}%\n`;
         }
       }
 
       // Ability attack values
       if (this.damageType) {
-        tooltip += `${game.getLocalizedString("damage_type")}: <i>${
-          icons[this.damageType]
-        }<i>${game.getLocalizedString(this.damageType)}\n`;
+        tooltip += `${game.getLocalizedString("damage_type")}: <i>${icons[this.damageType]}<i>${game.getLocalizedString(
+          this.damageType
+        )}\n`;
       }
       if (this.penetration) {
-        tooltip += `${game.getLocalizedString("penetration")}: ${Math.floor(
-          this.penetration * 100
-        )}%\n`;
+        tooltip += `${game.getLocalizedString("penetration")}: ${Math.floor(this.penetration * 100)}%\n`;
       }
 
       // Ability cost
@@ -131,9 +117,7 @@ class Ability {
 
       // Ability cooldown
       if (this.cooldown > 0) {
-        tooltip += `<i>${icons.cooldown}<i>${game.getLocalizedString("cooldown")}: ${
-          this.cooldown
-        }s\n`;
+        tooltip += `<i>${icons.cooldown}<i>${game.getLocalizedString("cooldown")}: ${this.cooldown}s\n`;
       }
 
       // Ability effects
@@ -142,11 +126,7 @@ class Ability {
         this.effectsToEnemy.forEach((effect: Effect) => {
           if (options?.owner) {
             const displayEffect = new Effect(effect);
-            displayEffect.init(
-              options?.owner?.allModifiers?.["ability_" + this.id]?.[
-                "effect_" + effect.id
-              ]
-            );
+            displayEffect.init(options?.owner?.allModifiers?.["ability_" + this.id]?.["effect_" + effect.id]);
             tooltip += displayEffect.tooltip({ container: true });
           } else {
             tooltip += effect.tooltip({ container: true });
@@ -158,11 +138,7 @@ class Ability {
         this.effectsToSelf.forEach((effect: Effect) => {
           if (options?.owner) {
             const displayEffect = new Effect(effect);
-            displayEffect.init(
-              options?.owner?.allModifiers?.["ability_" + this.id]?.[
-                "effect_" + effect.id
-              ]
-            );
+            displayEffect.init(options?.owner?.allModifiers?.["ability_" + this.id]?.["effect_" + effect.id]);
             tooltip += displayEffect.tooltip({ container: true });
           } else {
             tooltip += effect.tooltip({ container: true });
@@ -193,6 +169,7 @@ class Ability {
         if (target.isEnemy) {
           target.hurt(damage, didCrit);
         } else {
+          stats.total_damage_taken += damage;
           player.stats.hp -= damage;
           createDroppingText(damage.toString(), tools);
           if (didCrit) {
@@ -219,6 +196,7 @@ class Ability {
           if (target.isEnemy) {
             target.heal(heal);
           } else {
+            stats.total_healing += heal;
             player.stats.hp += heal;
             createDroppingText(heal.toString(), tools);
             update();
@@ -276,11 +254,7 @@ class Ability {
   }
 }
 
-function createAbilitySlot(
-  ability?: Ability,
-  options?: { manage?: boolean },
-  index: number = 0
-): HTMLDivElement {
+function createAbilitySlot(ability?: Ability, options?: { manage?: boolean }, index: number = 0): HTMLDivElement {
   const slot = document.createElement("div");
   const image = document.createElement("img");
   slot.classList.add("action-slot");

@@ -159,7 +159,25 @@ class Settings {
         this.pause_on_player_turn = settings?.pause_on_player_turn || true;
     }
 }
+class Statistics {
+    constructor(stats) {
+        this.total_damage = stats?.total_damage || 0;
+        this.total_damage_taken = stats?.total_damage_taken || 0;
+        this.total_healing = stats?.total_healing || 0;
+        this.total_kills = stats?.total_kills || 0;
+        this.total_deaths = stats?.total_deaths || 0;
+        this.total_turns = stats?.total_turns || 0;
+        this.total_combat_time = stats?.total_combat_time || 0;
+        this.time_played = stats?.time_played || 0;
+        this.most_damage = stats?.most_damage || 0;
+        this.most_healing = stats?.most_healing || 0;
+        this.most_damage_taken = stats?.most_damage_taken || 0;
+        this.most_turns = stats?.most_turns || 0;
+        this.most_combat_time = stats?.most_combat_time || 0;
+    }
+}
 const game = new Game();
+const stats = new Statistics();
 document.addEventListener("keydown", (e) => game.controls(e));
 document.addEventListener("keyup", (e) => game.controlsUp(e));
 //# sourceMappingURL=game.js.map

@@ -1,12 +1,12 @@
 const lobbyButtons = [
   {
-    id: "char_view",
+    id: "char",
   },
   {
-    id: "perks_view",
+    id: "perks",
   },
   {
-    id: "skills_view",
+    id: "skills",
   },
   {
     id: "inventory",
@@ -16,6 +16,9 @@ const lobbyButtons = [
   },
   {
     id: "stages",
+  },
+  {
+    id: "statistics",
   },
 ];
 
@@ -36,11 +39,11 @@ function createLobby() {
     lobbyHeaderButtons.append(buttonElement);
   });
   lobbyContent.onwheel = null;
-  if (lobby.current_view === "char_view") {
+  if (lobby.current_view === "char") {
     createCharView();
-  } else if (lobby.current_view === "perks_view") {
+  } else if (lobby.current_view === "perks") {
     createPerks();
-  } else if (lobby.current_view === "skills_view") {
+  } else if (lobby.current_view === "skills") {
     createSkills();
   } else if (lobby.current_view === "inventory") {
     createInventory();
@@ -48,6 +51,8 @@ function createLobby() {
     createStore();
   } else if (lobby.current_view === "stages") {
     createFloors();
+  } else if (lobby.current_view === "statistics") {
+    createStats();
   }
 }
 
@@ -55,6 +60,23 @@ function lobbyView(id: string): void {
   if (lobby.current_view === id) return;
   lobby.current_view = id;
   createLobby();
+}
+
+function createStats() {
+  lobbyContent.innerHTML = "";
+  hideHover();
+  sideBarDetails();
+  const statsScreen = document.createElement("div");
+  statsScreen.classList.add("stats");
+  Object.entries(stats).forEach(([stat, value]) => {
+    const statElement = document.createElement("div");
+    statElement.classList.add("stat");
+    statElement.innerHTML = `<div class="stat-name">${game.getLocalizedString(
+      stat
+    )}</div><div class="stat-value">${value}</div>`;
+    statsScreen.append(statElement);
+  });
+  lobbyContent.append(statsScreen);
 }
 
 createLobby();

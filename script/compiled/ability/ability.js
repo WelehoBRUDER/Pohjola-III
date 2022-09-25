@@ -140,6 +140,7 @@ class Ability {
                     target.hurt(damage, didCrit);
                 }
                 else {
+                    stats.total_damage_taken += damage;
                     player.stats.hp -= damage;
                     createDroppingText(damage.toString(), tools);
                     if (didCrit) {
@@ -167,6 +168,7 @@ class Ability {
                         target.heal(heal);
                     }
                     else {
+                        stats.total_healing += heal;
                         player.stats.hp += heal;
                         createDroppingText(heal.toString(), tools);
                         update();

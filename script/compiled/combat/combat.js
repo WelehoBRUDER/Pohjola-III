@@ -252,6 +252,7 @@ class Combat {
         }
         else {
             this.defeat = true;
+            stats.total_deaths += 1;
             combatSummaryTitle.innerText = game.getLocalizedString("combat_defeat");
             combatSummaryTitle.classList.value = "header defeat";
             combatSummaryText.append(game.getLocalizedString("combat_defeat_text"));

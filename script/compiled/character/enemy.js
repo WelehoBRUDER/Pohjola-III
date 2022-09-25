@@ -42,6 +42,7 @@ class Enemy extends Character {
         }
     }
     die() {
+        stats.total_kills += 1;
         this.stats.hp = 0;
         this.dead = true;
         if (this.card) {
@@ -69,6 +70,7 @@ class Enemy extends Character {
     }
     hurt(dmg, crit = false) {
         this.stats.hp -= dmg;
+        stats.total_damage += dmg;
         if (this.card) {
             createDroppingText(dmg.toString(), this.card.main);
             if (crit) {
@@ -83,6 +85,7 @@ class Enemy extends Character {
     }
     harm(dmg) {
         this.stats.hp -= dmg;
+        stats.total_damage += dmg;
         this.updateCard();
         if (this.stats.hp <= 0) {
             this.die();
