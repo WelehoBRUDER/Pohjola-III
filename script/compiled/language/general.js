@@ -82,6 +82,7 @@ const english = {
     stun_tt: "Reduces chance of getting stunned.",
     // Ability names //
     sharp_strike: "Sharp Strike",
+    holy_grace: "Holy Grace",
     // Perks //
     "0_foundation_of_power": "Foundation of Power",
     "0_foundation_of_power_desc": "",

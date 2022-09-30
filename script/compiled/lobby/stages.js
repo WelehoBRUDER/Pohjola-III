@@ -55,6 +55,22 @@ const floors = [
                 id: "stage_6",
                 foes: [new Enemy(enemies.skeleton_brute), new Enemy(enemies.skeleton_brute)],
             }),
+            new Stage({
+                id: "stage_7",
+                foes: [new Enemy(enemies.skeleton_knight)],
+            }),
+            new Stage({
+                id: "stage_8",
+                foes: [new Enemy(enemies.skeleton_knight), new Enemy(enemies.skeleton_brute)],
+            }),
+            new Stage({
+                id: "stage_9",
+                foes: [new Enemy(enemies.skeleton), new Enemy(enemies.skeleton_knight), new Enemy(enemies.skeleton)],
+            }),
+            new Stage({
+                id: "tomb_of_the_mage",
+                foes: [new Enemy(enemies.skeleton_mage)],
+            }),
         ],
     },
 ];

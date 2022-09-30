@@ -87,6 +87,7 @@ const english = {
 
   // Ability names //
   sharp_strike: "Sharp Strike",
+  holy_grace: "Holy Grace",
 
   // Perks //
   "0_foundation_of_power": "Foundation of Power",

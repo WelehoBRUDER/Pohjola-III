@@ -80,6 +80,14 @@ const abilities: any = {
     cooldown: 12,
     mpCost: 10,
   },
+  holy_grace: {
+    id: "holy_grace",
+    icon: "gfx/status/holy-grace.png",
+    type: "heal",
+    effectsToSelf: [effects.holy_grace],
+    cooldown: 14,
+    mpCost: 20,
+  },
   battle_aura: {
     id: "battle_aura",
     icon: "gfx/abilities/battle-gear.png",

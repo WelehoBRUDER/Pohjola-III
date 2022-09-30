@@ -223,6 +223,10 @@ const properties: any = {
     addPercentageSuffix: true,
     multiplyBy: 100,
   } as Property,
+  healingPercentV: {
+    addPercentageSuffix: true,
+    multiplyBy: 100,
+  } as Property,
   durationV: {
     addSuffix: "s",
   } as Property,
@@ -289,7 +293,7 @@ function effectSyntax(key: string, value: any) {
     const name = game.getLocalizedString(key);
     const id = key.substring(0, key.length - 1);
     const icon = icons[key] ? icons[key] : icons[id] ? icons[id] : "gfx/icons/triple-yin.png";
-    return `<c>white<c> <i>${icon}<i> ${name}: <c>${color}<c>${prefix}${value.toFixed(1)}${suffix}\n`;
+    return `<c>white<c> <i>${icon}<i> ${name}: <c>${color}<c>${prefix}${value.toFixed(2)}${suffix}\n`;
   } else if (typeof value === "object") {
     let text: string = "";
     Object.entries(value).forEach(([_key, _value]) => {

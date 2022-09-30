@@ -57,6 +57,15 @@ const effects: any = {
       healingFlat: 5,
     },
   } as EffectObject,
+  holy_grace: {
+    id: "holy_grace",
+    icon: "gfx/status/great-heart.png",
+    duration: 6,
+    type: "heal",
+    inflict: {
+      healingPercent: 0.04,
+    },
+  } as EffectObject,
   attack_1: {
     id: "attack_1",
     icon: "gfx/icons/crossed-swords.png",
