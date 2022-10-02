@@ -7,6 +7,7 @@ const abilities = {
         damageType: "physical",
         power: 1,
         cooldown: 0,
+        weight: 1,
     },
     physical_attack: {
         id: "physical_attack",
@@ -15,6 +16,7 @@ const abilities = {
         damageType: "physical",
         power: 1,
         cooldown: 0,
+        weight: 1,
     },
     magical_attack: {
         id: "magical_attack",
@@ -23,6 +25,7 @@ const abilities = {
         damageType: "magical",
         power: 1,
         cooldown: 0,
+        weight: 1,
     },
     elemental_attack: {
         id: "elemental_attack",
@@ -31,6 +34,7 @@ const abilities = {
         damageType: "elemental",
         power: 1,
         cooldown: 0,
+        weight: 1,
     },
     sharp_strike: {
         id: "sharp_strike",
@@ -41,6 +45,7 @@ const abilities = {
         cooldown: 13,
         onCooldown: 0,
         power: 0.8,
+        weight: 2,
     },
     fierce_attack: {
         id: "fierce_attack",
@@ -51,6 +56,7 @@ const abilities = {
         penetration: 0,
         onCooldown: 0,
         power: 1.5,
+        weight: 2,
     },
     disorienting_blow: {
         id: "disorienting_blow",
@@ -61,6 +67,7 @@ const abilities = {
         cooldown: 10,
         onCooldown: 0,
         power: 0.75,
+        weight: 100,
     },
     flame: {
         id: "flame",
@@ -72,6 +79,7 @@ const abilities = {
         onCooldown: 0,
         power: 1,
         mpCost: 5,
+        weight: 3,
     },
     healing_light: {
         id: "healing_light",
@@ -80,6 +88,7 @@ const abilities = {
         effectsToSelf: [effects.regeneration_1],
         cooldown: 12,
         mpCost: 10,
+        weight: 1,
     },
     holy_grace: {
         id: "holy_grace",
@@ -88,6 +97,7 @@ const abilities = {
         effectsToSelf: [effects.holy_grace],
         cooldown: 14,
         mpCost: 20,
+        weight: 1,
     },
     battle_aura: {
         id: "battle_aura",
@@ -95,6 +105,7 @@ const abilities = {
         type: "buff",
         effectsToSelf: [effects.attack_1],
         cooldown: 12,
+        weight: 2,
     },
 };
 //# sourceMappingURL=abilities.js.map

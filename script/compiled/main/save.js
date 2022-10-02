@@ -1,13 +1,17 @@
 "use strict";
 class SaveController {
     constructor() {
-        this.saveSlots = this.getSaves();
+        this.saveSlots = this.getSaves({ update: true });
     }
-    getSaves() {
-        const saves = localStorage.getItem("PohjolaIII_saved_games");
-        if (!saves)
-            return [];
-        return JSON.parse(saves);
+    getSaves(options) {
+        const saves = JSON.parse(localStorage.getItem("PohjolaIII_saved_games") || "[]");
+        if (options?.update) {
+            saves.map((save) => {
+                save.lastSaved = new Date(save.lastSaved);
+                save.created = new Date(save.created);
+            });
+        }
+        return saves;
     }
     saveGame(name, id) {
         // @ts-ignore
@@ -47,7 +51,7 @@ class SaveFile {
             this.created = new Date();
         }
         else {
-            this.created = saveFile.created;
+            this.created = new Date(saveFile.created);
         }
     }
     createID() {
@@ -83,4 +87,27 @@ class SaveData {
     }
 }
 const saveController = new SaveController();
+function createSaves() {
+    lobbyContent.innerHTML = "";
+    hideHover();
+    sideBarDetails();
+    const saveScreen = document.createElement("div");
+    saveScreen.classList.add("saves");
+    console.log(saveController.saveSlots);
+    saveController.saveSlots.forEach((save) => {
+        const saveSlot = document.createElement("div");
+        saveSlot.classList.add("save-slot");
+        saveSlot.innerHTML = `
+      <div class="save-slot-name">${save.name}</div>
+      <div class="save-slot-date">${save.lastSaved.toDateString()}</div>
+      <div class="save-slot-time">${save.lastSaved.toLocaleTimeString()}</div>
+      <div class="save-slot-created">${save.created.toDateString()}</div>
+      <div class="save-slot-created-time">${save.created.toLocaleTimeString()}</div>
+      <div class="save-slot-delete" onclick="deleteSave('${save.id}')">Delete</div>
+      <div class="save-slot-load" onclick="loadSave('${save.id}')">Load</div>
+    `;
+        saveScreen.appendChild(saveSlot);
+    });
+    lobbyContent.append(saveScreen);
+}
 //# sourceMappingURL=save.js.map

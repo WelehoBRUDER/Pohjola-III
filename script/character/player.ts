@@ -161,6 +161,7 @@ class Player extends Character {
           statusElem.remove();
         }
         this.statuses.splice(i, 1);
+        this.updateAllModifiers();
       }
     }
   }

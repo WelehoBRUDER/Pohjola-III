@@ -13,3 +13,17 @@ function randomElementExcept(array: any[], except: any): any {
   }
   return array[index];
 }
+
+function weightedRandom(array: any[]): number {
+  let table: Array<any> = [...array];
+  let max = 0;
+  for (let i = 0; i < table.length; i++) {
+    table[i].dynamicWeight = 0;
+    if (table[i - 1]) table[i].dynamicWeight = table[i - 1].dynamicWeight;
+    else table[i].dynamicWeight = 0;
+    table[i].dynamicWeight += table[i].weight;
+    max = table[i].dynamicWeight;
+  }
+  const value: number = Math.floor(random(0, max));
+  return table.findIndex((item: any) => item.dynamicWeight >= value);
+}

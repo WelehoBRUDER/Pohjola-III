@@ -6,6 +6,7 @@ class Ability {
         this.mpCost = ability.mpCost ?? 0;
         this.hpCost = ability.hpCost ?? 0;
         this.type = ability.type;
+        this.weight = ability.weight ?? 1;
         this.cooldown = ability.cooldown ?? 0;
         this.onCooldown = ability.onCooldown ?? 0;
         this.damageType = ability.damageType;

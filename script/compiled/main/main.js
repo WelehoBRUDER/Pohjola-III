@@ -12,4 +12,19 @@ function randomElementExcept(array, except) {
     }
     return array[index];
 }
+function weightedRandom(array) {
+    let table = [...array];
+    let max = 0;
+    for (let i = 0; i < table.length; i++) {
+        table[i].dynamicWeight = 0;
+        if (table[i - 1])
+            table[i].dynamicWeight = table[i - 1].dynamicWeight;
+        else
+            table[i].dynamicWeight = 0;
+        table[i].dynamicWeight += table[i].weight;
+        max = table[i].dynamicWeight;
+    }
+    const value = Math.floor(random(0, max));
+    return table.findIndex((item) => item.dynamicWeight >= value);
+}
 //# sourceMappingURL=main.js.map

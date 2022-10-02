@@ -21,9 +21,12 @@ const lobbyButtons = [
     {
         id: "statistics",
     },
+    {
+        id: "saves",
+    },
 ];
 const lobby = {
-    current_view: "stages",
+    current_view: "saves",
 };
 function createLobby() {
     lobbyHeaderButtons.innerHTML = "";
@@ -58,6 +61,9 @@ function createLobby() {
     }
     else if (lobby.current_view === "statistics") {
         createStats();
+    }
+    else if (lobby.current_view === "saves") {
+        createSaves();
     }
 }
 function lobbyView(id) {
