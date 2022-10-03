@@ -105,4 +105,17 @@ function createStages(stages) {
         stagesElement.append(stageElement);
     });
 }
+function calculateProgress(player) {
+    let totalStages = 0;
+    let completedStages = 0;
+    floors.forEach((floor) => {
+        totalStages += floor.stages.length;
+        floor.stages.forEach((stage) => {
+            if (player.completed_stages.includes(stage.id)) {
+                completedStages++;
+            }
+        });
+    });
+    return Math.floor((completedStages / totalStages) * 100);
+}
 //# sourceMappingURL=stages.js.map

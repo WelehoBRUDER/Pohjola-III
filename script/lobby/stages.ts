@@ -117,3 +117,17 @@ function createStages(stages: Stage[]) {
     stagesElement.append(stageElement);
   });
 }
+
+function calculateProgress(player: PlayerObject): number {
+  let totalStages: number = 0;
+  let completedStages: number = 0;
+  floors.forEach((floor: any) => {
+    totalStages += floor.stages.length;
+    floor.stages.forEach((stage: Stage) => {
+      if (player.completed_stages.includes(stage.id)) {
+        completedStages++;
+      }
+    });
+  });
+  return Math.floor((completedStages / totalStages) * 100);
+}

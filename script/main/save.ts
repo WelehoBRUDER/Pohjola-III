@@ -111,16 +111,42 @@ function createSaves() {
   saveScreen.classList.add("saves");
   console.log(saveController.saveSlots);
   saveController.saveSlots.forEach((save) => {
+    console.log(save);
+    const progress = calculateProgress(save.saveData.player);
+    const size = JSON.stringify(save).length;
     const saveSlot = document.createElement("div");
     saveSlot.classList.add("save-slot");
     saveSlot.innerHTML = `
-      <div class="save-slot-name">${save.name}</div>
-      <div class="save-slot-date">${save.lastSaved.toDateString()}</div>
-      <div class="save-slot-time">${save.lastSaved.toLocaleTimeString()}</div>
-      <div class="save-slot-created">${save.created.toDateString()}</div>
-      <div class="save-slot-created-time">${save.created.toLocaleTimeString()}</div>
-      <div class="save-slot-delete" onclick="deleteSave('${save.id}')">Delete</div>
-      <div class="save-slot-load" onclick="loadSave('${save.id}')">Load</div>
+    <div class="save-data">
+      <div class="slot-name">${save.name}</div>
+      <div class="line">|</div>
+      <div class="last-saved">${game.getLocalizedString("last_saved")}: ${save.lastSaved.toLocaleDateString(
+      "fi-FI"
+    )} @ ${save.lastSaved.toLocaleTimeString("fi-FI", {
+      hour: "2-digit",
+      minute: "2-digit",
+    })}</div>
+    <div class="line">|</div>
+        <div class="game-progress">${game.getLocalizedString("progress")}: ${progress}%</div>
+        <div class="line">|</div>
+        <div class="player-level">${game.getLocalizedString("player_level")}: ${save.saveData.player.level}</div>
+        <div class="line">|</div>
+        <div class="created-at">${game.getLocalizedString("created_at")}: ${save.created.toLocaleDateString(
+      "fi-FI"
+    )} @ ${save.created.toLocaleTimeString("fi-FI", {
+      hour: "2-digit",
+      minute: "2-digit",
+    })}</div>
+    <div class="line">|</div>
+        <div class="size">${(size / 1000).toFixed(2)} kb</div>
+        <div class="line">|</div>
+        <div class="ver">${game.getLocalizedString("version")}: ${save.version}</div>
+      </div>
+      <div class="save-buttons">
+        <button class="save-over" onclick="saveOver('${save.id}')">Save</button>
+        <button class="load-save" onclick="loadSave('${save.id}')">Load</button>
+        <button class="delete-save" onclick="deleteSave('${save.id}')">Delete</button>
+      </div>
     `;
     saveScreen.appendChild(saveSlot);
   });
