@@ -16,12 +16,11 @@ class SaveController {
     return saves;
   }
 
-  saveGame(name: string, id?: string) {
+  saveGame(name: string, id?: string, file?: SaveFile) {
     // @ts-ignore
-    const saveFile = new SaveFile({ id, name });
-    console.log(JSON.stringify(saveFile).length);
+    const saveFile = file ? new SaveFile(file) : new SaveFile({ id, name });
     if (JSON.stringify(saveFile).length > 100000) {
-      alert("Save file is too large. Please remove some items from your inventory.");
+      alert("Save file is too large. How did you do this?!!.");
       return;
     }
     const index = this.saveSlots.findIndex((save) => save.id === id);
@@ -31,6 +30,47 @@ class SaveController {
       this.saveSlots.push(saveFile);
     }
     localStorage.setItem("PohjolaIII_saved_games", JSON.stringify(this.saveSlots));
+    closeConfirmationWindow();
+    createSaves();
+  }
+
+  saveOver(id: string) {
+    const save = this.saveSlots.find((save) => save.id === id);
+    if (save) {
+      const text = `<c>white<c>${game.getLocalizedString("save_over")} <c>goldenrod<c>${save.name}<c>white<c>?`;
+      confirmationWindow(text, () => this.saveGame(save.name, id, save));
+    }
+  }
+
+  loadSave(id: string, options?: { confirm?: boolean }) {
+    const save = this.saveSlots.find((save) => save.id === id);
+    if (save) {
+      if (options?.confirm) {
+        const text = `<c>white<c>${game.getLocalizedString("load")} <c>goldenrod<c>${save.name}<c>white<c>?`;
+        confirmationWindow(text, () => this.loadSave(id));
+      } else {
+        closeConfirmationWindow();
+        const { player: loadedPlayer, stats: loadedStats } = save.saveData;
+        Object.assign(player, new Player(loadedPlayer));
+        Object.assign(stats, new Statistics(loadedStats));
+        player.restoreClasses();
+        sideBarDetails();
+        createInventory();
+      }
+    }
+  }
+
+  deleteSave(id: string) {
+    const save = this.saveSlots.find((save) => save.id === id);
+    if (save) {
+      const text = `<c>white<c>${game.getLocalizedString("delete")} <c>goldenrod<c>${save.name}<c>white<c>?`;
+      confirmationWindow(text, () => {
+        this.saveSlots = this.saveSlots.filter((save) => save.id !== id);
+        localStorage.setItem("PohjolaIII_saved_games", JSON.stringify(this.saveSlots));
+        closeConfirmationWindow();
+        createSaves();
+      });
+    }
   }
 }
 
@@ -82,14 +122,15 @@ class SaveData {
       type: item.type,
       amount: item.amount,
     }));
-    stripped.equipment = Object.values(stripped.equipment).map((item: any) =>
+    stripped.equipment = {};
+    Object.entries(player.equipment).map(([slot, item]: [string, any]) =>
       item
-        ? {
+        ? (stripped.equipment[slot] = {
             id: item.id,
             type: item.type,
             amount: item.amount,
-          }
-        : null
+          })
+        : (stripped.equipment[slot] = null)
     );
     stripped.abilities = stripped.abilities.map((ability: Ability) => ({
       id: ability.id,
@@ -109,9 +150,7 @@ function createSaves() {
   sideBarDetails();
   const saveScreen = document.createElement("div");
   saveScreen.classList.add("saves");
-  console.log(saveController.saveSlots);
   saveController.saveSlots.forEach((save) => {
-    console.log(save);
     const progress = calculateProgress(save.saveData.player);
     const size = JSON.stringify(save).length;
     const saveSlot = document.createElement("div");
@@ -143,9 +182,9 @@ function createSaves() {
         <div class="ver">${game.getLocalizedString("version")}: ${save.version}</div>
       </div>
       <div class="save-buttons">
-        <button class="save-over" onclick="saveOver('${save.id}')">Save</button>
-        <button class="load-save" onclick="loadSave('${save.id}')">Load</button>
-        <button class="delete-save" onclick="deleteSave('${save.id}')">Delete</button>
+        <button class="save-over" onclick="saveController.saveOver('${save.id}')">Save</button>
+        <button class="load-save" onclick="saveController.loadSave('${save.id}', { confirm: true })">Load</button>
+        <button class="delete-save" onclick="saveController.deleteSave('${save.id}')">Delete</button>
       </div>
     `;
     saveScreen.appendChild(saveSlot);

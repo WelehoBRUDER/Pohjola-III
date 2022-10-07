@@ -78,5 +78,3 @@ class SoundController {
 const controller = new SoundController({
   sounds: [],
 });
-
-controller.playSound("hurt_1");

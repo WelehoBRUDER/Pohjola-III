@@ -33,6 +33,7 @@ class Player extends Character {
         this.level = char.level ?? 1;
         this.xp = char.xp ?? 0;
         this.completed_stages = char.completed_stages ?? [];
+        this.restoreClasses();
         this.updateAllModifiers();
     }
     addItem(base_item, amount, options) {
@@ -187,6 +188,22 @@ class Player extends Character {
             this.restore();
         }
         sideBarDetails();
+    }
+    restoreClasses() {
+        // @ts-ignore
+        this.inventory = this.inventory.map((item) => new Item(items[item.id]).updateClass());
+        Object.entries(this.equipment).forEach(([slot, item]) => {
+            console.log(slot);
+            if (item) {
+                // @ts-ignore
+                this.equipment[slot] = new Item(items[item.id]).updateClass();
+            }
+            else {
+                this.equipment[slot] = null;
+            }
+        });
+        this.abilities = this.abilities.map((ability) => new Ability(abilities[ability.id]));
+        this.abilities_total = this.abilities_total.map((ability) => new Ability(abilities[ability.id]));
     }
 }
 const player = new Player({

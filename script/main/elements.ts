@@ -15,6 +15,12 @@ const itemPromptSlider: HTMLInputElement = itemPrompt.querySelector(".slider")!;
 const itemPromptPrice: HTMLDivElement = itemPrompt.querySelector(".price")!;
 const itemPromptTitle: HTMLElement = itemPrompt.querySelector(".title")!;
 
+/* Confirmation prompt */
+const confirmPrompt: HTMLDivElement = document.querySelector("#confirm-action")!;
+const confirmPromptText: HTMLDivElement = confirmPrompt.querySelector(".text")!;
+const confirmPromptYesButton: HTMLDivElement = confirmPrompt.querySelector(".confirm")!;
+const confirmPromptNoButton: HTMLDivElement = confirmPrompt.querySelector(".cancel")!;
+
 /* Combat */
 const combatScreen: HTMLDivElement = document.querySelector(".combat")!;
 const uiScreen: HTMLDivElement = combatScreen.querySelector(".ui")!;
@@ -25,11 +31,8 @@ const slots: HTMLDivElement = tools.querySelector(".action-slots")!;
 const combatTime: HTMLDivElement = uiScreen.querySelector(".combat-time")!;
 
 /* Combat summary */
-const combatSummaryBackground: HTMLDivElement = combatScreen.querySelector(
-  ".combat-summary-background"
-)!;
-const combatSummary: HTMLDivElement =
-  combatSummaryBackground.querySelector(".combat-summary")!;
+const combatSummaryBackground: HTMLDivElement = combatScreen.querySelector(".combat-summary-background")!;
+const combatSummary: HTMLDivElement = combatSummaryBackground.querySelector(".combat-summary")!;
 const combatSummaryTitle: HTMLDivElement = combatSummary.querySelector(".header")!;
 const combatSummaryText: HTMLDivElement = combatSummary.querySelector(".summary-text")!;
 const combatSummaryButtons: HTMLDivElement = combatSummary.querySelector(".options")!;

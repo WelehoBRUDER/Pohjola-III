@@ -86,5 +86,22 @@ function createStats() {
     });
     lobbyContent.append(statsScreen);
 }
+function confirmationWindow(text, onConfirm, onCancel) {
+    confirmPrompt.classList.add("active");
+    confirmPromptText.textContent = "";
+    confirmPromptText.append(textSyntax(text));
+    confirmPromptYesButton.onclick = onConfirm;
+    if (onCancel) {
+        confirmPromptNoButton.onclick = onCancel;
+    }
+    else {
+        confirmPromptNoButton.onclick = () => {
+            confirmPrompt.classList.remove("active");
+        };
+    }
+}
+function closeConfirmationWindow() {
+    confirmPrompt.classList.remove("active");
+}
 createLobby();
 //# sourceMappingURL=lobby.js.map

@@ -12,6 +12,11 @@ const itemPromptAmount = itemPrompt.querySelector(".amount-text");
 const itemPromptSlider = itemPrompt.querySelector(".slider");
 const itemPromptPrice = itemPrompt.querySelector(".price");
 const itemPromptTitle = itemPrompt.querySelector(".title");
+/* Confirmation prompt */
+const confirmPrompt = document.querySelector("#confirm-action");
+const confirmPromptText = confirmPrompt.querySelector(".text");
+const confirmPromptYesButton = confirmPrompt.querySelector(".confirm");
+const confirmPromptNoButton = confirmPrompt.querySelector(".cancel");
 /* Combat */
 const combatScreen = document.querySelector(".combat");
 const uiScreen = combatScreen.querySelector(".ui");
