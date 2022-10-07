@@ -68,6 +68,33 @@ class SaveController {
             });
         }
     }
+    saveToFile() {
+        // @ts-ignore
+        const save = JSON.stringify(new SaveFile({ name: saveName }));
+        const blob = new Blob([save], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `PohjolaIII_${saveName}_save_${new Date().toLocaleTimeString()}.txt`;
+        link.click();
+    }
+    loadFromFile() {
+        const fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.accept = ".txt";
+        fileInput.onchange = () => {
+            const file = fileInput.files?.[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const save = JSON.parse(reader.result);
+                    this.saveGame(save.name, save.id, save);
+                };
+                reader.readAsText(file);
+            }
+        };
+        fileInput.click();
+    }
 }
 class SaveFile {
     constructor(saveFile) {
@@ -126,12 +153,22 @@ class SaveData {
     }
 }
 const saveController = new SaveController();
+let saveName = "";
 function createSaves() {
+    saveName = "";
     lobbyContent.innerHTML = "";
     hideHover();
     sideBarDetails();
     const saveScreen = document.createElement("div");
     saveScreen.classList.add("saves");
+    saveScreen.innerHTML = `
+    <div class="save-header">
+      <input type="text" id="save-name" onKeyUp="saveName = this.value" placeholder="${game.getLocalizedString("save_name")}">
+      <button class="save-button" onClick="saveController.saveGame(saveName)">${game.getLocalizedString("save")}</button>
+      <button class="save-button" onClick="saveController.saveToFile()">${game.getLocalizedString("save_to_file")}</button>
+      <button class="save-button" onClick="saveController.loadFromFile()">${game.getLocalizedString("load_from_file")}</button>
+    </div>
+  `;
     saveController.saveSlots.forEach((save) => {
         const progress = calculateProgress(save.saveData.player);
         const size = JSON.stringify(save).length;
