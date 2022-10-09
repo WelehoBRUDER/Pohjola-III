@@ -2,7 +2,7 @@ function sideBarDetails() {
   lobbySidebar.innerHTML = "";
   const misc = document.createElement("div");
   misc.classList.add("misc");
-  const miscStats = ["gold", "perk_points", "skill_points", "level", "xp"];
+  const miscStats = ["gold", "perk_points", "skill_points", "level", "xp", "power_level"];
   miscStats.forEach((stat) => {
     const statElement = document.createElement("div");
     statElement.classList.add("stat");
@@ -12,6 +12,8 @@ function sideBarDetails() {
     valueElement.innerText = player[stat];
     if (stat === "xp") {
       valueElement.innerText += " / " + player.xpForNextLevel();
+    } else if (stat === "power_level") {
+      valueElement.innerText = player.calculateCombatPower();
     }
     tooltip(statElement, game.getLocalizedString(stat + "_tt"));
     statElement.append(valueElement);
@@ -37,7 +39,9 @@ function sideBarDetails() {
     const statIcon = document.createElement("img");
     statElement.classList.add("stat");
     if (key === "hpMax" || key === "mpMax") {
-      statText.innerText = `${game.getLocalizedString(key.replace("Max", ""))}: ${stats[key.replace("Max", "")]}/${value}`;
+      statText.innerText = `${game.getLocalizedString(key.replace("Max", ""))}: ${
+        stats[key.replace("Max", "")]
+      }/${value}`;
     } else {
       statText.innerText = `${game.getLocalizedString(key)}: ${value}`;
     }

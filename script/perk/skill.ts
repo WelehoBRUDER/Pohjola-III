@@ -25,6 +25,9 @@ class Skill {
   modifiers?: any;
   commands?: any;
   constructor(skill: SkillObject) {
+    if (!skill.levels) {
+      skill = { ...findSkillById(skill.id), ...skill };
+    }
     this.id = skill.id;
     this.levels = [...skill.levels] || [];
     this.currentLevel = skill.currentLevel || 0;
@@ -98,11 +101,9 @@ class Skill {
       player.skill_points--;
       player.skills?.push(new Skill({ ...this, isOwned: true, upgrades: [] }));
       if (this.levels[0]?.commands) {
-        Object.entries(this.levels[0]?.commands).forEach(
-          ([key, value]: [string, any]) => {
-            game.executeCommand(key, value);
-          }
-        );
+        Object.entries(this.levels[0]?.commands).forEach(([key, value]: [string, any]) => {
+          game.executeCommand(key, value);
+        });
       }
     }
     createSkills();
@@ -274,4 +275,23 @@ function createSkillElement(skill: Skill) {
   skillLevel.innerText = `${skill.currentLevel}/${skill.levels.length}`;
   skillElement.append(skillImage, skillLevel);
   return skillElement;
+}
+
+function findSkillById(id: string) {
+  console.log("id:", id);
+  let skill: SkillObject = skills.find((s) => s.id === id)!;
+  if (!skill) {
+    skills.every((s) => {
+      if (s.upgrades) {
+        const upgrade = s.upgrades.find((u) => u.id === id);
+        console.log("up:", upgrade);
+        if (upgrade) {
+          skill = upgrade;
+          return false;
+        }
+      }
+    });
+  }
+  console.log("returning skill:", skill);
+  return skill;
 }

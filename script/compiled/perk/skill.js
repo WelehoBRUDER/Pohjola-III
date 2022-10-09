@@ -3,6 +3,9 @@
 const skills = [];
 class Skill {
     constructor(skill) {
+        if (!skill.levels) {
+            skill = { ...findSkillById(skill.id), ...skill };
+        }
         this.id = skill.id;
         this.levels = [...skill.levels] || [];
         this.currentLevel = skill.currentLevel || 0;
@@ -253,5 +256,23 @@ function createSkillElement(skill) {
     skillLevel.innerText = `${skill.currentLevel}/${skill.levels.length}`;
     skillElement.append(skillImage, skillLevel);
     return skillElement;
+}
+function findSkillById(id) {
+    console.log("id:", id);
+    let skill = skills.find((s) => s.id === id);
+    if (!skill) {
+        skills.every((s) => {
+            if (s.upgrades) {
+                const upgrade = s.upgrades.find((u) => u.id === id);
+                console.log("up:", upgrade);
+                if (upgrade) {
+                    skill = upgrade;
+                    return false;
+                }
+            }
+        });
+    }
+    console.log("returning skill:", skill);
+    return skill;
 }
 //# sourceMappingURL=skill.js.map

@@ -3,6 +3,9 @@ class SaveController {
     constructor() {
         this.saveSlots = this.getSaves({ update: true });
     }
+    sortSaves() {
+        this.saveSlots.sort((a, b) => b.lastSaved.getTime() - a.lastSaved.getTime());
+    }
     getSaves(options) {
         const saves = JSON.parse(localStorage.getItem("PohjolaIII_saved_games") || "[]");
         if (options?.update) {
@@ -149,6 +152,11 @@ class SaveData {
         stripped.abilities_total = stripped.abilities_total.map((ability) => ({
             id: ability.id,
         }));
+        stripped.skills = stripped.skills.map((skill) => ({
+            id: skill.id,
+            currentLevel: skill.currentLevel,
+            isOwned: true,
+        }));
         return stripped;
     }
 }
@@ -156,6 +164,7 @@ const saveController = new SaveController();
 let saveName = "";
 function createSaves() {
     saveName = "";
+    saveController.sortSaves();
     lobbyContent.innerHTML = "";
     hideHover();
     sideBarDetails();

@@ -47,6 +47,7 @@ class Character {
   getDamage?: any;
   getDefences?: any;
   addStatus?: any;
+  calculateCombatPower?: any;
   constructor(char: Character) {
     this.id = char.id;
     this.name = char.name;
@@ -269,6 +270,47 @@ class Character {
         const location: HTMLElement = this.isEnemy ? this.card.main : tools;
         createDroppingText(healing.toString(), location, status.type);
       }
+    };
+
+    // Calculate a rough power level of an enemy / the player
+    // IT'S OVER 9000!
+    this.calculateCombatPower = (): number => {
+      const powerPerStat: any = {
+        atk: 0.5,
+        str: 0.2,
+        agi: 0.2,
+        vit: 0.2,
+        int: 0.2,
+        spi: 0.2,
+        hpMax: 0.04,
+        mpMax: 0.04,
+        critRate: 0.1,
+        critPower: 0.025,
+        physical: 0.2,
+        magical: 0.2,
+        elemental: 0.2,
+        speed: 1,
+      };
+
+      let powerLevel: number = 0;
+      const stats = this.getStats();
+      const crit = this.getCrit();
+      const defence = this.getDefences();
+      const speed = this.getSpeed();
+      Object.entries(stats).forEach(([key, value]: any) => {
+        powerLevel += value * (powerPerStat[key] || 0);
+      });
+      Object.entries(crit).forEach(([key, value]: any) => {
+        powerLevel += value * (powerPerStat[key] || 0);
+      });
+      Object.entries(defence).forEach(([key, value]: any) => {
+        powerLevel += value * (powerPerStat[key] || 0);
+      });
+      Object.entries(speed).forEach(([key, value]: any) => {
+        powerLevel += value * (powerPerStat[key] || 0);
+      });
+
+      return Math.floor(powerLevel);
     };
   }
 }
