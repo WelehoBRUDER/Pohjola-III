@@ -65,7 +65,7 @@ function buyItem(item: Item, amount: number = 1) {
   }
   player.addGold(-item.price * amount);
   player.addItem(item, amount);
-  sideBarDetails();
+  createStore({ selling: false });
 }
 
 function sellItem(item: Item, amount: number = 1) {

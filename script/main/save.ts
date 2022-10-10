@@ -54,9 +54,10 @@ class SaveController {
         confirmationWindow(text, () => this.loadSave(id));
       } else {
         closeConfirmationWindow();
-        const { player: loadedPlayer, stats: loadedStats } = save.saveData;
+        const { player: loadedPlayer, stats: loadedStats, challenges: loadedChallenges } = save.saveData;
         Object.assign(player, new Player(loadedPlayer));
         Object.assign(stats, new Statistics(loadedStats));
+        Object.assign(challenges, new Challenges(loadedChallenges));
         player.restoreClasses();
         sideBarDetails();
         createInventory();
@@ -143,9 +144,11 @@ class SaveFile {
 class SaveData {
   player: Player;
   stats: Statistics;
+  challenges: Challenges;
   constructor() {
     this.player = this.stripPlayer();
     this.stats = stats;
+    this.challenges = challenges;
   }
 
   stripPlayer(): Player {

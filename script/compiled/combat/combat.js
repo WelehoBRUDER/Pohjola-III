@@ -34,7 +34,7 @@ function update(options) {
     if (player.stats.ap > 100) {
         player.stats.ap = 100;
         update({ updatePlayerOnly: true });
-        if (game.settings.pause_on_player_turn) {
+        if (!challenges.real_time_combat) {
             game.pause({ disableSkills: false });
         }
     }
@@ -165,7 +165,7 @@ function pass() {
         player.stats.ap = 0;
         game.state.selected_ability = null;
         game.endTargeting();
-        if (game.settings.pause_on_player_turn) {
+        if (!challenges.real_time_combat) {
             game.resume();
         }
     }
@@ -275,6 +275,9 @@ class Combat {
             if (!player.completed_stages.includes(currentStage)) {
                 player.completed_stages.push(currentStage);
             }
+        }
+        if (!challenges.no_after_combat_recovery) {
+            player.restore();
         }
         combatSummaryBackground.classList.add("hide");
         game.endCombatAndGoToLobby();

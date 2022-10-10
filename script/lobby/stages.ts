@@ -60,12 +60,20 @@ class Stage {
     const { level, color } = getDangerLevel(totalPower);
     text += `<c>white<c>${game.getLocalizedString("total_danger")}: <c>${color}<c>${level < 2 ? totalPower : "💀"}\n`;
     if (player.completed_stages.includes(this.id)) {
+      if (challenges.no_grinding) {
+        text += `<c>orange<c>${game.getLocalizedString("already_completed")}\n`;
+      }
       text += `<c>lime<c>${game.getLocalizedString("completed")}`;
     }
     return text;
   }
 
   start(): void {
+    if (player.completed_stages.includes(this.id)) {
+      if (challenges.no_grinding) {
+        return;
+      }
+    }
     currentStage = this.id;
     game.beginCombat(this.foes);
   }

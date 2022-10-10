@@ -159,6 +159,15 @@ class Settings {
         this.pause_on_player_turn = settings?.pause_on_player_turn || true;
     }
 }
+class Challenges {
+    constructor(challenges) {
+        this.real_time_combat = challenges?.real_time_combat || false;
+        this.no_after_combat_recovery = challenges?.no_after_combat_recovery || false;
+        this.hardcore = challenges?.hardcore || false;
+        this.no_grinding = challenges?.no_grinding || false;
+        this.enemy_strength_multiplier = challenges?.enemy_strength_multiplier || 1;
+    }
+}
 class Statistics {
     constructor(stats) {
         this.total_damage = stats?.total_damage || 0;
@@ -178,6 +187,7 @@ class Statistics {
 }
 const game = new Game();
 const stats = new Statistics();
+const challenges = new Challenges();
 document.addEventListener("keydown", (e) => game.controls(e));
 document.addEventListener("keyup", (e) => game.controlsUp(e));
 //# sourceMappingURL=game.js.map

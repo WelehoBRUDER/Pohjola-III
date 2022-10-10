@@ -191,6 +191,21 @@ class Settings {
   }
 }
 
+class Challenges {
+  real_time_combat: boolean;
+  no_after_combat_recovery: boolean;
+  hardcore: boolean;
+  no_grinding: boolean;
+  enemy_strength_multiplier: number;
+  constructor(challenges?: Challenges) {
+    this.real_time_combat = challenges?.real_time_combat || false;
+    this.no_after_combat_recovery = challenges?.no_after_combat_recovery || false;
+    this.hardcore = challenges?.hardcore || false;
+    this.no_grinding = challenges?.no_grinding || false;
+    this.enemy_strength_multiplier = challenges?.enemy_strength_multiplier || 1;
+  }
+}
+
 class Statistics {
   total_damage: number;
   total_damage_taken: number;
@@ -224,6 +239,7 @@ class Statistics {
 
 const game = new Game();
 const stats = new Statistics();
+const challenges = new Challenges();
 
 document.addEventListener("keydown", (e) => game.controls(e));
 document.addEventListener("keyup", (e) => game.controlsUp(e));
