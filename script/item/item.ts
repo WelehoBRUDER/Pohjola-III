@@ -16,6 +16,7 @@ interface I_ItemTiers {
   rare: I_Tier;
   epic: I_Tier;
   legendary: I_Tier;
+  perfect: I_Tier;
 }
 
 const itemTiers: I_ItemTiers = {
@@ -171,9 +172,7 @@ class Item {
     if (this.defence) {
       tooltip += `${game.getLocalizedString("defences")}:\n`;
       Object.entries(this.defence).forEach(([key, value]) => {
-        tooltip += `<i>${icons[key]}<i> ${game.getLocalizedString(key)}: <c>${
-          typeColors[key]
-        }<c>${value}%<c>white<c>\n`;
+        tooltip += `<i>${icons[key]}<i> ${game.getLocalizedString(key)}: <c>${typeColors[key]}<c>${value}%<c>white<c>\n`;
       });
       tooltip += "\n";
     }

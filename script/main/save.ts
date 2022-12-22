@@ -197,18 +197,10 @@ function createSaves() {
   saveScreen.classList.add("saves");
   saveScreen.innerHTML = `
     <div class="save-header">
-      <input type="text" id="save-name" onKeyUp="saveName = this.value" placeholder="${game.getLocalizedString(
-        "save_name"
-      )}">
-      <button class="save-button" onClick="saveController.saveGame(saveName)">${game.getLocalizedString(
-        "save"
-      )}</button>
-      <button class="save-button" onClick="saveController.saveToFile()">${game.getLocalizedString(
-        "save_to_file"
-      )}</button>
-      <button class="save-button" onClick="saveController.loadFromFile()">${game.getLocalizedString(
-        "load_from_file"
-      )}</button>
+      <input type="text" id="save-name" onKeyUp="saveName = this.value" placeholder="${game.getLocalizedString("save_name")}">
+      <button class="save-button" onClick="saveController.saveGame(saveName)">${game.getLocalizedString("save")}</button>
+      <button class="save-button" onClick="saveController.saveToFile()">${game.getLocalizedString("save_to_file")}</button>
+      <button class="save-button" onClick="saveController.loadFromFile()">${game.getLocalizedString("load_from_file")}</button>
     </div>
   `;
   saveController.saveSlots.forEach((save) => {

@@ -114,6 +114,52 @@ const floors = [
             }),
         ],
     },
+    {
+        id: "floor_2",
+        map: "southern_plains",
+        stages: [
+            new Stage({
+                id: "stage_11",
+                foes: [new Enemy(enemies.goblin)],
+            }),
+            new Stage({
+                id: "stage_12",
+                foes: [new Enemy(enemies.orc)],
+            }),
+            new Stage({
+                id: "stage_13",
+                foes: [new Enemy(enemies.goblin), new Enemy(enemies.orc)],
+            }),
+            new Stage({
+                id: "stage_14",
+                foes: [new Enemy(enemies.goblin), new Enemy(enemies.orc), new Enemy(enemies.goblin)],
+            }),
+            new Stage({
+                id: "stage_15",
+                foes: [new Enemy(enemies.orc_berserker)],
+            }),
+            new Stage({
+                id: "stage_16",
+                foes: [new Enemy(enemies.orc_berserker), new Enemy(enemies.orc)],
+            }),
+            new Stage({
+                id: "stage_17",
+                foes: [new Enemy(enemies.orc_berserker), new Enemy(enemies.orc_berserker)],
+            }),
+            new Stage({
+                id: "stage_18",
+                foes: [new Enemy(enemies.orc), new Enemy(enemies.orc_berserker), new Enemy(enemies.orc)],
+            }),
+            new Stage({
+                id: "stage_19",
+                foes: [new Enemy(enemies.orc_berserker), new Enemy(enemies.orc_berserker), new Enemy(enemies.goblin)],
+            }),
+            new Stage({
+                id: "stage_20",
+                foes: [new Enemy(enemies.troll)],
+            }),
+        ],
+    },
 ];
 let currentStage = "";
 function createFloors() {

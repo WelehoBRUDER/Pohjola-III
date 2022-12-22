@@ -138,14 +138,7 @@ class Game {
         console.log(shakes);
     }
 }
-const hotkeys = [
-    "hotkey_ability_1",
-    "hotkey_ability_2",
-    "hotkey_ability_3",
-    "hotkey_ability_4",
-    "hotkey_ability_5",
-    "hotkey_ability_6",
-];
+const hotkeys = ["hotkey_ability_1", "hotkey_ability_2", "hotkey_ability_3", "hotkey_ability_4", "hotkey_ability_5", "hotkey_ability_6"];
 class Settings {
     constructor(settings) {
         this.hotkey_ability_1 = settings?.hotkey_ability_1 || "Digit1";
@@ -177,6 +170,8 @@ class Statistics {
         this.total_deaths = stats?.total_deaths || 0;
         this.total_turns = stats?.total_turns || 0;
         this.total_combat_time = stats?.total_combat_time || 0;
+        this.total_xp_gained = stats?.total_xp_gained || 0;
+        this.total_gold_gained = stats?.total_gold_gained || 0;
         this.time_played = stats?.time_played || 0;
         this.most_damage = stats?.most_damage || 0;
         this.most_healing = stats?.most_healing || 0;

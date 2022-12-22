@@ -155,9 +155,7 @@ class Player extends Character {
 
     for (let i = this.statuses.length - 1; i >= 0; i--) {
       if (this.statuses[i].lasts <= 0) {
-        const statusElem: HTMLDivElement = playerStatuses.querySelector(
-          ".status-effect[data-id='" + this.statuses[i].id + "']"
-        )!;
+        const statusElem: HTMLDivElement = playerStatuses.querySelector(".status-effect[data-id='" + this.statuses[i].id + "']")!;
         if (statusElem) {
           statusElem.remove();
         }
@@ -167,14 +165,17 @@ class Player extends Character {
     }
   }
 
-  reset(options?: { restoreHealth?: boolean; restoreMana?: boolean }) {
-    const { restoreHealth, restoreMana } = options ?? {};
+  reset(options?: { restoreHealth?: boolean; restoreMana?: boolean; removeStatuses?: boolean }) {
+    const { restoreHealth, restoreMana, removeStatuses } = options ?? {};
     const stats = this.getStats();
     if (restoreHealth) {
       this.stats.hp = stats.hpMax;
     }
     if (restoreMana) {
       this.stats.mp = stats.mpMax;
+    }
+    if (removeStatuses) {
+      this.statuses = [];
     }
     this.abilities.forEach((ability: Ability) => {
       ability.onCooldown = 0;
@@ -212,6 +213,7 @@ class Player extends Character {
   addXP(xp: number) {
     const boost = this.allModifiers["xp_boost"] ?? 1;
     this.xp += Math.floor(xp * boost);
+    stats.total_xp_gained += Math.floor(xp * boost);
     while (this.xp >= this.xpForNextLevel()) {
       this.levelUp();
     }
@@ -219,6 +221,7 @@ class Player extends Character {
 
   addGold(gold: number) {
     const boost = this.allModifiers["gold_boost"] ?? 1;
+    stats.total_gold_gained += Math.floor(gold * boost);
     this.gold += Math.floor(gold * boost);
   }
 
@@ -237,7 +240,6 @@ class Player extends Character {
     // @ts-ignore
     this.inventory = this.inventory.map((item: Item) => new Item(items[item.id]).updateClass());
     Object.entries(this.equipment).forEach(([slot, item]: [string, Item]) => {
-      console.log(slot);
       if (item) {
         // @ts-ignore
         this.equipment[slot] = new Item(items[item.id]).updateClass();
@@ -286,7 +288,7 @@ const player = new Player({
   abilities: [],
   critRate: 3,
   critPower: 50,
-  inventory: [new Weapon({ ...items.broken_sword }), new Armor({ ...items.ragged_armor })],
+  inventory: [],
   abilities_total: [],
   traits: [],
   statuses: [],
@@ -301,5 +303,5 @@ const player = new Player({
 
 player.updateAllModifiers();
 player.abilities.forEach((abi) => abi.updateStats(player));
-player.addItem(new Weapon({ ...items.broken_sword }), 203);
-player.addItem(new Armor({ ...items.ragged_armor }), 1);
+// player.addItem(new Weapon({ ...items.broken_sword }), 203);
+// player.addItem(new Armor({ ...items.ragged_armor }), 1);

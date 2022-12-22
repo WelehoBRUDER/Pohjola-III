@@ -80,9 +80,7 @@ class Character {
             let base = 0.4;
             if (this.equipment)
                 base += this.getEquipmentSpeed();
-            const speed = +(1 *
-                (base + this.getStats({ dontUpdateModifiers: true }).agi / 100) *
-                this.allModifiers.speedP).toFixed(2);
+            const speed = +(1 * (base + this.getStats({ dontUpdateModifiers: true }).agi / 100) * this.allModifiers.speedP).toFixed(2);
             return speed > 0 ? speed : 0;
         };
         this.getEquipmentSpeed = () => {
@@ -177,10 +175,16 @@ class Character {
                     if (this.isEnemy) {
                         this.harm(damage);
                         stats.total_damage += damage;
+                        if (stats.most_damage < damage) {
+                            stats.most_damage = damage;
+                        }
                     }
                     else {
                         this.stats.hp -= damage;
                         stats.total_damage_taken += damage;
+                        if (stats.most_damage_taken < damage) {
+                            stats.most_damage_taken = damage;
+                        }
                     }
                     createDroppingText(damage.toString(), location, status.type);
                 }

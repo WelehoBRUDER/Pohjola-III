@@ -130,13 +130,16 @@ class Player extends Character {
         }
     }
     reset(options) {
-        const { restoreHealth, restoreMana } = options ?? {};
+        const { restoreHealth, restoreMana, removeStatuses } = options ?? {};
         const stats = this.getStats();
         if (restoreHealth) {
             this.stats.hp = stats.hpMax;
         }
         if (restoreMana) {
             this.stats.mp = stats.mpMax;
+        }
+        if (removeStatuses) {
+            this.statuses = [];
         }
         this.abilities.forEach((ability) => {
             ability.onCooldown = 0;
@@ -171,12 +174,14 @@ class Player extends Character {
     addXP(xp) {
         const boost = this.allModifiers["xp_boost"] ?? 1;
         this.xp += Math.floor(xp * boost);
+        stats.total_xp_gained += Math.floor(xp * boost);
         while (this.xp >= this.xpForNextLevel()) {
             this.levelUp();
         }
     }
     addGold(gold) {
         const boost = this.allModifiers["gold_boost"] ?? 1;
+        stats.total_gold_gained += Math.floor(gold * boost);
         this.gold += Math.floor(gold * boost);
     }
     levelUp() {
@@ -193,7 +198,6 @@ class Player extends Character {
         // @ts-ignore
         this.inventory = this.inventory.map((item) => new Item(items[item.id]).updateClass());
         Object.entries(this.equipment).forEach(([slot, item]) => {
-            console.log(slot);
             if (item) {
                 // @ts-ignore
                 this.equipment[slot] = new Item(items[item.id]).updateClass();
@@ -242,7 +246,7 @@ const player = new Player({
     abilities: [],
     critRate: 3,
     critPower: 50,
-    inventory: [new Weapon({ ...items.broken_sword }), new Armor({ ...items.ragged_armor })],
+    inventory: [],
     abilities_total: [],
     traits: [],
     statuses: [],
@@ -256,6 +260,6 @@ const player = new Player({
 });
 player.updateAllModifiers();
 player.abilities.forEach((abi) => abi.updateStats(player));
-player.addItem(new Weapon({ ...items.broken_sword }), 203);
-player.addItem(new Armor({ ...items.ragged_armor }), 1);
+// player.addItem(new Weapon({ ...items.broken_sword }), 203);
+// player.addItem(new Armor({ ...items.ragged_armor }), 1);
 //# sourceMappingURL=player.js.map

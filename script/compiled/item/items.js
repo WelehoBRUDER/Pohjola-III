@@ -164,6 +164,9 @@ const armors = {
             magical: 5,
             elemental: 3,
         },
+        modifiers: {
+            hpMaxV: 10,
+        },
         stackable: true,
         icon: "gfx/items/leather-vest.png",
         tier: itemTiers.uncommon,
@@ -210,6 +213,9 @@ const armors = {
             magical: 5,
             elemental: 5,
         },
+        modifiers: {
+            hpMaxV: 30,
+        },
         stackable: true,
         icon: "gfx/items/breastplate.png",
         tier: itemTiers.rare,
@@ -225,6 +231,9 @@ const armors = {
             magical: 2,
             elemental: 1,
         },
+        modifiers: {
+            hpMaxV: 10,
+        },
         stackable: true,
         icon: "gfx/items/visored-helm.png",
         tier: itemTiers.rare,
@@ -239,6 +248,9 @@ const armors = {
             physical: 5,
             magical: 2,
             elemental: 1,
+        },
+        modifiers: {
+            hpMaxV: 10,
         },
         stackable: true,
         icon: "gfx/items/leg-armor.png",

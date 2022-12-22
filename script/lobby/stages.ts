@@ -52,9 +52,7 @@ class Stage {
       const { level, color } = getDangerLevel(pw);
       const power = level < 2 ? pw : "💀";
       totalPower += pw;
-      text += `<c>${color}<c>${game.getLocalizedString(en.id)}, <c>white<c>${game.getLocalizedString(
-        "power"
-      )}: <c>${color}<c>${power}\n`;
+      text += `<c>${color}<c>${game.getLocalizedString(en.id)}, <c>white<c>${game.getLocalizedString("power")}: <c>${color}<c>${power}\n`;
     });
     text += "<f>1.25rem<f>";
     const { level, color } = getDangerLevel(totalPower);
@@ -123,6 +121,52 @@ const floors: any = [
       new Stage({
         id: "tomb_of_the_mage",
         foes: [new Enemy(enemies.skeleton_mage)],
+      }),
+    ],
+  },
+  {
+    id: "floor_2",
+    map: "southern_plains",
+    stages: [
+      new Stage({
+        id: "stage_11",
+        foes: [new Enemy(enemies.goblin)],
+      }),
+      new Stage({
+        id: "stage_12",
+        foes: [new Enemy(enemies.orc)],
+      }),
+      new Stage({
+        id: "stage_13",
+        foes: [new Enemy(enemies.goblin), new Enemy(enemies.orc)],
+      }),
+      new Stage({
+        id: "stage_14",
+        foes: [new Enemy(enemies.goblin), new Enemy(enemies.orc), new Enemy(enemies.goblin)],
+      }),
+      new Stage({
+        id: "stage_15",
+        foes: [new Enemy(enemies.orc_berserker)],
+      }),
+      new Stage({
+        id: "stage_16",
+        foes: [new Enemy(enemies.orc_berserker), new Enemy(enemies.orc)],
+      }),
+      new Stage({
+        id: "stage_17",
+        foes: [new Enemy(enemies.orc_berserker), new Enemy(enemies.orc_berserker)],
+      }),
+      new Stage({
+        id: "stage_18",
+        foes: [new Enemy(enemies.orc), new Enemy(enemies.orc_berserker), new Enemy(enemies.orc)],
+      }),
+      new Stage({
+        id: "stage_19",
+        foes: [new Enemy(enemies.orc_berserker), new Enemy(enemies.orc_berserker), new Enemy(enemies.goblin)],
+      }),
+      new Stage({
+        id: "stage_20",
+        foes: [new Enemy(enemies.troll)],
       }),
     ],
   },

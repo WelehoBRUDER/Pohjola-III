@@ -111,7 +111,7 @@ class Skill {
 
   tooltip(): string {
     let tooltip = "";
-    tooltip += `<f>1.5rem<f><c>goldenrod<c>${this.id}\n`;
+    tooltip += `<f>1.5rem<f><c>goldenrod<c>${game.getLocalizedString(this.id)}\n`;
     tooltip += "<f>1.2rem<f><c>white<c>";
 
     if (this.requirements.length > 0) {

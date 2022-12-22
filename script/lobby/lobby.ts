@@ -76,9 +76,9 @@ function createStats() {
   Object.entries(stats).forEach(([stat, value]) => {
     const statElement = document.createElement("div");
     statElement.classList.add("stat");
-    statElement.innerHTML = `<div class="stat-name">${game.getLocalizedString(
-      stat
-    )}</div><div class="stat-value">${value}</div>`;
+    statElement.innerHTML = `<div class="stat-name">${game.getLocalizedString(stat)}</div><div class="stat-value">${Math.round(
+      value
+    )}</div>`;
     statsScreen.append(statElement);
   });
   lobbyContent.append(statsScreen);

@@ -25,6 +25,14 @@ const english = {
   critRate: "Crit Rate",
   critPower: "Crit Power",
 
+  // combat
+  combat_defeat: "Defeat",
+  combat_defeat_text: "You have been defeated in battle!",
+  combat_victory: "Victory",
+  defeated_enemies: "Defeated enemies",
+  loot_gained: "Loot gained",
+  continue: "Continue",
+
   // misc
   increases: "Increases",
   decreases: "Decreases",
@@ -33,6 +41,9 @@ const english = {
   defences: "Defences",
   resists: "Resistances",
   gold: "Gold",
+  mp_cost: "Mana Cost",
+  duration: "Duration",
+  cooldown: "Cooldown",
   perk_points: "Perk Points",
   skill_points: "Skill Points",
   gold_tt: "Gold is used to buy items and equipment.",
@@ -44,6 +55,12 @@ const english = {
   shift_to_compare: "\n<c>yellow<c>Hold shift to compare to equipped item",
   effective_change: "Effective changes",
   leveled_times: "leveled {times} times.",
+  power_level: "Power Level",
+  total_danger: "Total Danger",
+  next_level: "Next Level",
+  add_ability: "Gain ability",
+  effects_to_self: "Effects to user",
+  effects_to_foe: "Effects to target",
 
   // effect strings
   damageFlat: "Damage per second",
@@ -51,8 +68,7 @@ const english = {
   healingFlat: "Healing per second",
   healingPercent: "Healing per second",
   damagePercent_first: "Deals",
-  damagePercent_last:
-    "<c>white<c>of the target's <c>gold<c>max health<c>white<c> in [TYPE] <c>crimson<c>damage<c>white<c> every second",
+  damagePercent_last: "<c>white<c>of the target's <c>gold<c>max health<c>white<c> in [TYPE] <c>crimson<c>damage<c>white<c> every second",
   damageFlat_first: "Deals",
   damageFlat_last: "[TYPE] <c>crimson<c>damage<c>white<c> every second",
   healingPercent_first: "<c>lime<c>Heals<c>white<c>",
@@ -88,7 +104,82 @@ const english = {
 
   // Ability names //
   sharp_strike: "Sharp Strike",
+  fierce_attack: "Fierce Attack",
+  battle_aura: "Battle Aura",
+  flame: "Flame",
+  disorienting_blow: "Disorienting Blow",
+  healing_light: "Healing Light",
   holy_grace: "Holy Grace",
+
+  // Effect names //
+  wounded: "Wounded",
+  attack_1: "Attack I",
+  regeneration_1: "Regeneration I",
+  burning: "Burning",
+
+  // Enemy names //
+  skeleton: "Skeleton",
+  skeleton_brute: "Skeleton Brute",
+  skeleton_knight: "Skeleton Knight",
+  skeleton_mage: "Skeleton Mage",
+  goblin: "Goblin",
+  orc: "Orc",
+  orc_berserker: "Orc Berserker",
+  troll: "Troll",
+
+  // Skill names //
+  skill_fierce_attack: "Fierce Attack",
+  fierce_attack_upgrade_1: "Fierce Attack I",
+  fierce_attack_upgrade_2: "Fierce Attack II",
+  fierce_attack_upgrade_3: "Fierce Attack III",
+  skill_sharp_strike: "Sharp Strike",
+  sharp_strike_upgrade_1: "Sharp Strike I",
+  sharp_strike_upgrade_2: "Sharp Strike II",
+  sharp_strike_upgrade_3: "Sharp Strike III",
+  skill_battle_aura: "Battle Aura",
+  battle_aura_upgrade_1: "Battle Aura I",
+  battle_aura_upgrade_2: "Battle Aura II",
+  battle_aura_upgrade_3: "Battle Aura III",
+  skill_flame: "Flame",
+  flame_upgrade_1: "Flame I",
+  flame_upgrade_2: "Flame II",
+  flame_upgrade_3: "Flame III",
+  skill_disorienting_blow: "Disorienting Blow",
+  disorienting_blow_upgrade_1: "Disorienting Blow I",
+  disorienting_blow_upgrade_2: "Disorienting Blow II",
+  skill_healing_light: "Healing Light",
+  healing_light_upgrade_1: "Healing Light I",
+  healing_light_upgrade_2: "Healing Light II",
+  skill_holy_grace: "Holy Grace",
+  holy_grace_upgrade_1: "Holy Grace I",
+  holy_grace_upgrade_2: "Holy Grace II",
+  holy_grace_upgrade_3: "Holy Grace III",
+
+  // Floors
+  floor_1: "Spooky Scary Skeletons",
+  floor_2: "Smelly Greenskins",
+
+  // Stages
+  tutorial: "Tutorial",
+  graveyard_expedition: "Graveyard Expedition",
+  undead_menace: "Undead Menace",
+  stage_4: "Stage 4",
+  stage_5: "Stage 5",
+  stage_6: "Stage 6",
+  stage_7: "Stage 7",
+  stage_8: "Stage 8",
+  stage_9: "Stage 9",
+  tomb_of_the_mage: "Tomb of the Mage",
+  stage_11: "Goblin Cave",
+  stage_12: "Lone Orc",
+  stage_13: "Stage 13",
+  stage_14: "Stage 14",
+  stage_15: "Stage 15",
+  stage_16: "Stage 16",
+  stage_17: "Stage 17",
+  stage_18: "Stage 18",
+  stage_19: "Stage 19",
+  stage_20: "King of the Ancient Forest",
 
   // Perks //
   "0_foundation_of_power": "Foundation of Power",

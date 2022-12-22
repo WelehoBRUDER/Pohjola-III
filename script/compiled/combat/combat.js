@@ -7,21 +7,21 @@ function update(options) {
     if (player.stats.mp < 0) {
         player.stats.mp = 0;
     }
-    const stats = player.getStats({ dontUpdateModifiers: true });
-    if (player.stats.hp > stats.hpMax)
-        player.stats.hp = stats.hpMax;
-    if (player.stats.mp > stats.mpMax)
-        player.stats.mp = stats.mpMax;
-    const PlayerHealthRemaining = (player.stats.hp / stats.hpMax) * 100;
-    const PlayerManaRemaining = (player.stats.mp / stats.mpMax) * 100;
+    const playerStats = player.getStats({ dontUpdateModifiers: true });
+    if (player.stats.hp > playerStats.hpMax)
+        player.stats.hp = playerStats.hpMax;
+    if (player.stats.mp > playerStats.mpMax)
+        player.stats.mp = playerStats.mpMax;
+    const PlayerHealthRemaining = (player.stats.hp / playerStats.hpMax) * 100;
+    const PlayerManaRemaining = (player.stats.mp / playerStats.mpMax) * 100;
     playerActionFill.style.width = `${player.stats.ap}%`;
     playerHPFill.style.width = `${PlayerHealthRemaining}%`;
     playerMPFill.style.width = `${PlayerManaRemaining}%`;
     playerHPLate.style.width = `${PlayerHealthRemaining}%`;
     playerMPLate.style.width = `${PlayerManaRemaining}%`;
     playerAction.innerText = player.stats.ap.toFixed(1) + "%";
-    playerHP.innerText = player.stats.hp + "/" + stats.hpMax;
-    playerMP.innerText = player.stats.mp + "/" + stats.mpMax;
+    playerHP.innerText = player.stats.hp + "/" + playerStats.hpMax;
+    playerMP.innerText = player.stats.mp + "/" + playerStats.mpMax;
     player.update();
     if (options?.updatePlayerOnly)
         return;
@@ -33,6 +33,7 @@ function update(options) {
     player.stats.ap += speed;
     if (player.stats.ap > 100) {
         player.stats.ap = 100;
+        combat.turns++;
         update({ updatePlayerOnly: true });
         if (!challenges.real_time_combat) {
             game.pause({ disableSkills: false });
@@ -47,6 +48,8 @@ function update(options) {
             ability.doCooldown();
         });
         if (enemy.stats.ap > 100) {
+            if (player.stats.hp <= 0)
+                return;
             enemy.stats.ap = 100;
             enemy.act();
         }
@@ -218,6 +221,7 @@ class Combat {
         this.loot = [];
         this.gold = 0;
         this.xp = 0;
+        this.turns = 0;
         this.defeat = false;
     }
     init() { }
@@ -230,6 +234,7 @@ class Combat {
         this.loot = [];
         this.gold = 0;
         this.xp = 0;
+        this.turns = 0;
         this.defeat = false;
         enemyContainer.innerHTML = "";
         combatSummaryBackground.classList.add("hide");
@@ -268,6 +273,12 @@ class Combat {
         this.gold = 0;
         this.xp = 0;
         this.loot = [];
+        stats.total_combat_time += +this.time.toFixed(1);
+        stats.total_turns += this.turns;
+        if (this.time > stats.most_combat_time)
+            stats.most_combat_time = +this.time.toFixed(1);
+        if (this.turns > stats.most_turns)
+            stats.most_turns = this.turns;
         if (this.defeat) {
             player.xp -= Math.ceil(player.xp * (random(50, 70) / 100));
         }
@@ -279,6 +290,7 @@ class Combat {
         if (!challenges.no_after_combat_recovery) {
             player.restore();
         }
+        player.reset({ removeStatuses: true });
         combatSummaryBackground.classList.add("hide");
         game.endCombatAndGoToLobby();
     }

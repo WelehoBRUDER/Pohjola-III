@@ -132,11 +132,7 @@ class Character {
     this.getSpeed = () => {
       let base = 0.4;
       if (this.equipment) base += this.getEquipmentSpeed();
-      const speed = +(
-        1 *
-        (base + this.getStats({ dontUpdateModifiers: true }).agi / 100) *
-        this.allModifiers.speedP
-      ).toFixed(2);
+      const speed = +(1 * (base + this.getStats({ dontUpdateModifiers: true }).agi / 100) * this.allModifiers.speedP).toFixed(2);
       return speed > 0 ? speed : 0;
     };
 
@@ -226,8 +222,7 @@ class Character {
       const values = status.inflict;
       if (values?.damagePercent || values?.damageFlat) {
         let damage: number = 0;
-        if (values?.damagePercent)
-          damage = Math.round(this.getStats({ dontUpdateModifiers: true }).hpMax * values.damagePercent);
+        if (values?.damagePercent) damage = Math.round(this.getStats({ dontUpdateModifiers: true }).hpMax * values.damagePercent);
         if (values?.damageFlat) damage += values.damageFlat;
         const resist = this.getResistances()[status.type];
         damage = Math.round(damage * (1 - resist / 100)); // This can actually heal the target
@@ -239,9 +234,15 @@ class Character {
           if (this.isEnemy) {
             this.harm(damage);
             stats.total_damage += damage;
+            if (stats.most_damage < damage) {
+              stats.most_damage = damage;
+            }
           } else {
             this.stats.hp -= damage;
             stats.total_damage_taken += damage;
+            if (stats.most_damage_taken < damage) {
+              stats.most_damage_taken = damage;
+            }
           }
 
           createDroppingText(damage.toString(), location, status.type);
@@ -258,8 +259,7 @@ class Character {
         }
       } else if (values?.healingFlat || values?.healingPercent) {
         let healing: number = 0;
-        if (values?.healingPercent)
-          healing = Math.round(this.getStats({ dontUpdateModifiers: true }).hpMax * values.healingPercent);
+        if (values?.healingPercent) healing = Math.round(this.getStats({ dontUpdateModifiers: true }).hpMax * values.healingPercent);
         if (values?.healingFlat) healing += values.healingFlat;
         if (this.isEnemy) {
           this.heal(healing);
