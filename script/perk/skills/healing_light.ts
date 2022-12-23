@@ -65,22 +65,30 @@ skills.push({
       levels: [
         {
           modifiers: {
-            cooldownP: -5,
+            ability_healing_light: {
+              cooldownP: -5,
+            },
           },
         },
         {
           modifiers: {
-            cooldownP: -5,
+            ability_healing_light: {
+              cooldownP: -5,
+            },
           },
         },
         {
           modifiers: {
-            cooldownP: -5,
+            ability_healing_light: {
+              cooldownP: -5,
+            },
           },
         },
         {
           modifiers: {
-            cooldownP: -5,
+            ability_healing_light: {
+              cooldownP: -5,
+            },
           },
         },
       ],

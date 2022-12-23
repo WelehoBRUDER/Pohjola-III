@@ -8,6 +8,12 @@ const defaultModifiers = {
   elementalDamageP: 1,
   speedP: 1,
   allCooldownP: 1,
+  physicalDefenceP: 1,
+  magicalDefenceP: 1,
+  elementalDefenceP: 1,
+  physicalDefenceV: 0,
+  magicalDefenceV: 0,
+  elementalDefenceV: 0,
 };
 
 function getAllModifiers(char: Character | Player) {

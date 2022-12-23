@@ -24,6 +24,12 @@ const english = {
   speed: "Speed",
   critRate: "Crit Rate",
   critPower: "Crit Power",
+  physicalDamage: "Physical Damage",
+  magicalDamage: "Magical Damage",
+  elementalDamage: "Elemental Damage",
+  physicalDefence: "Physical Defence",
+  magicalDefence: "Magical Defence",
+  elementalDefence: "Elemental Defence",
 
   // combat
   combat_defeat: "Defeat",

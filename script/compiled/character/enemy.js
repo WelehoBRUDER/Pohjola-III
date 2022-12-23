@@ -8,6 +8,7 @@ class Enemy extends Character {
         this.loot = enemy.loot ? [...enemy.loot] : [];
         this.isEnemy = true;
         this.xp = enemy.xp ?? 0;
+        this.spawnWithEffects = enemy.spawnWithEffects ? [...enemy.spawnWithEffects] : [];
     }
     init(index) {
         this.restore();
@@ -15,6 +16,12 @@ class Enemy extends Character {
         this.abilities.map((ability) => {
             return (ability = new Ability({ ...ability }));
         });
+        if (this.spawnWithEffects) {
+            this.spawnWithEffects.map((effect) => {
+                console.log(effect);
+                this.addStatus(effect, this);
+            });
+        }
         createBattlecard(this);
     }
     getRandomMove() {
@@ -106,7 +113,6 @@ class Enemy extends Character {
     }
     updateStatusEffects() {
         this.statuses.forEach((status) => {
-            status.lasts -= 1 / 60;
             if (status.inflict) {
                 status.inflictTimer += 1 / 60;
                 if (status.inflictTimer >= 1) {
@@ -114,9 +120,12 @@ class Enemy extends Character {
                     this.inflict(status);
                 }
             }
+            if (!status.isInfinite) {
+                status.lasts -= 1 / 60;
+            }
         });
         for (let i = this.statuses.length - 1; i >= 0; i--) {
-            if (this.statuses[i].lasts <= 0) {
+            if (this.statuses[i].lasts <= 0 && !this.statuses[i].isInfinite) {
                 const statusElem = this.card?.status_effects.querySelector(".status-effect[data-id='" + this.statuses[i].id + "']");
                 if (statusElem) {
                     statusElem.remove();
@@ -170,7 +179,7 @@ class Enemy extends Character {
                 else if (statusElem) {
                     const dur = statusElem.querySelector(".duration");
                     if (dur) {
-                        dur.innerText = status.lasts.toFixed(1) + "s";
+                        dur.innerText = status.isInfinite ? "∞" : status.lasts.toFixed(1) + "s";
                     }
                 }
             });

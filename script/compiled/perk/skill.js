@@ -7,7 +7,7 @@ class Skill {
             skill = { ...findSkillById(skill.id), ...skill };
         }
         this.id = skill.id;
-        this.levels = [...skill.levels] || [];
+        this.levels = skill.levels ? [...skill.levels] : [];
         this.currentLevel = skill.currentLevel || 0;
         this.icon = skill.icon || icons.placeholder;
         this.requirements = skill.requirements ? [...skill.requirements] : [];
@@ -258,13 +258,11 @@ function createSkillElement(skill) {
     return skillElement;
 }
 function findSkillById(id) {
-    console.log("id:", id);
     let skill = skills.find((s) => s.id === id);
     if (!skill) {
-        skills.every((s) => {
+        skills.map((s) => {
             if (s.upgrades) {
                 const upgrade = s.upgrades.find((u) => u.id === id);
-                console.log("up:", upgrade);
                 if (upgrade) {
                     skill = upgrade;
                     return false;
@@ -272,7 +270,6 @@ function findSkillById(id) {
             }
         });
     }
-    console.log("returning skill:", skill);
     return skill;
 }
 //# sourceMappingURL=skill.js.map

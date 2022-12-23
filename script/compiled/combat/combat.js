@@ -1,6 +1,6 @@
 "use strict";
 function update(options) {
-    if (player.stats.hp < 0) {
+    if (player.stats.hp <= 0) {
         player.stats.hp = 0;
         combat.end();
     }
@@ -144,7 +144,7 @@ function createStatusIcon(status) {
     statusDuration.classList.add("duration");
     statusElement.setAttribute("data-id", status.id);
     statusIcon.src = status.icon;
-    statusDuration.innerText = status.lasts.toFixed(1) + "s";
+    statusDuration.innerText = status.isInfinite ? "∞" : status.lasts.toFixed(1) + "s";
     statusElement.append(statusIcon, statusDuration);
     tooltip(statusElement, status.tooltip());
     return statusElement;
@@ -265,14 +265,6 @@ class Combat {
         }
     }
     finish_combat() {
-        player.addGold(this.gold);
-        player.addXP(this.xp);
-        this.loot.forEach((item) => {
-            player.addItem(new Item({ ...item.item }), item.amount);
-        });
-        this.gold = 0;
-        this.xp = 0;
-        this.loot = [];
         stats.total_combat_time += +this.time.toFixed(1);
         stats.total_turns += this.turns;
         if (this.time > stats.most_combat_time)
@@ -286,10 +278,18 @@ class Combat {
             if (!player.completed_stages.includes(currentStage)) {
                 player.completed_stages.push(currentStage);
             }
+            player.addGold(this.gold);
+            player.addXP(this.xp);
+            this.loot.forEach((item) => {
+                player.addItem(new Item({ ...item.item }), item.amount);
+            });
         }
         if (!challenges.no_after_combat_recovery) {
             player.restore();
         }
+        this.gold = 0;
+        this.xp = 0;
+        this.loot = [];
         player.reset({ removeStatuses: true });
         combatSummaryBackground.classList.add("hide");
         game.endCombatAndGoToLobby();

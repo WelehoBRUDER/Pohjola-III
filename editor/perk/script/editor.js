@@ -66,8 +66,8 @@ function renderPerks() {
     };
     if (perk.relative_to) {
       const found = perkContainer.querySelector(`.perk[perk-id="${perk.relative_to}"]`);
-      perkDiv.style.left = `${Math.round(perk.pos.x * baseSize + found.offsetLeft)}px`;
-      perkDiv.style.top = `${Math.round(perk.pos.y * baseSize + found.offsetTop)}px`;
+      perkDiv.style.left = `${Math.round(perk.pos.x * baseSize + (found?.offsetLeft || 0))}px`;
+      perkDiv.style.top = `${Math.round(perk.pos.y * baseSize + (found?.offsetTop || 0))}px`;
     } else {
       perkDiv.style.left = `${Math.round(perk.pos.x * baseSize)}px`;
       perkDiv.style.top = `${Math.round(perk.pos.y * baseSize)}px`;

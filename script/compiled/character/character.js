@@ -22,8 +22,8 @@ class Character {
             this.updateAllModifiers();
             const defences = { ...this.defences };
             Object.entries(defences).map(([key, value]) => {
-                let modifier = this.allModifiers[key + "_defenceP"] ?? 1;
-                let boost = this.allModifiers[key + "_defenceV"] ?? 0;
+                let modifier = this.allModifiers[key + "DefenceP"] ?? 1;
+                let boost = this.allModifiers[key + "DefenceV"] ?? 0;
                 modifier += this.allModifiers["defenceP"] ?? 0;
                 boost += this.allModifiers["defenceV"] ?? 0;
                 if (this.equipment) {
@@ -253,6 +253,9 @@ class Character {
             Object.entries(speed).forEach(([key, value]) => {
                 powerLevel += value * (powerPerStat[key] || 0);
             });
+            if (this.isEnemy) {
+                powerLevel *= 1.2;
+            }
             return Math.floor(powerLevel);
         };
     }

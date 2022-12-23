@@ -110,6 +110,7 @@ function createPerks() {
         tooltip(perkDiv, perk.tooltip());
         if (perk.relative_to) {
             const found = lobbyContent.querySelector(`.perk[perk-id="${perk.relative_to}"]`);
+            console.log(perk.relative_to);
             perkDiv.style.left = `${Math.round(perk.pos.x * baseSize + found.offsetLeft)}px`;
             perkDiv.style.top = `${Math.round(perk.pos.y * baseSize + found.offsetTop)}px`;
         }

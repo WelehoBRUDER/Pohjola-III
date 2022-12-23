@@ -25,6 +25,7 @@ class Effect {
   type: string;
   inflict?: Inflict;
   modifiers?: any;
+  isInfinite?: boolean;
   constructor(effect: EffectObject) {
     this.id = effect.id;
     this.icon = effect.icon;
@@ -32,6 +33,7 @@ class Effect {
     this.type = effect.type;
     this.modifiers = effect.modifiers ? { ...effect.modifiers } : {};
     this.inflict = effect.inflict ? { ...effect.inflict } : {};
+    this.isInfinite = effect.isInfinite || false;
   }
 
   tooltip(options?: EffectOptions) {
@@ -50,7 +52,9 @@ class Effect {
     // tooltip += `${game.getLocalizedString("type")}: ${game.getLocalizedString(
     //   this.type
     // )}\n`;
-    tooltip += `<i>${icons.cooldown}<i>${game.getLocalizedString("duration")}: ${this.duration}s\n`;
+    if (!this.isInfinite) {
+      tooltip += `<i>${icons.cooldown}<i>${game.getLocalizedString("duration")}: ${this.duration}s\n`;
+    }
     if (this.modifiers && Object.keys(this.modifiers).length > 0) {
       tooltip += "\n<f>1.2rem<f><c>silver<c>Effects:\n";
       Object.entries(this.modifiers).map(([key, value]) => {

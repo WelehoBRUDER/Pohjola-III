@@ -132,13 +132,16 @@ class Player extends Character {
 
   update() {
     this.statuses.forEach((status: Effect) => {
-      status.lasts -= 1 / 60;
       if (status.inflict) {
         status.inflictTimer += 1 / 60;
         if (status.inflictTimer >= 1) {
           status.inflictTimer = 0;
           this.inflict(status);
         }
+      }
+
+      if (!status.isInfinite) {
+        status.lasts -= 1 / 60;
       }
 
       const statusElem = playerStatuses.querySelector(".status-effect[data-id='" + status.id + "']");
@@ -148,13 +151,13 @@ class Player extends Character {
       } else if (statusElem) {
         const dur: HTMLParagraphElement = statusElem.querySelector(".duration")!;
         if (dur) {
-          dur.innerText = status.lasts.toFixed(1) + "s";
+          dur.innerText = status.isInfinite ? "∞" : status.lasts.toFixed(1) + "s";
         }
       }
     });
 
     for (let i = this.statuses.length - 1; i >= 0; i--) {
-      if (this.statuses[i].lasts <= 0) {
+      if (this.statuses[i].lasts <= 0 && !this.statuses[i].isInfinite) {
         const statusElem: HTMLDivElement = playerStatuses.querySelector(".status-effect[data-id='" + this.statuses[i].id + "']")!;
         if (statusElem) {
           statusElem.remove();

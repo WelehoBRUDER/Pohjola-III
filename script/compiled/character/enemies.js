@@ -193,7 +193,7 @@ const enemies = {
         name: "Goblin",
         stats: {
             str: 8,
-            vit: 10,
+            vit: 20,
             agi: 15,
             int: 0,
             spi: 0,
@@ -235,7 +235,7 @@ const enemies = {
         name: "Orc",
         stats: {
             str: 15,
-            vit: 25,
+            vit: 30,
             agi: 10,
             int: 0,
             spi: 0,
@@ -281,7 +281,7 @@ const enemies = {
             agi: 15,
             int: 0,
             spi: 0,
-            atk: 20,
+            atk: 25,
             hp: 0,
             mp: 0,
             hpMax: 0,
@@ -318,12 +318,12 @@ const enemies = {
         id: "troll",
         name: "Troll",
         stats: {
-            str: 25,
-            vit: 60,
+            str: 30,
+            vit: 75,
             agi: 5,
             int: 0,
             spi: 0,
-            atk: 18,
+            atk: 20,
             hp: 0,
             mp: 0,
             hpMax: 0,
@@ -331,9 +331,9 @@ const enemies = {
             ap: 0,
         },
         defences: {
-            physical: 25,
-            magical: 20,
-            elemental: -5,
+            physical: 30,
+            magical: 25,
+            elemental: 10,
         },
         resistances: {
             fire: -25,
@@ -348,12 +348,13 @@ const enemies = {
         critRate: 4,
         critPower: 50,
         sprite: "greenskin_type/troll.jpg",
-        abilities: [{ ...abilities.physical_attack }],
+        abilities: [{ ...abilities.physical_attack }, { ...abilities.disorienting_blow }],
         loot: [
             {
                 gold: [250, 400],
             },
         ],
+        spawnWithEffects: [{ ...effects.troll_regen }],
         xp: 2000,
     },
 };

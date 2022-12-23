@@ -66,6 +66,16 @@ const effects: any = {
       healingPercent: 0.04,
     },
   } as EffectObject,
+  troll_regen: {
+    id: "troll_regen",
+    icon: "gfx/status/great-heart.png",
+    duration: 0,
+    isInfinite: true,
+    type: "heal",
+    inflict: {
+      healingPercent: 0.01,
+    },
+  } as EffectObject,
   attack_1: {
     id: "attack_1",
     icon: "gfx/icons/crossed-swords.png",

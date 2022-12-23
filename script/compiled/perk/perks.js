@@ -84,6 +84,38 @@ const perks = [
         },
     },
     {
+        id: "agility_5",
+        desc: "",
+        pos: {
+            x: 3.72,
+            y: -1.19,
+        },
+        icon: "gfx/status/acrobatic.png",
+        relative_to: "agility_4",
+        requires: ["agility_4"],
+        class: "",
+        modifiers: {
+            agiV: 2,
+        },
+        commands: {},
+    },
+    {
+        id: "agility_6",
+        desc: "",
+        pos: {
+            x: 3.23,
+            y: 3.84,
+        },
+        icon: "gfx/status/speedometer.png",
+        relative_to: "agility_4",
+        requires: ["agility_4"],
+        class: "",
+        modifiers: {
+            speedV: 5,
+        },
+        commands: {},
+    },
+    {
         id: "power_1",
         desc: "power_desc",
         pos: {
@@ -92,7 +124,7 @@ const perks = [
         },
         icon: "gfx/icons/crossed-swords.png",
         modifiers: {
-            atkV: 3,
+            atkV: 1,
         },
         class: "power",
         relative_to: "0_foundation_of_power",
@@ -110,7 +142,8 @@ const perks = [
         requires: ["power_1"],
         class: "",
         modifiers: {
-            atkP: 7,
+            critRateV: 1.5,
+            atkV: 1,
         },
         commands: {},
     },
@@ -126,8 +159,8 @@ const perks = [
         requires: ["power_1"],
         class: "",
         modifiers: {
-            critRateV: 2.5,
-            atkV: 2,
+            critRateV: 1.5,
+            atkV: 1,
         },
     },
     {
@@ -142,13 +175,60 @@ const perks = [
         requires: ["power_2", "power_3"],
         class: "",
         modifiers: {
-            ability_battle_aura: {
-                cooldownP: -5,
-                effect_attack_1: {
-                    durationV: 1.5,
-                },
-            },
+            atkV: 2,
+            critRateV: 1,
             critPowerV: 5,
+        },
+        commands: {},
+    },
+    {
+        id: "power_5",
+        desc: "",
+        pos: {
+            x: 1.92,
+            y: -1.5,
+        },
+        icon: "gfx/icons/crossed-swords.png",
+        relative_to: "power_4",
+        requires: ["power_4"],
+        class: "",
+        modifiers: {
+            atkV: 1,
+            critPowerV: 5,
+        },
+        commands: {},
+    },
+    {
+        id: "power_6",
+        desc: "",
+        pos: {
+            x: -2.25,
+            y: -1.28,
+        },
+        icon: "gfx/status/power.png",
+        relative_to: "power_4",
+        requires: ["power_4"],
+        class: "",
+        modifiers: {
+            atkV: 1,
+            critRateV: 2.5,
+        },
+        commands: {},
+    },
+    {
+        id: "power_raw_power",
+        desc: "",
+        pos: {
+            x: 3.58,
+            y: -0.41,
+        },
+        icon: "gfx/icons/barbarian.png",
+        relative_to: "power_5",
+        requires: ["power_5", "strength_5"],
+        class: "",
+        modifiers: {
+            physicalDamageP: 5,
+            critPowerV: 10,
         },
         commands: {},
     },
@@ -212,16 +292,57 @@ const perks = [
         requires: ["smart_2", "smart_3"],
         class: "",
         modifiers: {
-            ability_flame: {
-                cooldownP: -5,
-                effect_burning: {
-                    inflict: {
-                        damageFlatP: 50,
-                    },
-                    durationP: 10,
-                },
-            },
-            intV: 1,
+            intV: 3,
+            mpMaxP: 5,
+        },
+        commands: {},
+    },
+    {
+        id: "smart_5",
+        desc: "",
+        pos: {
+            x: -3.5,
+            y: 0.83,
+        },
+        icon: "gfx/status/brain.png",
+        relative_to: "smart_4",
+        requires: ["smart_4"],
+        class: "",
+        modifiers: {
+            intV: 2,
+        },
+        commands: {},
+    },
+    {
+        id: "smart_6",
+        desc: "",
+        pos: {
+            x: 2.58,
+            y: 1.63,
+        },
+        icon: "gfx/status/magical.png",
+        relative_to: "smart_4",
+        requires: ["smart_4"],
+        class: "",
+        modifiers: {
+            magicalDamageP: 7,
+        },
+        commands: {},
+    },
+    {
+        id: "smart_caution",
+        desc: "",
+        pos: {
+            x: 2.77,
+            y: -0.36,
+        },
+        icon: "gfx/icons/shield-reflect.png",
+        relative_to: "smart_6",
+        requires: ["smart_6", "tough_6"],
+        class: "",
+        modifiers: {
+            magicalDefenceV: 3,
+            elementalDefenceV: 3,
         },
         commands: {},
     },
@@ -292,6 +413,39 @@ const perks = [
         commands: {},
     },
     {
+        id: "strength_5",
+        desc: "",
+        pos: {
+            x: -0.59,
+            y: -3.03,
+        },
+        icon: "gfx/status/biceps.png",
+        relative_to: "strength_4",
+        requires: ["strength_4"],
+        class: "",
+        modifiers: {
+            strV: 2,
+        },
+        commands: {},
+    },
+    {
+        id: "strength_6",
+        desc: "",
+        pos: {
+            x: 3.7,
+            y: 0.34,
+        },
+        icon: "gfx/icons/armor-vest.png",
+        relative_to: "strength_4",
+        requires: ["strength_4"],
+        class: "",
+        modifiers: {
+            strV: 1,
+            physicalDefenceV: 3,
+        },
+        commands: {},
+    },
+    {
         id: "tough_1",
         desc: "tough_desc",
         pos: {
@@ -319,7 +473,7 @@ const perks = [
         class: "",
         modifiers: {
             vitV: 1,
-            vitP: 4,
+            vitP: 5,
         },
         commands: {},
     },
@@ -352,8 +506,94 @@ const perks = [
         requires: ["tough_2", "tough_3"],
         class: "",
         modifiers: {
-            vitV: 1,
+            vitV: 3,
+            hpMaxP: 5,
+        },
+        commands: {},
+    },
+    {
+        id: "tough_5",
+        desc: "",
+        pos: {
+            x: 3.09,
+            y: 2.67,
+        },
+        icon: "gfx/status/weight-lifting-up.png",
+        relative_to: "tough_4",
+        requires: ["tough_4"],
+        class: "",
+        modifiers: {
+            vitV: 2,
+        },
+        commands: {},
+    },
+    {
+        id: "tough_6",
+        desc: "",
+        pos: {
+            x: -0.77,
+            y: 3.58,
+        },
+        icon: "gfx/status/physical.png",
+        relative_to: "tough_4",
+        requires: ["tough_4"],
+        class: "",
+        modifiers: {
+            physicalDamageP: 7,
+        },
+        commands: {},
+    },
+    {
+        id: "tough_defensive",
+        desc: "",
+        pos: {
+            x: 0.2,
+            y: -3.64,
+        },
+        icon: "gfx/icons/brutal-helm.png",
+        relative_to: "tough_5",
+        requires: ["tough_5", "agility_6"],
+        class: "",
+        modifiers: {
             hpMaxP: 7.5,
+            speedP: 7.5,
+        },
+        commands: {},
+    },
+    {
+        id: "warrior",
+        desc: "",
+        pos: {
+            x: -2.14,
+            y: -1.94,
+        },
+        icon: "gfx/icons/swords-power.png",
+        relative_to: "agility_5",
+        requires: ["agility_5", "strength_6"],
+        class: "",
+        modifiers: {
+            critRateV: 2,
+            agiP: 5,
+            strP: 5,
+            physicalDefenceV: 2,
+        },
+        commands: {},
+    },
+    {
+        id: "weak_points",
+        desc: "",
+        pos: {
+            x: -3.03,
+            y: 3.19,
+        },
+        icon: "gfx/abilities/pointy-sword.png",
+        relative_to: "power_6",
+        requires: ["power_6", "will_5"],
+        class: "",
+        modifiers: {
+            critRateV: 3,
+            mpMaxV: 3,
+            critPowerV: 9,
         },
         commands: {},
     },
@@ -418,7 +658,58 @@ const perks = [
         requires: ["will_2", "will_3"],
         class: "",
         modifiers: {
-            spiP: 10,
+            spiV: 3,
+            mpMaxP: 5,
+        },
+        commands: {},
+    },
+    {
+        id: "will_5",
+        desc: "",
+        pos: {
+            x: -1.95,
+            y: -1.95,
+        },
+        icon: "gfx/status/wisdom.png",
+        relative_to: "will_4",
+        requires: ["will_4"],
+        class: "",
+        modifiers: {
+            spiV: 2,
+        },
+        commands: {},
+    },
+    {
+        id: "will_6",
+        desc: "",
+        pos: {
+            x: -1.98,
+            y: 2.17,
+        },
+        icon: "gfx/status/elemental.png",
+        relative_to: "will_4",
+        requires: ["will_4"],
+        class: "",
+        modifiers: {
+            elementalDamageP: 7,
+        },
+        commands: {},
+    },
+    {
+        id: "will_enlightened",
+        desc: "",
+        pos: {
+            x: 0.3,
+            y: 3.16,
+        },
+        icon: "gfx/icons/book-aura.png",
+        relative_to: "will_6",
+        requires: ["will_6", "smart_5"],
+        class: "",
+        modifiers: {
+            spiV: 1,
+            intV: 1,
+            mpMaxP: 7.5,
         },
         commands: {},
     },
