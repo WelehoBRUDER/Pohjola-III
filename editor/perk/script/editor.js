@@ -196,6 +196,9 @@ perkContainer.onmousedown = (e) => {
 
 function savePerks() {
   const __perks = perks.sort((a, b) => (a.id > b.id ? 1 : -1));
+  __perks.map((p) => {
+    if (!p.cost) p.cost = 1;
+  });
   let text = "const perks: PerkObject[] =";
   text += JSON.stringify(__perks, null, 1);
   text += ";";

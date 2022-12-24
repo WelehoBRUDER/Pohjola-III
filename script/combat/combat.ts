@@ -115,6 +115,7 @@ function useAbility(hotkey: string | null, index?: number | null) {
       game.startTargeting(ability);
     }
   } else {
+    console.log(player.statuses);
     ability.use(player, player);
   }
 }

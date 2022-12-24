@@ -17,6 +17,7 @@ const perks = [
             spiV: 1,
         },
         class: "adventure",
+        cost: 1,
     },
     {
         id: "agility_1",
@@ -32,6 +33,7 @@ const perks = [
         class: "agility",
         relative_to: "0_foundation_of_power",
         requires: ["0_foundation_of_power"],
+        cost: 2,
     },
     {
         id: "agility_2",
@@ -49,6 +51,7 @@ const perks = [
             agiP: 5,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "agility_3",
@@ -66,6 +69,7 @@ const perks = [
             speedP: 5,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "agility_4",
@@ -82,6 +86,7 @@ const perks = [
             agiV: 3,
             speedP: 5,
         },
+        cost: 2,
     },
     {
         id: "agility_5",
@@ -98,6 +103,7 @@ const perks = [
             agiV: 2,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "agility_6",
@@ -114,6 +120,7 @@ const perks = [
             speedV: 5,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "power_1",
@@ -129,6 +136,7 @@ const perks = [
         class: "power",
         relative_to: "0_foundation_of_power",
         requires: ["0_foundation_of_power"],
+        cost: 2,
     },
     {
         id: "power_2",
@@ -146,6 +154,7 @@ const perks = [
             atkV: 1,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "power_3",
@@ -162,6 +171,7 @@ const perks = [
             critRateV: 1.5,
             atkV: 1,
         },
+        cost: 1,
     },
     {
         id: "power_4",
@@ -180,6 +190,7 @@ const perks = [
             critPowerV: 5,
         },
         commands: {},
+        cost: 2,
     },
     {
         id: "power_5",
@@ -197,6 +208,7 @@ const perks = [
             critPowerV: 5,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "power_6",
@@ -214,6 +226,7 @@ const perks = [
             critRateV: 2.5,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "power_raw_power",
@@ -231,6 +244,7 @@ const perks = [
             critPowerV: 10,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "smart_1",
@@ -246,6 +260,7 @@ const perks = [
         class: "smart",
         relative_to: "0_foundation_of_power",
         requires: ["0_foundation_of_power"],
+        cost: 2,
     },
     {
         id: "smart_2",
@@ -263,6 +278,7 @@ const perks = [
             intP: 5,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "smart_3",
@@ -279,6 +295,7 @@ const perks = [
             intV: 1,
             intP: 5,
         },
+        cost: 1,
     },
     {
         id: "smart_4",
@@ -296,6 +313,7 @@ const perks = [
             mpMaxP: 5,
         },
         commands: {},
+        cost: 2,
     },
     {
         id: "smart_5",
@@ -312,6 +330,7 @@ const perks = [
             intV: 2,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "smart_6",
@@ -328,6 +347,7 @@ const perks = [
             magicalDamageP: 7,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "smart_caution",
@@ -345,6 +365,7 @@ const perks = [
             elementalDefenceV: 3,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "strength_1",
@@ -360,6 +381,7 @@ const perks = [
         class: "strength",
         relative_to: "0_foundation_of_power",
         requires: ["0_foundation_of_power"],
+        cost: 2,
     },
     {
         id: "strength_2",
@@ -377,6 +399,7 @@ const perks = [
             strP: 5,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "strength_3",
@@ -394,6 +417,7 @@ const perks = [
             strP: 5,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "strength_4",
@@ -411,6 +435,7 @@ const perks = [
             atkP: 5,
         },
         commands: {},
+        cost: 2,
     },
     {
         id: "strength_5",
@@ -427,6 +452,7 @@ const perks = [
             strV: 2,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "strength_6",
@@ -444,6 +470,7 @@ const perks = [
             physicalDefenceV: 3,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "tough_1",
@@ -459,6 +486,7 @@ const perks = [
         class: "tough",
         relative_to: "0_foundation_of_power",
         requires: ["0_foundation_of_power"],
+        cost: 2,
     },
     {
         id: "tough_2",
@@ -476,6 +504,7 @@ const perks = [
             vitP: 5,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "tough_3",
@@ -493,6 +522,7 @@ const perks = [
             hpMaxP: 5,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "tough_4",
@@ -510,6 +540,7 @@ const perks = [
             hpMaxP: 5,
         },
         commands: {},
+        cost: 2,
     },
     {
         id: "tough_5",
@@ -526,6 +557,7 @@ const perks = [
             vitV: 2,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "tough_6",
@@ -542,6 +574,7 @@ const perks = [
             physicalDamageP: 7,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "tough_defensive",
@@ -559,6 +592,7 @@ const perks = [
             speedP: 7.5,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "warrior",
@@ -578,6 +612,7 @@ const perks = [
             physicalDefenceV: 2,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "weak_points",
@@ -596,6 +631,7 @@ const perks = [
             critPowerV: 9,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "will_1",
@@ -611,6 +647,7 @@ const perks = [
         class: "will",
         relative_to: "0_foundation_of_power",
         requires: ["0_foundation_of_power"],
+        cost: 2,
     },
     {
         id: "will_2",
@@ -628,6 +665,7 @@ const perks = [
             spiP: 5,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "will_3",
@@ -645,6 +683,7 @@ const perks = [
             mpMaxV: 10,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "will_4",
@@ -662,6 +701,7 @@ const perks = [
             mpMaxP: 5,
         },
         commands: {},
+        cost: 2,
     },
     {
         id: "will_5",
@@ -678,6 +718,7 @@ const perks = [
             spiV: 2,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "will_6",
@@ -694,6 +735,7 @@ const perks = [
             elementalDamageP: 7,
         },
         commands: {},
+        cost: 1,
     },
     {
         id: "will_enlightened",
@@ -712,6 +754,7 @@ const perks = [
             mpMaxP: 7.5,
         },
         commands: {},
+        cost: 1,
     },
 ];
 //# sourceMappingURL=perks.js.map

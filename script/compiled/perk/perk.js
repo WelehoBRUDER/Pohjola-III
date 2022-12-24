@@ -5,6 +5,7 @@ class Perk {
         this.desc = perk.desc;
         this.pos = perk.pos;
         this.icon = perk.icon;
+        this.cost = perk.cost;
         this.relative_to = perk.relative_to;
         this.requires = perk.requires;
         this.class = perk.class;
@@ -77,6 +78,10 @@ class Perk {
             Object.entries(this.modifiers).map(([key, value]) => {
                 tooltip += " " + effectSyntax(key, value);
             });
+        }
+        if (this.cost > 0) {
+            const col = player.perk_points >= this.cost ? "lime" : "red";
+            tooltip += `\n<f>1.2rem<f><c>silver<c>${game.getLocalizedString("cost")}: <c>${col}<c>${this.cost} <c>silver<c>${game.getLocalizedString("perk_points")}`;
         }
         return tooltip;
     }

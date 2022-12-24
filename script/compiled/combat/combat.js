@@ -117,6 +117,7 @@ function useAbility(hotkey, index) {
         }
     }
     else {
+        console.log(player.statuses);
         ability.use(player, player);
     }
 }

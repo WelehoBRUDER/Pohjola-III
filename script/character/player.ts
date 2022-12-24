@@ -178,7 +178,14 @@ class Player extends Character {
       this.stats.mp = stats.mpMax;
     }
     if (removeStatuses) {
-      this.statuses = [];
+      for (let i = this.statuses.length - 1; i >= 0; i--) {
+        const statusElem: HTMLDivElement = playerStatuses.querySelector(".status-effect[data-id='" + this.statuses[i].id + "']")!;
+        if (statusElem) {
+          statusElem.remove();
+        }
+        this.statuses.splice(i, 1);
+        this.updateAllModifiers();
+      }
     }
     this.abilities.forEach((ability: Ability) => {
       ability.onCooldown = 0;
