@@ -270,8 +270,66 @@ const materials = {
   },
 };
 
+const potions = {
+  small_healing_potion: {
+    id: "small_healing_potion",
+    icon: "gfx/items/health-potion.png",
+    price: 25,
+    heal: 20,
+    stackable: true,
+    tier: itemTiers.common,
+    type: "potion",
+  },
+  medium_healing_potion: {
+    id: "medium_healing_potion",
+    icon: "gfx/items/health-potion.png",
+    price: 100,
+    heal: 50,
+    stackable: true,
+    tier: itemTiers.uncommon,
+    type: "potion",
+  },
+  large_healing_potion: {
+    id: "large_healing_potion",
+    icon: "gfx/items/health-potion.png",
+    price: 500,
+    heal: 100,
+    stackable: true,
+    tier: itemTiers.rare,
+    type: "potion",
+  },
+  small_mana_potion: {
+    id: "small_mana_potion",
+    icon: "gfx/items/mana-potion.png",
+    price: 25,
+    manaRecover: 20,
+    stackable: true,
+    tier: itemTiers.common,
+    type: "potion",
+  },
+  medium_mana_potion: {
+    id: "medium_mana_potion",
+    icon: "gfx/items/mana-potion.png",
+    price: 100,
+    manaRecover: 50,
+    stackable: true,
+    tier: itemTiers.uncommon,
+    type: "potion",
+  },
+  large_mana_potion: {
+    id: "large_mana_potion",
+    icon: "gfx/items/mana-potion.png",
+    price: 500,
+    manaRecover: 100,
+    stackable: true,
+    tier: itemTiers.rare,
+    type: "potion",
+  },
+};
+
 const items = {
   ...weapons,
   ...armors,
   ...materials,
+  ...potions,
 } as const;

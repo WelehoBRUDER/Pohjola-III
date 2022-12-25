@@ -186,6 +186,56 @@
   }
 }
 
+.stages-upper {
+  width: calc(100% - 3rem);
+  height: 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0.25rem;
+  background: rgb(5, 5, 5);
+  box-shadow: 0.15rem 0.33rem 0.5rem 0.5rem rgba(0, 0, 0, 0.5);
+
+  h1 {
+    color: gold;
+    font-size: 2rem;
+    margin: 0 0.75rem;
+  }
+
+  button {
+    width: 9rem;
+    height: 3rem;
+    border: 0.25rem solid rgb(54, 54, 54);
+    border-radius: 0.5rem;
+    background: rgb(20, 20, 20);
+    box-shadow: 0.15rem 0.33rem 0.5rem 0.5rem rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0.75rem;
+    cursor: pointer;
+    transition: 0.2s;
+    color: silver;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    font-family: Almendra, "serif";
+
+    &:hover {
+      filter: brightness(1.25);
+    }
+
+    img {
+      width: 2rem;
+      height: 2rem;
+      object-fit: contain;
+      filter: drop-shadow(0px 0px 0.5rem #131313);
+      pointer-events: none;
+      user-select: none;
+    }
+  }
+}
+
 .stages,
 .floors {
   width: calc(100% - 3rem);
@@ -212,14 +262,23 @@
     border: 0.5rem solid rgb(54, 54, 54);
     border-radius: 1rem;
 
+    &.locked {
+      filter: brightness(0.5);
+      border: 0.5rem solid rgb(58, 3, 3);
+    }
+
     &.complete {
       border: 0.5rem solid gold;
     }
 
-    &:hover {
+    &:hover:not(.locked) {
       cursor: pointer;
       filter: brightness(1.5);
       box-shadow: 0 0 0.3rem 0.6rem rgb(17, 17, 17);
+    }
+
+    &.boss {
+      border: 0.5rem solid rgb(58, 3, 3);
     }
   }
 }

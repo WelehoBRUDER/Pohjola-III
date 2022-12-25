@@ -67,6 +67,7 @@ const english = {
   add_ability: "Gain ability",
   effects_to_self: "Effects to user",
   effects_to_foe: "Effects to target",
+  boss: "This stage is a boss fight!",
 
   // effect strings
   damageFlat: "Damage per second",

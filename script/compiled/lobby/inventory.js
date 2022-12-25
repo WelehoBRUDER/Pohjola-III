@@ -110,13 +110,15 @@ function createSlot(item, options) {
 }
 function clickItem(item, options) {
     if (options?.shift && !options.buy && !options.sell) {
-        if (options?.equipped) {
-            player.unequip(item.slot);
-            createInventory();
-        }
-        else {
-            player.equip(item, { removeFromInventory: true });
-            createInventory();
+        if (item.type !== "potion" && item.type !== "material") {
+            if (options?.equipped) {
+                player.unequip(item.slot);
+                createInventory();
+            }
+            else {
+                player.equip(item, { removeFromInventory: true });
+                createInventory();
+            }
         }
     }
     else if (options?.pos) {
@@ -158,11 +160,20 @@ function clickItem(item, options) {
                 },
             });
         }
-        else {
+        else if (item.type !== "potion" && item.type !== "material") {
             buttons.push({
                 text: "equip_item",
                 action: () => {
                     player.equip(item, { removeFromInventory: true });
+                    createInventory();
+                },
+            });
+        }
+        if (item.type === "potion") {
+            buttons.push({
+                text: "drink_potion",
+                action: () => {
+                    player.drinkPotion(item);
                     createInventory();
                 },
             });

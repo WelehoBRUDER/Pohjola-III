@@ -53,9 +53,6 @@ skills.push({
           modifiers: {
             ability_disorienting_blow: {
               cooldownP: -5,
-              effect_dazed: {
-                durationP: 5,
-              },
             },
           },
         },
@@ -63,9 +60,6 @@ skills.push({
           modifiers: {
             ability_disorienting_blow: {
               cooldownP: -5,
-              effect_dazed: {
-                durationP: 5,
-              },
             },
           },
         },
@@ -73,9 +67,6 @@ skills.push({
           modifiers: {
             ability_disorienting_blow: {
               cooldownP: -5,
-              effect_dazed: {
-                durationP: 5,
-              },
             },
           },
         },

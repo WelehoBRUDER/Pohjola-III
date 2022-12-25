@@ -19,6 +19,14 @@ class Race {
         this.modifiers = race.modifiers;
     }
 }
+const defaultPotionPouchMaximums = {
+    small_healing_potion: 3,
+    medium_healing_potion: 1,
+    large_healing_potion: 0,
+    small_mana_potion: 3,
+    medium_mana_potion: 1,
+    large_mana_potion: 0,
+};
 class Player extends Character {
     constructor(char) {
         super(char);
@@ -43,8 +51,18 @@ class Player extends Character {
             let existing_item = this.inventory.find((i) => i.id === item.id);
             if (existing_item) {
                 existing_item.amount += item.amount;
+                if (item.type === "potion") {
+                    if (existing_item.amount > player.pouchMax()[item.id]) {
+                        existing_item.amount = player.pouchMax()[item.id];
+                    }
+                }
             }
             else {
+                if (item.type === "potion") {
+                    if (item.amount > player.pouchMax()[item.id]) {
+                        item.amount = player.pouchMax()[item.id];
+                    }
+                }
                 this.inventory.push(item);
             }
         }
@@ -218,6 +236,39 @@ class Player extends Character {
         this.abilities = this.abilities.map((ability) => new Ability(abilities[ability.id]));
         this.abilities_total = this.abilities_total.map((ability) => new Ability(abilities[ability.id]));
     }
+    heal(amount) {
+        this.stats.hp += amount;
+        if (this.stats.hp > this.getStats().hpMax) {
+            this.stats.hp = this.getStats().hpMax;
+        }
+    }
+    recoverMana(amount) {
+        this.stats.mp += amount;
+        if (this.stats.mp > this.getStats().mpMax) {
+            this.stats.mp = this.getStats().mpMax;
+        }
+    }
+    pouchMax() {
+        const max = {
+            small_healing_potion: 0,
+            medium_healing_potion: 0,
+            large_healing_potion: 0,
+            small_mana_potion: 0,
+            medium_mana_potion: 0,
+            large_mana_potion: 0,
+        };
+        const base = { ...defaultPotionPouchMaximums };
+        const absolute = this.allModifiers["potion_pouch_generalV"] ?? 0;
+        Object.entries(base).forEach(([key, value]) => {
+            const relative = this.allModifiers["potion_pouch_" + key + "V"] ?? 0;
+            max[key] = value + absolute + relative;
+        });
+        return max;
+    }
+    drinkPotion(potion) {
+        potion.drink(this);
+        this.removeItem(potion, 1);
+    }
 }
 const player = new Player({
     id: "player",
@@ -269,6 +320,7 @@ const player = new Player({
 });
 player.updateAllModifiers();
 player.abilities.forEach((abi) => abi.updateStats(player));
+player.addItem(new Item({ ...items.small_healing_potion }), 2);
+player.addItem(new Item({ ...items.small_mana_potion }), 1);
 // player.addItem(new Weapon({ ...items.broken_sword }), 203);
-// player.addItem(new Armor({ ...items.ragged_armor }), 1);
 //# sourceMappingURL=player.js.map

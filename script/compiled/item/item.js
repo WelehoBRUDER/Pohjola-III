@@ -71,6 +71,14 @@ class Item {
                 price: price ?? this.price,
             });
         }
+        else if (this.type === "potion") {
+            return new Potion({
+                // @ts-ignore
+                ...items[this.id],
+                amount: this.amount,
+                price: price ?? this.price,
+            });
+        }
         return this;
     }
     compare(item) {
@@ -133,6 +141,12 @@ class Item {
         }
         if (this.speed !== undefined) {
             tooltip += `<i>${icons.speed}<i> Speed: <c>cyan<c>${this.speed}<c>white<c>\n`;
+        }
+        if (this.heal) {
+            tooltip += `<i>${icons.heal}<i> Heal: <c>green<c>${this.heal}<c>white<c>\n`;
+        }
+        if (this.manaRecover) {
+            tooltip += `<i>${icons.mana}<i> Mana Recover: <c>blue<c>${this.manaRecover}<c>white<c>\n`;
         }
         tooltip += `Price: <c>gold<c>${compactNumber(this.price)}\n`;
         if (this.modifiers && Object.keys(this.modifiers).length > 0) {

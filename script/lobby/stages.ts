@@ -13,13 +13,13 @@ function getDangerLevel(pl: number): { level: number; color: string } {
   if (level < 0.5) {
     color = "green";
   }
-  if (level > 0.5 && level < 1) {
+  if (level >= 0.5 && level < 1) {
     color = "white";
   }
-  if (level > 1 && level < 1.5) {
+  if (level >= 1 && level < 1.5) {
     color = "yellow";
   }
-  if (level > 1.5 && level < 2) {
+  if (level >= 1.5 && level < 2) {
     color = "orange";
   }
   if (level >= 2) {
@@ -32,11 +32,13 @@ class Stage {
   [work_around: string]: any;
   id: string;
   foes: Enemy[];
-  constructor({ id, foes }: StageObject) {
+  isBoss: boolean;
+  constructor({ id, foes, isBoss }: StageObject) {
     if (!id) throw new Error("Stage must have an id");
     if (!foes) throw new Error("How could you forget the foes?");
     this.id = id;
     this.foes = [...foes];
+    this.isBoss = isBoss;
   }
 
   tooltip(): string {
@@ -63,6 +65,9 @@ class Stage {
       }
       text += `<c>lime<c>${game.getLocalizedString("completed")}`;
     }
+    if (this.isBoss) {
+      text += `\n<c>crimson<c>${game.getLocalizedString("boss")}`;
+    }
     return text;
   }
 
@@ -81,6 +86,7 @@ const floors: any = [
   {
     id: "floor_1",
     map: "southern_plains",
+    beat_stage_to_unlock: "",
     stages: [
       new Stage({
         id: "tutorial",
@@ -121,12 +127,14 @@ const floors: any = [
       new Stage({
         id: "tomb_of_the_mage",
         foes: [new Enemy(enemies.skeleton_mage)],
+        isBoss: true,
       }),
     ],
   },
   {
     id: "floor_2",
     map: "southern_plains",
+    beat_stage_to_unlock: "tomb_of_the_mage",
     stages: [
       new Stage({
         id: "stage_11",
@@ -167,6 +175,7 @@ const floors: any = [
       new Stage({
         id: "stage_20",
         foes: [new Enemy(enemies.troll)],
+        isBoss: true,
       }),
     ],
   },
@@ -175,21 +184,39 @@ const floors: any = [
 let currentStage: string = "";
 
 function createFloors() {
-  lobbyContent.innerHTML = "<div class='floors'></div>";
+  lobbyContent.innerHTML = `
+    <div class="stages-upper">
+      <h1>${game.getLocalizedString("floors")}</h1>
+    </div>
+    <div class="floors"></div>
+    `;
   const floorsElement = document.querySelector(".floors")!;
   floors.forEach((floor: any) => {
     const stageElement = document.createElement("div");
     stageElement.classList.add("stage");
+    if (!player.completed_stages.includes(floor.beat_stage_to_unlock) && floor.beat_stage_to_unlock !== "") {
+      stageElement.classList.add("locked");
+      tooltip(
+        stageElement,
+        `<c>white<c>${game.getLocalizedString("beat_stage_to_unlock")}: <c>yellow<c>${game.getLocalizedString(floor.beat_stage_to_unlock)}`
+      );
+    } else {
+      stageElement.onclick = () => {
+        createStages(floor.stages);
+      };
+    }
     stageElement.innerText = game.getLocalizedString(floor.id);
-    stageElement.onclick = () => {
-      createStages(floor.stages);
-    };
     floorsElement.append(stageElement);
   });
 }
 
 function createStages(stages: Stage[]) {
-  lobbyContent.innerHTML = "<div class='stages'></div>";
+  lobbyContent.innerHTML = `
+    <div class="stages-upper">
+      <button class="back-button" onclick="createFloors()">${game.getLocalizedString("back")}</button>
+    </div>
+    <div class="stages"></div>
+    `;
   const stagesElement = document.querySelector(".stages")!;
   stages.forEach((stage: Stage) => {
     const stageElement = document.createElement("div");
@@ -197,6 +224,8 @@ function createStages(stages: Stage[]) {
     stageElement.innerText = game.getLocalizedString(stage.id);
     if (player.completed_stages.includes(stage.id)) {
       stageElement.classList.add("complete");
+    } else if (stage.isBoss) {
+      stageElement.classList.add("boss");
     }
     tooltip(stageElement, stage.tooltip());
     stageElement.onclick = () => {

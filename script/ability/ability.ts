@@ -68,90 +68,6 @@ class Ability {
       this.onCooldown = this.cooldown;
     };
 
-    interface options {
-      container?: boolean;
-      owner?: Player | Enemy;
-    }
-
-    this.tooltip = (options?: options) => {
-      let tooltip = "";
-      if (options?.container) tooltip += "<ct>ability-container<ct>";
-      if (options?.owner) {
-        this.updateStats(options.owner);
-      }
-      // Define ability name
-      tooltip += `<f>1.5rem<f><c>goldenrod<c><i>${this.icon}[medium]<i> ${game.getLocalizedString(this.id)}\n`;
-      tooltip += "<f>1.2rem<f><c>white<c>";
-
-      // Ability type
-      tooltip += `${game.getLocalizedString("type")}: ${game.getLocalizedString(this.type)}\n`;
-
-      if (this.power) {
-        tooltip += `<i>${icons.power}<i>${game.getLocalizedString("power")}: ${Math.floor(this.power * 100)}%\n`;
-      }
-
-      if (this.healFlat || this.healPercent) {
-        if (this.healFlat > 0 && this.healPercent > 0) {
-          tooltip += `<i>${icons.heal}<i>${game.getLocalizedString("heal")}: ${this.healFlat} + ${this.healPercent}%\n`;
-        } else if (this.healFlat > 0) {
-          tooltip += `<i>${icons.heal}<i>${game.getLocalizedString("heal")}: ${this.healFlat}\n`;
-        } else if (this.healPercent > 0) {
-          tooltip += `<i>${icons.heal}<i>${game.getLocalizedString("heal")}: ${this.healPercent}%\n`;
-        }
-      }
-
-      // Ability attack values
-      if (this.damageType) {
-        tooltip += `${game.getLocalizedString("damage_type")}: <i>${icons[this.damageType]}<i>${game.getLocalizedString(
-          this.damageType
-        )}\n`;
-      }
-      if (this.penetration) {
-        tooltip += `${game.getLocalizedString("penetration")}: ${Math.floor(this.penetration * 100)}%\n`;
-      }
-
-      // Ability cost
-      if (this.mpCost > 0) {
-        tooltip += `${game.getLocalizedString("mp_cost")}: ${this.mpCost}\n`;
-      }
-      if (this.hpCost > 0) {
-        tooltip += `${game.getLocalizedString("hp_cost")}: ${this.hpCost}\n`;
-      }
-
-      // Ability cooldown
-      if (this.cooldown > 0) {
-        tooltip += `<i>${icons.cooldown}<i>${game.getLocalizedString("cooldown")}: ${this.cooldown}s\n`;
-      }
-
-      // Ability effects
-      if (this.effectsToEnemy) {
-        tooltip += `${game.getLocalizedString("effects_to_foe")}: \n`;
-        this.effectsToEnemy.forEach((effect: Effect) => {
-          if (options?.owner) {
-            const displayEffect = new Effect(effect);
-            displayEffect.init(options?.owner?.allModifiers?.["ability_" + this.id]?.["effect_" + effect.id]);
-            tooltip += displayEffect.tooltip({ container: true });
-          } else {
-            tooltip += effect.tooltip({ container: true });
-          }
-        });
-      }
-      if (this.effectsToSelf) {
-        tooltip += `${game.getLocalizedString("effects_to_self")}: \n`;
-        this.effectsToSelf.forEach((effect: Effect) => {
-          if (options?.owner) {
-            const displayEffect = new Effect(effect);
-            displayEffect.init(options?.owner?.allModifiers?.["ability_" + this.id]?.["effect_" + effect.id]);
-            tooltip += displayEffect.tooltip({ container: true });
-          } else {
-            tooltip += effect.tooltip({ container: true });
-          }
-        });
-      }
-
-      return tooltip;
-    };
-
     this.canUse = (user: Player | Enemy) => {
       if (this.onCooldown > 0) return false;
       if (this.mpCost && user.stats.mp < this.mpCost) return false;
@@ -261,6 +177,83 @@ class Ability {
       });
     };
   }
+
+  tooltip(options?: { container?: boolean; owner?: PlayerObject | EnemyBase }) {
+    let tooltip = "";
+    if (options?.container) tooltip += "<ct>ability-container<ct>";
+    if (options?.owner) {
+      this.updateStats(options.owner);
+    }
+    // Define ability name
+    tooltip += `<f>1.5rem<f><c>goldenrod<c><i>${this.icon}[medium]<i> ${game.getLocalizedString(this.id)}\n`;
+    tooltip += "<f>1.2rem<f><c>white<c>";
+
+    // Ability type
+    tooltip += `${game.getLocalizedString("type")}: ${game.getLocalizedString(this.type)}\n`;
+
+    if (this.power) {
+      tooltip += `<i>${icons.power}<i>${game.getLocalizedString("power")}: ${Math.floor(this.power * 100)}%\n`;
+    }
+
+    if (this.healFlat || this.healPercent) {
+      if (this.healFlat > 0 && this.healPercent > 0) {
+        tooltip += `<i>${icons.heal}<i>${game.getLocalizedString("heal")}: ${this.healFlat} + ${this.healPercent}%\n`;
+      } else if (this.healFlat > 0) {
+        tooltip += `<i>${icons.heal}<i>${game.getLocalizedString("heal")}: ${this.healFlat}\n`;
+      } else if (this.healPercent > 0) {
+        tooltip += `<i>${icons.heal}<i>${game.getLocalizedString("heal")}: ${this.healPercent}%\n`;
+      }
+    }
+
+    // Ability attack values
+    if (this.damageType) {
+      tooltip += `${game.getLocalizedString("damage_type")}: <i>${icons[this.damageType]}<i>${game.getLocalizedString(this.damageType)}\n`;
+    }
+    if (this.penetration) {
+      tooltip += `${game.getLocalizedString("penetration")}: ${Math.floor(this.penetration * 100)}%\n`;
+    }
+
+    // Ability cost
+    if (this.mpCost > 0) {
+      tooltip += `${game.getLocalizedString("mp_cost")}: ${this.mpCost}\n`;
+    }
+    if (this.hpCost > 0) {
+      tooltip += `${game.getLocalizedString("hp_cost")}: ${this.hpCost}\n`;
+    }
+
+    // Ability cooldown
+    if (this.cooldown > 0) {
+      tooltip += `<i>${icons.cooldown}<i>${game.getLocalizedString("cooldown")}: ${this.cooldown}s\n`;
+    }
+
+    // Ability effects
+    if (this.effectsToEnemy) {
+      tooltip += `${game.getLocalizedString("effects_to_foe")}: \n`;
+      this.effectsToEnemy.forEach((effect: Effect) => {
+        if (options?.owner) {
+          const displayEffect = new Effect(effect);
+          displayEffect.init(options?.owner?.allModifiers?.["ability_" + this.id]?.["effect_" + effect.id]);
+          tooltip += displayEffect.tooltip({ container: true });
+        } else {
+          tooltip += effect.tooltip({ container: true });
+        }
+      });
+    }
+    if (this.effectsToSelf) {
+      tooltip += `${game.getLocalizedString("effects_to_self")}: \n`;
+      this.effectsToSelf.forEach((effect: Effect) => {
+        if (options?.owner) {
+          const displayEffect = new Effect(effect);
+          displayEffect.init(options?.owner?.allModifiers?.["ability_" + this.id]?.["effect_" + effect.id]);
+          tooltip += displayEffect.tooltip({ container: true });
+        } else {
+          tooltip += effect.tooltip({ container: true });
+        }
+      });
+    }
+
+    return tooltip;
+  }
 }
 
 function createAbilitySlot(ability?: Ability, options?: { manage?: boolean }, index: number = 0): HTMLDivElement {
@@ -274,7 +267,7 @@ function createAbilitySlot(ability?: Ability, options?: { manage?: boolean }, in
     image.src = ability.icon;
     if (options?.manage) {
       slot.append(image);
-      tooltip(slot, ability.tooltip());
+      tooltip(slot, ability.tooltip({ owner: player }));
       //slot.addEventListener("click", () => useAbility(null, index));
     } else {
       const cooldown = document.createElement("div");
@@ -282,7 +275,7 @@ function createAbilitySlot(ability?: Ability, options?: { manage?: boolean }, in
       cooldown.classList.add("cooldown");
       cooldownValue.classList.add("cooldown-number");
       slot.append(image, cooldown, cooldownValue);
-      tooltip(slot, ability.tooltip());
+      tooltip(slot, ability.tooltip({ owner: player }));
       slot.addEventListener("click", () => useAbility(null, index));
     }
   }

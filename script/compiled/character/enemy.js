@@ -111,6 +111,13 @@ class Enemy extends Character {
         }
         this.updateCard();
     }
+    recoverMana(amount) {
+        this.stats.mp += amount;
+        if (this.stats.mp > this.getStats().mpMax) {
+            this.stats.mp = this.getStats().mpMax;
+        }
+        this.updateCard();
+    }
     updateStatusEffects() {
         this.statuses.forEach((status) => {
             if (status.inflict) {

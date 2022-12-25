@@ -64,18 +64,6 @@ class Character {
             });
             return mods;
         };
-        this.updateAllModifiers = () => {
-            this.allModifiers = this.getModifiers();
-            this.abilities.forEach((abi) => {
-                abi.updateStats(this);
-                if (this.id === "player") {
-                    const slot = slots.querySelector(`[data-ability="${abi.id}"]`);
-                    if (slot) {
-                        updateTooltip(slot, abi.tooltip({ owner: this }));
-                    }
-                }
-            });
-        };
         this.getSpeed = () => {
             let base = 0.4;
             if (this.equipment)
@@ -259,6 +247,18 @@ class Character {
             }
             return Math.floor(powerLevel);
         };
+    }
+    updateAllModifiers() {
+        this.allModifiers = this.getModifiers();
+        this.abilities.forEach((abi) => {
+            abi.updateStats(this);
+            if (this.id === "player") {
+                const slot = slots.querySelector(`[data-ability="${abi.id}"]`);
+                if (slot) {
+                    updateTooltip(slot, abi.tooltip({ owner: this }));
+                }
+            }
+        });
     }
 }
 //# sourceMappingURL=character.js.map

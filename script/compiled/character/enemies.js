@@ -146,7 +146,7 @@ const enemies = {
         name: "Skeleton Mage",
         stats: {
             str: 10,
-            vit: 25,
+            vit: 30,
             agi: 0,
             int: 20,
             spi: 10,
@@ -306,7 +306,7 @@ const enemies = {
         critRate: 4,
         critPower: 50,
         sprite: "greenskin_type/orc_berserker.png",
-        abilities: [{ ...abilities.physical_attack }],
+        abilities: [{ ...abilities.physical_attack }, { ...abilities.battle_aura }],
         loot: [
             {
                 gold: [120, 200],
@@ -319,7 +319,7 @@ const enemies = {
         name: "Troll",
         stats: {
             str: 30,
-            vit: 75,
+            vit: 90,
             agi: 5,
             int: 0,
             spi: 0,
@@ -340,8 +340,8 @@ const enemies = {
             ice: 0,
             thunder: 0,
             curse: 0,
-            poison: 0,
-            bleed: 0,
+            poison: 50,
+            bleed: 50,
             divine: 0,
             stun: 0,
         },

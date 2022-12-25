@@ -29,6 +29,27 @@ interface I_Resistances {
   bleed: number;
 }
 
+interface CharacterObject {
+  [id: string]: any;
+  name: string;
+  stats: I_Stats;
+  defences: I_Defences;
+  resistances: I_Resistances;
+  abilities: Ability[];
+  critRate?: number;
+  critPower?: number;
+  traits?: any;
+  statuses?: any;
+  perks?: Perk[];
+  skills?: Skill[];
+  allModifiers?: any;
+  dead?: boolean;
+  getDamage?: any;
+  getDefences?: any;
+  addStatus?: any;
+  calculateCombatPower?: any;
+}
+
 class Character {
   [id: string]: any;
   name: string;
@@ -48,7 +69,7 @@ class Character {
   getDefences?: any;
   addStatus?: any;
   calculateCombatPower?: any;
-  constructor(char: Character) {
+  constructor(char: CharacterObject) {
     this.id = char.id;
     this.name = char.name;
     this.stats = { ...char.stats };
@@ -114,19 +135,6 @@ class Character {
         }
       });
       return mods;
-    };
-
-    this.updateAllModifiers = () => {
-      this.allModifiers = this.getModifiers();
-      this.abilities.forEach((abi: Ability) => {
-        abi.updateStats(this);
-        if (this.id === "player") {
-          const slot: HTMLDivElement = slots.querySelector(`[data-ability="${abi.id}"]`)!;
-          if (slot) {
-            updateTooltip(slot, abi.tooltip({ owner: this }));
-          }
-        }
-      });
     };
 
     this.getSpeed = () => {
@@ -317,5 +325,18 @@ class Character {
 
       return Math.floor(powerLevel);
     };
+  }
+
+  updateAllModifiers(): void {
+    this.allModifiers = this.getModifiers();
+    this.abilities.forEach((abi: Ability) => {
+      abi.updateStats(this);
+      if (this.id === "player") {
+        const slot: HTMLDivElement = slots.querySelector(`[data-ability="${abi.id}"]`)!;
+        if (slot) {
+          updateTooltip(slot, abi.tooltip({ owner: this }));
+        }
+      }
+    });
   }
 }

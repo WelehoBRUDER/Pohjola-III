@@ -30,6 +30,7 @@ const lobby = {
 };
 
 function createLobby() {
+  player.updateAllModifiers();
   lobbyHeaderButtons.innerHTML = "";
   lobbyButtons.forEach((button) => {
     const buttonElement = document.createElement("button");

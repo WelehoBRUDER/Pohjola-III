@@ -670,7 +670,7 @@ const perks: PerkObject[] = [
     id: "will_3",
     desc: "will_desc",
     pos: {
-      x: -1.5,
+      x: -2,
       y: 1.5,
     },
     icon: "gfx/icons/wizard-face.png",
@@ -688,8 +688,8 @@ const perks: PerkObject[] = [
     id: "will_4",
     desc: "",
     pos: {
-      x: -1.5,
-      y: 2,
+      x: -2,
+      y: 1.5,
     },
     icon: "gfx/icons/magic-swirl.png",
     relative_to: "will_2",

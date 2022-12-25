@@ -20,6 +20,12 @@ const merchant = {
         { item: items.plate_helmet, price: 950 },
         { item: items.plate_armor, price: 1500 },
         { item: items.plate_boots, price: 950 },
+        { item: items.small_healing_potion, price: 30 },
+        { item: items.medium_healing_potion, price: 120 },
+        { item: items.large_healing_potion, price: 550 },
+        { item: items.small_mana_potion, price: 30 },
+        { item: items.medium_mana_potion, price: 120 },
+        { item: items.large_mana_potion, price: 550 },
     ],
 };
 //# sourceMappingURL=merchant.js.map

@@ -8,7 +8,7 @@ interface Card {
   status_effects: HTMLDivElement;
 }
 
-interface EnemyBase extends Character {
+interface EnemyBase extends CharacterObject {
   [sprite: string]: any;
   card?: Card;
   index?: number;
@@ -140,6 +140,14 @@ class Enemy extends Character {
     this.stats.hp += amount;
     if (this.stats.hp > this.getStats().hpMax) {
       this.stats.hp = this.getStats().hpMax;
+    }
+    this.updateCard();
+  }
+
+  recoverMana(amount: number): void {
+    this.stats.mp += amount;
+    if (this.stats.mp > this.getStats().mpMax) {
+      this.stats.mp = this.getStats().mpMax;
     }
     this.updateCard();
   }

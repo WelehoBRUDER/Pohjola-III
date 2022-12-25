@@ -63,7 +63,7 @@ const abilities: any = {
     type: "attack",
     damageType: "physical",
     effectsToEnemy: [effects.dazed],
-    cooldown: 10,
+    cooldown: 12,
     onCooldown: 0,
     power: 0.75,
     weight: 100,

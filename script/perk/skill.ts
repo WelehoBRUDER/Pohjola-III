@@ -207,6 +207,7 @@ function getSkillTotalLevel(id: string) {
 
 // This has been made in a very stupid way :D
 function createSkills() {
+  player.updateAllModifiers();
   lobbyContent.innerHTML = "";
   sideBarDetails();
   const SkillTrees = document.createElement("div");
