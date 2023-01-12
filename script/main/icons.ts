@@ -24,4 +24,6 @@ const icons: any = {
   legs: "gfx/icons/steeltoe-boots.png",
   placeholder: "gfx/icons/triple-yin.png",
   penetration: "gfx/icons/cracked-shield.png",
+  heal: "gfx/status/heart-plus.png",
+  manaRecover: "gfx/status/magical.png",
 };

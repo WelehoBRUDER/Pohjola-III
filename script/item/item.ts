@@ -193,7 +193,7 @@ class Item {
     }
 
     if (this.manaRecover) {
-      tooltip += `<i>${icons.mana}<i> Mana Recover: <c>blue<c>${this.manaRecover}<c>white<c>\n`;
+      tooltip += `<i>${icons.manaRecover}<i> Mana Recover: <c>blue<c>${this.manaRecover}<c>white<c>\n`;
     }
 
     tooltip += `Price: <c>gold<c>${compactNumber(this.price)}\n`;

@@ -266,7 +266,7 @@ function createBattlecard(enemy) {
         <div class="hp-late"></div>
         <p class="hp-value">${enemy.stats.hp}/${enemy.getStats().hpMax}</p>
       </div>
-      <div class="sprite"><img src="/gfx/enemies/${enemy.sprite}"></div>
+      <div class="sprite"><img src="./gfx/enemies/${enemy.sprite}"></div>
       <div class="ap-background">
           <div class="ap-fill gradient-shine">
           </div>

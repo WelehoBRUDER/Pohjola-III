@@ -51,9 +51,9 @@ class SaveController {
             else {
                 closeConfirmationWindow();
                 const { player: loadedPlayer, stats: loadedStats, challenges: loadedChallenges } = save.saveData;
-                Object.assign(player, new Player(loadedPlayer));
-                Object.assign(stats, new Statistics(loadedStats));
-                Object.assign(challenges, new Challenges(loadedChallenges));
+                player = new Player({ ...loadedPlayer });
+                Object.assign(stats, new Statistics({ ...loadedStats }));
+                Object.assign(challenges, new Challenges({ ...loadedChallenges }));
                 player.restoreClasses();
                 sideBarDetails();
                 createInventory();

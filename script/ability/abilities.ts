@@ -66,7 +66,7 @@ const abilities: any = {
     cooldown: 12,
     onCooldown: 0,
     power: 0.75,
-    weight: 100,
+    weight: 1000,
   },
   flame: {
     id: "flame",

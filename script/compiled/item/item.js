@@ -146,7 +146,7 @@ class Item {
             tooltip += `<i>${icons.heal}<i> Heal: <c>green<c>${this.heal}<c>white<c>\n`;
         }
         if (this.manaRecover) {
-            tooltip += `<i>${icons.mana}<i> Mana Recover: <c>blue<c>${this.manaRecover}<c>white<c>\n`;
+            tooltip += `<i>${icons.manaRecover}<i> Mana Recover: <c>blue<c>${this.manaRecover}<c>white<c>\n`;
         }
         tooltip += `Price: <c>gold<c>${compactNumber(this.price)}\n`;
         if (this.modifiers && Object.keys(this.modifiers).length > 0) {

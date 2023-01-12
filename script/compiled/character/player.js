@@ -146,6 +146,7 @@ class Player extends Character {
                 }
                 this.statuses.splice(i, 1);
                 this.updateAllModifiers();
+                console.log(player.getSpeed());
             }
         }
     }
@@ -270,7 +271,7 @@ class Player extends Character {
         this.removeItem(potion, 1);
     }
 }
-const player = new Player({
+let player = new Player({
     id: "player",
     name: "Player",
     race: races.human,
