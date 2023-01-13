@@ -38,54 +38,16 @@ function createCharView() {
 
   abilities_total.forEach((ability, index) => {
     const slot = createAbilitySlot(ability, { manage: true }, index);
-    const options = [
-      {
-        text: "assign_to_slot_1" + isSlotEmpty(0),
+    const options = [0, 0, 0, 0, 0, 0].map((_, i) => {
+      // @ts-ignore
+      return (_ = {
+        text: "assign_to_slot_" + (i + 1) + isSlotEmpty(i),
         action: () => {
-          player.assignAbility(ability, 0);
+          player.assignAbility(ability, i);
         },
-      },
-      {
-        text: "assign_to_slot_2" + isSlotEmpty(1),
-        action: () => {
-          player.assignAbility(ability, 1);
-        },
-      },
-      {
-        text: "assign_to_slot_3" + isSlotEmpty(2),
-        action: () => {
-          player.assignAbility(ability, 2);
-        },
-      },
-      {
-        text: "assign_to_slot_4" + isSlotEmpty(3),
-        action: () => {
-          player.assignAbility(ability, 3);
-        },
-      },
-      {
-        text: "assign_to_slot_5" + isSlotEmpty(4),
-        action: () => {
-          player.assignAbility(ability, 4);
-        },
-      },
-      {
-        text: "assign_to_slot_6" + isSlotEmpty(5),
-        action: () => {
-          player.assignAbility(ability, 5);
-        },
-      },
-    ];
-    dragElem(
-      slot,
-      [abilityToolbar],
-      createContextMenu,
-      assignToDraggedSlot,
-      options,
-      true,
-      ability,
-      true
-    );
+      });
+    });
+    dragElem(slot, [abilityToolbar], createContextMenu, assignToDraggedSlot, options, true, ability, true);
     totalAbilities.append(slot);
   });
 
@@ -100,8 +62,7 @@ function createCharView() {
   function resizeAbilities() {
     let width = charScreen.offsetWidth;
     const slotSize = 106;
-    const slotsPerRow =
-      Math.floor(width / slotSize) > 2 ? Math.floor(width / slotSize) : 2;
+    const slotsPerRow = Math.floor(width / slotSize) > 2 ? Math.floor(width / slotSize) : 2;
     width = slotsPerRow * slotSize;
     totalAbilities.style.width = width + "px";
   }

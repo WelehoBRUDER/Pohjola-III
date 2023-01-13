@@ -13,7 +13,7 @@ class Perk {
         this.commands = perk.commands;
     }
     available() {
-        if (player.perk_points < 1)
+        if (player.perk_points < this.cost)
             return false;
         if (!this.requires)
             return true;
@@ -34,8 +34,8 @@ class Perk {
         if (this.owned())
             return;
         hideHover();
-        if (player.perk_points >= 1) {
-            player.perk_points--;
+        if (player.perk_points >= this.cost) {
+            player.perk_points -= this.cost;
             player.perks?.push({ ...this });
             if (this.commands) {
                 Object.entries(this.commands).forEach(([key, value]) => {

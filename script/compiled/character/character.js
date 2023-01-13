@@ -259,6 +259,17 @@ class Character {
                 }
             }
         });
+        this.removeDuplicateAbilities();
+    }
+    removeDuplicateAbilities() {
+        const abilities = [];
+        this.abilities.forEach((abi) => {
+            const index = abilities.findIndex((a) => a.id === abi.id);
+            if (index === -1) {
+                abilities.push(abi);
+            }
+        });
+        this.abilities = abilities;
     }
 }
 //# sourceMappingURL=character.js.map

@@ -82,10 +82,23 @@ function createStats() {
     Object.entries(stats).forEach(([stat, value]) => {
         const statElement = document.createElement("div");
         statElement.classList.add("stat");
-        statElement.innerHTML = `<div class="stat-name">${game.getLocalizedString(stat)}</div><div class="stat-value">${Math.round(value)}</div>`;
+        statElement.innerHTML = `<div class="stat-name">${game.getLocalizedString(stat)}</div><div class="stat-value">${getStatValue(value, stat)}</div>`;
         statsScreen.append(statElement);
     });
     lobbyContent.append(statsScreen);
+}
+function getStatValue(value, stat) {
+    let returnValue = Math.round(value);
+    if (stat.includes("time")) {
+        return getTimeString(returnValue);
+    }
+    return returnValue.toString();
+}
+function getTimeString(time) {
+    const hours = Math.floor(time / 3600);
+    const minutes = Math.floor((time - hours * 3600) / 60);
+    const seconds = time - hours * 3600 - minutes * 60;
+    return `${hours > 0 ? `${hours}h ` : ""}${minutes > 0 ? `${minutes}m ` : ""}${seconds}s`;
 }
 function confirmationWindow(text, onConfirm, onCancel) {
     confirmPrompt.classList.add("active");

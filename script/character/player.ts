@@ -223,6 +223,8 @@ class Player extends Character {
   }
 
   assignAbility(ability: Ability, slot: number) {
+    if (this.abilities.findIndex((a: Ability) => a.id === ability.id) !== -1)
+      return console.warn("You tried to assign an ability that is already assigned. This would have caused a duplicate!");
     this.abilities_total = this.abilities_total.filter((a: Ability) => a.id !== ability.id);
     const old = this.abilities[slot];
     if (old) {

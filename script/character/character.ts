@@ -338,5 +338,17 @@ class Character {
         }
       }
     });
+    this.removeDuplicateAbilities();
+  }
+
+  removeDuplicateAbilities(): void {
+    const abilities: Ability[] = [];
+    this.abilities.forEach((abi: Ability) => {
+      const index = abilities.findIndex((a: Ability) => a.id === abi.id);
+      if (index === -1) {
+        abilities.push(abi);
+      }
+    });
+    this.abilities = abilities;
   }
 }
