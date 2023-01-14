@@ -60,6 +60,10 @@ class Game {
         return string;
     }
     controls(e) {
+        if (e.key === "§")
+            return devConsole.toggle();
+        if (devConsole.open && e.key !== "Escape")
+            return;
         if (e.key === "p") {
             if (this.state.paused) {
                 this.resume();

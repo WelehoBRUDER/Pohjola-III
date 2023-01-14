@@ -168,6 +168,12 @@ const floors = [
             }),
         ],
     },
+    {
+        id: "floor_3",
+        map: "southern_plains",
+        beat_stage_to_unlock: "stage_20",
+        stages: [],
+    },
 ];
 let currentStage = "";
 function createFloors() {

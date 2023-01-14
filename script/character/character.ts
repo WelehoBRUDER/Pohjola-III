@@ -97,6 +97,7 @@ class Character {
         let boost = this.allModifiers[key + "DefenceV"] ?? 0;
         modifier += this.allModifiers["defenceP"] ?? 0;
         boost += this.allModifiers["defenceV"] ?? 0;
+        boost += (this.level | 0) * 0.15; // Level resistance boost
         if (this.equipment) {
           Object.entries(this.equipment).forEach(([slot, item]: any) => {
             if (item?.defence) {
@@ -115,6 +116,7 @@ class Character {
       Object.entries(resistances).map(([key, value]) => {
         let modifier = this.allModifiers[key + "_resistanceP"] ?? 1;
         let boost = this.allModifiers[key + "_resistanceV"] ?? 0;
+        boost += (this.level | 0) * 0.2; // Level resistance boost
         resistances[key] = Math.floor((value + boost) * modifier);
       });
       return resistances;
@@ -165,8 +167,11 @@ class Character {
         if (key.startsWith("hp") || key.startsWith("mp")) return;
         let increase = this.allModifiers[key + "V"] ?? 0;
         let modifier = this.allModifiers[key + "P"] ?? 1;
-        if (key === "atk" && this.equipment?.weapon) {
-          increase += this.equipment.weapon.atk;
+        if (key === "atk") {
+          if (this.equipment?.weapon) {
+            increase += this.equipment.weapon.atk;
+          }
+          increase += (this.level || 0) * 0.4;
         }
         const flat = value + increase;
         if (flat < 0) {
@@ -181,11 +186,13 @@ class Character {
       // Calculate max hp
       const hpIncrease = this.allModifiers["hpMaxV"] ?? 0;
       const hpModifier = this.allModifiers["hpMaxP"] ?? 1;
-      stats["hpMax"] = Math.round((stats["hpMax"] + hpIncrease + stats["vit"] * 5) * hpModifier);
+      const hpBoost = (this.level | 0) * 2; // Level health boost
+      stats["hpMax"] = Math.round((stats["hpMax"] + hpBoost + hpIncrease + stats["vit"] * 5) * hpModifier);
       // Calculate max mp
       const mpIncrease = this.allModifiers["mpMaxV"] ?? 0;
       const mpModifier = this.allModifiers["mpMaxP"] ?? 1;
-      stats["mpMax"] = Math.round((stats["mpMax"] + mpIncrease + stats["int"] * 2 + stats["spi"] * 2) * mpModifier);
+      const mpBoost = (this.level | 0) * 0.5; // Level mana boost
+      stats["mpMax"] = Math.round((stats["mpMax"] + mpBoost + mpIncrease + stats["int"] * 2 + stats["spi"] * 2) * mpModifier);
       return stats;
     };
 

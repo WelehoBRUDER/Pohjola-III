@@ -18,6 +18,12 @@
 
 <body>
   <main class="game">
+    <div class="console">
+      <div class="log"></div>
+      <div class="input">
+        <input type="text" id="console-input" onkeydown="typeToConsole(event)">
+      </div>
+    </div>
     <div id="tooltip"></div>
     <div id="bloody-screen"></div>
     <div id="healing-screen"></div>
@@ -182,3 +188,8 @@
 <script src=" script/compiled/combat/effects.js"></script>
 <script src="script/compiled/combat/damage.js"></script>
 <script src="script/compiled/combat/combat.js"></script>
+
+<!-- Dev -->
+<script src="script/compiled/dev/commands.js"></script>
+<script src="script/compiled/dev/console.js"></script>
+<script src="script/compiled/dev/dev.js"></script>
