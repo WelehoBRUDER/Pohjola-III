@@ -68,6 +68,8 @@ const english = {
   effects_to_self: "Effects to user",
   effects_to_foe: "Effects to target",
   boss: "This stage is a boss fight!",
+  pouch: "Potion Pouch",
+  potion_pouch_tt: "Use a potion from your pouch",
 
   // effect strings
   damageFlat: "Damage per second",
@@ -161,6 +163,23 @@ const english = {
   holy_grace_upgrade_1: "Holy Grace I",
   holy_grace_upgrade_2: "Holy Grace II",
   holy_grace_upgrade_3: "Holy Grace III",
+
+  // Statistics
+  most_damage: "Most Damage Dealt",
+  most_damage_taken: "Most Damage Taken",
+  total_damage: "Total Damage Dealt",
+  total_damage_taken: "Total Damage Taken",
+  most_healing: "Most Healing Done",
+  total_healing: "Total Healing Done",
+  total_kills: "Total Kills",
+  total_deaths: "Total Deaths",
+  total_xp_gained: "Total XP Gained",
+  total_gold_gained: "Total Gold Gained",
+  most_turns: "Most Turns In Battle",
+  total_turns: "Total Turns In Battles",
+  most_combat_time: "Longest Combat Time",
+  total_combat_time: "Total Combat Time",
+  time_played: "Time Played",
 
   // Floors
   floor_1: "Spooky Scary Skeletons",

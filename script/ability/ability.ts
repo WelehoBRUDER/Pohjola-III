@@ -132,7 +132,7 @@ class Ability {
             target.addStatus(effect, user, "ability_" + this.id);
           });
         }
-        if (user.id === "player") {
+        if (user instanceof Player) {
           healingScreen.classList.add("show");
           setTimeout(() => {
             healingScreen.classList.remove("show");
@@ -144,14 +144,14 @@ class Ability {
             target.addStatus(effect, user, "ability_" + this.id);
           });
         }
-        if (user.id === "player") {
+        if (user instanceof Player) {
           combatScreen.classList.add("buff");
           setTimeout(() => {
             combatScreen.classList.remove("buff");
           }, 200);
         }
       }
-      if (user.id === "player") {
+      if (user instanceof Player) {
         setTimeout(() => {
           game.resume();
         }, 300 / game.settings.animation_speed);

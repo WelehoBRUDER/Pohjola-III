@@ -48,6 +48,7 @@
     </div>
     <div class="combat no-display">
       <div class="ui">
+        <div class="potion-pouch-frame hide"></div>
         <div class="combat-header">
           <div class="attack" onclick="attack()">Attack</div>
           <div class="combat-time">0.0s</div>
@@ -63,6 +64,9 @@
           </div>
           <!-- Player Toolbar -->
           <div class="tools">
+            <div class="potion-pouch" onclick="openPouch()">
+              <img src="./gfx/items/potion.png">
+            </div>
             <div class="status-effects"></div>
             <div class="player-action bar">
               <div class="fill gradient-shine">

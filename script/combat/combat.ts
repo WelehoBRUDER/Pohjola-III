@@ -115,7 +115,6 @@ function useAbility(hotkey: string | null, index?: number | null) {
       game.startTargeting(ability);
     }
   } else {
-    console.log(player.statuses);
     ability.use(player, player);
   }
 }
@@ -311,5 +310,40 @@ class Combat {
 }
 
 const combat = new Combat();
+
+const pouchState = { open: false };
+function openPouch() {
+  if (pouchState.open) return closePouch();
+  pouchState.open = true;
+  pouchBackground.classList.remove("hide");
+  pouchBackground.innerHTML = "";
+  pouchBackground.append(pouch());
+}
+
+function closePouch() {
+  pouchState.open = false;
+  pouchBackground.classList.add("hide");
+}
+
+function pouch() {
+  const pouch = document.createElement("div");
+  pouch.classList.add("pouch");
+  pouch.innerHTML = `<div class="pouch-header"><h1 class="header">${game.getLocalizedString(
+    "pouch"
+  )}</h1><button class="close-button" onclick="closePouch()">X</button></div>`;
+  pouch.append(pouchItems());
+  return pouch;
+}
+
+function pouchItems() {
+  const pouchItems = document.createElement("div");
+  player.inventory.forEach((item: Item) => {
+    if (item.type === "potion") {
+      pouchItems.append(createSlot(item));
+    }
+  });
+  pouchItems.classList.add("pouch-items");
+  return pouchItems;
+}
 
 // game.initCombat([new Enemy({ ...enemies.skeleton }), new Enemy({ ...enemies.skeleton }), new Enemy({ ...enemies.skeleton })]);

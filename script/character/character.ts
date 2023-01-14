@@ -331,7 +331,7 @@ class Character {
     this.allModifiers = this.getModifiers();
     this.abilities.forEach((abi: Ability) => {
       abi.updateStats(this);
-      if (this.id === "player") {
+      if (this instanceof Player) {
         const slot: HTMLDivElement = slots.querySelector(`[data-ability="${abi.id}"]`)!;
         if (slot) {
           updateTooltip(slot, abi.tooltip({ owner: this }));

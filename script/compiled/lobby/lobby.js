@@ -79,7 +79,23 @@ function createStats() {
     sideBarDetails();
     const statsScreen = document.createElement("div");
     statsScreen.classList.add("stats");
-    Object.entries(stats).forEach(([stat, value]) => {
+    const sortedStats = Object.assign({
+        most_damage: 0,
+        most_damage_taken: 0,
+        total_damage: 0,
+        total_damage_taken: 0,
+        most_healing: 0,
+        total_healing: 0,
+        total_kills: 0,
+        total_deaths: 0,
+        total_xp_gained: 0,
+        total_gold_gained: 0,
+        most_turns: 0,
+        total_turns: 0,
+        most_combat_time: 0,
+        total_combat_time: 0,
+    }, stats);
+    Object.entries(sortedStats).forEach(([stat, value]) => {
         const statElement = document.createElement("div");
         statElement.classList.add("stat");
         statElement.innerHTML = `<div class="stat-name">${game.getLocalizedString(stat)}</div><div class="stat-value">${getStatValue(value, stat)}</div>`;

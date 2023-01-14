@@ -17,5 +17,19 @@ class Potion extends Item {
   drink(user: Player | Enemy) {
     if (this.heal) user.heal(this.heal);
     if (this.manaRecover) user.recoverMana(this.manaRecover);
+    if (isInCombat()) {
+      if (this.heal) {
+        if (user instanceof Player) {
+          createDroppingText(`+${this.heal} HP`, tools, "heal");
+        }
+      }
+      if (this.manaRecover) {
+        if (user instanceof Player) {
+          createDroppingText(`+${this.manaRecover} MP`, tools, "mana");
+        }
+      }
+      user.stats.ap = 0;
+      game.resume();
+    }
   }
 }

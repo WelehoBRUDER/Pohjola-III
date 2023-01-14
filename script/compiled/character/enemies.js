@@ -37,7 +37,7 @@ const enemies = {
         abilities: [{ ...abilities.physical_attack }],
         loot: [
             {
-                gold: [1, 5],
+                gold: [7, 13],
             },
             {
                 item: items.bone,
@@ -84,7 +84,7 @@ const enemies = {
         abilities: [{ ...abilities.physical_attack }],
         loot: [
             {
-                gold: [5, 10],
+                gold: [14, 27],
             },
             {
                 item: items.bone,
@@ -131,7 +131,7 @@ const enemies = {
         abilities: [{ ...abilities.physical_attack }, { ...abilities.disorienting_blow }],
         loot: [
             {
-                gold: [30, 50],
+                gold: [28, 61],
             },
             {
                 item: items.bone,
@@ -225,7 +225,7 @@ const enemies = {
         abilities: [{ ...abilities.physical_attack }],
         loot: [
             {
-                gold: [24, 45],
+                gold: [27, 53],
             },
         ],
         xp: 90,

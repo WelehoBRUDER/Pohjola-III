@@ -24,10 +24,12 @@ const confirmPromptNoButton: HTMLDivElement = confirmPrompt.querySelector(".canc
 /* Combat */
 const combatScreen: HTMLDivElement = document.querySelector(".combat")!;
 const uiScreen: HTMLDivElement = combatScreen.querySelector(".ui")!;
+const pouchBackground: HTMLDivElement = combatScreen.querySelector(".potion-pouch-frame")!;
 const enemyContainer: HTMLDivElement = combatScreen.querySelector(".enemies")!;
 const toolbarElement: HTMLDivElement = uiScreen.querySelector(".toolbar")!;
 const tools: HTMLDivElement = toolbarElement.querySelector(".tools")!;
 const slots: HTMLDivElement = tools.querySelector(".action-slots")!;
+const potionPouch: HTMLDivElement = tools.querySelector(".potion-pouch")!;
 const combatTime: HTMLDivElement = uiScreen.querySelector(".combat-time")!;
 
 /* Combat summary */

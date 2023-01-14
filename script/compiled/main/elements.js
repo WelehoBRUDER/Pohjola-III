@@ -20,10 +20,12 @@ const confirmPromptNoButton = confirmPrompt.querySelector(".cancel");
 /* Combat */
 const combatScreen = document.querySelector(".combat");
 const uiScreen = combatScreen.querySelector(".ui");
+const pouchBackground = combatScreen.querySelector(".potion-pouch-frame");
 const enemyContainer = combatScreen.querySelector(".enemies");
 const toolbarElement = uiScreen.querySelector(".toolbar");
 const tools = toolbarElement.querySelector(".tools");
 const slots = tools.querySelector(".action-slots");
+const potionPouch = tools.querySelector(".potion-pouch");
 const combatTime = uiScreen.querySelector(".combat-time");
 /* Combat summary */
 const combatSummaryBackground = combatScreen.querySelector(".combat-summary-background");

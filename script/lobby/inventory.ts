@@ -49,9 +49,20 @@ function createInventory() {
   resizeInventoryContainer();
 }
 
+function isInCombat() {
+  return combat.enemies.length !== 0;
+}
+
+function isPlayerTurn() {
+  return player.stats.ap >= 100;
+}
+
 function createSlot(item: Item, options?: { isEquipped?: boolean; slot?: string; buy?: boolean; sell?: boolean }) {
   const slot = document.createElement("div");
   slot.classList.add("inventory-slot");
+  if (isInCombat() && !isPlayerTurn()) {
+    slot.classList.add("disabled");
+  }
   if (item) {
     slot.setAttribute("data-item", item.id);
     slot.classList.add(item.tier.id);
@@ -119,7 +130,8 @@ function clickItem(
     sell?: boolean;
   }
 ) {
-  if (options?.shift && !options.buy && !options.sell) {
+  if (isInCombat() && !isPlayerTurn()) return;
+  if (options?.shift && !options.buy && !options.sell && !isInCombat()) {
     if (item.type !== "potion" && item.type !== "material") {
       if (options?.equipped) {
         player.unequip(item.slot);
@@ -128,6 +140,12 @@ function clickItem(
         player.equip(item as any, { removeFromInventory: true });
         createInventory();
       }
+    }
+  } else if (options?.shift && item.type === "potion" && isInCombat() && !options.buy && !options.sell) {
+    player.drinkPotion(item);
+    createInventory();
+    if (pouchState.open) {
+      closePouch();
     }
   } else if (options?.pos) {
     const buttons: any[] = [];
@@ -180,6 +198,9 @@ function clickItem(
         action: () => {
           player.drinkPotion(item);
           createInventory();
+          if (pouchState.open) {
+            closePouch();
+          }
         },
       });
     }

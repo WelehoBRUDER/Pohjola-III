@@ -240,3 +240,4 @@ const challenges = new Challenges();
 
 document.addEventListener("keydown", (e) => game.controls(e));
 document.addEventListener("keyup", (e) => game.controlsUp(e));
+tooltip(potionPouch, game.getLocalizedString("potion_pouch_tt"));

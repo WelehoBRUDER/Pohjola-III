@@ -262,7 +262,7 @@ const armors = {
 const materials = {
     bone: {
         id: "bone",
-        price: 3,
+        price: 5,
         stackable: true,
         tier: itemTiers.common,
         type: "material",
@@ -272,7 +272,7 @@ const potions = {
     small_healing_potion: {
         id: "small_healing_potion",
         icon: "gfx/items/health-potion.png",
-        price: 25,
+        price: 10,
         heal: 20,
         stackable: true,
         tier: itemTiers.common,
@@ -299,7 +299,7 @@ const potions = {
     small_mana_potion: {
         id: "small_mana_potion",
         icon: "gfx/items/mana-potion.png",
-        price: 25,
+        price: 10,
         manaRecover: 20,
         stackable: true,
         tier: itemTiers.common,
