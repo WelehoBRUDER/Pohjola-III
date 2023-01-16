@@ -1,5 +1,16 @@
 "use strict";
-const weapons = {
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var weapons = {
     broken_sword: {
         id: "broken_sword",
         price: 10,
@@ -8,7 +19,7 @@ const weapons = {
         stackable: true,
         icon: "gfx/items/shattered-sword.png",
         tier: itemTiers.common,
-        type: "weapon",
+        type: "weapon"
     },
     broken_mace: {
         id: "broken_mace",
@@ -18,7 +29,7 @@ const weapons = {
         stackable: true,
         icon: "gfx/items/bone-mace.png",
         tier: itemTiers.common,
-        type: "weapon",
+        type: "weapon"
     },
     long_sword: {
         id: "long_sword",
@@ -28,7 +39,7 @@ const weapons = {
         stackable: true,
         icon: "gfx/items/broadsword.png",
         tier: itemTiers.uncommon,
-        type: "weapon",
+        type: "weapon"
     },
     battle_axe: {
         id: "battle_axe",
@@ -38,7 +49,7 @@ const weapons = {
         stackable: true,
         icon: "gfx/items/sharp-axe.png",
         tier: itemTiers.uncommon,
-        type: "weapon",
+        type: "weapon"
     },
     dual_daggers: {
         id: "dual_daggers",
@@ -48,7 +59,7 @@ const weapons = {
         stackable: true,
         icon: "gfx/icons/crossed-swords.png",
         tier: itemTiers.uncommon,
-        type: "weapon",
+        type: "weapon"
     },
     enchanted_blade: {
         id: "enchanted_blade",
@@ -58,7 +69,7 @@ const weapons = {
         stackable: true,
         icon: "gfx/items/broadsword.png",
         tier: itemTiers.rare,
-        type: "weapon",
+        type: "weapon"
     },
     greatsword: {
         id: "greatsword",
@@ -68,7 +79,7 @@ const weapons = {
         stackable: true,
         icon: "gfx/items/relic-blade.png",
         tier: itemTiers.rare,
-        type: "weapon",
+        type: "weapon"
     },
     executioner: {
         id: "executioner",
@@ -78,7 +89,7 @@ const weapons = {
         stackable: true,
         icon: "gfx/items/dripping-sword.png",
         tier: itemTiers.rare,
-        type: "weapon",
+        type: "weapon"
     },
     dagger_of_speed: {
         id: "dagger_of_speed",
@@ -90,8 +101,8 @@ const weapons = {
         tier: itemTiers.rare,
         type: "weapon",
         modifiers: {
-            critRateV: 5,
-        },
+            critRateV: 5
+        }
     },
     astral_spear: {
         id: "astral_spear",
@@ -103,11 +114,11 @@ const weapons = {
         tier: itemTiers.epic,
         type: "weapon",
         modifiers: {
-            spiP: 5,
-        },
-    },
+            spiP: 5
+        }
+    }
 };
-const armors = {
+var armors = {
     /* Ragged set */
     ragged_armor: {
         id: "ragged_armor",
@@ -116,13 +127,13 @@ const armors = {
         defence: {
             physical: 2,
             magical: 2,
-            elemental: 0,
+            elemental: 0
         },
         stackable: true,
         icon: "gfx/items/leather-vest.png",
         tier: itemTiers.common,
         type: "armor",
-        slot: "armor",
+        slot: "armor"
     },
     ragged_hood: {
         id: "ragged_hood",
@@ -131,13 +142,13 @@ const armors = {
         defence: {
             physical: 1,
             magical: 1,
-            elemental: 0,
+            elemental: 0
         },
         stackable: true,
         icon: "gfx/items/hood.png",
         tier: itemTiers.common,
         type: "armor",
-        slot: "helmet",
+        slot: "helmet"
     },
     ragged_boots: {
         id: "ragged_boots",
@@ -146,13 +157,33 @@ const armors = {
         defence: {
             physical: 1,
             magical: 1,
-            elemental: 0,
+            elemental: 0
         },
         stackable: true,
         icon: "gfx/items/boots.png",
         tier: itemTiers.common,
         type: "armor",
-        slot: "legs",
+        slot: "legs"
+    },
+    /* Hood of Wisdom */
+    hood_of_wisdom: {
+        id: "hood_of_wisdom",
+        price: 90,
+        speed: 0,
+        defence: {
+            physical: -10,
+            magical: -10,
+            elemental: -10
+        },
+        modifiers: {
+            expGainP: 10,
+            goldGainP: 30
+        },
+        stackable: true,
+        icon: "gfx/items/hood.png",
+        tier: itemTiers.uncommon,
+        type: "armor",
+        slot: "helmet"
     },
     /* Leather set */
     leather_armor: {
@@ -162,16 +193,16 @@ const armors = {
         defence: {
             physical: 7,
             magical: 5,
-            elemental: 3,
+            elemental: 3
         },
         modifiers: {
-            hpMaxV: 10,
+            hpMaxV: 10
         },
         stackable: true,
         icon: "gfx/items/leather-vest.png",
         tier: itemTiers.uncommon,
         type: "armor",
-        slot: "armor",
+        slot: "armor"
     },
     leather_helmet: {
         id: "leather_helmet",
@@ -180,13 +211,13 @@ const armors = {
         defence: {
             physical: 3,
             magical: 2,
-            elemental: 2,
+            elemental: 2
         },
         stackable: true,
         icon: "gfx/items/horned-helm.png",
         tier: itemTiers.uncommon,
         type: "armor",
-        slot: "helmet",
+        slot: "helmet"
     },
     leather_boots: {
         id: "leather_boots",
@@ -195,13 +226,13 @@ const armors = {
         defence: {
             physical: 3,
             magical: 2,
-            elemental: 2,
+            elemental: 2
         },
         stackable: true,
         icon: "gfx/items/boots.png",
         tier: itemTiers.uncommon,
         type: "armor",
-        slot: "legs",
+        slot: "legs"
     },
     /* Plate set */
     plate_armor: {
@@ -211,16 +242,16 @@ const armors = {
         defence: {
             physical: 15,
             magical: 5,
-            elemental: 5,
+            elemental: 5
         },
         modifiers: {
-            hpMaxV: 30,
+            hpMaxV: 30
         },
         stackable: true,
         icon: "gfx/items/breastplate.png",
         tier: itemTiers.rare,
         type: "armor",
-        slot: "armor",
+        slot: "armor"
     },
     plate_helmet: {
         id: "plate_helmet",
@@ -229,16 +260,16 @@ const armors = {
         defence: {
             physical: 5,
             magical: 2,
-            elemental: 1,
+            elemental: 1
         },
         modifiers: {
-            hpMaxV: 10,
+            hpMaxV: 10
         },
         stackable: true,
         icon: "gfx/items/visored-helm.png",
         tier: itemTiers.rare,
         type: "armor",
-        slot: "helmet",
+        slot: "helmet"
     },
     plate_boots: {
         id: "plate_boots",
@@ -247,28 +278,28 @@ const armors = {
         defence: {
             physical: 5,
             magical: 2,
-            elemental: 1,
+            elemental: 1
         },
         modifiers: {
-            hpMaxV: 10,
+            hpMaxV: 10
         },
         stackable: true,
         icon: "gfx/items/leg-armor.png",
         tier: itemTiers.rare,
         type: "armor",
-        slot: "legs",
-    },
+        slot: "legs"
+    }
 };
-const materials = {
+var materials = {
     bone: {
         id: "bone",
         price: 5,
         stackable: true,
         tier: itemTiers.common,
-        type: "material",
-    },
+        type: "material"
+    }
 };
-const potions = {
+var potions = {
     small_healing_potion: {
         id: "small_healing_potion",
         icon: "gfx/items/health-potion.png",
@@ -276,7 +307,7 @@ const potions = {
         heal: 20,
         stackable: true,
         tier: itemTiers.common,
-        type: "potion",
+        type: "potion"
     },
     medium_healing_potion: {
         id: "medium_healing_potion",
@@ -285,7 +316,7 @@ const potions = {
         heal: 50,
         stackable: true,
         tier: itemTiers.uncommon,
-        type: "potion",
+        type: "potion"
     },
     large_healing_potion: {
         id: "large_healing_potion",
@@ -294,7 +325,7 @@ const potions = {
         heal: 100,
         stackable: true,
         tier: itemTiers.rare,
-        type: "potion",
+        type: "potion"
     },
     small_mana_potion: {
         id: "small_mana_potion",
@@ -303,7 +334,7 @@ const potions = {
         manaRecover: 20,
         stackable: true,
         tier: itemTiers.common,
-        type: "potion",
+        type: "potion"
     },
     medium_mana_potion: {
         id: "medium_mana_potion",
@@ -312,7 +343,7 @@ const potions = {
         manaRecover: 50,
         stackable: true,
         tier: itemTiers.uncommon,
-        type: "potion",
+        type: "potion"
     },
     large_mana_potion: {
         id: "large_mana_potion",
@@ -321,13 +352,8 @@ const potions = {
         manaRecover: 100,
         stackable: true,
         tier: itemTiers.rare,
-        type: "potion",
-    },
+        type: "potion"
+    }
 };
-const items = {
-    ...weapons,
-    ...armors,
-    ...materials,
-    ...potions,
-};
+var items = __assign(__assign(__assign(__assign({}, weapons), armors), materials), potions);
 //# sourceMappingURL=items.js.map

@@ -1,53 +1,45 @@
 "use strict";
-const consoleElement = document.querySelector(".console");
-const consoleInput = consoleElement.querySelector("#console-input");
-const consoleLog = consoleElement.querySelector(".log");
-class DeveloperConsole {
-    constructor() {
+var consoleElement = document.querySelector(".console");
+var consoleInput = consoleElement.querySelector("#console-input");
+var consoleLog = consoleElement.querySelector(".log");
+var DeveloperConsole = /** @class */ (function () {
+    function DeveloperConsole() {
         this.commandHistory = [];
         this.commandsHistory = [];
         this.command = 0;
-        this.open = true;
+        this.open = false;
     }
-    executeCommand(command) {
-        const commandArr = command.split(" ");
-        const commandName = commandArr[0];
-        const commandValue = commandArr.slice(1);
-        const commandFunction = developerCommands.find((command) => command.name === commandName);
+    DeveloperConsole.prototype.executeCommand = function (command) {
+        var commandArr = command.split(" ");
+        var commandName = commandArr[0], commandValue = commandArr.slice(1);
+        var commandFunction = developerCommands.find(function (command) { return command.name === commandName; });
         if (commandFunction) {
             if (commandFunction.isCheat && !DEVTOOLS.ENABLED) {
-                consoleLog.innerHTML += `<p>Command ${commandName} is a cheat command and is disabled.<br>Type "dev" if you wish to access cheats.</p>`;
-                this.commandsHistory.push(command);
-                this.command = this.commandsHistory.length;
+                consoleLog.innerHTML += "<p>Command " + commandName + " is a cheat command and is disabled.<br>Type \"dev\" if you wish to access cheats.</p>";
             }
             else {
                 commandFunction.execute(commandValue);
-                consoleLog.innerHTML += `<p>${this.commandHistory[this.commandHistory.length - 1]}</p>`;
-                this.commandsHistory.push(command);
-                this.command = this.commandsHistory.length;
+                consoleLog.innerHTML += "<p>" + this.commandHistory.at(-1) + "</p>";
             }
         }
         else {
-            consoleLog.innerHTML += `<p>Command ${commandName} does not exist, type "help" to see all available commands.</p>`;
-            this.commandsHistory.push(command);
-            this.command = this.commandsHistory.length;
+            consoleLog.innerHTML += "<p>Command " + commandName + " does not exist, type \"help\" to see all available commands.</p>";
         }
-    }
-    toggle() {
+        this.commandsHistory.push(command);
+        this.command = this.commandsHistory.length;
+    };
+    DeveloperConsole.prototype.toggle = function () {
         this.open = !this.open;
         if (this.open) {
             consoleElement.style.display = "flex";
             consoleInput.focus();
-            consoleInput.value = "";
         }
         else {
             consoleElement.style.display = "none";
-            consoleInput.value = "";
         }
-        if (consoleInput.value === "§")
-            consoleInput.value = "";
-    }
-}
+    };
+    return DeveloperConsole;
+}());
 function typeToConsole(e) {
     if (consoleInput.value === "§")
         consoleInput.value = "";
@@ -68,11 +60,18 @@ function typeToConsole(e) {
             devConsole.command = 0;
         consoleInput.value = devConsole.commandsHistory[devConsole.command] || "";
     }
-    const value = consoleInput.value;
+    var value = consoleInput.value;
     if (e.key === "Enter") {
         consoleInput.value = "";
+        if (value.replaceAll(" ", "") === "")
+            return;
         devConsole.executeCommand(value);
     }
 }
-const devConsole = new DeveloperConsole();
+function clearBadSymbols() {
+    if (consoleInput.value.includes("§")) {
+        consoleInput.value = consoleInput.value.replaceAll("§", "");
+    }
+}
+var devConsole = new DeveloperConsole();
 //# sourceMappingURL=console.js.map

@@ -1,5 +1,5 @@
 "use strict";
-const icons = {
+var icons = {
     str: "gfx/status/biceps.png",
     agi: "gfx/status/acrobatic.png",
     int: "gfx/status/brain.png",
@@ -26,6 +26,6 @@ const icons = {
     placeholder: "gfx/icons/triple-yin.png",
     penetration: "gfx/icons/cracked-shield.png",
     heal: "gfx/status/heart-plus.png",
-    manaRecover: "gfx/status/magical.png",
+    manaRecover: "gfx/status/magical.png"
 };
 //# sourceMappingURL=icons.js.map

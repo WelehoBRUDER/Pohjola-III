@@ -1,5 +1,5 @@
 "use strict";
-const english = {
+var english = {
     language: "English",
     language_code: "en",
     // Stats
@@ -36,7 +36,7 @@ const english = {
     combat_victory: "Victory",
     defeated_enemies: "Defeated enemies",
     loot_gained: "Loot gained",
-    continue: "Continue",
+    "continue": "Continue",
     // misc
     increases: "Increases",
     decreases: "Decreases",
@@ -197,6 +197,6 @@ const english = {
     stage_20: "King of the Ancient Forest",
     // Perks //
     "0_foundation_of_power": "Foundation of Power",
-    "0_foundation_of_power_desc": "",
+    "0_foundation_of_power_desc": ""
 };
 //# sourceMappingURL=general.js.map

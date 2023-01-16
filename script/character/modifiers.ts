@@ -3,6 +3,7 @@
 const defaultModifiers = {
   expGainP: 1,
   goldGainP: 1,
+  luckP: 1,
   physicalDamageP: 1,
   magicalDamageP: 1,
   elementalDamageP: 1,

@@ -26,6 +26,15 @@ const effects: any = {
       agiP: -10,
     },
   } as EffectObject,
+  gored: {
+    id: "gored",
+    icon: "gfx/status/blood.png",
+    duration: 7,
+    type: "bleed",
+    inflict: {
+      damagePercent: 0.02,
+    },
+  } as EffectObject,
   burning: {
     id: "burning",
     icon: "gfx/status/flamer.png",
@@ -46,6 +55,17 @@ const effects: any = {
     type: "stun",
     modifiers: {
       speedP: -1000,
+    },
+  } as EffectObject,
+  stunned: {
+    id: "stunned",
+    icon: "gfx/status/stoned-skull.png",
+    duration: 7,
+    type: "stun",
+    modifiers: {
+      speedP: -30,
+      attackP: -15,
+      physicalDefenceV: -15,
     },
   } as EffectObject,
   regeneration_1: {

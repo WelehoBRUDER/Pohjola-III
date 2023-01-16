@@ -246,13 +246,15 @@ class Player extends Character {
   xpForNextLevel(): number {
     if (this.level <= 5) {
       return this.level * 10;
+    } else if (this.level <= 9) {
+      return Math.floor(Math.pow(this.level, 1.5) * 10);
     } else {
-      return Math.floor(Math.pow(this.level, 1.2) * 10);
+      return Math.floor(Math.pow(this.level, 1.65) * 10) + (this.level - 10) * 100;
     }
   }
 
   addXP(xp: number) {
-    const boost = this.allModifiers["xp_boost"] ?? 1;
+    const boost = this.allModifiers["expGainP"] ?? 1;
     this.xp += Math.floor(xp * boost);
     stats.total_xp_gained += Math.floor(xp * boost);
     while (this.xp >= this.xpForNextLevel()) {
@@ -261,7 +263,7 @@ class Player extends Character {
   }
 
   addGold(gold: number) {
-    const boost = this.allModifiers["gold_boost"] ?? 1;
+    const boost = this.allModifiers["goldGainP"] ?? 1;
     stats.total_gold_gained += Math.floor(gold * boost);
     this.gold += Math.floor(gold * boost);
   }

@@ -18,10 +18,10 @@
 
 <body>
   <main class="game">
-    <div class="console">
+    <div class="console" style="display: none">
       <div class="log"></div>
       <div class="input">
-        <input type="text" id="console-input" onkeydown="typeToConsole(event)">
+        <input type="text" id="console-input" onkeydown="typeToConsole(event)" oninput="clearBadSymbols()">
       </div>
     </div>
     <div id="tooltip"></div>

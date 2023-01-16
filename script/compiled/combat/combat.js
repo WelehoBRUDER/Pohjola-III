@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 function update(options) {
     if (player.stats.hp <= 0) {
         player.stats.hp = 0;
@@ -7,29 +18,29 @@ function update(options) {
     if (player.stats.mp < 0) {
         player.stats.mp = 0;
     }
-    const playerStats = player.getStats({ dontUpdateModifiers: true });
+    var playerStats = player.getStats({ dontUpdateModifiers: true });
     if (player.stats.hp > playerStats.hpMax)
         player.stats.hp = playerStats.hpMax;
     if (player.stats.mp > playerStats.mpMax)
         player.stats.mp = playerStats.mpMax;
-    const PlayerHealthRemaining = (player.stats.hp / playerStats.hpMax) * 100;
-    const PlayerManaRemaining = (player.stats.mp / playerStats.mpMax) * 100;
-    playerActionFill.style.width = `${player.stats.ap}%`;
-    playerHPFill.style.width = `${PlayerHealthRemaining}%`;
-    playerMPFill.style.width = `${PlayerManaRemaining}%`;
-    playerHPLate.style.width = `${PlayerHealthRemaining}%`;
-    playerMPLate.style.width = `${PlayerManaRemaining}%`;
+    var PlayerHealthRemaining = (player.stats.hp / playerStats.hpMax) * 100;
+    var PlayerManaRemaining = (player.stats.mp / playerStats.mpMax) * 100;
+    playerActionFill.style.width = player.stats.ap + "%";
+    playerHPFill.style.width = PlayerHealthRemaining + "%";
+    playerMPFill.style.width = PlayerManaRemaining + "%";
+    playerHPLate.style.width = PlayerHealthRemaining + "%";
+    playerMPLate.style.width = PlayerManaRemaining + "%";
     playerAction.innerText = player.stats.ap.toFixed(1) + "%";
     playerHP.innerText = player.stats.hp + "/" + playerStats.hpMax;
     playerMP.innerText = player.stats.mp + "/" + playerStats.mpMax;
     player.update();
-    if (options?.updatePlayerOnly)
+    if (options === null || options === void 0 ? void 0 : options.updatePlayerOnly)
         return;
     combat.time += 1 / game.settings.tick_speed;
-    combatTime.textContent = `${combat.time.toFixed(1)}s`;
+    combatTime.textContent = combat.time.toFixed(1) + "s";
     if (game.state.paused)
         return;
-    const speed = player.getSpeed();
+    var speed = player.getSpeed();
     player.stats.ap += speed;
     if (player.stats.ap > 100) {
         player.stats.ap = 100;
@@ -39,12 +50,12 @@ function update(options) {
             game.pause({ disableSkills: false });
         }
     }
-    combat.enemies.forEach((enemy) => {
+    combat.enemies.forEach(function (enemy) {
         if (enemy.dead || game.state.paused)
             return;
         enemy.updateStatusEffects();
         enemy.stats.ap += enemy.getSpeed();
-        enemy.abilities.forEach((ability) => {
+        enemy.abilities.forEach(function (ability) {
             ability.doCooldown();
         });
         if (enemy.stats.ap > 100) {
@@ -55,12 +66,12 @@ function update(options) {
         }
         enemy.updateCard();
     });
-    player.abilities.forEach((ability, index) => {
+    player.abilities.forEach(function (ability, index) {
         ability.doCooldown();
-        const slot = slots.children[index];
-        const cooldown = slot.querySelector(".cooldown");
-        const cooldownValue = slot.querySelector(".cooldown-number");
-        cooldown.style.height = `${(ability.onCooldown / ability.cooldown) * 100}%`;
+        var slot = slots.children[index];
+        var cooldown = slot.querySelector(".cooldown");
+        var cooldownValue = slot.querySelector(".cooldown-number");
+        cooldown.style.height = (ability.onCooldown / ability.cooldown) * 100 + "%";
         if (ability.onCooldown > 0) {
             cooldownValue.innerText = ability.onCooldown.toFixed(1) + "s";
         }
@@ -81,10 +92,10 @@ function update(options) {
 }
 function createActionSlots() {
     slots.innerHTML = "";
-    for (let i = 0; i < 6; i++) {
-        let slot;
+    for (var i = 0; i < 6; i++) {
+        var slot = void 0;
         if (player.abilities[i]) {
-            const ability = player.abilities[i];
+            var ability = player.abilities[i];
             slot = createAbilitySlot(ability, { manage: false }, i);
         }
         else {
@@ -95,7 +106,7 @@ function createActionSlots() {
 }
 function useAbility(hotkey, index) {
     game.endTargeting();
-    let _index = index;
+    var _index = index;
     if (hotkey) {
         // Last char in the string is the index
         _index = +hotkey.substring(hotkey.length - 1);
@@ -103,11 +114,11 @@ function useAbility(hotkey, index) {
     }
     if (_index === null || _index === undefined)
         return;
-    const ability = player.abilities[_index];
+    var ability = player.abilities[_index];
     if (!ability.canUse(player) || player.stats.ap < 100)
         return;
     if (ability.type === "attack") {
-        const targets = combat.getLivingEnemies();
+        var targets = combat.getLivingEnemies();
         if (targets.length === 1) {
             ability.use(player, targets[0]);
         }
@@ -121,24 +132,24 @@ function useAbility(hotkey, index) {
     }
 }
 function shakeScreen() {
-    let shake = Math.ceil(Math.random() * 9);
+    var shake = Math.ceil(Math.random() * 9);
     bloodyScreen.classList.add("show");
     combatScreen.style.animation = "none";
     // @ts-ignore
     combatScreen.style.offsetHeight; // trigger reflow
     // @ts-ignore
     combatScreen.style.animation = null;
-    combatScreen.style.animationDuration = `${200 / game.settings.animation_speed}ms`;
+    combatScreen.style.animationDuration = 200 / game.settings.animation_speed + "ms";
     combatScreen.style.animationName = "shake" + shake;
-    setTimeout(() => {
+    setTimeout(function () {
         combatScreen.style.animation = "none";
         bloodyScreen.classList.remove("show");
     }, 200 / game.settings.animation_speed);
 }
 function createStatusIcon(status) {
-    const statusElement = document.createElement("div");
-    const statusIcon = document.createElement("img");
-    const statusDuration = document.createElement("p");
+    var statusElement = document.createElement("div");
+    var statusIcon = document.createElement("img");
+    var statusDuration = document.createElement("p");
     statusElement.classList.add("status-effect");
     statusIcon.classList.add("icon");
     statusDuration.classList.add("duration");
@@ -152,9 +163,9 @@ function createStatusIcon(status) {
 function attack() {
     if (player.stats.ap < 100)
         return;
-    const ability = new Ability({ ...abilities.player_base_attack });
+    var ability = new Ability(__assign({}, abilities.player_base_attack));
     game.endTargeting();
-    const targets = combat.getLivingEnemies();
+    var targets = combat.getLivingEnemies();
     if (targets.length === 1) {
         ability.use(player, targets[0]);
     }
@@ -174,46 +185,46 @@ function pass() {
     }
 }
 function defeatedEnemies() {
-    let text = "";
-    text += `<f>2rem<f><c>goldenrod<c>${game.getLocalizedString("defeated_enemies")}:<f>1.5rem<f><c>silver<c>\n`;
+    var text = "";
+    text += "<f>2rem<f><c>goldenrod<c>" + game.getLocalizedString("defeated_enemies") + ":<f>1.5rem<f><c>silver<c>\n";
     combat.loot = lootEnemies(combat.enemies);
-    combat.enemies.forEach((enemy) => {
-        text += `${game.getLocalizedString(enemy.id)}\n`;
+    combat.enemies.forEach(function (enemy) {
+        text += game.getLocalizedString(enemy.id) + "\n";
     });
-    text += `\n<f>2rem<f><c>goldenrod<c>${game.getLocalizedString("loot_gained")}:<f>1.5rem<f><c>silver<c>\n`;
-    combat.loot.forEach((item) => {
-        text += `${item.amount}x ${game.getLocalizedString(item.item.id)}\n`;
+    text += "\n<f>2rem<f><c>goldenrod<c>" + game.getLocalizedString("loot_gained") + ":<f>1.5rem<f><c>silver<c>\n";
+    combat.loot.forEach(function (item) {
+        text += item.amount + "x " + game.getLocalizedString(item.item.id) + "\n";
     });
-    text += `${combat.gold}<c>gold<c> ${game.getLocalizedString("gold")}\n`;
-    text += `<c>silver<c>${combat.xp}<c>lime<c> ${game.getLocalizedString("xp")}`;
+    text += combat.gold * player.allModifiers["goldGainP"] + "<c>gold<c> " + game.getLocalizedString("gold") + "\n";
+    text += "<c>silver<c>" + combat.xp * player.allModifiers["expGainP"] + "<c>lime<c> " + game.getLocalizedString("xp");
     return textSyntax(text);
 }
 function lootEnemies(enemies) {
-    let total = [];
-    let loot = [];
-    enemies.forEach((enemy) => {
+    var total = [];
+    var loot = [];
+    enemies.forEach(function (enemy) {
         combat.xp += enemy.xp || 0;
-        enemy.dropLoot().forEach((item) => {
+        enemy.dropLoot().forEach(function (item) {
             total.push(item);
         });
     });
-    total.forEach((item) => {
+    total.forEach(function (item) {
         if (item.gold)
             combat.gold += item.gold;
         else {
-            if (!loot.find((i) => i.item.id === item.item.id)) {
+            if (!loot.find(function (i) { return i.item.id === item.item.id; })) {
                 loot.push(item);
             }
             else {
-                const index = loot.findIndex((i) => i.item.id === item.item.id);
+                var index = loot.findIndex(function (i) { return i.item.id === item.item.id; });
                 loot[index].amount += item.amount;
             }
         }
     });
     return loot;
 }
-class Combat {
-    constructor() {
+var Combat = /** @class */ (function () {
+    function Combat() {
         this.enemies = [];
         this.init();
         this.id = "combat";
@@ -224,11 +235,11 @@ class Combat {
         this.turns = 0;
         this.defeat = false;
     }
-    init() { }
-    getLivingEnemies() {
-        return this.enemies.filter((enemy) => !enemy.dead);
-    }
-    createCombat(enemies) {
+    Combat.prototype.init = function () { };
+    Combat.prototype.getLivingEnemies = function () {
+        return this.enemies.filter(function (enemy) { return !enemy.dead; });
+    };
+    Combat.prototype.createCombat = function (enemies) {
         this.time = 0;
         this.enemies = enemies;
         this.loot = [];
@@ -238,13 +249,13 @@ class Combat {
         this.defeat = false;
         enemyContainer.innerHTML = "";
         combatSummaryBackground.classList.add("hide");
-        this.enemies.forEach((enemy) => {
+        this.enemies.forEach(function (enemy) {
             // @ts-ignore
             enemy.init();
         });
         game.resume();
-    }
-    end() {
+    };
+    Combat.prototype.end = function () {
         game.pause({ disableSkills: true });
         combatSummaryBackground.classList.remove("hide");
         combatSummaryButtons.innerHTML = "";
@@ -253,18 +264,20 @@ class Combat {
             combatSummaryTitle.innerText = game.getLocalizedString("combat_victory");
             combatSummaryTitle.classList.value = "header victory";
             combatSummaryText.append(defeatedEnemies());
-            combatSummaryButtons.innerHTML = `<button class="main-button" onclick="combat.finish_combat()">${game.getLocalizedString("continue")}</button>`;
+            combatSummaryButtons.innerHTML = "<button class=\"main-button\" onclick=\"combat.finish_combat()\">" + game.getLocalizedString("continue") + "</button>";
         }
         else {
             this.defeat = true;
             stats.total_deaths += 1;
+            this.xp = Math.ceil(player.xp * (random(50, 70) / 100));
             combatSummaryTitle.innerText = game.getLocalizedString("combat_defeat");
             combatSummaryTitle.classList.value = "header defeat";
-            combatSummaryText.append(game.getLocalizedString("combat_defeat_text"));
-            combatSummaryButtons.innerHTML = `<button class="main-button" onclick="combat.finish_combat()">${game.getLocalizedString("continue")}</button>`;
+            combatSummaryText.append(game.getLocalizedString("combat_defeat_text") + "\n");
+            combatSummaryText.append(game.getLocalizedString("you_lost") + (" -" + this.xp + " " + game.getLocalizedString("xp") + "!"));
+            combatSummaryButtons.innerHTML = "<button class=\"main-button\" onclick=\"combat.finish_combat()\">" + game.getLocalizedString("continue") + "</button>";
         }
-    }
-    finish_combat() {
+    };
+    Combat.prototype.finish_combat = function () {
         stats.total_combat_time += +this.time.toFixed(1);
         stats.total_turns += this.turns;
         if (this.time > stats.most_combat_time)
@@ -272,7 +285,7 @@ class Combat {
         if (this.turns > stats.most_turns)
             stats.most_turns = this.turns;
         if (this.defeat) {
-            player.xp -= Math.ceil(player.xp * (random(50, 70) / 100));
+            player.xp -= this.xp;
         }
         else {
             if (!player.completed_stages.includes(currentStage)) {
@@ -280,8 +293,8 @@ class Combat {
             }
             player.addGold(this.gold);
             player.addXP(this.xp);
-            this.loot.forEach((item) => {
-                player.addItem(new Item({ ...item.item }), item.amount);
+            this.loot.forEach(function (item) {
+                player.addItem(new Item(__assign({}, item.item)), item.amount);
             });
         }
         if (!challenges.no_after_combat_recovery) {
@@ -290,13 +303,15 @@ class Combat {
         this.gold = 0;
         this.xp = 0;
         this.loot = [];
+        this.enemies = [];
         player.reset({ removeStatuses: true });
         combatSummaryBackground.classList.add("hide");
         game.endCombatAndGoToLobby();
-    }
-}
-const combat = new Combat();
-const pouchState = { open: false };
+    };
+    return Combat;
+}());
+var combat = new Combat();
+var pouchState = { open: false };
 function openPouch() {
     if (pouchState.open)
         return closePouch();
@@ -310,15 +325,15 @@ function closePouch() {
     pouchBackground.classList.add("hide");
 }
 function pouch() {
-    const pouch = document.createElement("div");
+    var pouch = document.createElement("div");
     pouch.classList.add("pouch");
-    pouch.innerHTML = `<div class="pouch-header"><h1 class="header">${game.getLocalizedString("pouch")}</h1><button class="close-button" onclick="closePouch()">X</button></div>`;
+    pouch.innerHTML = "<div class=\"pouch-header\"><h1 class=\"header\">" + game.getLocalizedString("pouch") + "</h1><button class=\"close-button\" onclick=\"closePouch()\">X</button></div>";
     pouch.append(pouchItems());
     return pouch;
 }
 function pouchItems() {
-    const pouchItems = document.createElement("div");
-    player.inventory.forEach((item) => {
+    var pouchItems = document.createElement("div");
+    player.inventory.forEach(function (item) {
         if (item.type === "potion") {
             pouchItems.append(createSlot(item));
         }

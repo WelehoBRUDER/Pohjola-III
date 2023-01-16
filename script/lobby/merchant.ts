@@ -13,6 +13,7 @@ const merchant = {
     { item: items.ragged_hood, price: 20 },
     { item: items.ragged_armor, price: 40 },
     { item: items.ragged_boots, price: 20 },
+    { item: items.hood_of_wisdom, price: 100 },
     { item: items.leather_helmet, price: 220 },
     { item: items.leather_armor, price: 400 },
     { item: items.leather_boots, price: 220 },

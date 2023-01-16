@@ -51,5 +51,13 @@ function calculateDamage(attacker: Player | Enemy, defender: Player | Enemy, att
   // Damage isn't supposed to heal!
   if (damage < 0) damage = 0;
 
+  if (defender instanceof Player) {
+    if (DEVTOOLS.GOD) damage = 0;
+  }
+
+  if (attacker instanceof Player) {
+    if (DEVTOOLS.ONE_PUNCH) damage = 999999;
+  }
+
   return Math.floor(damage);
 }

@@ -154,6 +154,26 @@ const armors = {
     type: "armor",
     slot: "legs",
   },
+  /* Hood of Wisdom */
+  hood_of_wisdom: {
+    id: "hood_of_wisdom",
+    price: 90,
+    speed: 0,
+    defence: {
+      physical: -10,
+      magical: -10,
+      elemental: -10,
+    },
+    modifiers: {
+      expGainP: 10,
+      goldGainP: 30,
+    },
+    stackable: true,
+    icon: "gfx/items/hood.png",
+    tier: itemTiers.uncommon,
+    type: "armor",
+    slot: "helmet",
+  },
   /* Leather set */
   leather_armor: {
     id: "leather_armor",

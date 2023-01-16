@@ -2,25 +2,39 @@ const developerCommands: any = [
   {
     name: "help",
     description: "List all available commands",
-    execute: () => {
-      let text = "Available commands:";
-      developerCommands.forEach((command: any) => {
-        text += `<br>${command.name}: ${command.description}`;
-      });
-      devConsole.commandHistory.push(text);
+    help: "help [command] - List all available commands. If a command is specified, the help text for that command will be displayed.",
+    execute: (args: string[]) => {
+      const command = args[0];
+      if (command) {
+        const commandObject = developerCommands.find((c: any) => c.name === command);
+        if (commandObject) {
+          devConsole.commandHistory.push(commandObject.help);
+          return;
+        }
+        devConsole.commandHistory.push(`Command ${command} not found, type "help" to see all available commands`);
+        return;
+      } else {
+        let text = "Available commands:";
+        developerCommands.forEach((command: any) => {
+          text += `<br>${command.name}: ${command.description}`;
+        });
+        devConsole.commandHistory.push(text);
+      }
     },
   },
   {
     name: "clear",
     description: "Clear the console",
+    help: "Clears the console, while keeping the command history.",
     execute: () => {
-      devConsole.commandHistory = [""];
+      devConsole.commandHistory = [""]; // This only clears the logs, not the actual command history
       consoleLog.innerHTML = "";
     },
   },
   {
     name: "dev",
     description: "Enable developer mode",
+    help: "dev [save] - Enable developer mode. If 'save' is specified, the setting will be saved to local storage.<br>Use 'dev' again to disable developer mode.<br>Developer mode enables cheat commands and removes certain limitations.",
     execute: (args: string[]) => {
       DEVTOOLS.ENABLED = !DEVTOOLS.ENABLED;
       const saveToLocalStorage = args[0] === "save";
@@ -35,6 +49,7 @@ const developerCommands: any = [
   {
     name: "onepunch",
     description: "Deal massive damage with every attack",
+    help: "onepunch - Deal massive damage with every attack.<br>Use 'onepunch' again to disable this cheat.",
     isCheat: true,
     execute: () => {
       DEVTOOLS.ONE_PUNCH = !DEVTOOLS.ONE_PUNCH;
@@ -44,7 +59,9 @@ const developerCommands: any = [
   {
     name: "nocd",
     description: "Remove cooldowns from all abilities",
+    help: "nocd - Remove cooldowns from all abilities.<br>Use 'nocd' again to disable this cheat.",
     isCheat: true,
+
     execute: () => {
       DEVTOOLS.NO_CD = !DEVTOOLS.NO_CD;
       devConsole.commandHistory.push(`Skills are now ${DEVTOOLS.NO_CD ? "instant" : "lethargic"}`);
@@ -53,6 +70,7 @@ const developerCommands: any = [
   {
     name: "freecast",
     description: "Cast abilities without spending mana",
+    help: "freecast - Cast abilities without spending mana.<br>Use 'freecast' again to disable this cheat.",
     isCheat: true,
     execute: () => {
       DEVTOOLS.FREE_CAST = !DEVTOOLS.FREE_CAST;
@@ -62,6 +80,7 @@ const developerCommands: any = [
   {
     name: "god",
     description: "Become invincible",
+    help: "god - All damage dealt to you will be 0, and you are immune to debuffs.<br>Use 'god' again to disable this cheat.",
     isCheat: true,
     execute: () => {
       DEVTOOLS.GOD = !DEVTOOLS.GOD;
@@ -71,6 +90,7 @@ const developerCommands: any = [
   {
     name: "item",
     description: "[item] [amount] Adds specified quantity of items to your inventory",
+    help: "item [item] [amount] - Adds specified quantity of items to your inventory.<br>Example: item small_healing_potion 3",
     isCheat: true,
     execute: (args: string[]) => {
       const item: string = args[0];
@@ -94,6 +114,7 @@ const developerCommands: any = [
   {
     name: "gold",
     description: "Add gold",
+    help: "gold [amount] - Add gold to your inventory.<br>Example: gold 100",
     isCheat: true,
     execute: (args: string[]) => {
       const amount = args[0] ? parseInt(args[0]) : 100;
@@ -104,11 +125,36 @@ const developerCommands: any = [
   {
     name: "xp",
     description: "Add experience points",
+    help: "xp [amount] - Add experience points.<br>Example: xp 100",
     isCheat: true,
     execute: (args: string[]) => {
       const xp = args[0] ? parseInt(args[0]) : 0;
       player.addXP(xp);
       devConsole.commandHistory.push(`Added ${xp} experience points`);
+    },
+  },
+  {
+    name: "sp",
+    description: "Add skill points",
+    help: "sp [amount] - Add skill points.<br>Example: sp 5",
+    isCheat: true,
+    execute: (args: string[]) => {
+      const sp = args[0] ? parseInt(args[0]) : 0;
+      player.skill_points += sp;
+      sideBarDetails();
+      devConsole.commandHistory.push(`Added ${sp} skill points`);
+    },
+  },
+  {
+    name: "pp",
+    description: "Add perk points",
+    help: "pp [amount] - Add perk points.<br>Example: pp 5",
+    isCheat: true,
+    execute: (args: string[]) => {
+      const sp = args[0] ? parseInt(args[0]) : 0;
+      player.perk_points += sp;
+      sideBarDetails();
+      devConsole.commandHistory.push(`Added ${sp} perk points`);
     },
   },
 ];

@@ -185,8 +185,8 @@ function defeatedEnemies(): HTMLPreElement {
   combat.loot.forEach((item) => {
     text += `${item.amount}x ${game.getLocalizedString(item.item.id)}\n`;
   });
-  text += `${combat.gold}<c>gold<c> ${game.getLocalizedString("gold")}\n`;
-  text += `<c>silver<c>${combat.xp}<c>lime<c> ${game.getLocalizedString("xp")}`;
+  text += `${combat.gold * player.allModifiers["goldGainP"]}<c>gold<c> ${game.getLocalizedString("gold")}\n`;
+  text += `<c>silver<c>${combat.xp * player.allModifiers["expGainP"]}<c>lime<c> ${game.getLocalizedString("xp")}`;
   return textSyntax(text);
 }
 
@@ -271,9 +271,11 @@ class Combat {
     } else {
       this.defeat = true;
       stats.total_deaths += 1;
+      this.xp = Math.ceil(player.xp * (random(50, 70) / 100));
       combatSummaryTitle.innerText = game.getLocalizedString("combat_defeat");
       combatSummaryTitle.classList.value = "header defeat";
-      combatSummaryText.append(game.getLocalizedString("combat_defeat_text"));
+      combatSummaryText.append(game.getLocalizedString("combat_defeat_text") + "\n");
+      combatSummaryText.append(game.getLocalizedString("you_lost") + ` -${this.xp} ${game.getLocalizedString("xp")}!`);
       combatSummaryButtons.innerHTML = `<button class="main-button" onclick="combat.finish_combat()">${game.getLocalizedString(
         "continue"
       )}</button>`;
@@ -286,7 +288,7 @@ class Combat {
     if (this.time > stats.most_combat_time) stats.most_combat_time = +this.time.toFixed(1);
     if (this.turns > stats.most_turns) stats.most_turns = this.turns;
     if (this.defeat) {
-      player.xp -= Math.ceil(player.xp * (random(50, 70) / 100));
+      player.xp -= this.xp;
     } else {
       if (!player.completed_stages.includes(currentStage)) {
         player.completed_stages.push(currentStage);
@@ -303,6 +305,7 @@ class Combat {
     this.gold = 0;
     this.xp = 0;
     this.loot = [];
+    this.enemies = [];
     player.reset({ removeStatuses: true });
     combatSummaryBackground.classList.add("hide");
     game.endCombatAndGoToLobby();

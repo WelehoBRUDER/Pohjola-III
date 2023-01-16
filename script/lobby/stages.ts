@@ -183,7 +183,16 @@ const floors: any = [
     id: "floor_3",
     map: "southern_plains",
     beat_stage_to_unlock: "stage_20",
-    stages: [],
+    stages: [
+      new Stage({
+        id: "stage_21",
+        foes: [new Enemy(enemies.minotaur)],
+      }),
+      new Stage({
+        id: "stage_22",
+        foes: [new Enemy(enemies.minotaur_warrior)],
+      }),
+    ],
   },
 ];
 
@@ -200,7 +209,7 @@ function createFloors() {
   floors.forEach((floor: any) => {
     const stageElement = document.createElement("div");
     stageElement.classList.add("stage");
-    if (!player.completed_stages.includes(floor.beat_stage_to_unlock) && floor.beat_stage_to_unlock !== "") {
+    if (!player.completed_stages.includes(floor.beat_stage_to_unlock) && floor.beat_stage_to_unlock !== "" && !DEVTOOLS.ENABLED) {
       stageElement.classList.add("locked");
       tooltip(
         stageElement,

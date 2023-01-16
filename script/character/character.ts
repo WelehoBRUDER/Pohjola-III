@@ -171,7 +171,7 @@ class Character {
           if (this.equipment?.weapon) {
             increase += this.equipment.weapon.atk;
           }
-          increase += (this.level || 0) * 0.4;
+          increase += (this.level || 0) * 0.25;
         }
         const flat = value + increase;
         if (flat < 0) {
@@ -221,7 +221,6 @@ class Character {
     this.addStatus = (status: Effect, user: Player | Enemy, key: string): void => {
       const index = this.statuses.findIndex((s: any) => s.id === status.id);
       const effect = new Effect(status);
-      console.log(index);
       if (index === -1) {
         effect.init(user.allModifiers?.[key]?.["effect_" + status.id]);
         effect.lasts = effect.duration;

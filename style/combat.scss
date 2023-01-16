@@ -271,7 +271,7 @@
     }
 
     &.mana {
-      color: rgb(29, 29, 224);
+      color: $mana_light;
       text-shadow: -0.25rem 0.25rem 0.75rem rgb(27, 27, 184);
     }
 
@@ -398,6 +398,7 @@
     background: rgb(24, 24, 24);
     z-index: 10;
     box-shadow: 0 0 0.75rem 0.5rem rgb(20, 20, 20);
+    color: white;
 
     .header {
       width: 100%;

@@ -1,5 +1,5 @@
 "use strict";
-const merchant = {
+var merchant = {
     inventoryDefault: [
         { item: items.broken_sword, price: 20 },
         { item: items.broken_mace, price: 20 },
@@ -14,6 +14,7 @@ const merchant = {
         { item: items.ragged_hood, price: 20 },
         { item: items.ragged_armor, price: 40 },
         { item: items.ragged_boots, price: 20 },
+        { item: items.hood_of_wisdom, price: 100 },
         { item: items.leather_helmet, price: 220 },
         { item: items.leather_armor, price: 400 },
         { item: items.leather_boots, price: 220 },
@@ -26,6 +27,6 @@ const merchant = {
         { item: items.small_mana_potion, price: 15 },
         { item: items.medium_mana_potion, price: 120 },
         { item: items.large_mana_potion, price: 550 },
-    ],
+    ]
 };
 //# sourceMappingURL=merchant.js.map

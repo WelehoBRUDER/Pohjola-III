@@ -178,8 +178,9 @@ class Item {
 
     if (this.defence) {
       tooltip += `${game.getLocalizedString("defences")}:\n`;
-      Object.entries(this.defence).forEach(([key, value]) => {
-        tooltip += `<i>${icons[key]}<i> ${game.getLocalizedString(key)}: <c>${typeColors[key]}<c>${value}%<c>white<c>\n`;
+      Object.entries(this.defence).forEach(([key, value]: any) => {
+        const color = value < 0 ? "red" : typeColors[key];
+        tooltip += `<i>${icons[key]}<i> ${game.getLocalizedString(key)}: <c>${color}<c>${value}%<c>white<c>\n`;
       });
       tooltip += "\n";
     }

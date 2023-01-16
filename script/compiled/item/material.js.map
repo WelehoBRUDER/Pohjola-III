@@ -1,1 +1,1 @@
-{"version":3,"file":"material.js","sourceRoot":"","sources":["../../item/material.ts"],"names":[],"mappings":";AAIA,MAAM,QAAS,SAAQ,IAAI;IACzB,YAAY,QAAwB;QAClC,KAAK,CAAC,QAAQ,CAAC,CAAC;QAChB,IAAI,CAAC,IAAI,GAAG,UAAU,CAAC;IACzB,CAAC;CACF"}
+{"version":3,"file":"material.js","sourceRoot":"","sources":["../../item/material.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;AAIA;IAAuB,4BAAI;IACzB,kBAAY,QAAwB;QAApC,YACE,kBAAM,QAAQ,CAAC,SAEhB;QADC,KAAI,CAAC,IAAI,GAAG,UAAU,CAAC;;IACzB,CAAC;IACH,eAAC;AAAD,CAAC,AALD,CAAuB,IAAI,GAK1B"}

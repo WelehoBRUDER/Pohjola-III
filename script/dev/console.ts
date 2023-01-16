@@ -11,30 +11,25 @@ class DeveloperConsole {
     this.commandHistory = [];
     this.commandsHistory = [];
     this.command = 0;
-    this.open = true;
+    this.open = false;
   }
 
   executeCommand(command: string) {
-    const commandArr = command.split(" ");
-    const commandName: string = commandArr[0];
-    const commandValue = commandArr.slice(1);
+    const commandArr: string[] = command.split(" ");
+    const [commandName, ...commandValue] = commandArr;
     const commandFunction = developerCommands.find((command: any) => command.name === commandName);
     if (commandFunction) {
       if (commandFunction.isCheat && !DEVTOOLS.ENABLED) {
         consoleLog.innerHTML += `<p>Command ${commandName} is a cheat command and is disabled.<br>Type "dev" if you wish to access cheats.</p>`;
-        this.commandsHistory.push(command);
-        this.command = this.commandsHistory.length;
       } else {
         commandFunction.execute(commandValue);
-        consoleLog.innerHTML += `<p>${this.commandHistory[this.commandHistory.length - 1]}</p>`;
-        this.commandsHistory.push(command);
-        this.command = this.commandsHistory.length;
+        consoleLog.innerHTML += `<p>${this.commandHistory.at(-1)}</p>`;
       }
     } else {
       consoleLog.innerHTML += `<p>Command ${commandName} does not exist, type "help" to see all available commands.</p>`;
-      this.commandsHistory.push(command);
-      this.command = this.commandsHistory.length;
     }
+    this.commandsHistory.push(command);
+    this.command = this.commandsHistory.length;
   }
 
   toggle() {
@@ -42,12 +37,9 @@ class DeveloperConsole {
     if (this.open) {
       consoleElement.style.display = "flex";
       consoleInput.focus();
-      consoleInput.value = "";
     } else {
       consoleElement.style.display = "none";
-      consoleInput.value = "";
     }
-    if (consoleInput.value === "§") consoleInput.value = "";
   }
 }
 function typeToConsole(e: KeyboardEvent) {
@@ -69,7 +61,14 @@ function typeToConsole(e: KeyboardEvent) {
   const value = consoleInput.value;
   if (e.key === "Enter") {
     consoleInput.value = "";
+    if (value.replaceAll(" ", "") === "") return;
     devConsole.executeCommand(value);
+  }
+}
+
+function clearBadSymbols() {
+  if (consoleInput.value.includes("§")) {
+    consoleInput.value = consoleInput.value.replaceAll("§", "");
   }
 }
 

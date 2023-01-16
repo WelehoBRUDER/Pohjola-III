@@ -1,1 +1,1 @@
-{"version":3,"file":"sounds.js","sourceRoot":"","sources":["../../main/sounds.ts"],"names":[],"mappings":";AAAA,MAAM,MAAM,GAAqB;IAC/B;QACE,EAAE,EAAE,QAAQ;QACZ,GAAG,EAAE,wBAAwB;QAC7B,UAAU,EAAE,EAAE,IAAI,EAAE,KAAK,EAAE;KAC5B;CACF,CAAC"}
+{"version":3,"file":"sounds.js","sourceRoot":"","sources":["../../main/sounds.ts"],"names":[],"mappings":";AAAA,IAAM,MAAM,GAAqB;IAC/B;QACE,EAAE,EAAE,QAAQ;QACZ,GAAG,EAAE,wBAAwB;QAC7B,UAAU,EAAE,EAAE,IAAI,EAAE,KAAK,EAAE;KAC5B;CACF,CAAC"}

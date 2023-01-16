@@ -1,34 +1,45 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 function createStore(options) {
     lobbyContent.innerHTML = "";
     hideHover();
     sideBarDetails();
-    const storeScreen = document.createElement("div");
-    const buyingSelling = document.createElement("div");
-    const storeContainer = document.createElement("div");
+    var storeScreen = document.createElement("div");
+    var buyingSelling = document.createElement("div");
+    var storeContainer = document.createElement("div");
     storeScreen.classList.add("inventory");
     storeScreen.classList.add("store");
     buyingSelling.classList.add("options");
     storeContainer.classList.add("inventory-container");
-    const storeGrid = document.createElement("div");
+    var storeGrid = document.createElement("div");
     storeContainer.append(storeGrid);
     storeGrid.classList.add("inventory-flex");
-    sellingOptions.forEach((option) => {
-        const optionElement = document.createElement("div");
+    sellingOptions.forEach(function (option) {
+        var optionElement = document.createElement("div");
         optionElement.classList.add("lobby-button");
         optionElement.innerText = game.getLocalizedString(option.id);
         optionElement.onclick = option.onClick;
-        if ((option.selling && options?.selling) || (!option.selling && !options?.selling)) {
+        if ((option.selling && (options === null || options === void 0 ? void 0 : options.selling)) || (!option.selling && !(options === null || options === void 0 ? void 0 : options.selling))) {
             optionElement.classList.add("selected");
         }
         buyingSelling.append(optionElement);
     });
-    if (!options?.selling) {
-        const inventory = merchant.inventoryDefault;
-        inventory.forEach((merchantItem) => {
-            let item = new Item({ ...merchantItem.item, price: merchantItem.price });
+    if (!(options === null || options === void 0 ? void 0 : options.selling)) {
+        var inventory = merchant.inventoryDefault;
+        inventory.forEach(function (merchantItem) {
+            var item = new Item(__assign(__assign({}, merchantItem.item), { price: merchantItem.price }));
             item = item.updateClass();
-            const slot = createSlot(item, { buy: true });
+            var slot = createSlot(item, { buy: true });
             if (item.price > player.gold) {
                 slot.classList.add("disabled");
             }
@@ -36,10 +47,10 @@ function createStore(options) {
         });
     }
     else {
-        const inventory = player.inventory;
-        inventory.forEach((item) => {
+        var inventory = player.inventory;
+        inventory.forEach(function (item) {
             item = item.updateClass();
-            const slot = createSlot(item, { sell: true });
+            var slot = createSlot(item, { sell: true });
             storeGrid.append(slot);
         });
     }
@@ -47,19 +58,20 @@ function createStore(options) {
     storeScreen.append(buyingSelling, storeContainer);
     lobbyContent.append(storeScreen);
 }
-const sellingOptions = [
+var sellingOptions = [
     {
         id: "buying",
         selling: false,
-        onClick: () => createStore({ selling: false }),
+        onClick: function () { return createStore({ selling: false }); }
     },
     {
         id: "selling",
         selling: true,
-        onClick: () => createStore({ selling: true }),
+        onClick: function () { return createStore({ selling: true }); }
     },
 ];
-function buyItem(item, amount = 1) {
+function buyItem(item, amount) {
+    if (amount === void 0) { amount = 1; }
     if (item.price * amount > player.gold) {
         return;
     }
@@ -67,18 +79,20 @@ function buyItem(item, amount = 1) {
     player.addItem(item, amount);
     createStore({ selling: false });
 }
-function sellItem(item, amount = 1) {
+function sellItem(item, amount) {
+    if (amount === void 0) { amount = 1; }
     player.addGold(item.price * amount);
     player.removeItem(item, amount);
     createStore({ selling: true });
 }
-const promptValues = {
+var promptValues = {
     itemAmount: 1,
     itemMax: 99,
     mode: "buying",
-    item: null,
+    item: null
 };
 function updateAmount(amount) {
+    var _a;
     if (amount > promptValues.itemMax)
         amount = promptValues.itemMax;
     promptValues.itemAmount = amount;
@@ -87,7 +101,7 @@ function updateAmount(amount) {
     }
     itemPromptAmount.innerText = promptValues.itemAmount.toString();
     itemPromptSlider.value = promptValues.itemAmount.toString();
-    itemPromptPrice.innerText = compactNumber(promptValues.itemAmount * (promptValues?.item?.price || 0));
+    itemPromptPrice.innerText = compactNumber(promptValues.itemAmount * (((_a = promptValues === null || promptValues === void 0 ? void 0 : promptValues.item) === null || _a === void 0 ? void 0 : _a.price) || 0));
 }
 function increaseAmount() {
     updateAmount(promptValues.itemAmount + 1);
@@ -95,7 +109,8 @@ function increaseAmount() {
 function decreaseAmount() {
     updateAmount(promptValues.itemAmount - 1);
 }
-function createAmountPrompt(item, maxAmount, mode = "buying") {
+function createAmountPrompt(item, maxAmount, mode) {
+    if (mode === void 0) { mode = "buying"; }
     itemPrompt.classList.remove("disabled");
     promptValues.itemAmount = 1;
     itemPromptSlider.max = maxAmount.toString();
