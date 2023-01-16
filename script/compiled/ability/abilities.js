@@ -1,5 +1,5 @@
 "use strict";
-var abilities = {
+const abilities = {
     player_base_attack: {
         id: "player_base_attack",
         icon: "gfx/abilities/pointy-sword.png",
@@ -7,7 +7,7 @@ var abilities = {
         damageType: "physical",
         power: 1,
         cooldown: 0,
-        weight: 1
+        weight: 1,
     },
     physical_attack: {
         id: "physical_attack",
@@ -16,7 +16,7 @@ var abilities = {
         damageType: "physical",
         power: 1,
         cooldown: 0,
-        weight: 1
+        weight: 1,
     },
     magical_attack: {
         id: "magical_attack",
@@ -25,7 +25,7 @@ var abilities = {
         damageType: "magical",
         power: 1,
         cooldown: 0,
-        weight: 1
+        weight: 1,
     },
     elemental_attack: {
         id: "elemental_attack",
@@ -34,7 +34,7 @@ var abilities = {
         damageType: "elemental",
         power: 1,
         cooldown: 0,
-        weight: 1
+        weight: 1,
     },
     sharp_strike: {
         id: "sharp_strike",
@@ -45,7 +45,7 @@ var abilities = {
         cooldown: 13,
         onCooldown: 0,
         power: 0.8,
-        weight: 2
+        weight: 2,
     },
     gore: {
         id: "gore",
@@ -56,7 +56,7 @@ var abilities = {
         cooldown: 16,
         onCooldown: 0,
         power: 1.5,
-        weight: 3
+        weight: 3,
     },
     fierce_attack: {
         id: "fierce_attack",
@@ -67,7 +67,7 @@ var abilities = {
         penetration: 0,
         onCooldown: 0,
         power: 1.5,
-        weight: 2
+        weight: 2,
     },
     disorienting_blow: {
         id: "disorienting_blow",
@@ -78,7 +78,7 @@ var abilities = {
         cooldown: 12,
         onCooldown: 0,
         power: 0.75,
-        weight: 2
+        weight: 2,
     },
     bull_rush: {
         id: "bull_rush",
@@ -89,7 +89,7 @@ var abilities = {
         cooldown: 13,
         onCooldown: 0,
         power: 0.85,
-        weight: 2
+        weight: 2,
     },
     flame: {
         id: "flame",
@@ -101,7 +101,7 @@ var abilities = {
         onCooldown: 0,
         power: 1,
         mpCost: 5,
-        weight: 3
+        weight: 3,
     },
     healing_light: {
         id: "healing_light",
@@ -110,7 +110,7 @@ var abilities = {
         effectsToSelf: [effects.regeneration_1],
         cooldown: 12,
         mpCost: 10,
-        weight: 1
+        weight: 1,
     },
     holy_grace: {
         id: "holy_grace",
@@ -119,7 +119,7 @@ var abilities = {
         effectsToSelf: [effects.holy_grace],
         cooldown: 14,
         mpCost: 20,
-        weight: 1
+        weight: 1,
     },
     battle_aura: {
         id: "battle_aura",
@@ -127,7 +127,7 @@ var abilities = {
         type: "buff",
         effectsToSelf: [effects.attack_1],
         cooldown: 12,
-        weight: 2
-    }
+        weight: 2,
+    },
 };
 //# sourceMappingURL=abilities.js.map

@@ -54,7 +54,7 @@ const effects: any = {
     duration: 4,
     type: "stun",
     modifiers: {
-      speedP: -1000,
+      speedP: -100,
     },
   } as EffectObject,
   stunned: {
@@ -64,7 +64,7 @@ const effects: any = {
     type: "stun",
     modifiers: {
       speedP: -30,
-      attackP: -15,
+      atkP: -15,
       physicalDefenceV: -15,
     },
   } as EffectObject,
@@ -105,4 +105,4 @@ const effects: any = {
       atkP: 20,
     },
   } as EffectObject,
-};
+} as const;

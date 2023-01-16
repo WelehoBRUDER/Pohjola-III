@@ -6,10 +6,12 @@ function createCharView() {
   const abilityManagement = document.createElement("div");
   const abilityToolbar = document.createElement("div");
   const totalAbilities = document.createElement("div");
+  const modifiersScreen = document.createElement("div");
   charScreen.classList.add("char-view");
   abilityManagement.classList.add("ability-management");
   abilityToolbar.classList.add("ability-toolbar");
   totalAbilities.classList.add("total-abilities");
+  modifiersScreen.classList.add("modifiers-screen");
 
   const abilities = player.abilities;
   const abilities_total = player.abilities_total;
@@ -51,8 +53,22 @@ function createCharView() {
     totalAbilities.append(slot);
   });
 
+  const modifiers = sortObject(player.allModifiers);
+  Object.entries(modifiers).forEach(([key, value]: any) => {
+    if (key.endsWith("V") || key.includes("ability")) return;
+    value = (value - 1) * 100;
+    if (value === 0) return;
+    const modifier = document.createElement("div");
+    modifier.classList.add("modifier");
+    const valueElement = document.createElement("div");
+    valueElement.classList.add("value");
+    valueElement.append(textSyntax(effectSyntax(key, value)));
+    modifier.append(valueElement);
+    modifiersScreen.append(modifier);
+  });
+
   abilityManagement.append(abilityToolbar, totalAbilities);
-  charScreen.append(abilityManagement);
+  charScreen.append(abilityManagement, modifiersScreen);
   lobbyContent.append(charScreen);
 
   window.onresize = () => {
@@ -76,4 +92,13 @@ function isSlotEmpty(slot: number) {
 function assignToDraggedSlot(ability: Ability, slot: HTMLElement) {
   const index = parseInt(slot.getAttribute("data-index")!);
   player.assignAbility(ability, index);
+}
+
+function sortObject(obj: any) {
+  return (
+    Object.keys(obj)
+      .sort((a, b) => obj[b] - obj[a])
+      // @ts-ignore
+      .reduce((result, key) => ((result[key] = obj[key]), result), {})
+  );
 }

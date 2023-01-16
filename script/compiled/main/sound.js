@@ -1,55 +1,56 @@
 "use strict";
-var Sound = /** @class */ (function () {
-    function Sound(audio) {
-        var _a;
+class Sound {
+    id;
+    src;
+    player;
+    properties; // TODO
+    constructor(audio) {
         this.id = audio.id;
         this.src = audio.src;
         this.player = controller.createPlayer(audio);
-        this.properties = (_a = audio.properties) !== null && _a !== void 0 ? _a : { loop: false };
+        this.properties = audio.properties ?? { loop: false };
     }
-    return Sound;
-}());
-var SoundController = /** @class */ (function () {
-    function SoundController(controller) {
+}
+class SoundController {
+    sounds;
+    constructor(controller) {
         this.sounds = controller.sounds || [];
     }
-    SoundController.prototype.playSound = function (soundId) {
-        var _a;
-        var player = (_a = this.sounds.find(function (s) { return s.id === soundId; })) === null || _a === void 0 ? void 0 : _a.player;
+    playSound(soundId) {
+        const player = this.sounds.find((s) => s.id === soundId)?.player;
         if (player) {
             player.play();
         }
         else {
-            var audio = sounds.find(function (sound) { return sound.id === soundId; });
+            const audio = sounds.find((sound) => sound.id === soundId);
             if (audio) {
                 this.sounds.push(new Sound({ id: audio.id, src: audio.src, properties: audio.properties }));
             }
             else {
-                throw new Error("Sound " + soundId + " not found!");
+                throw new Error(`Sound ${soundId} not found!`);
             }
         }
-    };
-    SoundController.prototype.stopSound = function (sound) {
-        var _a;
-        var player = (_a = this.sounds.find(function (s) { return s.id === sound; })) === null || _a === void 0 ? void 0 : _a.player;
+    }
+    stopSound(sound) {
+        const player = this.sounds.find((s) => s.id === sound)?.player;
         if (player) {
             player.pause();
         }
-    };
-    SoundController.prototype.stopAllSounds = function () {
-        this.sounds.forEach(function (sound) { return sound.player.pause(); });
-    };
-    SoundController.prototype.playMusic = function (song) {
+    }
+    stopAllSounds() {
+        this.sounds.forEach((sound) => sound.player.pause());
+    }
+    playMusic(song) {
         // TODO
-    };
-    SoundController.prototype.stopMusic = function (song) {
+    }
+    stopMusic(song) {
         // TODO
-    };
-    SoundController.prototype.stopAllMusic = function () {
+    }
+    stopAllMusic() {
         // TODO
-    };
-    SoundController.prototype.createPlayer = function (sound) {
-        var player = document.createElement("audio");
+    }
+    createPlayer(sound) {
+        const player = document.createElement("audio");
         player.src = sound.src;
         player.id = sound.id;
         player.loop = sound.properties.loop;
@@ -57,10 +58,9 @@ var SoundController = /** @class */ (function () {
         document.body.append(player);
         player.play();
         return player;
-    };
-    return SoundController;
-}());
-var controller = new SoundController({
-    sounds: []
+    }
+}
+const controller = new SoundController({
+    sounds: [],
 });
 //# sourceMappingURL=sound.js.map

@@ -21,7 +21,7 @@ function calculateDamage(attacker: Player | Enemy, defender: Player | Enemy, att
   let defence: number = defences[key];
 
   // Add stat boost to modifier
-  modifier += attackerStats[damageBoostingStats[key]] / 20;
+  modifier += attackerStats[damageBoostingStats[key]] / 50;
 
   // Add stat effects to modifier
   modifier += attacker.allModifiers[key + "_damageP"] ?? 0;

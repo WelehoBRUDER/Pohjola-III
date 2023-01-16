@@ -97,7 +97,7 @@ class Character {
         let boost = this.allModifiers[key + "DefenceV"] ?? 0;
         modifier += this.allModifiers["defenceP"] ?? 0;
         boost += this.allModifiers["defenceV"] ?? 0;
-        boost += (this.level | 0) * 0.15; // Level resistance boost
+        boost += ((this.level - 1) | 0) * 0.15; // Level resistance boost
         if (this.equipment) {
           Object.entries(this.equipment).forEach(([slot, item]: any) => {
             if (item?.defence) {
@@ -116,7 +116,7 @@ class Character {
       Object.entries(resistances).map(([key, value]) => {
         let modifier = this.allModifiers[key + "_resistanceP"] ?? 1;
         let boost = this.allModifiers[key + "_resistanceV"] ?? 0;
-        boost += (this.level | 0) * 0.2; // Level resistance boost
+        boost += ((this.level - 1) | 0) * 0.2; // Level resistance boost
         resistances[key] = Math.floor((value + boost) * modifier);
       });
       return resistances;
@@ -171,7 +171,7 @@ class Character {
           if (this.equipment?.weapon) {
             increase += this.equipment.weapon.atk;
           }
-          increase += (this.level || 0) * 0.25;
+          increase += (this.level - 1 || 0) * 0.25;
         }
         const flat = value + increase;
         if (flat < 0) {
@@ -186,12 +186,12 @@ class Character {
       // Calculate max hp
       const hpIncrease = this.allModifiers["hpMaxV"] ?? 0;
       const hpModifier = this.allModifiers["hpMaxP"] ?? 1;
-      const hpBoost = (this.level | 0) * 2; // Level health boost
+      const hpBoost = ((this.level - 1) | 0) * 2; // Level health boost
       stats["hpMax"] = Math.round((stats["hpMax"] + hpBoost + hpIncrease + stats["vit"] * 5) * hpModifier);
       // Calculate max mp
       const mpIncrease = this.allModifiers["mpMaxV"] ?? 0;
       const mpModifier = this.allModifiers["mpMaxP"] ?? 1;
-      const mpBoost = (this.level | 0) * 0.5; // Level mana boost
+      const mpBoost = ((this.level - 1) | 0) * 0.5; // Level mana boost
       stats["mpMax"] = Math.round((stats["mpMax"] + mpBoost + mpIncrease + stats["int"] * 2 + stats["spi"] * 2) * mpModifier);
       return stats;
     };

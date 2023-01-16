@@ -1,41 +1,41 @@
 "use strict";
-var lobbyButtons = [
+const lobbyButtons = [
     {
-        id: "char"
+        id: "char",
     },
     {
-        id: "perks"
+        id: "perks",
     },
     {
-        id: "skills"
+        id: "skills",
     },
     {
-        id: "inventory"
+        id: "inventory",
     },
     {
-        id: "store"
+        id: "store",
     },
     {
-        id: "stages"
+        id: "stages",
     },
     {
-        id: "statistics"
+        id: "statistics",
     },
     {
-        id: "saves"
+        id: "saves",
     },
 ];
-var lobby = {
-    current_view: "saves"
+const lobby = {
+    current_view: "saves",
 };
 function createLobby() {
     player.updateAllModifiers();
     lobbyHeaderButtons.innerHTML = "";
-    lobbyButtons.forEach(function (button) {
-        var buttonElement = document.createElement("button");
+    lobbyButtons.forEach((button) => {
+        const buttonElement = document.createElement("button");
         buttonElement.classList.add("lobby-button");
         buttonElement.innerText = game.getLocalizedString(button.id);
-        buttonElement.onclick = function () { return lobbyView(button.id); };
+        buttonElement.onclick = () => lobbyView(button.id);
         if (lobby.current_view === button.id) {
             buttonElement.classList.add("selected");
         }
@@ -77,9 +77,9 @@ function createStats() {
     lobbyContent.innerHTML = "";
     hideHover();
     sideBarDetails();
-    var statsScreen = document.createElement("div");
+    const statsScreen = document.createElement("div");
     statsScreen.classList.add("stats");
-    var sortedStats = Object.assign({
+    const sortedStats = Object.assign({
         most_damage: 0,
         most_damage_taken: 0,
         total_damage: 0,
@@ -93,29 +93,28 @@ function createStats() {
         most_turns: 0,
         total_turns: 0,
         most_combat_time: 0,
-        total_combat_time: 0
+        total_combat_time: 0,
     }, stats);
-    Object.entries(sortedStats).forEach(function (_a) {
-        var stat = _a[0], value = _a[1];
-        var statElement = document.createElement("div");
+    Object.entries(sortedStats).forEach(([stat, value]) => {
+        const statElement = document.createElement("div");
         statElement.classList.add("stat");
-        statElement.innerHTML = "<div class=\"stat-name\">" + game.getLocalizedString(stat) + "</div><div class=\"stat-value\">" + getStatValue(value, stat) + "</div>";
+        statElement.innerHTML = `<div class="stat-name">${game.getLocalizedString(stat)}</div><div class="stat-value">${getStatValue(value, stat)}</div>`;
         statsScreen.append(statElement);
     });
     lobbyContent.append(statsScreen);
 }
 function getStatValue(value, stat) {
-    var returnValue = Math.round(value);
+    let returnValue = Math.round(value);
     if (stat.includes("time")) {
         return getTimeString(returnValue);
     }
     return returnValue.toString();
 }
 function getTimeString(time) {
-    var hours = Math.floor(time / 3600);
-    var minutes = Math.floor((time - hours * 3600) / 60);
-    var seconds = time - hours * 3600 - minutes * 60;
-    return "" + (hours > 0 ? hours + "h " : "") + (minutes > 0 ? minutes + "m " : "") + seconds + "s";
+    const hours = Math.floor(time / 3600);
+    const minutes = Math.floor((time - hours * 3600) / 60);
+    const seconds = time - hours * 3600 - minutes * 60;
+    return `${hours > 0 ? `${hours}h ` : ""}${minutes > 0 ? `${minutes}m ` : ""}${seconds}s`;
 }
 function confirmationWindow(text, onConfirm, onCancel) {
     confirmPrompt.classList.add("active");
@@ -126,7 +125,7 @@ function confirmationWindow(text, onConfirm, onCancel) {
         confirmPromptNoButton.onclick = onCancel;
     }
     else {
-        confirmPromptNoButton.onclick = function () {
+        confirmPromptNoButton.onclick = () => {
             confirmPrompt.classList.remove("active");
         };
     }

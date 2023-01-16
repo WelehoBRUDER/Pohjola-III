@@ -1,30 +1,18 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var Armor = /** @class */ (function (_super) {
-    __extends(Armor, _super);
-    function Armor(armor) {
-        var _this = _super.call(this, armor) || this;
-        _this.type = "armor";
-        _this.armor = armor.armor;
-        _this.defence = armor.defence;
-        _this.speed = armor.speed;
-        _this.slot = armor.slot;
-        return _this;
+class Armor extends Item {
+    speed;
+    defence;
+    slot;
+    constructor(armor) {
+        // @ts-ignore
+        if (!items[armor.id])
+            throw new Error(`${armor.id} is not a valid item id.`);
+        super(armor);
+        this.type = "armor";
+        this.armor = armor.armor;
+        this.defence = armor.defence;
+        this.speed = armor.speed;
+        this.slot = armor.slot;
     }
-    return Armor;
-}(Item));
+}
 //# sourceMappingURL=armor.js.map

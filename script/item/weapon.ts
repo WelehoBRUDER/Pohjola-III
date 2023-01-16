@@ -16,6 +16,8 @@ class Weapon extends Item {
   atk: number;
   slot: string;
   constructor(weapon: WeaponObject) {
+    // @ts-ignore
+    if (!items[weapon.id]) throw new Error(`${weapon.id} is not a valid item id.`);
     super(weapon);
     this.type = "weapon";
     this.cost = weapon.cost;

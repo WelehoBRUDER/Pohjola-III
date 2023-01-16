@@ -1,77 +1,69 @@
 "use strict";
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-var Game = /** @class */ (function () {
-    function Game() {
+class Game {
+    state;
+    settings;
+    language;
+    tick;
+    constructor() {
         this.init();
         this.state = {
             paused: false,
             targeting: false,
-            selected_ability: null
+            selected_ability: null,
         };
         this.settings = new Settings();
         this.language = english;
     }
-    Game.prototype.init = function () {
+    init() {
         console.log("Game initialized");
-    };
-    Game.prototype.initCombat = function (foes) {
+    }
+    initCombat(foes) {
         console.log("Combat initialized");
         combatScreen.classList.remove("no-display");
         createActionSlots();
         player.updateAllModifiers();
-        var enemies = foes.map(function (foe) {
-            return new Enemy(__assign({}, foe));
+        const enemies = foes.map((foe) => {
+            return new Enemy({ ...foe });
         });
         combat.createCombat(enemies);
-    };
-    Game.prototype.pause = function (options) {
+    }
+    pause(options) {
         this.state.paused = true;
-        if (options === null || options === void 0 ? void 0 : options.disableSkills)
+        if (options?.disableSkills)
             combatScreen.classList.add("paused");
         clearInterval(this.tick);
-    };
-    Game.prototype.resume = function () {
+    }
+    resume() {
         clearInterval(this.tick);
         this.state.paused = false;
         combatScreen.classList.remove("paused");
         this.tick = setInterval(update, 1000 / game.settings.tick_speed);
-    };
-    Game.prototype.startTargeting = function (ability) {
+    }
+    startTargeting(ability) {
         this.state.targeting = true;
         this.state.selected_ability = ability;
         combatScreen.classList.add("targeting");
-        var slot = slots.querySelector(".action-slot[data-ability=\"" + ability.id + "\"]");
+        const slot = slots.querySelector(`.action-slot[data-ability="${ability.id}"]`);
         if (slot)
             slot.classList.add("selected");
-    };
-    Game.prototype.endTargeting = function () {
+    }
+    endTargeting() {
         this.state.targeting = false;
         this.state.selected_ability = null;
         combatScreen.classList.remove("targeting");
-        var slotsArr = document.querySelectorAll(".action-slot");
-        slotsArr.forEach(function (slot) {
+        const slotsArr = document.querySelectorAll(".action-slot");
+        slotsArr.forEach((slot) => {
             slot.classList.remove("selected");
         });
-    };
-    Game.prototype.getLocalizedString = function (id) {
-        var string = id;
+    }
+    getLocalizedString(id) {
+        let string = id;
         if (this.language[id] !== undefined) {
             string = this.language[id];
         }
         return string;
-    };
-    Game.prototype.controls = function (e) {
-        var _this = this;
+    }
+    controls(e) {
         if (e.key === "§")
             return devConsole.toggle();
         if (devConsole.open && e.key !== "Escape")
@@ -87,96 +79,147 @@ var Game = /** @class */ (function () {
         else if (e.key === "Shift") {
             displayExtraText();
         }
-        hotkeys.forEach(function (hotkey) {
-            if (e.code === _this.settings[hotkey]) {
+        hotkeys.forEach((hotkey) => {
+            if (e.code === this.settings[hotkey]) {
                 console.log("Hotkey pressed: " + hotkey);
                 useAbility(hotkey);
             }
         });
-    };
-    Game.prototype.controlsUp = function (e) {
+    }
+    controlsUp(e) {
         if (e.key === "Shift") {
             hideExtraText();
         }
-    };
-    Game.prototype.executeCommand = function (command, value) {
+    }
+    executeCommand(command, value) {
         if (command === "add_ability") {
-            var playerHasAbility = player.abilities.findIndex(function (ability) { return ability.id === value.id; }) !== -1;
+            let playerHasAbility = player.abilities.findIndex((ability) => ability.id === value.id) !== -1;
             if (!playerHasAbility) {
                 player.addAbility(value);
             }
         }
-    };
-    Game.prototype.beginCombat = function (foes) {
+    }
+    beginCombat(foes) {
         lobbyScreen.classList.add("no-display");
         combatScreen.classList.remove("no-display");
         player.reset();
         this.initCombat(foes);
-    };
-    Game.prototype.endCombatAndGoToLobby = function () {
+    }
+    endCombatAndGoToLobby() {
         lobbyScreen.classList.remove("no-display");
         combatScreen.classList.add("no-display");
         sideBarDetails();
-    };
-    Game.prototype.randomShake = function (num) {
+    }
+    randomShake(num) {
         // Randomly generate  shake animations using translate
-        var shakes = "";
-        for (var i = 1; i <= num; i++) {
-            shakes += "\n      @keyframes shake" + i + " {\n        0% {\n          left: 0rem;\n          top: 0rem;\n        }\n        20% {\n          left: " + (Math.random() - 0.5).toFixed(1) + "rem;\n          top: " + (Math.random() - 0.5).toFixed(1) + "rem;\n        }\n        40% {\n          left: " + (Math.random() - 0.5).toFixed(1) + "rem;\n          top: " + (Math.random() - 0.5).toFixed(1) + "rem;\n        }\n        60% {\n          left: " + (Math.random() - 0.5).toFixed(1) + "rem;\n          top: " + (Math.random() - 0.5).toFixed(1) + "rem;\n        }\n        80% {\n          left: " + (Math.random() - 0.5).toFixed(1) + "rem;\n          top: " + (Math.random() - 0.5).toFixed(1) + "rem;\n        }\n        100% {\n          left: 0rem;\n          top: 0rem;\n        }\n      }\n    ";
+        let shakes = "";
+        for (let i = 1; i <= num; i++) {
+            shakes += `
+      @keyframes shake${i} {
+        0% {
+          left: 0rem;
+          top: 0rem;
+        }
+        20% {
+          left: ${(Math.random() - 0.5).toFixed(1)}rem;
+          top: ${(Math.random() - 0.5).toFixed(1)}rem;
+        }
+        40% {
+          left: ${(Math.random() - 0.5).toFixed(1)}rem;
+          top: ${(Math.random() - 0.5).toFixed(1)}rem;
+        }
+        60% {
+          left: ${(Math.random() - 0.5).toFixed(1)}rem;
+          top: ${(Math.random() - 0.5).toFixed(1)}rem;
+        }
+        80% {
+          left: ${(Math.random() - 0.5).toFixed(1)}rem;
+          top: ${(Math.random() - 0.5).toFixed(1)}rem;
+        }
+        100% {
+          left: 0rem;
+          top: 0rem;
+        }
+      }
+    `;
         }
         console.log(shakes);
-    };
-    return Game;
-}());
-var hotkeys = ["hotkey_ability_1", "hotkey_ability_2", "hotkey_ability_3", "hotkey_ability_4", "hotkey_ability_5", "hotkey_ability_6"];
-var Settings = /** @class */ (function () {
-    function Settings(settings) {
-        this.hotkey_ability_1 = (settings === null || settings === void 0 ? void 0 : settings.hotkey_ability_1) || "Digit1";
-        this.hotkey_ability_2 = (settings === null || settings === void 0 ? void 0 : settings.hotkey_ability_2) || "Digit2";
-        this.hotkey_ability_3 = (settings === null || settings === void 0 ? void 0 : settings.hotkey_ability_3) || "Digit3";
-        this.hotkey_ability_4 = (settings === null || settings === void 0 ? void 0 : settings.hotkey_ability_4) || "Digit4";
-        this.hotkey_ability_5 = (settings === null || settings === void 0 ? void 0 : settings.hotkey_ability_5) || "Digit5";
-        this.hotkey_ability_6 = (settings === null || settings === void 0 ? void 0 : settings.hotkey_ability_6) || "Digit6";
-        this.tick_speed = (settings === null || settings === void 0 ? void 0 : settings.tick_speed) || 60;
-        this.animation_speed = (settings === null || settings === void 0 ? void 0 : settings.animation_speed) || 2;
-        this.pause_on_player_turn = (settings === null || settings === void 0 ? void 0 : settings.pause_on_player_turn) || true;
     }
-    return Settings;
-}());
-var Challenges = /** @class */ (function () {
-    function Challenges(challenges) {
-        this.real_time_combat = (challenges === null || challenges === void 0 ? void 0 : challenges.real_time_combat) || false;
-        this.no_after_combat_recovery = (challenges === null || challenges === void 0 ? void 0 : challenges.no_after_combat_recovery) || false;
-        this.hardcore = (challenges === null || challenges === void 0 ? void 0 : challenges.hardcore) || false;
-        this.no_grinding = (challenges === null || challenges === void 0 ? void 0 : challenges.no_grinding) || false;
-        this.enemy_strength_multiplier = (challenges === null || challenges === void 0 ? void 0 : challenges.enemy_strength_multiplier) || 1;
+}
+const hotkeys = ["hotkey_ability_1", "hotkey_ability_2", "hotkey_ability_3", "hotkey_ability_4", "hotkey_ability_5", "hotkey_ability_6"];
+class Settings {
+    hotkey_ability_2;
+    hotkey_ability_3;
+    hotkey_ability_4;
+    hotkey_ability_5;
+    hotkey_ability_6;
+    tick_speed;
+    animation_speed;
+    pause_on_player_turn;
+    constructor(settings) {
+        this.hotkey_ability_1 = settings?.hotkey_ability_1 || "Digit1";
+        this.hotkey_ability_2 = settings?.hotkey_ability_2 || "Digit2";
+        this.hotkey_ability_3 = settings?.hotkey_ability_3 || "Digit3";
+        this.hotkey_ability_4 = settings?.hotkey_ability_4 || "Digit4";
+        this.hotkey_ability_5 = settings?.hotkey_ability_5 || "Digit5";
+        this.hotkey_ability_6 = settings?.hotkey_ability_6 || "Digit6";
+        this.tick_speed = settings?.tick_speed || 60;
+        this.animation_speed = settings?.animation_speed || 2;
+        this.pause_on_player_turn = settings?.pause_on_player_turn || true;
     }
-    return Challenges;
-}());
-var Statistics = /** @class */ (function () {
-    function Statistics(stats) {
-        this.total_damage = (stats === null || stats === void 0 ? void 0 : stats.total_damage) || 0;
-        this.total_damage_taken = (stats === null || stats === void 0 ? void 0 : stats.total_damage_taken) || 0;
-        this.total_healing = (stats === null || stats === void 0 ? void 0 : stats.total_healing) || 0;
-        this.total_kills = (stats === null || stats === void 0 ? void 0 : stats.total_kills) || 0;
-        this.total_deaths = (stats === null || stats === void 0 ? void 0 : stats.total_deaths) || 0;
-        this.total_turns = (stats === null || stats === void 0 ? void 0 : stats.total_turns) || 0;
-        this.total_combat_time = (stats === null || stats === void 0 ? void 0 : stats.total_combat_time) || 0;
-        this.total_xp_gained = (stats === null || stats === void 0 ? void 0 : stats.total_xp_gained) || 0;
-        this.total_gold_gained = (stats === null || stats === void 0 ? void 0 : stats.total_gold_gained) || 0;
-        this.time_played = (stats === null || stats === void 0 ? void 0 : stats.time_played) || 0;
-        this.most_damage = (stats === null || stats === void 0 ? void 0 : stats.most_damage) || 0;
-        this.most_healing = (stats === null || stats === void 0 ? void 0 : stats.most_healing) || 0;
-        this.most_damage_taken = (stats === null || stats === void 0 ? void 0 : stats.most_damage_taken) || 0;
-        this.most_turns = (stats === null || stats === void 0 ? void 0 : stats.most_turns) || 0;
-        this.most_combat_time = (stats === null || stats === void 0 ? void 0 : stats.most_combat_time) || 0;
+}
+class Challenges {
+    real_time_combat;
+    no_after_combat_recovery;
+    hardcore;
+    no_grinding;
+    enemy_strength_multiplier;
+    constructor(challenges) {
+        this.real_time_combat = challenges?.real_time_combat || false;
+        this.no_after_combat_recovery = challenges?.no_after_combat_recovery || false;
+        this.hardcore = challenges?.hardcore || false;
+        this.no_grinding = challenges?.no_grinding || false;
+        this.enemy_strength_multiplier = challenges?.enemy_strength_multiplier || 1;
     }
-    return Statistics;
-}());
-var game = new Game();
-var stats = new Statistics();
-var challenges = new Challenges();
-document.addEventListener("keydown", function (e) { return game.controls(e); });
-document.addEventListener("keyup", function (e) { return game.controlsUp(e); });
+}
+class Statistics {
+    total_damage;
+    total_damage_taken;
+    total_healing;
+    total_kills;
+    total_deaths;
+    total_turns;
+    total_combat_time;
+    total_xp_gained;
+    total_gold_gained;
+    time_played;
+    most_damage;
+    most_healing;
+    most_damage_taken;
+    most_turns;
+    most_combat_time;
+    constructor(stats) {
+        this.total_damage = stats?.total_damage || 0;
+        this.total_damage_taken = stats?.total_damage_taken || 0;
+        this.total_healing = stats?.total_healing || 0;
+        this.total_kills = stats?.total_kills || 0;
+        this.total_deaths = stats?.total_deaths || 0;
+        this.total_turns = stats?.total_turns || 0;
+        this.total_combat_time = stats?.total_combat_time || 0;
+        this.total_xp_gained = stats?.total_xp_gained || 0;
+        this.total_gold_gained = stats?.total_gold_gained || 0;
+        this.time_played = stats?.time_played || 0;
+        this.most_damage = stats?.most_damage || 0;
+        this.most_healing = stats?.most_healing || 0;
+        this.most_damage_taken = stats?.most_damage_taken || 0;
+        this.most_turns = stats?.most_turns || 0;
+        this.most_combat_time = stats?.most_combat_time || 0;
+    }
+}
+const game = new Game();
+const stats = new Statistics();
+const challenges = new Challenges();
+document.addEventListener("keydown", (e) => game.controls(e));
+document.addEventListener("keyup", (e) => game.controlsUp(e));
 tooltip(potionPouch, game.getLocalizedString("potion_pouch_tt"));
 //# sourceMappingURL=game.js.map

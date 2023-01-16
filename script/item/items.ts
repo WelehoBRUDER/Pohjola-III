@@ -49,6 +49,22 @@ const weapons = {
     tier: itemTiers.uncommon,
     type: "weapon",
   },
+  great_shield: {
+    id: "great_shield",
+    price: 750,
+    speed: 0,
+    atk: 5,
+    modifiers: {
+      physicalDefenceV: 10,
+      magicalDefenceV: 5,
+      elementalDefenceV: 5,
+      hpMaxP: 8.5,
+    },
+    stackable: true,
+    icon: "gfx/items/round-shield.png",
+    tier: itemTiers.rare,
+    type: "weapon",
+  },
   enchanted_blade: {
     id: "enchanted_blade",
     price: 800,
@@ -291,6 +307,16 @@ const materials = {
 };
 
 const potions = {
+  small_recovery_gem: {
+    id: "small_recovery_gem",
+    icon: "gfx/items/weak_heal_gem.png",
+    price: 20,
+    heal: 10,
+    effectsToSelf: [effects.regeneration_1],
+    stackable: true,
+    tier: itemTiers.common,
+    type: "potion",
+  },
   small_healing_potion: {
     id: "small_healing_potion",
     icon: "gfx/items/health-potion.png",
@@ -303,7 +329,7 @@ const potions = {
   medium_healing_potion: {
     id: "medium_healing_potion",
     icon: "gfx/items/health-potion.png",
-    price: 100,
+    price: 40,
     heal: 50,
     stackable: true,
     tier: itemTiers.uncommon,
@@ -312,7 +338,7 @@ const potions = {
   large_healing_potion: {
     id: "large_healing_potion",
     icon: "gfx/items/health-potion.png",
-    price: 500,
+    price: 200,
     heal: 100,
     stackable: true,
     tier: itemTiers.rare,
@@ -347,9 +373,41 @@ const potions = {
   },
 };
 
+const talismans = {
+  talisman_of_strength: {
+    id: "talisman_of_strength",
+    icon: "gfx/items/talisman_of_strength",
+    price: 100,
+    modifiers: {
+      strV: 3,
+    },
+    speed: 0,
+    stackable: true,
+    tier: itemTiers.common,
+    type: "talisman",
+    slot: "talisman",
+  },
+  ring_of_knowledge: {
+    id: "ring_of_knowledge",
+    icon: "gfx/items/ring.png",
+    price: 250,
+    modifiers: {
+      expGainP: 10,
+      goldGainP: 20,
+      hpMaxP: -5,
+    },
+    speed: 0,
+    stackable: true,
+    tier: itemTiers.uncommon,
+    type: "talisman",
+    slot: "talisman",
+  },
+};
+
 const items = {
   ...weapons,
   ...armors,
   ...materials,
   ...potions,
+  ...talismans,
 } as const;

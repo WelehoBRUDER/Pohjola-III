@@ -1,34 +1,38 @@
 "use strict";
-var consoleElement = document.querySelector(".console");
-var consoleInput = consoleElement.querySelector("#console-input");
-var consoleLog = consoleElement.querySelector(".log");
-var DeveloperConsole = /** @class */ (function () {
-    function DeveloperConsole() {
+const consoleElement = document.querySelector(".console");
+const consoleInput = consoleElement.querySelector("#console-input");
+const consoleLog = consoleElement.querySelector(".log");
+class DeveloperConsole {
+    commandHistory;
+    commandsHistory;
+    command;
+    open;
+    constructor() {
         this.commandHistory = [];
         this.commandsHistory = [];
         this.command = 0;
         this.open = false;
     }
-    DeveloperConsole.prototype.executeCommand = function (command) {
-        var commandArr = command.split(" ");
-        var commandName = commandArr[0], commandValue = commandArr.slice(1);
-        var commandFunction = developerCommands.find(function (command) { return command.name === commandName; });
+    executeCommand(command) {
+        const commandArr = command.split(" ");
+        const [commandName, ...commandValue] = commandArr;
+        const commandFunction = developerCommands.find((command) => command.name === commandName);
         if (commandFunction) {
             if (commandFunction.isCheat && !DEVTOOLS.ENABLED) {
-                consoleLog.innerHTML += "<p>Command " + commandName + " is a cheat command and is disabled.<br>Type \"dev\" if you wish to access cheats.</p>";
+                consoleLog.innerHTML += `<p>Command ${commandName} is a cheat command and is disabled.<br>Type "dev" if you wish to access cheats.</p>`;
             }
             else {
                 commandFunction.execute(commandValue);
-                consoleLog.innerHTML += "<p>" + this.commandHistory.at(-1) + "</p>";
+                consoleLog.innerHTML += `<p>${this.commandHistory.at(-1)}</p>`;
             }
         }
         else {
-            consoleLog.innerHTML += "<p>Command " + commandName + " does not exist, type \"help\" to see all available commands.</p>";
+            consoleLog.innerHTML += `<p>Command ${commandName} does not exist, type "help" to see all available commands.</p>`;
         }
         this.commandsHistory.push(command);
         this.command = this.commandsHistory.length;
-    };
-    DeveloperConsole.prototype.toggle = function () {
+    }
+    toggle() {
         this.open = !this.open;
         if (this.open) {
             consoleElement.style.display = "flex";
@@ -37,9 +41,8 @@ var DeveloperConsole = /** @class */ (function () {
         else {
             consoleElement.style.display = "none";
         }
-    };
-    return DeveloperConsole;
-}());
+    }
+}
 function typeToConsole(e) {
     if (consoleInput.value === "§")
         consoleInput.value = "";
@@ -60,7 +63,7 @@ function typeToConsole(e) {
             devConsole.command = 0;
         consoleInput.value = devConsole.commandsHistory[devConsole.command] || "";
     }
-    var value = consoleInput.value;
+    const value = consoleInput.value;
     if (e.key === "Enter") {
         consoleInput.value = "";
         if (value.replaceAll(" ", "") === "")
@@ -73,5 +76,5 @@ function clearBadSymbols() {
         consoleInput.value = consoleInput.value.replaceAll("§", "");
     }
 }
-var devConsole = new DeveloperConsole();
+const devConsole = new DeveloperConsole();
 //# sourceMappingURL=console.js.map

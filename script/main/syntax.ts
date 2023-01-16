@@ -256,7 +256,7 @@ function getProperties(key: string) {
   return props;
 }
 
-function effectSyntax(key: string, value: any) {
+function effectSyntax(key: string, value: any): string {
   // Syntax when value is an ability object
   if (key.startsWith("ability_")) {
     let text: string = "";
@@ -285,9 +285,10 @@ function effectSyntax(key: string, value: any) {
   else if (typeof value === "number") {
     const props: Property = getProperties(key);
     const valueType = key.substring(key.length - 1);
-    const prefix = value >= 0 ? "+" : "";
+    let dots = true;
+    let prefix = value >= 0 ? "+" : "";
     const suffix = valueType === "P" || props.addPercentageSuffix ? "%" : props.addSuffix ? props.addSuffix : "";
-    const color = value >= 0 || props.lowerIsBetter ? "lime" : "red";
+    let color = value >= 0 || props.lowerIsBetter ? "lime" : "red";
     value *= props.multiplyBy;
     key = key.substring(0, key.length - 1);
     const name = game.getLocalizedString(key);

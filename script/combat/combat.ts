@@ -185,8 +185,8 @@ function defeatedEnemies(): HTMLPreElement {
   combat.loot.forEach((item) => {
     text += `${item.amount}x ${game.getLocalizedString(item.item.id)}\n`;
   });
-  text += `${combat.gold * player.allModifiers["goldGainP"]}<c>gold<c> ${game.getLocalizedString("gold")}\n`;
-  text += `<c>silver<c>${combat.xp * player.allModifiers["expGainP"]}<c>lime<c> ${game.getLocalizedString("xp")}`;
+  text += `${Math.floor(combat.gold * player.allModifiers["goldGainP"])}<c>gold<c> ${game.getLocalizedString("gold")}\n`;
+  text += `<c>silver<c>${Math.floor(combat.xp * player.allModifiers["expGainP"])}<c>lime<c> ${game.getLocalizedString("xp")}`;
   return textSyntax(text);
 }
 

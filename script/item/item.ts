@@ -77,6 +77,8 @@ class Item {
   icon?: string;
   modifiers?: any;
   constructor(item: ItemObject) {
+    // @ts-ignore
+    if (!items[item.id]) throw new Error(`${item.id} is not a valid item id.`);
     this.id = item.id;
     this.price = item.price;
     this.amount = item.amount ?? 1;
@@ -113,6 +115,13 @@ class Item {
       });
     } else if (this.type === "potion") {
       return new Potion({
+        // @ts-ignore
+        ...items[this.id],
+        amount: this.amount,
+        price: price ?? this.price,
+      });
+    } else if (this.type === "talisman") {
+      return new Talisman({
         // @ts-ignore
         ...items[this.id],
         amount: this.amount,
@@ -203,6 +212,14 @@ class Item {
       tooltip += "\n<f>1.2rem<f><c>silver<c>Effects:\n";
       Object.entries(this.modifiers).map(([key, value]) => {
         tooltip += " " + effectSyntax(key, value);
+      });
+    }
+
+    if (this.effectsToSelf) {
+      tooltip += `<c>white<c>${game.getLocalizedString("effects_to_self")}: \n`;
+      this.effectsToSelf.forEach((effect: Effect) => {
+        const displayEffect = new Effect(effect);
+        tooltip += displayEffect.tooltip({ container: true });
       });
     }
 

@@ -1,24 +1,21 @@
 "use strict";
 //@ts-nocheck
-function textSyntax(syn) {
-    var _a;
-    if (syn === void 0) { syn = ""; }
-    var pre = document.createElement("pre");
-    var lines = syn.split("§");
-    var selectedContainer = pre;
-    for (var _i = 0, lines_1 = lines; _i < lines_1.length; _i++) {
-        var line = lines_1[_i];
-        var span = document.createElement("span");
+function textSyntax(syn = "") {
+    const pre = document.createElement("pre");
+    const lines = syn.split("§");
+    let selectedContainer = pre;
+    for (const line of lines) {
+        const span = document.createElement("span");
         selectedContainer.append(span);
-        var selectedSpan = span;
-        var index = 0;
+        let selectedSpan = span;
+        let index = 0;
         do {
-            var currentLine = line.substring(index);
-            var nspan = document.createElement("span");
-            var lineText = currentLine.split("<")[0];
+            const currentLine = line.substring(index);
+            const nspan = document.createElement("span");
+            let [lineText] = currentLine.split("<");
             if (currentLine.startsWith("<c>")) {
-                var _b = currentLine.split("<c>"), color = _b[1], _c = _b[2], text = _c === void 0 ? "" : _c;
-                lineText = text.split("<")[0];
+                const [, color, text = ""] = currentLine.split("<c>");
+                [lineText] = text.split("<");
                 if (selectedSpan.style.color) {
                     selectedSpan.append(nspan);
                     selectedSpan = nspan;
@@ -26,11 +23,11 @@ function textSyntax(syn) {
                 selectedSpan.style.color = runVariableTest(color);
                 index = line.indexOf("<c>", index + 1);
                 if (index == -1)
-                    return console.error("\"<c>\" has no closing!");
+                    return console.error(`"<c>" has no closing!`);
             }
             else if (currentLine.startsWith("<f>")) {
-                var _d = currentLine.split("<f>"), fontSize = _d[1], _e = _d[2], text = _e === void 0 ? "" : _e;
-                lineText = text.split("<")[0];
+                const [, fontSize, text = ""] = currentLine.split("<f>");
+                [lineText] = text.split("<");
                 if (selectedSpan.style.fontSize) {
                     selectedSpan.append(nspan);
                     selectedSpan = nspan;
@@ -38,11 +35,11 @@ function textSyntax(syn) {
                 selectedSpan.style.fontSize = runVariableTest(fontSize);
                 index = line.indexOf("<f>", index + 1);
                 if (index == -1)
-                    return console.error("\"<f>\" has no closing!");
+                    return console.error(`"<f>" has no closing!`);
             }
             else if (currentLine.startsWith("<b>")) {
-                var _f = currentLine.split("<b>"), fontWeight = _f[1], _g = _f[2], text = _g === void 0 ? "" : _g;
-                lineText = text.split("<")[0];
+                const [, fontWeight, text = ""] = currentLine.split("<b>");
+                [lineText] = text.split("<");
                 if (selectedSpan.style.fontWeight) {
                     selectedSpan.append(nspan);
                     selectedSpan = nspan;
@@ -50,11 +47,11 @@ function textSyntax(syn) {
                 selectedSpan.style.fontWeight = runVariableTest(fontWeight);
                 index = line.indexOf("<b>", index + 1);
                 if (index == -1)
-                    return console.error("\"<b>\" has no closing!");
+                    return console.error(`"<b>" has no closing!`);
             }
             else if (currentLine.startsWith("<cl>")) {
-                var _h = currentLine.split("<cl>"), classList = _h[1], _j = _h[2], text = _j === void 0 ? "" : _j;
-                lineText = text.split("<")[0];
+                const [, classList, text = ""] = currentLine.split("<cl>");
+                [lineText] = text.split("<");
                 if (selectedSpan.classList.value) {
                     selectedSpan.append(nspan);
                     selectedSpan = nspan;
@@ -62,11 +59,11 @@ function textSyntax(syn) {
                 selectedSpan.classList = runVariableTest(classList);
                 index = line.indexOf("<cl>", index + 1);
                 if (index == -1)
-                    return console.error("\"<cl>\" has no closing!");
+                    return console.error(`"<cl>" has no closing!`);
             }
             else if (currentLine.startsWith("<ff>")) {
-                var _k = currentLine.split("<ff>"), fontFamily = _k[1], _l = _k[2], text = _l === void 0 ? "" : _l;
-                lineText = text.split("<")[0];
+                const [, fontFamily, text = ""] = currentLine.split("<ff>");
+                [lineText] = text.split("<");
                 if (selectedSpan.style.fontFamily) {
                     selectedSpan.append(nspan);
                     selectedSpan = nspan;
@@ -74,11 +71,11 @@ function textSyntax(syn) {
                 selectedSpan.style.fontFamily = runVariableTest(fontFamily);
                 index = line.indexOf("<ff>", index + 1);
                 if (index == -1)
-                    return console.error("\"<ff>\" has no closing!");
+                    return console.error(`"<ff>" has no closing!`);
             }
             else if (currentLine.startsWith("<css>")) {
-                var _m = currentLine.split("<css>"), rawCss = _m[1], _o = _m[2], text = _o === void 0 ? "" : _o;
-                lineText = text.split("<")[0];
+                const [, rawCss, text = ""] = currentLine.split("<css>");
+                [lineText] = text.split("<");
                 if (line.indexOf("<css>") !== index) {
                     selectedSpan.append(nspan);
                     selectedSpan = nspan;
@@ -86,47 +83,47 @@ function textSyntax(syn) {
                 selectedSpan.style.cssText += runVariableTest(rawCss);
                 index = line.indexOf("<css>", index + 1);
                 if (index == -1)
-                    return console.error("\"<css>\" has no closing!");
+                    return console.error(`"<css>" has no closing!`);
             }
             else if (currentLine.startsWith("<bcss>")) {
-                var _p = currentLine.split("<bcss>"), rawCss = _p[1], _q = _p[2], text = _q === void 0 ? "" : _q;
-                lineText = text.split("<")[0];
+                const [, rawCss, text = ""] = currentLine.split("<bcss>");
+                [lineText] = text.split("<");
                 selectedContainer.style.cssText += runVariableTest(rawCss);
                 index = line.indexOf("<bcss>", index + 1);
                 if (index == -1)
-                    return console.error("\"<bcss>\" has no closing!");
+                    return console.error(`"<bcss>" has no closing!`);
             }
             else if (currentLine.startsWith("<v>")) {
-                var _r = currentLine.split("<v>"), variable = _r[1], _s = _r[2], text = _s === void 0 ? "" : _s;
-                lineText = text.split("<")[0];
+                const [, variable, text = ""] = currentLine.split("<v>");
+                [lineText] = text.split("<");
                 try {
-                    lineText = (_a = eval(variable)) !== null && _a !== void 0 ? _a : "" + lineText;
+                    lineText = eval(variable) ?? "" + lineText;
                 }
-                catch (_t) {
-                    return console.error("\"" + variable + "\" is not defined");
+                catch {
+                    return console.error(`"${variable}" is not defined`);
                 }
                 index = line.indexOf("<v>", index + 1);
                 if (index == -1)
-                    return console.error("\"<v>\" has no closing!");
+                    return console.error(`"<v>" has no closing!`);
             }
             else if (currentLine.startsWith("<i>")) {
-                var _u = currentLine.split("<i>"), source = _u[1], _v = _u[2], text = _v === void 0 ? "" : _v;
-                var img = document.createElement("img");
-                var className = source.indexOf("[") != -1 ? source.split("[")[1].split("]")[0] : "";
+                const [, source, text = ""] = currentLine.split("<i>");
+                const img = document.createElement("img");
+                const className = source.indexOf("[") != -1 ? source.split("[")[1].split("]")[0] : "";
                 img.src = runVariableTest(source.replace("[" + className + "]", ""));
-                lineText = text.split("<")[0];
+                [lineText] = text.split("<");
                 selectedSpan.append(img);
                 img.classList = className;
                 index = line.indexOf("<i>", index + 1);
                 if (index == -1)
-                    return console.error("\"<i>\" has no closing!");
+                    return console.error(`"<i>" has no closing!`);
             }
             else if (currentLine.startsWith("<ct>")) {
-                var _w = currentLine.split("<ct>", 3), className = _w[1], _x = _w[2], text = _x === void 0 ? "" : _x;
-                var container = document.createElement("div");
+                const [, className, text = ""] = currentLine.split("<ct>", 3);
+                const container = document.createElement("div");
                 if (className.length)
                     container.classList = runVariableTest(className);
-                lineText = text.split("<", 1)[0];
+                [lineText] = text.split("<", 1);
                 selectedContainer.append(container);
                 selectedContainer = container;
                 if (selectedSpan.outerHTML !== "<span></span>") {
@@ -137,14 +134,14 @@ function textSyntax(syn) {
                     selectedContainer.append(selectedSpan);
                 index = line.indexOf("<ct>", index + 1);
                 if (index == -1)
-                    return console.error("\"<ct>\" has no closing!");
+                    return console.error(`"<ct>" has no closing!`);
             }
             else if (currentLine.startsWith("<nct>")) {
-                var _y = currentLine.split("<nct>", 3), className = _y[1], _z = _y[2], text = _z === void 0 ? "" : _z;
-                var container = document.createElement("div");
+                const [, className, text = ""] = currentLine.split("<nct>", 3);
+                const container = document.createElement("div");
                 if (className.length)
                     container.classList = runVariableTest(className);
-                lineText = text.split("<", 1)[0];
+                [lineText] = text.split("<", 1);
                 pre.append(container);
                 selectedContainer = container;
                 if (selectedSpan.outerHTML !== "<span></span>") {
@@ -155,7 +152,7 @@ function textSyntax(syn) {
                     selectedContainer.append(selectedSpan);
                 index = line.indexOf("<nct>", index + 1);
                 if (index == -1)
-                    return console.error("\"<nct>\" has no closing!");
+                    return console.error(`"<nct>" has no closing!`);
             }
             selectedSpan.innerHTML += lineText;
             index = line.indexOf("<", index + 1);
@@ -163,26 +160,25 @@ function textSyntax(syn) {
     }
     return pre;
     function runVariableTest(data) {
-        var _a;
         if (data.indexOf("<v>") == -1)
             return data;
-        var index = 0;
-        var finalText = "";
+        let index = 0;
+        let finalText = "";
         while (index !== -1) {
-            var currentLine = data.substring(index);
-            var lineText = currentLine.split("<")[0];
+            const currentLine = data.substring(index);
+            let [lineText] = currentLine.split("<");
             if (currentLine.startsWith("<v>")) {
-                var _b = currentLine.split("<v>"), variable = _b[1], _c = _b[2], text = _c === void 0 ? "" : _c;
-                lineText = text.split("<")[0];
+                const [, variable, text = ""] = currentLine.split("<v>");
+                [lineText] = text.split("<");
                 try {
-                    lineText = (_a = eval(variable)) !== null && _a !== void 0 ? _a : "" + lineText;
+                    lineText = eval(variable) ?? "" + lineText;
                 }
-                catch (_d) {
-                    return console.error("\"" + variable + "\" is not defined");
+                catch {
+                    return console.error(`"${variable}" is not defined`);
                 }
                 index = data.indexOf("<v>", index + 1);
                 if (index == -1)
-                    return console.error("\"<v>\" has no closing!");
+                    return console.error(`"<v>" has no closing!`);
             }
             finalText += lineText;
             index = data.indexOf("<", index + 1);
@@ -190,63 +186,63 @@ function textSyntax(syn) {
         return finalText;
     }
 }
-var properties = {
+const properties = {
     critRateV: {
-        addPercentageSuffix: true
+        addPercentageSuffix: true,
     },
     critPowerV: {
-        addPercentageSuffix: true
+        addPercentageSuffix: true,
     },
     powerV: {
         addPercentageSuffix: true,
-        multiplyBy: 100
+        multiplyBy: 100,
     },
     penetrationV: {
         addPercentageSuffix: true,
-        multiplyBy: 100
+        multiplyBy: 100,
     },
     cooldownP: {
-        lowerIsBetter: true
+        lowerIsBetter: true,
     },
     cooldownV: {
-        lowerIsBetter: true
+        lowerIsBetter: true,
     },
     atkPV: {
-        addPercentageSuffix: true
+        addPercentageSuffix: true,
     },
     strPV: {
-        addPercentageSuffix: true
+        addPercentageSuffix: true,
     },
     agiPV: {
-        addPercentageSuffix: true
+        addPercentageSuffix: true,
     },
     vitPV: {
-        addPercentageSuffix: true
+        addPercentageSuffix: true,
     },
     intPV: {
-        addPercentageSuffix: true
+        addPercentageSuffix: true,
     },
     spiPV: {
-        addPercentageSuffix: true
+        addPercentageSuffix: true,
     },
     damagePercentV: {
         addPercentageSuffix: true,
-        multiplyBy: 100
+        multiplyBy: 100,
     },
     healingPercentV: {
         addPercentageSuffix: true,
-        multiplyBy: 100
+        multiplyBy: 100,
     },
     durationV: {
-        addSuffix: "s"
-    }
+        addSuffix: "s",
+    },
 };
 function getProperties(key) {
-    var props = {
+    const props = {
         addPercentageSuffix: false,
         lowerIsBetter: false,
         addSuffix: null,
-        multiplyBy: 1
+        multiplyBy: 1,
     };
     if (properties[key]) {
         if (properties[key].addPercentageSuffix) {
@@ -267,51 +263,49 @@ function getProperties(key) {
 function effectSyntax(key, value) {
     // Syntax when value is an ability object
     if (key.startsWith("ability_")) {
-        var text_1 = "";
-        var id = key.split("ability_")[1];
-        var ability = new Ability(abilities[id]);
-        var name_1 = game.getLocalizedString(ability.id);
-        text_1 += "<i>" + ability.icon + "<i><c>goldenrod<c>" + name_1 + " modified:\n";
-        Object.entries(value).forEach(function (_a) {
-            var _key = _a[0], _value = _a[1];
-            text_1 += " " + effectSyntax(_key, _value);
+        let text = "";
+        const id = key.split("ability_")[1];
+        const ability = new Ability(abilities[id]);
+        const name = game.getLocalizedString(ability.id);
+        text += `<i>${ability.icon}<i><c>goldenrod<c>${name} modified:\n`;
+        Object.entries(value).forEach(([_key, _value]) => {
+            text += " " + effectSyntax(_key, _value);
         });
-        return text_1 + "\n";
+        return text + "\n";
     }
     // Syntax when value is an effect object
     else if (key.startsWith("effect_")) {
-        var text_2 = "";
-        var id = key.split("effect_")[1];
-        var effect = new Effect(effects[id]);
-        var name_2 = game.getLocalizedString(effect.id);
-        text_2 += "<i>" + effect.icon + "<i><c>goldenrod<c>" + name_2 + " effect modified:\n";
-        Object.entries(value).forEach(function (_a) {
-            var _key = _a[0], _value = _a[1];
-            text_2 += " " + effectSyntax(_key, _value);
+        let text = "";
+        const id = key.split("effect_")[1];
+        const effect = new Effect(effects[id]);
+        const name = game.getLocalizedString(effect.id);
+        text += `<i>${effect.icon}<i><c>goldenrod<c>${name} effect modified:\n`;
+        Object.entries(value).forEach(([_key, _value]) => {
+            text += " " + effectSyntax(_key, _value);
         });
-        return text_2;
+        return text;
     }
     // Simple syntax when value is a number
     else if (typeof value === "number") {
-        var props = getProperties(key);
-        var valueType = key.substring(key.length - 1);
-        var prefix = value >= 0 ? "+" : "";
-        var suffix = valueType === "P" || props.addPercentageSuffix ? "%" : props.addSuffix ? props.addSuffix : "";
-        var color = value >= 0 || props.lowerIsBetter ? "lime" : "red";
+        const props = getProperties(key);
+        const valueType = key.substring(key.length - 1);
+        let dots = true;
+        let prefix = value >= 0 ? "+" : "";
+        const suffix = valueType === "P" || props.addPercentageSuffix ? "%" : props.addSuffix ? props.addSuffix : "";
+        let color = value >= 0 || props.lowerIsBetter ? "lime" : "red";
         value *= props.multiplyBy;
         key = key.substring(0, key.length - 1);
-        var name_3 = game.getLocalizedString(key);
-        var id = key.substring(0, key.length - 1);
-        var icon = icons[key] ? icons[key] : icons[id] ? icons[id] : "gfx/icons/triple-yin.png";
-        return "<c>white<c> <i>" + icon + "<i> " + name_3 + ": <c>" + color + "<c>" + prefix + value.toFixed(2) + suffix + "\n";
+        const name = game.getLocalizedString(key);
+        const id = key.substring(0, key.length - 1);
+        const icon = icons[key] ? icons[key] : icons[id] ? icons[id] : "gfx/icons/triple-yin.png";
+        return `<c>white<c> <i>${icon}<i> ${name}: <c>${color}<c>${prefix}${value.toFixed(2)}${suffix}\n`;
     }
     else if (typeof value === "object") {
-        var text_3 = "";
-        Object.entries(value).forEach(function (_a) {
-            var _key = _a[0], _value = _a[1];
-            text_3 += " " + effectSyntax(_key, _value);
+        let text = "";
+        Object.entries(value).forEach(([_key, _value]) => {
+            text += " " + effectSyntax(_key, _value);
         });
-        return text_3;
+        return text;
     }
 }
 function compactNumber(num) {

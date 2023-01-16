@@ -11,6 +11,8 @@ class Armor extends Item {
   defence: I_Defences;
   slot: string;
   constructor(armor: ArmorObject) {
+    // @ts-ignore
+    if (!items[armor.id]) throw new Error(`${armor.id} is not a valid item id.`);
     super(armor);
     this.type = "armor";
     this.armor = armor.armor;

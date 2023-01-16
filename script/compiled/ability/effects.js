@@ -1,6 +1,6 @@
 "use strict";
 /* Possible effect types */
-var effect_types = ["curse", "divine", "fire", "ice", "poison", "thunder", "bleed", "stun", "heal"];
+const effect_types = ["curse", "divine", "fire", "ice", "poison", "thunder", "bleed", "stun", "heal"];
 // ability_sharp_strike: {
 //   // This is a nested object to demonstrate how abilities can be modified using effects
 //   powerV: 0.25,
@@ -10,20 +10,20 @@ var effect_types = ["curse", "divine", "fire", "ice", "poison", "thunder", "blee
 //     durationP: 10,
 //   },
 // },
-var effects = {
+const effects = {
     wounded: {
         id: "wounded",
         icon: "gfx/status/blood.png",
         duration: 6,
         type: "bleed",
         inflict: {
-            damagePercent: 0.05
+            damagePercent: 0.05,
         },
         modifiers: {
             atkP: -10,
             strP: -10,
-            agiP: -10
-        }
+            agiP: -10,
+        },
     },
     gored: {
         id: "gored",
@@ -31,8 +31,8 @@ var effects = {
         duration: 7,
         type: "bleed",
         inflict: {
-            damagePercent: 0.02
-        }
+            damagePercent: 0.02,
+        },
     },
     burning: {
         id: "burning",
@@ -40,12 +40,12 @@ var effects = {
         duration: 6,
         type: "fire",
         inflict: {
-            damageFlat: 2
+            damageFlat: 2,
         },
         modifiers: {
             atkP: -15,
-            agiP: -15
-        }
+            agiP: -15,
+        },
     },
     dazed: {
         id: "dazed",
@@ -53,8 +53,8 @@ var effects = {
         duration: 4,
         type: "stun",
         modifiers: {
-            speedP: -1000
-        }
+            speedP: -100,
+        },
     },
     stunned: {
         id: "stunned",
@@ -63,9 +63,9 @@ var effects = {
         type: "stun",
         modifiers: {
             speedP: -30,
-            attackP: -15,
-            physicalDefenceV: -15
-        }
+            atkP: -15,
+            physicalDefenceV: -15,
+        },
     },
     regeneration_1: {
         id: "regeneration_1",
@@ -73,8 +73,8 @@ var effects = {
         duration: 8,
         type: "heal",
         inflict: {
-            healingFlat: 5
-        }
+            healingFlat: 5,
+        },
     },
     holy_grace: {
         id: "holy_grace",
@@ -82,8 +82,8 @@ var effects = {
         duration: 6,
         type: "heal",
         inflict: {
-            healingPercent: 0.04
-        }
+            healingPercent: 0.04,
+        },
     },
     troll_regen: {
         id: "troll_regen",
@@ -92,8 +92,8 @@ var effects = {
         isInfinite: true,
         type: "heal",
         inflict: {
-            healingPercent: 0.01
-        }
+            healingPercent: 0.01,
+        },
     },
     attack_1: {
         id: "attack_1",
@@ -101,8 +101,8 @@ var effects = {
         duration: 7.5,
         type: "buff",
         modifiers: {
-            atkP: 20
-        }
-    }
+            atkP: 20,
+        },
+    },
 };
 //# sourceMappingURL=effects.js.map

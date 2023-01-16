@@ -184,7 +184,7 @@ const perks: PerkObject[] = [
     requires: ["power_2", "power_3"],
     class: "",
     modifiers: {
-      atkV: 2,
+      atkV: 1,
       critRateV: 1,
       critPowerV: 5,
     },

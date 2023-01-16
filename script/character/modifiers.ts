@@ -76,8 +76,9 @@ function applyModifierToTotal(modifier: any, total: any) {
       }
     }
   } else if (typeof value === "number") {
-    if (key.endsWith("P")) total[key] += value / 100;
-    else if (key.endsWith("V")) total[key] += value;
+    if (key.endsWith("P")) {
+      total[key] *= 1 + value / 100;
+    } else if (key.endsWith("V")) total[key] += value;
   } else {
     total[key] = mergeObjects(total[key], value);
   }

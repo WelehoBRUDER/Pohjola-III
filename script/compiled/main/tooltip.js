@@ -1,24 +1,24 @@
 "use strict";
-var tooltipInfo = {
+const tooltipInfo = {
     text: "",
-    extraText: ""
+    extraText: "",
 };
-var displayingExtraText = false;
+let displayingExtraText = false;
 function tooltip(element, text, extraText) {
-    element.onmouseover = function (e) {
+    element.onmouseover = (e) => {
         showHover(e, text, extraText);
     };
     element.onmousemove = moveHover;
     element.onmouseleave = hideHover;
 }
 function updateTooltip(element, text) {
-    element.onmouseover = function (e) {
+    element.onmouseover = (e) => {
         showHover(e, text);
     };
 }
 function showHover(mouseEvent, text, extraText) {
     tooltipInfo.text = text;
-    tooltipInfo.extraText = extraText !== null && extraText !== void 0 ? extraText : "";
+    tooltipInfo.extraText = extraText ?? "";
     tooltipBox.textContent = "";
     tooltipBox.style.display = "block";
     tooltipBox.append(textSyntax(text));
@@ -31,8 +31,8 @@ function showHover(mouseEvent, text, extraText) {
     moveHover(mouseEvent);
 }
 function moveHover(mouseEvent) {
-    tooltipBox.style.left = mouseEvent.x + 15 + "px";
-    tooltipBox.style.top = mouseEvent.y - 25 + "px";
+    tooltipBox.style.left = `${mouseEvent.x + 15}px`;
+    tooltipBox.style.top = `${mouseEvent.y - 25}px`;
     if (tooltipBox.offsetLeft + tooltipBox.offsetWidth > innerWidth) {
         tooltipBox.style.left =
             innerWidth - tooltipBox.offsetWidth - (innerWidth - mouseEvent.x) + "px";

@@ -4,6 +4,7 @@ interface I_Equipment {
   helmet: Armor | null;
   armor: Armor | null;
   legs: Armor | null;
+  talisman: Talisman | null;
 }
 
 const defaultEquipment = {
@@ -11,14 +12,13 @@ const defaultEquipment = {
   helmet: null,
   armor: null,
   legs: null,
+  talisman: null,
 };
 
 const races = {
   human: {
     id: "human",
-    modifiers: {
-      expGainP: 5,
-    },
+    modifiers: {},
   },
 };
 
@@ -31,15 +31,6 @@ class Race {
   }
 }
 
-const defaultPotionPouchMaximums: PotionPouch = {
-  small_healing_potion: 3,
-  medium_healing_potion: 1,
-  large_healing_potion: 0,
-  small_mana_potion: 3,
-  medium_mana_potion: 1,
-  large_mana_potion: 0,
-};
-
 interface PlayerObject extends CharacterObject {
   [race: string]: any;
   equipment: I_Equipment;
@@ -49,15 +40,6 @@ interface PlayerObject extends CharacterObject {
   skill_points: number;
   level: number;
   xp: number;
-}
-
-interface PotionPouch {
-  [small_healing_potion: string]: number;
-  medium_healing_potion: number;
-  large_healing_potion: number;
-  small_mana_potion: number;
-  medium_mana_potion: number;
-  large_mana_potion: number;
 }
 
 class Player extends Character {
@@ -95,17 +77,7 @@ class Player extends Character {
       let existing_item = this.inventory.find((i: any) => i.id === item.id);
       if (existing_item) {
         existing_item.amount += item.amount;
-        if (item.type === "potion") {
-          if (existing_item.amount > player.pouchMax()[item.id]) {
-            existing_item.amount = player.pouchMax()[item.id];
-          }
-        }
       } else {
-        if (item.type === "potion") {
-          if (item.amount! > player.pouchMax()[item.id]) {
-            item.amount = player.pouchMax()[item.id];
-          }
-        }
         this.inventory.push(item);
       }
     } else {
@@ -306,24 +278,6 @@ class Player extends Character {
     if (this.stats.mp > this.getStats().mpMax) {
       this.stats.mp = this.getStats().mpMax;
     }
-  }
-
-  pouchMax(): any {
-    const max: any = {
-      small_healing_potion: 0,
-      medium_healing_potion: 0,
-      large_healing_potion: 0,
-      small_mana_potion: 0,
-      medium_mana_potion: 0,
-      large_mana_potion: 0,
-    };
-    const base = { ...defaultPotionPouchMaximums };
-    const absolute = this.allModifiers["potion_pouch_generalV"] ?? 0;
-    Object.entries(base).forEach(([key, value]: [string, number]) => {
-      const relative = this.allModifiers["potion_pouch_" + key + "V"] ?? 0;
-      max[key] = value + absolute + relative;
-    });
-    return max;
   }
 
   drinkPotion(potion: Item): void {

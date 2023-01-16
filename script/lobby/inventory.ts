@@ -77,7 +77,6 @@ function createSlot(item: Item, options?: { isEquipped?: boolean; slot?: string;
         amount.innerText = compactNumber(item.price);
         amount.classList.add("price");
       }
-
       slot.append(amount);
     }
     if (options?.buy) {
@@ -192,7 +191,7 @@ function clickItem(
         },
       });
     }
-    if (item.type === "potion") {
+    if (item.type === "potion" && !options?.buy) {
       buttons.push({
         text: "drink_potion",
         action: () => {
@@ -226,7 +225,6 @@ function createContextMenu(options: any[], pos: { x: number; y: number }) {
   contextMenu.innerHTML = "";
   setTimeout(() => {
     options.forEach((option: any) => {
-      console.log(option);
       const menuOption = document.createElement("div");
       menuOption.classList.add("option");
       menuOption.innerText = game.getLocalizedString(option.text);

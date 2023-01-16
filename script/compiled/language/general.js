@@ -1,5 +1,5 @@
 "use strict";
-var english = {
+const english = {
     language: "English",
     language_code: "en",
     // Stats
@@ -36,7 +36,7 @@ var english = {
     combat_victory: "Victory",
     defeated_enemies: "Defeated enemies",
     loot_gained: "Loot gained",
-    "continue": "Continue",
+    continue: "Continue",
     // misc
     increases: "Increases",
     decreases: "Decreases",
@@ -48,6 +48,10 @@ var english = {
     mp_cost: "Mana Cost",
     duration: "Duration",
     cooldown: "Cooldown",
+    expGain: "Experience Gain",
+    goldGain: "Gold Gain",
+    luck: "Luck",
+    allCooldown: "All Cooldowns",
     perk_points: "Perk Points",
     skill_points: "Skill Points",
     gold_tt: "Gold is used to buy items and equipment.",
@@ -82,11 +86,11 @@ var english = {
     healingFlat_first: "<c>lime<c>Heals<c>white<c>",
     healingFlat_last: "<c>green<c>health<c>white<c> every second",
     // Stat tooltips
-    str_tt: "Increases <i><v>icons.physical<v><i> physical damage by 5%.",
+    str_tt: "Increases <i><v>icons.physical<v><i> physical damage by 2%.",
     agi_tt: "Increases <i><v>icons.speed<v><i> speed by 1 and <i><v>icons.critRate<v><i> crit rate by 0.2%.",
-    int_tt: "Increases <i><v>icons.magical<v><i> magical damage by 5% and <i><v>icons.mpMax<v><i> mana by 2.",
+    int_tt: "Increases <i><v>icons.magical<v><i> magical damage by 2% and <i><v>icons.mpMax<v><i> mana by 2.",
     vit_tt: "Increases <i><v>icons.hpMax<v><i> health by 5.",
-    spi_tt: "Increases <i><v>icons.elemental<v><i> elemental damage by 5% and <i><v>icons.mpMax<v><i> mana by 2.",
+    spi_tt: "Increases <i><v>icons.elemental<v><i> elemental damage by 2% and <i><v>icons.mpMax<v><i> mana by 2.",
     atk_tt: "This is your base damage.",
     hpMax_tt: "This is your <i><v>icons.hpMax<v><i> health.",
     mpMax_tt: "This is your <i><v>icons.mpMax<v><i> mana.",
@@ -197,6 +201,6 @@ var english = {
     stage_20: "King of the Ancient Forest",
     // Perks //
     "0_foundation_of_power": "Foundation of Power",
-    "0_foundation_of_power_desc": ""
+    "0_foundation_of_power_desc": "",
 };
 //# sourceMappingURL=general.js.map
