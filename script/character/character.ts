@@ -68,6 +68,7 @@ class Character {
   getDamage?: any;
   getDefences?: any;
   addStatus?: any;
+  getSpellPower?: any;
   calculateCombatPower?: any;
   constructor(char: CharacterObject) {
     this.id = char.id;
@@ -137,6 +138,17 @@ class Character {
         }
       });
       return mods;
+    };
+
+    this.getSpellPower = () => {
+      const stats = this.getStats({ dontUpdateModifiers: true });
+      if (this instanceof Enemy) {
+        return (60 + stats.int + stats.atk / 2) / 100;
+      } else {
+        if (this.equipment?.weapon?.spell_scale) {
+          return this.equipment.weapon.getSpellScale() / 100;
+        } else return (50 + stats.atk / 2 + stats.int / 2) / 100;
+      }
     };
 
     this.getSpeed = () => {

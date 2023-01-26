@@ -7,6 +7,8 @@ interface WeaponObject extends ItemObject {
   [cost: string]: any;
   speed: number;
   atk: number;
+  spell_scale?: number;
+  scaling?: string;
   slot?: string;
 }
 
@@ -14,6 +16,8 @@ class Weapon extends Item {
   [cost: string]: any;
   speed: number;
   atk: number;
+  spell_scale?: number;
+  scaling?: string;
   slot: string;
   constructor(weapon: WeaponObject) {
     // @ts-ignore
@@ -23,6 +27,14 @@ class Weapon extends Item {
     this.cost = weapon.cost;
     this.speed = weapon.speed;
     this.atk = weapon.atk;
+    this.spell_scale = weapon.spell_scale;
+    this.scaling = weapon.scaling;
     this.slot = "weapon";
+  }
+
+  getSpellScale(): number {
+    if (!this.spell_scale || !this.scaling) return 60;
+    const playerBoost = player.getStats({ dontUpdateModifiers: true })[this.scaling];
+    return this.spell_scale * (1 + playerBoost / 50) + player.getStats({ dontUpdateModifiers: true }).atk;
   }
 }

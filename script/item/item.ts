@@ -145,6 +145,14 @@ class Item {
       }
     }
 
+    if (this.spell_scale) {
+      const value = this.getSpellScale() - item.getSpellScale();
+      if (value !== 0) {
+        const color = value > 0 ? "lime" : "red";
+        text += `<i>${icons.spell_scale}<i><c>white<c> ${game.getLocalizedString("spell_scale")}: <c>${color}<c>${value}\n`;
+      }
+    }
+
     if (this.defence) {
       Object.entries(this.defence).forEach(([key, value]: any) => {
         const _value = value - item.defence[key];
@@ -181,8 +189,13 @@ class Item {
     tooltip += "<f>1.25rem<f><c>white<c>";
     tooltip += `${game.getLocalizedString("tier")}: <c>${this.tier.color}<c>${game.getLocalizedString(this.tier.id)}\n`;
     tooltip += "<c>white<c>";
+
     if (this.type === "weapon") {
       tooltip += `<i>${icons.atk}<i> Attack: <c>yellow<c>${this.atk}<c>white<c>\n`;
+      if (this.spell_scale) {
+        tooltip += `<i>${icons.scaling}<i> Scaling: <c>yellow<c><i>${icons[this.scaling]}<i>${this.scaling}<c>white<c>\n`;
+        tooltip += `<i>${icons.spell_scale}<i> Spell Scale: <c>yellow<c>${this.getSpellScale()}<c>white<c>\n`;
+      }
     }
 
     if (this.defence) {

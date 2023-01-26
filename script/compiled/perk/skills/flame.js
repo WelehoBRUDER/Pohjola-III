@@ -17,7 +17,7 @@ skills.push({
                 {
                     modifiers: {
                         ability_flame: {
-                            powerV: 0.05,
+                            damageV: 3,
                             effect_burning: {
                                 inflict: {
                                     damageFlatP: 25,
@@ -29,7 +29,7 @@ skills.push({
                 {
                     modifiers: {
                         ability_flame: {
-                            powerV: 0.05,
+                            damageV: 3,
                             effect_burning: {
                                 inflict: {
                                     damageFlatP: 25,
@@ -41,7 +41,7 @@ skills.push({
                 {
                     modifiers: {
                         ability_flame: {
-                            powerV: 0.05,
+                            damageV: 3,
                             effect_burning: {
                                 inflict: {
                                     damageFlatP: 25,
@@ -53,7 +53,7 @@ skills.push({
                 {
                     modifiers: {
                         ability_flame: {
-                            powerV: 0.05,
+                            damageV: 3,
                             effect_burning: {
                                 inflict: {
                                     damageFlatP: 25,
@@ -71,7 +71,7 @@ skills.push({
                 {
                     modifiers: {
                         ability_flame: {
-                            powerV: 0.05,
+                            damageV: 2,
                             effect_burning: {
                                 inflict: {
                                     damageFlatV: 2,

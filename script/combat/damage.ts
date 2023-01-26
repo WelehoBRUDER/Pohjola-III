@@ -14,6 +14,9 @@ function calculateDamage(attacker: Player | Enemy, defender: Player | Enemy, att
   const attackerStats = attacker.getStats();
   const defences = defender.getDefences();
   const key = attack.damageType ?? "physical";
+  if (attack.isSpell) {
+    damage = attack.damage * attacker.getSpellPower();
+  }
 
   // define values
   let modifier: number = 1;
@@ -21,7 +24,9 @@ function calculateDamage(attacker: Player | Enemy, defender: Player | Enemy, att
   let defence: number = defences[key];
 
   // Add stat boost to modifier
-  modifier += attackerStats[damageBoostingStats[key]] / 50;
+  if (!attack.isSpell) {
+    modifier += attackerStats[damageBoostingStats[key]] / 50;
+  }
 
   // Add stat effects to modifier
   modifier += attacker.allModifiers[key + "_damageP"] ?? 0;
@@ -29,7 +34,7 @@ function calculateDamage(attacker: Player | Enemy, defender: Player | Enemy, att
 
   // Add boosts to flat value
   boost += attacker.allModifiers[key + "_damageV"] ?? 0;
-  modifier += attacker.allModifiers["damageV"] ?? 0;
+  boost += attacker.allModifiers["damageV"] ?? 0;
 
   // Apply penetration to defence
   defence *= 1 - (attacker.allModifiers[key + "_penetrationP"] ?? 0);
@@ -40,7 +45,9 @@ function calculateDamage(attacker: Player | Enemy, defender: Player | Enemy, att
   defence = 1 - defence / 100;
 
   // Increase damage by attack power
-  modifier *= attack.power ?? 1;
+  if (!attack.isSpell) {
+    modifier *= attack.power ?? 1;
+  }
 
   // Lower damage by defence
   modifier *= defence;

@@ -95,7 +95,7 @@ const english = {
   int_tt: "Increases <i><v>icons.magical<v><i> magical damage by 2% and <i><v>icons.mpMax<v><i> mana by 2.",
   vit_tt: "Increases <i><v>icons.hpMax<v><i> health by 5.",
   spi_tt: "Increases <i><v>icons.elemental<v><i> elemental damage by 2% and <i><v>icons.mpMax<v><i> mana by 2.",
-  atk_tt: "This is your base damage.",
+  atk_tt: "Determines base physical damage and slightly increases spell scaling.",
   hpMax_tt: "This is your <i><v>icons.hpMax<v><i> health.",
   mpMax_tt: "This is your <i><v>icons.mpMax<v><i> mana.",
   speed_tt: "Lowers the time it takes to get your turn in combat.\nHigher is better.",

@@ -4,6 +4,7 @@ class Ability {
     mpCost;
     hpCost;
     type;
+    isSpell;
     cooldown;
     onCooldown;
     weight;
@@ -21,6 +22,7 @@ class Ability {
         this.mpCost = ability.mpCost ?? 0;
         this.hpCost = ability.hpCost ?? 0;
         this.type = ability.type;
+        this.isSpell = ability.isSpell ?? false;
         this.weight = ability.weight ?? 1;
         this.cooldown = ability.cooldown ?? 0;
         this.onCooldown = ability.onCooldown ?? 0;
@@ -203,6 +205,9 @@ class Ability {
             }
         }
         // Ability attack values
+        if (this.damage) {
+            tooltip += `<i><c>white<c>${icons.damage}<i>${game.getLocalizedString("damage")}: <c>cyan<c>${Math.floor(this.damage * (options?.owner?.getSpellPower() || 0.6))}<c>white<c>\n`;
+        }
         if (this.damageType) {
             tooltip += `${game.getLocalizedString("damage_type")}: <i>${icons[this.damageType]}<i>${game.getLocalizedString(this.damageType)}\n`;
         }

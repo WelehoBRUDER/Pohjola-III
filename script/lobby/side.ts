@@ -39,9 +39,7 @@ function sideBarDetails() {
     const statIcon = document.createElement("img");
     statElement.classList.add("stat");
     if (key === "hpMax" || key === "mpMax") {
-      statText.innerText = `${game.getLocalizedString(key.replace("Max", ""))}: ${
-        stats[key.replace("Max", "")]
-      }/${value}`;
+      statText.innerText = `${game.getLocalizedString(key.replace("Max", ""))}: ${stats[key.replace("Max", "")]}/${value}`;
     } else {
       statText.innerText = `${game.getLocalizedString(key)}: ${value}`;
     }
@@ -49,6 +47,17 @@ function sideBarDetails() {
     tooltip(statElement, game.getLocalizedString(key + "_tt"));
     statElement.append(statIcon, statText);
     characterDetails.append(statElement);
+    if (key === "atk") {
+      const scalingElement = document.createElement("div");
+      const scalingText = document.createElement("span");
+      const scalingIcon = document.createElement("img");
+      scalingElement.classList.add("stat");
+      scalingText.innerText = `${game.getLocalizedString("spell_scale")}: ${player.getSpellPower() * 100}`;
+      scalingIcon.src = icons["spell_scale"];
+      tooltip(scalingElement, game.getLocalizedString("spell_scale_tt"));
+      scalingElement.append(scalingIcon, scalingText);
+      characterDetails.append(scalingElement);
+    }
   });
   const defencesTitle = document.createElement("div");
   defencesTitle.classList.add("title");
