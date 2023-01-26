@@ -230,6 +230,13 @@ const properties: any = {
   durationV: {
     addSuffix: "s",
   } as Property,
+  mpCostV: {
+    lowerIsBetter: true,
+  } as Property,
+  mpCostP: {
+    addPercentageSuffix: true,
+    lowerIsBetter: true,
+  } as Property,
 };
 
 function getProperties(key: string) {
@@ -288,7 +295,12 @@ function effectSyntax(key: string, value: any): string {
     let dots = true;
     let prefix = value >= 0 ? "+" : "";
     const suffix = valueType === "P" || props.addPercentageSuffix ? "%" : props.addSuffix ? props.addSuffix : "";
-    let color = value >= 0 || props.lowerIsBetter ? "lime" : "red";
+    let color = "white";
+    if (props.lowerIsBetter) {
+      color = value < 0 ? "lime" : "red";
+    } else {
+      color = value > 0 ? "lime" : "red";
+    }
     value *= props.multiplyBy;
     key = key.substring(0, key.length - 1);
     const name = game.getLocalizedString(key);

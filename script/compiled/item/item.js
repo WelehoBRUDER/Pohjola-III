@@ -151,9 +151,9 @@ class Item {
     }
     tooltip() {
         let tooltip = "<f>1.5rem<f>";
-        tooltip += `<c>${this.tier.color}<c>${game.getLocalizedString(this.id)}\n`;
+        tooltip += `<c>${this.tier?.color || "pink"}<c>${game.getLocalizedString(this.id)}\n`;
         tooltip += "<f>1.25rem<f><c>white<c>";
-        tooltip += `${game.getLocalizedString("tier")}: <c>${this.tier.color}<c>${game.getLocalizedString(this.tier.id)}\n`;
+        tooltip += `${game.getLocalizedString("tier")}: <c>${this.tier?.color || "pink"}<c>${game.getLocalizedString(this.tier?.id || "invalid")}\n`;
         tooltip += "<c>white<c>";
         if (this.type === "weapon") {
             tooltip += `<i>${icons.atk}<i> Attack: <c>yellow<c>${this.atk}<c>white<c>\n`;

@@ -52,7 +52,7 @@ function sideBarDetails() {
       const scalingText = document.createElement("span");
       const scalingIcon = document.createElement("img");
       scalingElement.classList.add("stat");
-      scalingText.innerText = `${game.getLocalizedString("spell_scale")}: ${player.getSpellPower() * 100}`;
+      scalingText.innerText = `${game.getLocalizedString("spell_scale")}: ${Math.floor(player.getSpellPower() * 100)}`;
       scalingIcon.src = icons["spell_scale"];
       tooltip(scalingElement, game.getLocalizedString("spell_scale_tt"));
       scalingElement.append(scalingIcon, scalingText);

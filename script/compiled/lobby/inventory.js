@@ -60,7 +60,7 @@ function createSlot(item, options) {
     }
     if (item) {
         slot.setAttribute("data-item", item.id);
-        slot.classList.add(item.tier.id ?? "ERROR: WRONG TIER ID");
+        slot.classList.add(item.tier?.id ?? "ERROR;_WRONG_TIER_ID");
         const image = document.createElement("img");
         image.src = item.icon ?? icons.placeholder;
         slot.append(image);

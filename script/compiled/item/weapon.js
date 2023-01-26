@@ -26,7 +26,7 @@ class Weapon extends Item {
         if (!this.spell_scale || !this.scaling)
             return 60;
         const playerBoost = player.getStats({ dontUpdateModifiers: true })[this.scaling];
-        return this.spell_scale * (1 + playerBoost / 50) + player.getStats({ dontUpdateModifiers: true }).atk;
+        return Math.floor(this.spell_scale * (1 + playerBoost / 50) + player.getStats({ dontUpdateModifiers: true }).atk);
     }
 }
 //# sourceMappingURL=weapon.js.map

@@ -169,7 +169,7 @@ class Ability {
                         return;
                     const bonus = holder.allModifiers[id]?.[key + "V"] ?? 0;
                     const modifier = 1 + (holder.allModifiers[id]?.[key + "P"] / 100 || 0);
-                    const base = baseStats[key] !== undefined ? baseStats[key] : value;
+                    const base = baseStats[key] !== undefined ? baseStats[key] : 0;
                     this[key] = +(((base || 0) + bonus) * modifier).toFixed(2);
                 }
                 else if (typeof value === "object" && !Array.isArray(value)) {

@@ -28,12 +28,14 @@ function calculateDamage(attacker: Player | Enemy, defender: Player | Enemy, att
     modifier += attackerStats[damageBoostingStats[key]] / 50;
   }
 
+  console.log(key);
+
   // Add stat effects to modifier
-  modifier += attacker.allModifiers[key + "_damageP"] ?? 0;
-  modifier += attacker.allModifiers["damageP"] ?? 0;
+  modifier *= attacker.allModifiers[key + "DamageP"] ?? 1;
+  modifier *= attacker.allModifiers["damageP"] ?? 1;
 
   // Add boosts to flat value
-  boost += attacker.allModifiers[key + "_damageV"] ?? 0;
+  boost += attacker.allModifiers[key + "DamageV"] ?? 0;
   boost += attacker.allModifiers["damageV"] ?? 0;
 
   // Apply penetration to defence
@@ -51,6 +53,8 @@ function calculateDamage(attacker: Player | Enemy, defender: Player | Enemy, att
 
   // Lower damage by defence
   modifier *= defence;
+
+  console.log(modifier);
 
   // Apply damage
   damage = (damage + boost) * modifier;
