@@ -300,6 +300,14 @@
   align-items: center;
   border-radius: 10%;
 
+  &.buff {
+    box-shadow: 0 0 0.25rem 0.25rem rgb(25, 138, 63);
+  }
+
+  &.debuff {
+    box-shadow: 0 0 0.25rem 0.25rem rgb(138, 25, 25);
+  }
+
   .duration {
     color: white;
     font-size: 0.7rem;

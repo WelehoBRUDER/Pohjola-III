@@ -31,4 +31,7 @@ const icons: any = {
   penetration: "gfx/icons/cracked-shield.png",
   heal: "gfx/status/heart-plus.png",
   manaRecover: "gfx/status/magical.png",
+  damage: "gfx/icons/damage.png",
+  scaling: "gfx/icons/orb-direction.png",
+  spell_scale: "gfx/icons/orb-direction.png",
 };

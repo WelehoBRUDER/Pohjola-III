@@ -336,6 +336,45 @@ const armors = {
     type: "armor",
     slot: "legs",
   },
+  /* Acolyte Set */
+  acolyte_hood: {
+    id: "acolyte_hood",
+    price: 80,
+    speed: 0,
+    defence: {
+      physical: 0,
+      magical: 4,
+      elemental: 2,
+    },
+    modifiers: {
+      intV: 3,
+      magicalDamageP: 3,
+    },
+    stackable: true,
+    icon: "gfx/items/hood.png",
+    tier: itemTiers.uncommon,
+    type: "armor",
+    slot: "helmet",
+  },
+  /* Leather set */
+  acolyte_robe: {
+    id: "acolyte_robe",
+    price: 160,
+    speed: 2,
+    defence: {
+      physical: 2,
+      magical: 6,
+      elemental: 4,
+    },
+    modifiers: {
+      magicalDamageP: 4,
+    },
+    stackable: true,
+    icon: "gfx/items/robe.png",
+    tier: itemTiers.uncommon,
+    type: "armor",
+    slot: "armor",
+  },
 };
 
 const materials = {
@@ -437,6 +476,46 @@ const talismans = {
       expGainP: 10,
       goldGainP: 20,
       hpMaxP: -5,
+    },
+    speed: 0,
+    stackable: true,
+    tier: itemTiers.uncommon,
+    type: "talisman",
+    slot: "talisman",
+  },
+  spiritual_pendant: {
+    id: "spiritual_pendant",
+    icon: "gfx/items/gem-pendant.png",
+    price: 250,
+    modifiers: {
+      magicalDamageP: 5,
+      elementalDamageP: 5,
+    },
+    speed: 0,
+    stackable: true,
+    tier: itemTiers.uncommon,
+    type: "talisman",
+    slot: "talisman",
+  },
+  pendant_of_sorcery: {
+    id: "pendant_of_sorcery",
+    icon: "gfx/items/gem-pendant.png",
+    price: 250,
+    modifiers: {
+      magicalDamageP: 9,
+    },
+    speed: 0,
+    stackable: true,
+    tier: itemTiers.uncommon,
+    type: "talisman",
+    slot: "talisman",
+  },
+  pendant_of_elements: {
+    id: "pendant_of_elements",
+    icon: "gfx/items/gem-pendant.png",
+    price: 250,
+    modifiers: {
+      elementalDamageP: 9,
     },
     speed: 0,
     stackable: true,

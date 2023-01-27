@@ -143,6 +143,7 @@ function createStatusIcon(status: Effect) {
   statusIcon.classList.add("icon");
   statusDuration.classList.add("duration");
   statusElement.setAttribute("data-id", status.id);
+  statusElement.classList.add(status.buffDebuff);
   statusIcon.src = status.icon;
   statusDuration.innerText = status.isInfinite ? "∞" : status.lasts.toFixed(1) + "s";
   statusElement.append(statusIcon, statusDuration);

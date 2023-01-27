@@ -20,7 +20,7 @@ skills.push({
                         ability_battle_aura: {
                             effect_attack_1: {
                                 modifiers: {
-                                    atkPV: 5,
+                                    damagePV: 3,
                                 },
                             },
                         },
@@ -31,7 +31,7 @@ skills.push({
                         ability_battle_aura: {
                             effect_attack_1: {
                                 modifiers: {
-                                    atkPV: 5,
+                                    damagePV: 3,
                                 },
                             },
                         },
@@ -42,7 +42,7 @@ skills.push({
                         ability_battle_aura: {
                             effect_attack_1: {
                                 modifiers: {
-                                    atkPV: 5,
+                                    damagePV: 4,
                                 },
                             },
                         },

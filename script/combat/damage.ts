@@ -28,8 +28,6 @@ function calculateDamage(attacker: Player | Enemy, defender: Player | Enemy, att
     modifier += attackerStats[damageBoostingStats[key]] / 50;
   }
 
-  console.log(key);
-
   // Add stat effects to modifier
   modifier *= attacker.allModifiers[key + "DamageP"] ?? 1;
   modifier *= attacker.allModifiers["damageP"] ?? 1;
@@ -51,10 +49,16 @@ function calculateDamage(attacker: Player | Enemy, defender: Player | Enemy, att
     modifier *= attack.power ?? 1;
   }
 
+  if (attacker instanceof Enemy) {
+    console.log("dmg", damage);
+    console.log("stats", attackerStats);
+    console.log("def", defence);
+    console.log("mod", modifier);
+    console.log("boost", boost);
+  }
+
   // Lower damage by defence
   modifier *= defence;
-
-  console.log(modifier);
 
   // Apply damage
   damage = (damage + boost) * modifier;
@@ -69,6 +73,8 @@ function calculateDamage(attacker: Player | Enemy, defender: Player | Enemy, att
   if (attacker instanceof Player) {
     if (DEVTOOLS.ONE_PUNCH) damage = 999999;
   }
+
+  console.log("final damage", damage);
 
   return Math.floor(damage);
 }

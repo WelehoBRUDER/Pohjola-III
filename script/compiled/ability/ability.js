@@ -206,7 +206,7 @@ class Ability {
         }
         // Ability attack values
         if (this.damage) {
-            tooltip += `<i><c>white<c>${icons.damage}<i>${game.getLocalizedString("damage")}: <c>cyan<c>${Math.floor(this.damage * (options?.owner?.getSpellPower() || 0.6))}<c>white<c>\n`;
+            tooltip += `<c>white<c><i>${icons.damage}<i>${game.getLocalizedString("damage")}: <c>cyan<c>${Math.floor(this.damage * (options?.owner?.getSpellPower() || 0.6))}<c>white<c>\n`;
         }
         if (this.damageType) {
             tooltip += `${game.getLocalizedString("damage_type")}: <i>${icons[this.damageType]}<i>${game.getLocalizedString(this.damageType)}\n`;

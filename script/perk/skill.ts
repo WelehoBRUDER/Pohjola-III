@@ -212,6 +212,9 @@ function createSkills() {
   sideBarDetails();
   const SkillTrees = document.createElement("div");
   SkillTrees.classList.add("skill-trees");
+  SkillTrees.onscroll = () => {
+    screens.skills.scroll = SkillTrees.scrollTop;
+  };
   const _skills = skills.map((skill: SkillObject) => new Skill(skill));
   _skills.forEach((skill: Skill) => {
     const skillWrapper = document.createElement("div");
@@ -265,6 +268,8 @@ function createSkills() {
     SkillTrees.append(skillWrapper);
   });
   lobbyContent.append(SkillTrees);
+  addDragToScroll(SkillTrees);
+  SkillTrees.scrollTo(0, screens.skills.scroll);
 }
 
 function createSkillElement(skill: Skill) {

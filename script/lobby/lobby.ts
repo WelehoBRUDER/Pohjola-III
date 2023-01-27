@@ -26,7 +26,7 @@ const lobbyButtons = [
 ];
 
 const lobby = {
-  current_view: "saves",
+  current_view: "skills",
 };
 
 function createLobby() {
@@ -136,6 +136,42 @@ function confirmationWindow(text: string, onConfirm: () => void, onCancel?: () =
 
 function closeConfirmationWindow() {
   confirmPrompt.classList.remove("active");
+}
+
+const genericDragDetails = {
+  lastX: 0,
+  lastY: 0,
+  dragging: false,
+  bgPosX: 0,
+  bgPosY: 0,
+};
+
+function addDragToScroll(elem: HTMLElement) {
+  const dragDetails = Object.assign({}, genericDragDetails);
+
+  /* Scroll by dragging */
+  function dragElem(e: MouseEvent) {
+    const offsetX = e.clientX - dragDetails.lastX;
+    const offsetY = e.clientY - dragDetails.lastY;
+    if (dragDetails.dragging) {
+      elem.scrollTo(dragDetails.bgPosX - offsetX, dragDetails.bgPosY - offsetY);
+    }
+  }
+  if (elem) {
+    elem.onmousedown = (e: MouseEvent) => {
+      dragDetails.dragging = true;
+      dragDetails.lastX = e.clientX;
+      dragDetails.lastY = e.clientY;
+      dragDetails.bgPosX = elem.scrollLeft;
+      dragDetails.bgPosY = elem.scrollTop;
+      elem.onmouseup = () => {
+        dragDetails.dragging = false;
+        elem.onmouseup = null;
+        elem.onmousemove = null;
+      };
+      elem.onmousemove = (e) => dragElem(e);
+    };
+  }
 }
 
 createLobby();

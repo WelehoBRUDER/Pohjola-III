@@ -3,6 +3,7 @@ class Effect {
     icon;
     duration;
     type;
+    buffDebuff;
     inflict;
     modifiers;
     isInfinite;
@@ -11,6 +12,7 @@ class Effect {
         this.icon = effect.icon;
         this.duration = effect.duration;
         this.type = effect.type;
+        this.buffDebuff = effect.buffDebuff;
         this.modifiers = effect.modifiers ? { ...effect.modifiers } : {};
         this.inflict = effect.inflict ? { ...effect.inflict } : {};
         this.isInfinite = effect.isInfinite || false;

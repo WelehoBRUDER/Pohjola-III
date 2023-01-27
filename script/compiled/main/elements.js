@@ -54,4 +54,9 @@ const lobbyHeaderButtons = lobbyHeader.querySelector(".lobby-buttons");
 const lobbySidebar = lobbyScreen.querySelector(".side-bar");
 // Lobby content
 const lobbyContent = lobbyScreen.querySelector(".lobby-content");
+const screens = {
+    skills: {
+        scroll: 0,
+    },
+};
 //# sourceMappingURL=elements.js.map
