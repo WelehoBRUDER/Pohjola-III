@@ -1,32 +1,44 @@
 const lobbyButtons = [
   {
     id: "char",
+    click: createCharView,
   },
   {
     id: "perks",
+    click: createPerks,
   },
   {
     id: "skills",
+    click: createSkills,
   },
   {
     id: "inventory",
+    click: createInventory,
   },
   {
     id: "store",
+    click: createStore,
+  },
+  {
+    id: "crafting",
+    click: createCrafting,
   },
   {
     id: "stages",
+    click: createFloors,
   },
   {
     id: "statistics",
+    click: createStats,
   },
   {
     id: "saves",
+    click: createSaves,
   },
 ];
 
 const lobby = {
-  current_view: "skills",
+  current_view: "crafting",
 };
 
 function createLobby() {
@@ -36,36 +48,18 @@ function createLobby() {
     const buttonElement = document.createElement("button");
     buttonElement.classList.add("lobby-button");
     buttonElement.innerText = game.getLocalizedString(button.id);
-    buttonElement.onclick = () => lobbyView(button.id);
+    buttonElement.onclick = () => {
+      lobby.current_view = button.id;
+      createLobby();
+      button.click();
+    };
     if (lobby.current_view === button.id) {
       buttonElement.classList.add("selected");
     }
     lobbyHeaderButtons.append(buttonElement);
   });
   lobbyContent.onwheel = null;
-  if (lobby.current_view === "char") {
-    createCharView();
-  } else if (lobby.current_view === "perks") {
-    createPerks();
-  } else if (lobby.current_view === "skills") {
-    createSkills();
-  } else if (lobby.current_view === "inventory") {
-    createInventory();
-  } else if (lobby.current_view === "store") {
-    createStore();
-  } else if (lobby.current_view === "stages") {
-    createFloors();
-  } else if (lobby.current_view === "statistics") {
-    createStats();
-  } else if (lobby.current_view === "saves") {
-    createSaves();
-  }
-}
-
-function lobbyView(id: string): void {
-  if (lobby.current_view === id) return;
-  lobby.current_view = id;
-  createLobby();
+  lobbyButtons.find((button) => button.id === lobby.current_view)?.click();
 }
 
 function createStats() {
@@ -174,4 +168,4 @@ function addDragToScroll(elem: HTMLElement) {
   }
 }
 
-createLobby();
+document.addEventListener("DOMContentLoaded", () => createLobby());

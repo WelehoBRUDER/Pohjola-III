@@ -23,6 +23,9 @@ class Effect {
             tooltip += "<ct>effect-container<ct>";
         tooltip += `<f>1.5rem<f><c>goldenrod<c><i>${this.icon}[medium]<i> ${game.getLocalizedString(this.id)}\n`;
         tooltip += "<f>1.2rem<f><c>white<c>";
+        if (DEVTOOLS.ENABLED) {
+            tooltip += `<c>white<c> [dev] <c>orange<c>${this.id}<c>white<c>\n`;
+        }
         if (this.inflict) {
             Object.entries(this.inflict).forEach(([key, value]) => {
                 tooltip += `${game.getLocalizedString(key + "_first")}`;

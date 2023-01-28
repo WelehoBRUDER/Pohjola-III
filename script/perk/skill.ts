@@ -114,6 +114,10 @@ class Skill {
     tooltip += `<f>1.5rem<f><c>goldenrod<c>${game.getLocalizedString(this.id)}\n`;
     tooltip += "<f>1.2rem<f><c>white<c>";
 
+    if (DEVTOOLS.ENABLED) {
+      tooltip += `<c>white<c> [dev] <c>orange<c>${this.id}<c>white<c>\n`;
+    }
+
     if (this.requirements.length > 0) {
       tooltip += "Requirements:\n";
       this.requirements.forEach((req: any) => {

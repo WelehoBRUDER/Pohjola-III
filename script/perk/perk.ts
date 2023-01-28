@@ -79,6 +79,10 @@ class Perk {
     let tooltip: string = `<f>1.5rem<f><c>gold<c>${game.getLocalizedString(this.id)}\n`;
     tooltip += "<f>1.2rem<f>";
 
+    if (DEVTOOLS.ENABLED) {
+      tooltip += `<c>white<c> [dev] <c>orange<c>${this.id}<c>white<c>\n`;
+    }
+
     // Perk description
     tooltip += `<c>silver<c>${game.getLocalizedString(this.desc)}<c>white<c>\n`;
 
@@ -151,7 +155,6 @@ function createPerks() {
     tooltip(perkDiv, perk.tooltip());
     if (perk.relative_to) {
       const found: HTMLDivElement = lobbyContent.querySelector(`.perk[perk-id="${perk.relative_to}"]`)!;
-      console.log(perk.relative_to);
       perkDiv.style.left = `${Math.round(perk.pos.x * baseSize + found.offsetLeft)}px`;
       perkDiv.style.top = `${Math.round(perk.pos.y * baseSize + found.offsetTop)}px`;
     } else {

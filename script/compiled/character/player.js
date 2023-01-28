@@ -248,6 +248,14 @@ class Player extends Character {
         potion.drink(this);
         this.removeItem(potion, 1);
     }
+    hasItem(item, amount = 1) {
+        console.log(item);
+        const owned = this.inventory.find((i) => i.id === item);
+        console.log(owned);
+        if (owned?.amount < amount || !owned)
+            return false;
+        return true;
+    }
 }
 let player = new Player({
     id: "player",

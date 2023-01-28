@@ -13,6 +13,7 @@ const merchant = {
     { item: items.astral_spear, price: 5000 },
     { item: items.novice_wand, price: 150 },
     { item: items.wizard_staff, price: 950 },
+    { item: items.academy_scepter, price: 1850 },
     { item: items.legend_orb_wand, price: 3575 },
     { item: items.ragged_hood, price: 20 },
     { item: items.ragged_armor, price: 40 },

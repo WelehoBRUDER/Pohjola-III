@@ -56,7 +56,9 @@ class Ability {
                 this.onCooldown = 0;
             }
         };
-        this.setCooldown = () => {
+        this.setCooldown = (user) => {
+            if (user instanceof Player && DEVTOOLS.NO_CD)
+                return;
             this.onCooldown = this.cooldown;
         };
         this.canUse = (user) => {
@@ -70,11 +72,17 @@ class Ability {
         };
         this.use = (user, target) => {
             user.stats.ap = 0;
-            this.setCooldown();
-            if (this.mpCost)
-                user.stats.mp -= this.mpCost;
-            if (this.hpCost)
-                user.stats.hp -= this.hpCost;
+            this.setCooldown(user);
+            if (this.mpCost) {
+                if (!(user instanceof Player && DEVTOOLS.FREE_CAST)) {
+                    user.stats.mp -= this.mpCost;
+                }
+            }
+            if (this.hpCost) {
+                if (!(user instanceof Player && DEVTOOLS.FREE_CAST)) {
+                    user.stats.hp -= this.hpCost;
+                }
+            }
             if (this.type === "attack") {
                 const { critRate, critPower } = user.getCrit();
                 let damage = calculateDamage(user, target, this);
@@ -188,6 +196,9 @@ class Ability {
         // Define ability name
         tooltip += `<f>1.5rem<f><c>goldenrod<c><i>${this.icon}[medium]<i> ${game.getLocalizedString(this.id)}\n`;
         tooltip += "<f>1.2rem<f><c>white<c>";
+        if (DEVTOOLS.ENABLED) {
+            tooltip += `<c>white<c> [dev] <c>orange<c>${this.id}<c>white<c>\n`;
+        }
         // Ability type
         tooltip += `${game.getLocalizedString("type")}: ${game.getLocalizedString(this.type)}\n`;
         if (this.power) {

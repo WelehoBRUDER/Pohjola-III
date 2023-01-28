@@ -62,6 +62,7 @@ interface ItemObject {
   unique?: boolean;
   tier: I_Tier;
   type: string;
+  toCraft?: [{ item: string; amount: number }];
   icon?: string;
   modifiers?: any;
 }
@@ -74,6 +75,7 @@ class Item {
   unique?: boolean;
   tier: I_Tier;
   type: string;
+  toCraft?: [{ item: string; amount: number }];
   icon?: string;
   modifiers?: any;
   constructor(item: ItemObject) {
@@ -86,49 +88,22 @@ class Item {
     this.unique = item.unique ?? false;
     this.tier = item.tier;
     this.type = item.type;
+    this.toCraft = item.toCraft;
     this.modifiers = item.modifiers ? { ...item.modifiers } : {};
     if (item.icon) this.icon = item.icon;
   }
 
   /* Using @ts-ignore because intellisense can't deal with typed object lists */
   updateClass(price?: number): Weapon | Armor | Material {
-    if (this.type === "weapon") {
-      return new Weapon({
-        // @ts-ignore
-        ...items[this.id],
-        amount: this.amount,
-        price: price ?? this.price,
-      });
-    } else if (this.type === "armor") {
-      return new Armor({
-        // @ts-ignore
-        ...items[this.id],
-        amount: this.amount,
-        price: price ?? this.price,
-      });
-    } else if (this.type === "material") {
-      return new Material({
-        // @ts-ignore
-        ...items[this.id],
-        amount: this.amount,
-        price: price ?? this.price,
-      });
-    } else if (this.type === "potion") {
-      return new Potion({
-        // @ts-ignore
-        ...items[this.id],
-        amount: this.amount,
-        price: price ?? this.price,
-      });
-    } else if (this.type === "talisman") {
-      return new Talisman({
-        // @ts-ignore
-        ...items[this.id],
-        amount: this.amount,
-        price: price ?? this.price,
-      });
-    }
-    return this;
+    const itemClasses = [Weapon, Armor, Material, Potion, Talisman];
+    const itemClass = itemClasses.find((itemClass) => itemClass.name.toLowerCase() === this.type);
+    if (!itemClass) throw new Error(`${this.type} is not a valid item type.`);
+    return new itemClass({
+      // @ts-ignore
+      ...items[this.id],
+      amount: this.amount,
+      price: price ?? this.price,
+    });
   }
 
   compare(item: Weapon | Armor): boolean | string {
@@ -187,6 +162,9 @@ class Item {
     let tooltip = "<f>1.5rem<f>";
     tooltip += `<c>${this.tier?.color || "pink"}<c>${game.getLocalizedString(this.id)}\n`;
     tooltip += "<f>1.25rem<f><c>white<c>";
+    if (DEVTOOLS.ENABLED) {
+      tooltip += `<c>white<c> [dev] <c>orange<c>${this.id}<c>white<c>\n`;
+    }
     tooltip += `${game.getLocalizedString("tier")}: <c>${this.tier?.color || "pink"}<c>${game.getLocalizedString(
       this.tier?.id || "invalid"
     )}\n`;
@@ -239,6 +217,30 @@ class Item {
     }
 
     return tooltip;
+  }
+
+  canCraft(): boolean {
+    let canCraft = true;
+    if (this.toCraft) {
+      this.toCraft.forEach((item) => {
+        const owned = player.inventory.find((i: any) => i.id === item.item);
+        if (!owned || owned.amount < item.amount) return (canCraft = false);
+      });
+    }
+    return canCraft;
+  }
+
+  craft(): void {
+    if (!this.canCraft()) return;
+    if (this.toCraft) {
+      this.toCraft.forEach((item) => {
+        const owned = player.inventory.find((i: any) => i.id === item.item);
+        if (owned) {
+          player.removeItem(owned, item.amount);
+        }
+      });
+    }
+    player.addItem(this);
   }
 }
 

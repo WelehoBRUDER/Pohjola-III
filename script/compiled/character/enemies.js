@@ -91,6 +91,11 @@ const enemies = {
                 chance: 0.75,
                 amount: [1, 4],
             },
+            {
+                item: items.skull,
+                chance: 0.1,
+                amount: [1, 1],
+            },
         ],
         xp: 30,
     },
@@ -137,6 +142,11 @@ const enemies = {
                 item: items.bone,
                 chance: 0.8,
                 amount: [2, 6],
+            },
+            {
+                item: items.skull,
+                chance: 0.25,
+                amount: [1, 1],
             },
         ],
         xp: 100,
@@ -185,6 +195,11 @@ const enemies = {
                 chance: 1,
                 amount: [3, 7],
             },
+            {
+                item: items.skull,
+                chance: 0.75,
+                amount: [1, 2],
+            },
         ],
         xp: 400,
     },
@@ -226,6 +241,11 @@ const enemies = {
         loot: [
             {
                 gold: [27, 53],
+            },
+            {
+                item: items.scrap,
+                chance: 0.75,
+                amount: [1, 3],
             },
         ],
         xp: 90,
@@ -269,6 +289,16 @@ const enemies = {
             {
                 gold: [50, 100],
             },
+            {
+                item: items.scrap,
+                chance: 0.75,
+                amount: [2, 5],
+            },
+            {
+                item: items.orc_tusk,
+                chance: 0.5,
+                amount: [1, 1],
+            },
         ],
         xp: 250,
     },
@@ -311,6 +341,16 @@ const enemies = {
             {
                 gold: [120, 200],
             },
+            {
+                item: items.scrap,
+                chance: 0.7,
+                amount: [2, 5],
+            },
+            {
+                item: items.orc_tusk,
+                chance: 0.7,
+                amount: [1, 2],
+            },
         ],
         xp: 750,
     },
@@ -352,6 +392,16 @@ const enemies = {
         loot: [
             {
                 gold: [250, 400],
+            },
+            {
+                item: items.troll_fat,
+                chance: 1,
+                amount: [1, 4],
+            },
+            {
+                item: items.troll_fang,
+                chance: 0.3,
+                amount: [1, 1],
             },
         ],
         spawnWithEffects: [{ ...effects.troll_regen }],
@@ -396,6 +446,11 @@ const enemies = {
             {
                 gold: [175, 290],
             },
+            {
+                item: items.minotaur_horns,
+                chance: 0.5,
+                amount: [1, 1],
+            },
         ],
         xp: 950,
     },
@@ -437,6 +492,11 @@ const enemies = {
         loot: [
             {
                 gold: [300, 400],
+            },
+            {
+                item: items.minotaur_horns,
+                chance: 0.75,
+                amount: [1, 1],
             },
         ],
         xp: 1600,

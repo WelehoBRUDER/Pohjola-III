@@ -2,51 +2,7 @@ function createInventory() {
   lobbyContent.innerHTML = "";
   hideHover();
   sideBarDetails();
-  const invScreen = document.createElement("div");
-  const inventoryContainer = document.createElement("div");
-  const inventoryEquipment = document.createElement("div");
-  invScreen.classList.add("inventory");
-  inventoryContainer.classList.add("inventory-container");
-  inventoryEquipment.classList.add("inventory-equipment");
-  const inventory: any = player.inventory;
-  const inventoryGrid = document.createElement("div");
-  inventoryContainer.append(inventoryGrid);
-  inventoryGrid.classList.add("inventory-flex");
-  inventory.forEach((item: any) => {
-    const slot = createSlot(item);
-    //slot.addEventListener("click", () => useItem(null, i));
-    slot.addEventListener("mouseover", () => {
-      hoverEquipSlot(item);
-    });
-    slot.addEventListener("mouseleave", () => {
-      removeHoverEquipSlot(item);
-    });
-    inventoryGrid.append(slot);
-  });
-
-  Object.entries(player.equipment).forEach(([slot, item]: [string, Item]) => {
-    const slotElement = createSlot(item, { isEquipped: true, slot: slot });
-    slotElement.classList.add("equip");
-    slotElement.setAttribute("data-item-slot", slot);
-    inventoryEquipment.append(slotElement);
-  });
-
-  window.onresize = () => {
-    resizeInventoryContainer();
-  };
-
-  function resizeInventoryContainer() {
-    let width = lobbyContent.offsetWidth - 270;
-    const slotSize = 90;
-    const slotsPerRow = Math.floor(width / slotSize) > 2 ? Math.floor(width / slotSize) : 2;
-    width = slotsPerRow * slotSize;
-    inventoryContainer.style.width = width + "px";
-    inventoryGrid.style.width = width + "px";
-    inventoryEquipment.style.width = lobbyContent.offsetWidth - width + "px";
-  }
-  invScreen.append(inventoryContainer, inventoryEquipment);
-  lobbyContent.append(invScreen);
-  resizeInventoryContainer();
+  lobbyContent.append(buildInventoryScreen({ includeEquipment: true, offset: 270 }));
 }
 
 function isInCombat() {
@@ -57,10 +13,88 @@ function isPlayerTurn() {
   return player.stats.ap >= 100;
 }
 
-function createSlot(item: Item, options?: { isEquipped?: boolean; slot?: string; buy?: boolean; sell?: boolean }) {
+function buildInventoryScreen(options?: {
+  includeEquipment?: boolean;
+  offset?: number;
+  offsetPercent?: number;
+  filter?: string;
+  class?: string;
+}) {
+  const invScreen = document.createElement("div");
+  const inventoryContainer = document.createElement("div");
+  invScreen.classList.add("inventory");
+  if (options?.class) invScreen.classList.add(options?.class);
+  inventoryContainer.classList.add("inventory-container");
+  const inventory: any = player.inventory;
+  const inventoryGrid = document.createElement("div");
+  inventoryContainer.append(inventoryGrid);
+  inventoryGrid.classList.add("inventory-flex");
+  inventory.forEach((item: any) => {
+    if (options?.filter) {
+      if (options?.filter === "crafting") {
+        if (item.type === "potion") return;
+      }
+    }
+    const slot = createSlot(item);
+    if (options?.includeEquipment) {
+      slot.addEventListener("mouseover", () => {
+        hoverEquipSlot(item);
+      });
+      slot.addEventListener("mouseleave", () => {
+        removeHoverEquipSlot(item);
+      });
+    }
+    inventoryGrid.append(slot);
+  });
+
+  const inventoryEquipment = document.createElement("div");
+  if (options?.includeEquipment) {
+    inventoryEquipment.classList.add("inventory-equipment");
+    Object.entries(player.equipment).forEach(([slot, item]: [string, Item]) => {
+      const slotElement = createSlot(item, { isEquipped: true, slot: slot });
+      slotElement.classList.add("equip");
+      slotElement.setAttribute("data-item-slot", slot);
+      inventoryEquipment.append(slotElement);
+    });
+  }
+
+  window.onresize = () => {
+    resizeInventoryContainer();
+  };
+
+  function resizeInventoryContainer() {
+    const offset = options?.offsetPercent ? lobbyContent.offsetWidth * (options?.offsetPercent / 100 ?? 0) : options?.offset ?? 0;
+    let width = lobbyContent.offsetWidth - offset;
+    const slotSize = 90;
+    const slotsPerRow = Math.floor(width / slotSize) > 2 ? Math.floor(width / slotSize) : 2;
+    width = slotsPerRow * slotSize;
+    inventoryContainer.style.width = width + "px";
+    inventoryGrid.style.width = width + "px";
+    inventoryEquipment.style.width = lobbyContent.offsetWidth - width + "px";
+  }
+  invScreen.append(inventoryContainer);
+  if (options?.includeEquipment) {
+    invScreen.append(inventoryEquipment);
+  }
+  resizeInventoryContainer();
+  return invScreen;
+}
+
+function createSlot(
+  item: Item,
+  options?: { isEquipped?: boolean; slot?: string; buy?: boolean; sell?: boolean; craft?: boolean; material?: boolean }
+) {
   const slot = document.createElement("div");
   slot.classList.add("inventory-slot");
-  if (isInCombat() && !isPlayerTurn()) {
+  if (options?.material) {
+    slot.classList.add("material");
+    if (player.hasItem(item.id, item.amount)) {
+      slot.classList.add("enough");
+    } else {
+      slot.classList.add("not-enough");
+    }
+  }
+  if ((isInCombat() && !isPlayerTurn()) || (options?.craft && !item.canCraft())) {
     slot.classList.add("disabled");
   }
   if (item) {
@@ -79,34 +113,36 @@ function createSlot(item: Item, options?: { isEquipped?: boolean; slot?: string;
       }
       slot.append(amount);
     }
-    if (options?.buy) {
-      slot.onclick = (e) => {
-        clickItem(item, {
-          shift: e.shiftKey,
-          pos: { x: e.clientX, y: e.clientY },
-          buy: true,
-        });
-      };
-    } else if (options?.sell) {
-      slot.onclick = (e) => {
-        clickItem(item, {
-          shift: e.shiftKey,
-          pos: { x: e.clientX, y: e.clientY },
-          sell: true,
-        });
-      };
-    } else if (options?.isEquipped) {
-      slot.onclick = (e) => {
-        clickItem(item, {
-          shift: e.shiftKey,
-          equipped: true,
-          pos: { x: e.clientX, y: e.clientY },
-        });
-      };
-    } else {
-      slot.onclick = (e) => {
-        clickItem(item, { shift: e.shiftKey, pos: { x: e.clientX, y: e.clientY } });
-      };
+    if (!options?.material) {
+      if (options?.buy) {
+        slot.onclick = (e) => {
+          clickItem(item, {
+            shift: e.shiftKey,
+            pos: { x: e.clientX, y: e.clientY },
+            buy: true,
+          });
+        };
+      } else if (options?.sell) {
+        slot.onclick = (e) => {
+          clickItem(item, {
+            shift: e.shiftKey,
+            pos: { x: e.clientX, y: e.clientY },
+            sell: true,
+          });
+        };
+      } else if (options?.isEquipped) {
+        slot.onclick = (e) => {
+          clickItem(item, {
+            shift: e.shiftKey,
+            equipped: true,
+            pos: { x: e.clientX, y: e.clientY },
+          });
+        };
+      } else {
+        slot.onclick = (e) => {
+          clickItem(item, { shift: e.shiftKey, pos: { x: e.clientX, y: e.clientY }, craft: options?.craft });
+        };
+      }
     }
     const compare = item.compare(player.equipment[item?.slot ?? ""]);
     tooltip(slot, item.tooltip(), compare ? (compare as string) : undefined);
@@ -127,6 +163,7 @@ function clickItem(
     pos?: { x: number; y: number };
     buy?: boolean;
     sell?: boolean;
+    craft?: boolean;
   }
 ) {
   if (isInCombat() && !isPlayerTurn()) return;
@@ -150,13 +187,13 @@ function clickItem(
     const buttons: any[] = [];
     if (options?.buy) {
       buttons.push({
-        text: "buy_item",
+        text: `${game.getLocalizedString("buy_item")}`,
         action: () => {
           buyItem(item);
         },
       });
       buttons.push({
-        text: "buy_multiple_item",
+        text: `${game.getLocalizedString("buy_multiple_item")}`,
         action: () => {
           createAmountPrompt(item, 100);
         },
@@ -169,31 +206,41 @@ function clickItem(
         },
       });
       buttons.push({
-        text: "sell_multiple_item",
+        text: `${game.getLocalizedString("sell_multiple_item")}`,
         action: () => {
           createAmountPrompt(item, item.amount || 1, "selling");
         },
       });
     } else if (options?.equipped) {
       buttons.push({
-        text: "unequip_item",
+        text: `${game.getLocalizedString("unequip_item")}`,
         action: () => {
           player.unequip(item.slot);
           createInventory();
         },
       });
     } else if (item.type !== "potion" && item.type !== "material") {
-      buttons.push({
-        text: "equip_item",
-        action: () => {
-          player.equip(item as any, { removeFromInventory: true });
-          createInventory();
-        },
-      });
+      if (!options?.craft) {
+        buttons.push({
+          text: `${game.getLocalizedString("equip_item")}`,
+          action: () => {
+            player.equip(item as any, { removeFromInventory: true });
+            createInventory();
+          },
+        });
+      } else if (options?.craft) {
+        buttons.push({
+          text: `${game.getLocalizedString("craft_item")}${item.canCraft() ? "" : " (too few mats)"}`,
+          action: () => {
+            item.craft();
+            createCrafting();
+          },
+        });
+      }
     }
     if (item.type === "potion" && !options?.buy) {
       buttons.push({
-        text: "drink_potion",
+        text: `${game.getLocalizedString("drink_potion")}`,
         action: () => {
           player.drinkPotion(item);
           createInventory();
@@ -227,7 +274,7 @@ function createContextMenu(options: any[], pos: { x: number; y: number }) {
     options.forEach((option: any) => {
       const menuOption = document.createElement("div");
       menuOption.classList.add("option");
-      menuOption.innerText = game.getLocalizedString(option.text);
+      menuOption.innerText = option.text;
       menuOption.onclick = () => {
         option.action();
         removeContextMenu();

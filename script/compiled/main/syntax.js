@@ -225,6 +225,12 @@ const properties = {
     spiPV: {
         addPercentageSuffix: true,
     },
+    damagePV: {
+        addPercentageSuffix: true,
+    },
+    speedPV: {
+        addPercentageSuffix: true,
+    },
     damagePercentV: {
         addPercentageSuffix: true,
         multiplyBy: 100,
