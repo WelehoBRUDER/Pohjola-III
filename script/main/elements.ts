@@ -1,3 +1,6 @@
+/* Main menu */
+const mainMenuElement: HTMLDivElement = document.querySelector(".main-menu")!;
+
 /* Tooltip box */
 const tooltipBox: HTMLDivElement = document.querySelector("#tooltip")!;
 

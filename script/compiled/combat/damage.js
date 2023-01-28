@@ -22,7 +22,10 @@ function calculateDamage(attacker, defender, attack) {
     let defence = defences[key];
     // Add stat boost to modifier
     if (!attack.isSpell) {
-        modifier += attackerStats[damageBoostingStats[key]] / 50;
+        modifier += attackerStats[damageBoostingStats[key]] * 0.02;
+    }
+    else {
+        modifier += attackerStats[damageBoostingStats[key]] * 0.007;
     }
     // Add stat effects to modifier
     modifier *= attacker.allModifiers[key + "DamageP"] ?? 1;
@@ -62,7 +65,9 @@ function calculateDamage(attacker, defender, attack) {
         if (DEVTOOLS.ONE_PUNCH)
             damage = 999999;
     }
-    console.log("final damage", damage);
+    if (attacker instanceof Enemy) {
+        damage *= challenge("enemy_damage");
+    }
     return Math.floor(damage);
 }
 //# sourceMappingURL=damage.js.map

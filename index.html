@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="style/compiled/lobby.css">
   <link rel="stylesheet" href="style/compiled/combat.css">
   <link rel="stylesheet" href="style/compiled/elements.css">
+  <link rel="stylesheet" href="style/compiled/menu.css">
 </head>
 
 <body>
@@ -52,6 +53,7 @@
         <button class="button" onClick="cancelAmount()">Cancel</button>
       </div>
     </div>
+    <div class="main-menu"></div>
     <div class="combat no-display">
       <div class="ui">
         <div class="potion-pouch-frame hide"></div>
@@ -102,7 +104,7 @@
         </div>
       </div>
     </div>
-    <div class="lobby">
+    <div class="lobby no-display">
       <div class="side-bar"></div>
       <div class="lobby-view">
         <div class="lobby-header">
@@ -114,6 +116,7 @@
         </div>
         <div class="lobby-content"></div>
       </div>
+    </div>
   </main>
 </body>
 
@@ -199,3 +202,5 @@
 <script src="script/compiled/dev/commands.js"></script>
 <script src="script/compiled/dev/console.js"></script>
 <script src="script/compiled/dev/dev.js"></script>
+<script src="script/compiled/dev/settings.js"></script>
+<script src="script/compiled/dev/menu.js"></script>

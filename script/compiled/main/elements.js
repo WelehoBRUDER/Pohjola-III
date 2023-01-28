@@ -1,4 +1,6 @@
 "use strict";
+/* Main menu */
+const mainMenuElement = document.querySelector(".main-menu");
 /* Tooltip box */
 const tooltipBox = document.querySelector("#tooltip");
 /* Context menu */

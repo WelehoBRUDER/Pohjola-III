@@ -18,6 +18,7 @@ class Character {
     addStatus;
     getSpellPower;
     calculateCombatPower;
+    regenProc;
     constructor(char) {
         this.id = char.id;
         this.name = char.name;
@@ -33,6 +34,7 @@ class Character {
         this.dead = char.dead ?? false;
         this.critRate = char.critRate ?? 0;
         this.critPower = char.critPower ?? 0;
+        this.regenProc = 0;
         this.getModifiers = () => {
             return getAllModifiers(this);
         };
@@ -143,6 +145,9 @@ class Character {
             const hpModifier = this.allModifiers["hpMaxP"] ?? 1;
             const hpBoost = ((this.level - 1) | 0) * 2; // Level health boost
             stats["hpMax"] = Math.round((stats["hpMax"] + hpBoost + hpIncrease + stats["vit"] * 5) * hpModifier);
+            if (this instanceof Enemy) {
+                stats["hpMax"] = Math.round(stats["hpMax"] * challenge("enemy_health"));
+            }
             // Calculate max mp
             const mpIncrease = this.allModifiers["mpMaxV"] ?? 0;
             const mpModifier = this.allModifiers["mpMaxP"] ?? 1;
@@ -284,6 +289,21 @@ class Character {
             }
             return Math.floor(powerLevel);
         };
+    }
+    regen() {
+        this.regenProc += 1 / 60;
+        if (this.regenProc >= 1) {
+            this.regenProc = 0;
+            this.recoverMana(this.getManaRegen());
+        }
+    }
+    getManaRegen() {
+        const stats = this.getStats({ dontUpdateModifiers: true });
+        const mpRegenMulti = this.allModifiers?.["mpRegenP"] || 1;
+        const mpRegenFlat = this.allModifiers?.["mpRegenV"] || 0;
+        const mpRegenFromInt = this.allModifiers?.["mpRegenFromInt"] * stats.int || 0;
+        const mpRegenFromSpi = this.allModifiers?.["mpRegenFromSpi"] * stats.spi || 0;
+        return Math.floor((1 + mpRegenFlat + mpRegenFromInt + mpRegenFromSpi) * mpRegenMulti * challenge("mana_regen_debuff"));
     }
     updateAllModifiers() {
         this.allModifiers = this.getModifiers();

@@ -63,7 +63,7 @@ function buyItem(item: Item, amount: number = 1) {
   if (item.price * amount > player.gold) {
     return;
   }
-  player.addGold(-item.price * amount);
+  player.removeGold(item.price * amount);
   player.addItem(item, amount);
   createStore({ selling: false });
 }

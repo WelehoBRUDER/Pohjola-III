@@ -240,6 +240,10 @@ class Player extends Character {
     this.gold += Math.floor(gold * boost);
   }
 
+  removeGold(gold: number) {
+    this.gold -= gold;
+  }
+
   levelUp(): void {
     if (this.xp >= this.xpForNextLevel()) {
       this.xp -= this.xpForNextLevel();
@@ -267,6 +271,7 @@ class Player extends Character {
   }
 
   heal(amount: number) {
+    amount = Math.floor(amount * challenge("healing_weakness"));
     this.stats.hp += amount;
     if (this.stats.hp > this.getStats().hpMax) {
       this.stats.hp = this.getStats().hpMax;
@@ -299,14 +304,14 @@ let player = new Player({
   name: "Player",
   race: races.human,
   stats: {
-    str: 10,
-    vit: 10,
-    agi: 10,
-    int: 10,
-    spi: 10,
+    str: 9,
+    vit: 9,
+    agi: 9,
+    int: 9,
+    spi: 9,
     hp: 50,
     mp: 30,
-    atk: 5,
+    atk: 4,
     hpMax: 0,
     mpMax: 0,
     ap: 0,
@@ -343,8 +348,12 @@ let player = new Player({
   xp: 0,
 });
 
-player.updateAllModifiers();
-player.abilities.forEach((abi) => abi.updateStats(player));
-player.addItem(new Item({ ...items.small_healing_potion }), 2);
-player.addItem(new Item({ ...items.small_mana_potion }), 1);
+setTimeout(() => {
+  player.updateAllModifiers();
+  player.abilities.forEach((abi) => abi.updateStats(player));
+  player.addItem(new Item({ ...items.small_healing_potion }), 2);
+  player.addItem(new Item({ ...items.small_mana_potion }), 1);
+  player.perks?.push(new Perk(perks[0]));
+}, 100);
+
 // player.addItem(new Weapon({ ...items.broken_sword }), 203);

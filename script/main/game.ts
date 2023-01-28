@@ -9,6 +9,7 @@ class Game {
   settings: Settings;
   language: any;
   tick: any;
+  playing: boolean;
   constructor() {
     this.init();
     this.state = {
@@ -18,6 +19,7 @@ class Game {
     };
     this.settings = new Settings();
     this.language = english;
+    this.playing = false;
   }
 
   init() {
@@ -172,7 +174,6 @@ class Settings {
   hotkey_ability_6: string;
   tick_speed: number;
   animation_speed: number;
-  pause_on_player_turn: boolean;
   constructor(settings?: Settings) {
     this.hotkey_ability_1 = settings?.hotkey_ability_1 || "Digit1";
     this.hotkey_ability_2 = settings?.hotkey_ability_2 || "Digit2";
@@ -182,22 +183,68 @@ class Settings {
     this.hotkey_ability_6 = settings?.hotkey_ability_6 || "Digit6";
     this.tick_speed = settings?.tick_speed || 60;
     this.animation_speed = settings?.animation_speed || 2;
-    this.pause_on_player_turn = settings?.pause_on_player_turn || true;
   }
 }
 
+function challenge(id: string, options?: { score: false }): any {
+  if (typeof challenges[id] === "number") {
+    if (options?.score) {
+      return challengeValues[id][challenges[id]].score;
+    } else {
+      return challengeValues[id][challenges[id]].value;
+    }
+  } else return challenges[id];
+}
+
+const challengeValues: any = {
+  enemy_damage: [
+    { value: 1, score: 0 },
+    { value: 1.2, score: 1 },
+    { value: 1.4, score: 2 },
+    { value: 1.6, score: 3 },
+    { value: 1.8, score: 4 },
+    { value: 2, score: 5 },
+  ],
+  enemy_health: [
+    { value: 1, score: 0 },
+    { value: 1.2, score: 1 },
+    { value: 1.5, score: 2 },
+    { value: 1.75, score: 3 },
+    { value: 2, score: 4 },
+    { value: 2.5, score: 5 },
+  ],
+  healing_weakness: [
+    { value: 1, score: 0 },
+    { value: 0.75, score: 1 },
+    { value: 0.5, score: 2 },
+    { value: 0.25, score: 3 },
+  ],
+  mana_regen_debuff: [
+    { value: 1, score: 0 },
+    { value: 0.5, score: 2 },
+    { value: 0, score: 3 },
+  ],
+};
+
 class Challenges {
+  [work_around: string]: any;
   real_time_combat: boolean;
   no_after_combat_recovery: boolean;
   hardcore: boolean;
   no_grinding: boolean;
-  enemy_strength_multiplier: number;
+  enemy_damage: number;
+  enemy_health: number;
+  healing_weakness: number;
+  mana_regen_debuff: number;
   constructor(challenges?: Challenges) {
     this.real_time_combat = challenges?.real_time_combat || false;
     this.no_after_combat_recovery = challenges?.no_after_combat_recovery || false;
     this.hardcore = challenges?.hardcore || false;
     this.no_grinding = challenges?.no_grinding || false;
-    this.enemy_strength_multiplier = challenges?.enemy_strength_multiplier || 1;
+    this.enemy_damage = challenges?.enemy_damage || 0;
+    this.enemy_health = challenges?.enemy_health || 0;
+    this.healing_weakness = challenges?.healing_weakness || 0;
+    this.mana_regen_debuff = challenges?.mana_regen_debuff || 0;
   }
 }
 

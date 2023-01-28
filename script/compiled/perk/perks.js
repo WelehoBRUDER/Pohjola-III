@@ -28,12 +28,12 @@ const perks = [
         },
         icon: "gfx/status/acrobatic.png",
         modifiers: {
-            agiV: 3,
+            agiV: 2,
         },
         class: "agility",
         relative_to: "0_foundation_of_power",
         requires: ["0_foundation_of_power"],
-        cost: 2,
+        cost: 1,
     },
     {
         id: "agility_2",
@@ -136,7 +136,7 @@ const perks = [
         class: "power",
         relative_to: "0_foundation_of_power",
         requires: ["0_foundation_of_power"],
-        cost: 2,
+        cost: 1,
     },
     {
         id: "power_2",
@@ -255,12 +255,12 @@ const perks = [
         },
         icon: "gfx/status/brain.png",
         modifiers: {
-            intV: 3,
+            intV: 2,
         },
         class: "smart",
         relative_to: "0_foundation_of_power",
         requires: ["0_foundation_of_power"],
-        cost: 2,
+        cost: 1,
     },
     {
         id: "smart_2",
@@ -376,12 +376,12 @@ const perks = [
         },
         icon: "gfx/status/biceps.png",
         modifiers: {
-            strV: 3,
+            strV: 2,
         },
         class: "strength",
         relative_to: "0_foundation_of_power",
         requires: ["0_foundation_of_power"],
-        cost: 2,
+        cost: 1,
     },
     {
         id: "strength_2",
@@ -481,12 +481,12 @@ const perks = [
         },
         icon: "gfx/status/weight-lifting-up.png",
         modifiers: {
-            vitV: 3,
+            vitV: 2,
         },
         class: "tough",
         relative_to: "0_foundation_of_power",
         requires: ["0_foundation_of_power"],
-        cost: 2,
+        cost: 1,
     },
     {
         id: "tough_2",
@@ -642,12 +642,12 @@ const perks = [
         },
         icon: "gfx/status/wisdom.png",
         modifiers: {
-            spiV: 3,
+            spiV: 2,
         },
         class: "will",
         relative_to: "0_foundation_of_power",
         requires: ["0_foundation_of_power"],
-        cost: 2,
+        cost: 1,
     },
     {
         id: "will_2",

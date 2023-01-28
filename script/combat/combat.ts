@@ -27,6 +27,8 @@ function update(options?: { updatePlayerOnly: boolean }) {
 
   if (options?.updatePlayerOnly) return;
 
+  player.regen();
+
   combat.time += 1 / game.settings.tick_speed;
   combatTime.textContent = `${combat.time.toFixed(1)}s`;
 
@@ -47,6 +49,7 @@ function update(options?: { updatePlayerOnly: boolean }) {
     if (enemy.dead || game.state.paused) return;
     enemy.updateStatusEffects();
     enemy.stats.ap += enemy.getSpeed();
+    enemy.regen();
     enemy.abilities.forEach((ability: Ability) => {
       ability.doCooldown();
     });

@@ -54,13 +54,17 @@ class SaveController {
         confirmationWindow(text, () => this.loadSave(id));
       } else {
         closeConfirmationWindow();
+        mainMenuElement.classList.add("no-display");
+        lobbyScreen.classList.remove("no-display");
         const { player: loadedPlayer, stats: loadedStats, challenges: loadedChallenges } = save.saveData;
         player = new Player({ ...loadedPlayer });
         Object.assign(stats, new Statistics({ ...loadedStats }));
         Object.assign(challenges, new Challenges({ ...loadedChallenges }));
         player.restoreClasses();
+        lobby.current_view = "char";
+        createLobby();
+        createCharView();
         sideBarDetails();
-        createInventory();
       }
     }
   }
@@ -100,6 +104,7 @@ class SaveController {
         reader.onload = () => {
           const save = JSON.parse(reader.result as string);
           this.saveGame(save.name, save.id, save);
+          this.loadSave(save.id, { confirm: false });
         };
         reader.readAsText(file);
       }
@@ -193,16 +198,29 @@ function createSaves() {
   lobbyContent.innerHTML = "";
   hideHover();
   sideBarDetails();
+  lobbyContent.append(saveScreen());
+}
+
+function saveScreen(menu: boolean = false) {
   const saveScreen = document.createElement("div");
   saveScreen.classList.add("saves");
-  saveScreen.innerHTML = `
+  if (menu) {
+    saveScreen.innerHTML = `
     <div class="save-header">
-      <input type="text" id="save-name" onKeyUp="saveName = this.value" placeholder="${game.getLocalizedString("save_name")}">
-      <button class="save-button" onClick="saveController.saveGame(saveName)">${game.getLocalizedString("save")}</button>
-      <button class="save-button" onClick="saveController.saveToFile()">${game.getLocalizedString("save_to_file")}</button>
       <button class="save-button" onClick="saveController.loadFromFile()">${game.getLocalizedString("load_from_file")}</button>
+      <button class="save-button" onClick="mainMenu()">${game.getLocalizedString("back_to_menu")}</button>
     </div>
-  `;
+    `;
+  } else {
+    saveScreen.innerHTML = `
+      <div class="save-header">
+        <input type="text" id="save-name" onKeyUp="saveName = this.value" placeholder="${game.getLocalizedString("save_name")}">
+        <button class="save-button" onClick="saveController.saveGame(saveName)">${game.getLocalizedString("save")}</button>
+        <button class="save-button" onClick="saveController.saveToFile()">${game.getLocalizedString("save_to_file")}</button>
+        <button class="save-button" onClick="saveController.loadFromFile()">${game.getLocalizedString("load_from_file")}</button>
+      </div>
+    `;
+  }
   saveController.saveSlots.forEach((save) => {
     const progress = calculateProgress(save.saveData.player);
     const size = JSON.stringify(save).length;
@@ -235,12 +253,12 @@ function createSaves() {
         <div class="ver">${game.getLocalizedString("version")}: ${save.version}</div>
       </div>
       <div class="save-buttons">
-        <button class="save-over" onclick="saveController.saveOver('${save.id}')">Save</button>
+        ${!menu ? `<button class="save-over" onclick="saveController.saveOver('${save.id}')">Save</button>` : ""}
         <button class="load-save" onclick="saveController.loadSave('${save.id}', { confirm: true })">Load</button>
         <button class="delete-save" onclick="saveController.deleteSave('${save.id}')">Delete</button>
       </div>
     `;
     saveScreen.appendChild(saveSlot);
   });
-  lobbyContent.append(saveScreen);
+  return saveScreen;
 }
