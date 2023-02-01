@@ -30,9 +30,6 @@ const mainMenuButtons = [
     {
         id: "credits",
     },
-    {
-        id: "quit",
-    },
 ];
 function createMenu() {
     const menu = document.createElement("div");
@@ -56,6 +53,11 @@ function createMenu() {
 }
 function mainMenu() {
     const menu = createMenu();
+    window.onkeyup = (e) => {
+        if (e.key === "Escape") {
+            return mainMenu();
+        }
+    };
     mainMenuElement.innerHTML = "";
     mainMenuElement.append(menu);
 }

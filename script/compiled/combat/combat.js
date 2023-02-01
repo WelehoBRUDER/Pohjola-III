@@ -26,7 +26,7 @@ function update(options) {
     if (options?.updatePlayerOnly)
         return;
     player.regen();
-    combat.time += 1 / game.settings.tick_speed;
+    combat.time += 1 / 60;
     combatTime.textContent = `${combat.time.toFixed(1)}s`;
     if (game.state.paused)
         return;
@@ -96,6 +96,8 @@ function createActionSlots() {
     }
 }
 function useAbility(hotkey, index) {
+    if (!isInCombat())
+        return;
     game.endTargeting();
     let _index = index;
     if (hotkey) {

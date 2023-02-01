@@ -11,7 +11,6 @@ class Game {
   tick: any;
   playing: boolean;
   constructor() {
-    this.init();
     this.state = {
       paused: false,
       targeting: false,
@@ -20,14 +19,16 @@ class Game {
     this.settings = new Settings();
     this.language = english;
     this.playing = false;
+    this.init();
   }
 
   init() {
+    const savedSettings = JSON.parse(localStorage.getItem("PohjolaIII_settings") || "{}");
+    this.settings = new Settings(savedSettings);
     console.log("Game initialized");
   }
 
   initCombat(foes: Enemy[]) {
-    console.log("Combat initialized");
     combatScreen.classList.remove("no-display");
     createActionSlots();
     player.updateAllModifiers();
@@ -92,7 +93,6 @@ class Game {
     }
     hotkeys.forEach((hotkey: string) => {
       if (e.code === this.settings[hotkey]) {
-        console.log("Hotkey pressed: " + hotkey);
         useAbility(hotkey);
       }
     });
@@ -160,6 +160,10 @@ class Game {
     `;
     }
     console.log(shakes);
+  }
+
+  saveSettings() {
+    localStorage.setItem("PohjolaIII_settings", JSON.stringify(this.settings));
   }
 }
 

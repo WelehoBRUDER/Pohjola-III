@@ -48,16 +48,18 @@
     transform: translate(-50%, -50%);
     width: 1175px;
     height: 75%;
-    background: rgb(24, 24, 24);
+    background: rgba(24, 24, 24, 0.98);
     overflow: hidden;
     overflow-y: auto;
-    border: rgb(0, 0, 0) solid 1rem;
+    border: rgba(8, 8, 8, 0.7) solid 1rem;
     border-radius: 0.5rem;
 
     &.responsive-menu {
       width: auto;
       height: auto;
-      border: rgb(0, 0, 0) solid 0.25rem;
+      min-height: 300px;
+      max-height: 600px;
+      border: rgba(8, 8, 8, 0.7) solid 0.25rem;
     }
   }
 
@@ -72,15 +74,25 @@
       justify-content: flex-start;
       align-items: center;
 
-      .setting-input {
-        margin-left: 0.5rem;
-        border: none;
-        background: rgba(16, 12, 16, 0.5);
-        color: white;
-        width: auto;
+      .setting-name {
+        padding: 0;
+        margin: 0;
+        margin-right: 0.5rem;
+      }
 
-        option {
-          background: black;
+      .setting-value {
+        padding: 0;
+        margin: 0;
+        select {
+          margin-left: 0.5rem;
+          border: none;
+          background: rgba(16, 12, 16, 0.5);
+          color: white;
+          width: auto;
+
+          option {
+            background: black;
+          }
         }
       }
     }

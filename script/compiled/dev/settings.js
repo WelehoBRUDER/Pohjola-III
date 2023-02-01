@@ -4,84 +4,58 @@ const settingsLayout = [
         id: "animation_speed",
         type: "select",
         values: [0.5, 1, 2, 3, 4, 5],
-        labels: ["0.5x", "1x", "2x", "3x", "4x", "5x"],
+        labels: ["0.25x", "0.5x", "1x", "2x", "3x", "4x"],
     },
     {
         id: "tick_speed",
         type: "select",
-        values: [30, 60, 120, 240, 480],
-        labels: ["30", "60", "120", "240", "480"],
-    },
-    {
-        id: "",
-        iterate: "hotkey_ability",
-        times: 6,
-        type: "hotkey",
+        values: [30, 60, 90, 120, 150],
+        labels: ["0.5x", "1x", "1.5x", "2x", "2.5x"],
     },
 ];
 function createSettings() {
     const settingsMenu = document.createElement("div");
+    settingsMenu.id = "settings-menu";
     settingsMenu.classList.add("settings-menu");
     settingsMenu.classList.add("responsive-menu");
-    console.log(game.settings);
     settingsLayout.forEach((setting) => {
-        if (setting.iterate) {
-            for (let i = 1; i <= setting.times; i++) {
-                const settingElement = document.createElement("div");
-                settingElement.classList.add("setting");
-                settingElement.id = `${setting.iterate}_${i}`;
-                const settingLabel = document.createElement("div");
-                settingLabel.classList.add("setting-label");
-                settingLabel.innerText = game.getLocalizedString(`${setting.iterate}_${i}`);
-                settingElement.append(settingLabel);
-                const settingInput = document.createElement("input");
-                settingInput.classList.add("setting-input");
-                settingInput.id = `${setting.iterate}_${i}_input`;
-                settingInput.value = game.settings[`${setting.iterate}_${i}`];
-                settingInput.addEventListener("change", (e) => {
-                    game.settings[`${setting.iterate}_${i}`] = settingInput.value;
-                });
-                settingElement.append(settingInput);
-                settingsMenu.append(settingElement);
-            }
-        }
-        else {
-            const settingElement = document.createElement("div");
-            settingElement.classList.add("setting");
-            settingElement.id = setting.id;
-            const settingLabel = document.createElement("div");
-            settingLabel.classList.add("setting-label");
-            settingLabel.innerText = game.getLocalizedString(setting.id);
-            settingElement.append(settingLabel);
-            if (setting.type === "select") {
-                const settingInput = document.createElement("select");
-                settingInput.classList.add("setting-input");
-                settingInput.id = `${setting.id}_input`;
-                settingInput.addEventListener("change", (e) => {
-                    game.settings[setting.id] = settingInput.value;
-                });
-                setting.values.forEach((value, index) => {
-                    const option = document.createElement("option");
-                    option.value = value.toString();
-                    option.innerText = setting.labels[index];
-                    settingInput.append(option);
-                });
-                settingInput.value = game.settings[setting.id].toString();
-                settingElement.append(settingInput);
-            }
-            else if (setting.type === "hotkey") {
-                const settingInput = document.createElement("input");
-                settingInput.classList.add("setting-input");
-                settingInput.id = `${setting.id}_input`;
-                settingInput.value = game.settings[setting.id];
-                settingInput.addEventListener("change", (e) => {
-                    game.settings[setting.id] = settingInput.value;
-                });
-                settingElement.append(settingInput);
-            }
-            settingsMenu.append(settingElement);
-        }
+        const settingElement = document.createElement("div");
+        const settingName = document.createElement("p");
+        const settingValue = createSettingValue(setting);
+        settingElement.classList.add("setting");
+        settingName.classList.add("setting-name");
+        settingName.innerText = game.getLocalizedString(setting.id);
+        settingElement.append(settingName, settingValue);
+        settingsMenu.append(settingElement);
     });
     mainMenuElement.append(settingsMenu);
+}
+function createSettingValue(setting) {
+    const settingValue = document.createElement("div");
+    settingValue.classList.add("setting-value");
+    switch (setting.type) {
+        case "select":
+            const select = document.createElement("select");
+            select.classList.add("setting-select");
+            setting.values.forEach((value, index) => {
+                const option = document.createElement("option");
+                option.value = value;
+                option.innerText = setting.labels[index];
+                if (game.settings[setting.id] === value) {
+                    option.selected = true;
+                }
+                select.append(option);
+            });
+            select.onchange = (e) => {
+                const select = e.target;
+                if (select.value) {
+                    game.settings[setting.id] = parseFloat(select.value);
+                    game.saveSettings();
+                }
+            };
+            settingValue.append(select);
+            break;
+    }
+    return settingValue;
 }
 //# sourceMappingURL=settings.js.map

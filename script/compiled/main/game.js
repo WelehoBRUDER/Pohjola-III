@@ -6,7 +6,6 @@ class Game {
     tick;
     playing;
     constructor() {
-        this.init();
         this.state = {
             paused: false,
             targeting: false,
@@ -15,12 +14,14 @@ class Game {
         this.settings = new Settings();
         this.language = english;
         this.playing = false;
+        this.init();
     }
     init() {
+        const savedSettings = JSON.parse(localStorage.getItem("PohjolaIII_settings") || "{}");
+        this.settings = new Settings(savedSettings);
         console.log("Game initialized");
     }
     initCombat(foes) {
-        console.log("Combat initialized");
         combatScreen.classList.remove("no-display");
         createActionSlots();
         player.updateAllModifiers();
@@ -83,7 +84,6 @@ class Game {
         }
         hotkeys.forEach((hotkey) => {
             if (e.code === this.settings[hotkey]) {
-                console.log("Hotkey pressed: " + hotkey);
                 useAbility(hotkey);
             }
         });
@@ -146,6 +146,9 @@ class Game {
     `;
         }
         console.log(shakes);
+    }
+    saveSettings() {
+        localStorage.setItem("PohjolaIII_settings", JSON.stringify(this.settings));
     }
 }
 const hotkeys = ["hotkey_ability_1", "hotkey_ability_2", "hotkey_ability_3", "hotkey_ability_4", "hotkey_ability_5", "hotkey_ability_6"];

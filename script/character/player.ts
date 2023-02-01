@@ -164,7 +164,6 @@ class Player extends Character {
         }
         this.statuses.splice(i, 1);
         this.updateAllModifiers();
-        console.log(player.getSpeed());
       }
     }
   }
@@ -291,9 +290,7 @@ class Player extends Character {
   }
 
   hasItem(item: string, amount: number = 1): boolean {
-    console.log(item);
     const owned = this.inventory.find((i: Item) => i.id === item);
-    console.log(owned);
     if (owned?.amount < amount || !owned) return false;
     return true;
   }

@@ -136,7 +136,6 @@ class Player extends Character {
                 }
                 this.statuses.splice(i, 1);
                 this.updateAllModifiers();
-                console.log(player.getSpeed());
             }
         }
     }
@@ -253,9 +252,7 @@ class Player extends Character {
         this.removeItem(potion, 1);
     }
     hasItem(item, amount = 1) {
-        console.log(item);
         const owned = this.inventory.find((i) => i.id === item);
-        console.log(owned);
         if (owned?.amount < amount || !owned)
             return false;
         return true;
