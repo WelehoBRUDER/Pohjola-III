@@ -15,7 +15,6 @@ const settingsLayout: any = [
 
 function createSettings() {
   const settingsMenu = document.createElement("div");
-  settingsMenu.id = "settings-menu";
   settingsMenu.classList.add("settings-menu");
   settingsMenu.classList.add("responsive-menu");
 

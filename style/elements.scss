@@ -191,3 +191,15 @@ pre {
     background: rgba(233, 162, 9, 0.8);
   }
 }
+
+select {
+  margin-left: 0.5rem;
+  border: none;
+  background: rgba(16, 12, 16, 0.5);
+  color: white;
+  width: auto;
+
+  option {
+    background: black;
+  }
+}

@@ -29,6 +29,7 @@ class Player extends Character {
     level;
     xp;
     completed_stages;
+    starting_aspect;
     constructor(char) {
         super(char);
         this.race = new Race(char.race) ?? new Race(races.human);
@@ -41,6 +42,7 @@ class Player extends Character {
         this.level = char.level ?? 1;
         this.xp = char.xp ?? 0;
         this.completed_stages = char.completed_stages ?? [];
+        this.starting_aspect = char.starting_aspect ?? "determination";
         this.restoreClasses();
         this.updateAllModifiers();
     }
@@ -258,7 +260,7 @@ class Player extends Character {
         return true;
     }
 }
-let player = new Player({
+const defaultPlayer = {
     id: "player",
     name: "Player",
     race: races.human,
@@ -305,6 +307,10 @@ let player = new Player({
     skill_points: 0,
     level: 1,
     xp: 0,
+    starting_aspect: "determination",
+};
+let player = new Player({
+    ...defaultPlayer,
 });
 setTimeout(() => {
     player.updateAllModifiers();

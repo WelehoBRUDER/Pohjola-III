@@ -11,7 +11,7 @@ const mainMenuButtons = [
   {
     id: "new_game",
     click: () => {
-      game.initCombat([]); // Placeholder
+      createNewGame();
     },
   },
   {

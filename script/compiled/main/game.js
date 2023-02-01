@@ -30,6 +30,37 @@ class Game {
         });
         combat.createCombat(enemies);
     }
+    startGame() {
+        this.playing = true;
+        console.log("Game started");
+        const aspect = startingAspects[player.starting_aspect];
+        if (aspect.items) {
+            aspect.items.forEach((item) => {
+                // @ts-ignore
+                player.addItem(new Item(items[item.item]), item.amount);
+            });
+        }
+        startingChallenges.forEach((challenge) => {
+            if (challenge.enabled) {
+                if (challenge.type === "boolean") {
+                    challenges[challenge.id] = true;
+                }
+                else if (challenge.type === "number") {
+                    const valueIndex = challengeValues[challenge.id].findIndex((value) => value.value === challenge.value);
+                    challenges[challenge.id] = valueIndex;
+                }
+            }
+        });
+        mainMenuElement.classList.add("no-display");
+        lobbyScreen.classList.remove("no-display");
+        player = new Player({ ...player });
+        player.restoreClasses();
+        player.perks?.push(new Perk(perks[0]));
+        lobby.current_view = "char";
+        createLobby();
+        createCharView();
+        sideBarDetails();
+    }
     pause(options) {
         this.state.paused = true;
         if (options?.disableSkills)

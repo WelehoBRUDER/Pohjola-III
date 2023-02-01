@@ -40,6 +40,7 @@ interface PlayerObject extends CharacterObject {
   skill_points: number;
   level: number;
   xp: number;
+  starting_aspect: string;
 }
 
 class Player extends Character {
@@ -53,6 +54,7 @@ class Player extends Character {
   level: number;
   xp: number;
   completed_stages: string[];
+  starting_aspect: string;
   constructor(char: PlayerObject) {
     super(char);
     this.race = new Race(char.race) ?? new Race(races.human);
@@ -65,6 +67,7 @@ class Player extends Character {
     this.level = char.level ?? 1;
     this.xp = char.xp ?? 0;
     this.completed_stages = char.completed_stages ?? [];
+    this.starting_aspect = char.starting_aspect ?? "determination";
 
     this.restoreClasses();
     this.updateAllModifiers();
@@ -296,7 +299,7 @@ class Player extends Character {
   }
 }
 
-let player = new Player({
+const defaultPlayer = {
   id: "player",
   name: "Player",
   race: races.human,
@@ -343,6 +346,11 @@ let player = new Player({
   skill_points: 0,
   level: 1,
   xp: 0,
+  starting_aspect: "determination",
+};
+
+let player = new Player({
+  ...defaultPlayer,
 });
 
 setTimeout(() => {

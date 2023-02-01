@@ -40,6 +40,103 @@
     }
   }
 
+  .creation-value {
+    margin: 0.5rem;
+    padding: 0;
+    color: white;
+    user-select: none;
+    display: flex;
+    justify-content: flex-start;
+
+    p {
+      margin: 0;
+      padding: 0;
+    }
+
+    .creation-name {
+      margin-right: 0.5rem;
+      font-size: 1.25rem;
+    }
+
+    input[type="text"] {
+      margin: 0;
+      padding: 0;
+      border: none;
+      background: rgba(16, 12, 16, 0.5);
+      color: white;
+      width: 12rem;
+      text-align: left;
+      font-size: 1.2rem;
+      padding: 0.4rem;
+      font-family: "Almendra";
+    }
+
+    .choice-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .creation-choices {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        &.challenges {
+          flex-direction: column;
+          align-items: flex-start;
+
+          .choice {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            border: none;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+
+            &:hover:not(.selected) {
+              color: white;
+              border: none;
+              background: rgba(68, 166, 231, 0.5);
+            }
+
+            &:hover.selected {
+              color: goldenrod;
+              border: none;
+              background: rgba(71, 71, 71, 0.5);
+            }
+
+            &.selected {
+              border: none;
+            }
+          }
+        }
+
+        .choice {
+          margin: 0 0.5rem;
+          padding: 0.2rem;
+          color: white;
+          user-select: none;
+          border: 0.2rem solid silver;
+
+          &:hover {
+            color: gold;
+            cursor: pointer;
+            border: 0.2rem solid gold;
+          }
+
+          &.selected {
+            color: goldenrod;
+            border: 0.2rem solid goldenrod;
+          }
+        }
+      }
+    }
+  }
+
   .saves-menu,
   .settings-menu {
     position: absolute;
@@ -83,17 +180,6 @@
       .setting-value {
         padding: 0;
         margin: 0;
-        select {
-          margin-left: 0.5rem;
-          border: none;
-          background: rgba(16, 12, 16, 0.5);
-          color: white;
-          width: auto;
-
-          option {
-            background: black;
-          }
-        }
       }
     }
   }
