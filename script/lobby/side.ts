@@ -1,5 +1,8 @@
 function sideBarDetails() {
   lobbySidebar.innerHTML = "";
+  if (challenge("hardcore")) {
+    saveController.saveOver(saveController.currentSave, { auto: true });
+  }
   const misc = document.createElement("div");
   misc.classList.add("misc");
   const miscStats = ["gold", "perk_points", "skill_points", "level", "xp", "power_level"];

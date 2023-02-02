@@ -369,6 +369,7 @@ main.game {
 
   &.disabled {
     filter: brightness(50%);
+    pointer-events: all;
 
     &:hover {
       border: 0.25rem solid rgb(54, 54, 54);
@@ -488,7 +489,6 @@ main.game {
   box-shadow: 0 0 1rem 0.6rem rgb(25, 25, 25);
 
   &.disabled {
-    pointer-events: none;
     height: 0;
     padding: 0;
     overflow: hidden;

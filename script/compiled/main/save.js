@@ -1,8 +1,10 @@
 "use strict";
 class SaveController {
     saveSlots;
+    currentSave;
     constructor() {
         this.saveSlots = this.getSaves({ update: true });
+        this.currentSave = "";
     }
     sortSaves() {
         this.saveSlots.sort((a, b) => b.lastSaved.getTime() - a.lastSaved.getTime());
@@ -17,9 +19,10 @@ class SaveController {
         }
         return saves;
     }
-    saveGame(name, id, file) {
+    saveGame(name, id, file, options) {
         // @ts-ignore
         const saveFile = file ? new SaveFile(file) : new SaveFile({ id, name });
+        this.currentSave = saveFile.id;
         if (JSON.stringify(saveFile).length > 100000) {
             alert("Save file is too large. How did you do this?!!.");
             return;
@@ -32,12 +35,17 @@ class SaveController {
             this.saveSlots.push(saveFile);
         }
         localStorage.setItem("PohjolaIII_saved_games", JSON.stringify(this.saveSlots));
-        closeConfirmationWindow();
-        createSaves();
+        if (!options?.auto) {
+            closeConfirmationWindow();
+            createSaves();
+        }
     }
-    saveOver(id) {
+    saveOver(id, options) {
         const save = this.saveSlots.find((save) => save.id === id);
         if (save) {
+            if (options?.auto) {
+                return this.saveGame(save.name, id, save, { auto: true });
+            }
             const text = `<c>white<c>${game.getLocalizedString("save_over")} <c>goldenrod<c>${save.name}<c>white<c>?`;
             confirmationWindow(text, () => this.saveGame(save.name, id, save));
         }
@@ -58,6 +66,7 @@ class SaveController {
                 Object.assign(stats, new Statistics({ ...loadedStats }));
                 Object.assign(challenges, new Challenges({ ...loadedChallenges }));
                 player.restoreClasses();
+                this.currentSave = id;
                 lobby.current_view = "char";
                 createLobby();
                 createCharView();
@@ -183,12 +192,12 @@ function createSaves() {
     saveController.sortSaves();
     lobbyContent.innerHTML = "";
     hideHover();
-    sideBarDetails();
     lobbyContent.append(saveScreen());
 }
 function saveScreen(menu = false) {
     const saveScreen = document.createElement("div");
     saveScreen.classList.add("saves");
+    const hardcore = challenge("hardcore");
     if (menu) {
         saveScreen.innerHTML = `
     <div class="save-header">
@@ -200,9 +209,9 @@ function saveScreen(menu = false) {
     else {
         saveScreen.innerHTML = `
       <div class="save-header">
-        <input type="text" id="save-name" onKeyUp="saveName = this.value" placeholder="${game.getLocalizedString("save_name")}">
-        <button class="save-button" onClick="saveController.saveGame(saveName)">${game.getLocalizedString("save")}</button>
-        <button class="save-button" onClick="saveController.saveToFile()">${game.getLocalizedString("save_to_file")}</button>
+        <input type="text" id="save-name" onKeyUp="saveName = this.value" class="${hardcore && "disabled"}" placeholder="${game.getLocalizedString("save_name")}">
+        <button class="save-button ${hardcore && "disabled"}" onClick="saveController.saveGame(saveName)">${game.getLocalizedString("save")}</button>
+        <button class="save-button ${hardcore && "disabled"}" onClick="saveController.saveToFile()">${game.getLocalizedString("save_to_file")}</button>
         <button class="save-button" onClick="saveController.loadFromFile()">${game.getLocalizedString("load_from_file")}</button>
       </div>
     `;
@@ -211,6 +220,7 @@ function saveScreen(menu = false) {
         const progress = calculateProgress(save.saveData.player);
         const size = JSON.stringify(save).length;
         const saveSlot = document.createElement("div");
+        const hardcoreSave = save.saveData?.challenges?.hardcore;
         saveSlot.classList.add("save-slot");
         saveSlot.innerHTML = `
     <div class="save-data">
@@ -233,11 +243,23 @@ function saveScreen(menu = false) {
         <div class="size">${(size / 1000).toFixed(2)} kb</div>
         <div class="line">|</div>
         <div class="ver">${game.getLocalizedString("version")}: ${save.version}</div>
+
+        ${DEVTOOLS.ENABLED
+            ? `
+        <div class="line">|</div>
+        <div class="id">${game.getLocalizedString("id")}: ${save.id}</div>
+        `
+            : ""}
+      </div>
+      <div class="save-specials">
+        ${(hardcoreSave && `<p class="hardcore">${game.getLocalizedString("hardcore_emphasis")}</p>`) || ""}
       </div>
       <div class="save-buttons">
-        ${!menu ? `<button class="save-over" onclick="saveController.saveOver('${save.id}')">Save</button>` : ""}
-        <button class="load-save" onclick="saveController.loadSave('${save.id}', { confirm: true })">Load</button>
-        <button class="delete-save" onclick="saveController.deleteSave('${save.id}')">Delete</button>
+        ${!menu
+            ? `<button class="save-over ${hardcore && "disabled"}" onclick="saveController.saveOver('${save.id}')">${game.getLocalizedString("save")}</button>`
+            : ""}
+        <button class="load-save" onclick="saveController.loadSave('${save.id}', { confirm: true })">${game.getLocalizedString("load")}</button>
+        <button class="delete-save" onclick="saveController.deleteSave('${save.id}')">${game.getLocalizedString("delete")}</button>
       </div>
     `;
         saveScreen.appendChild(saveSlot);

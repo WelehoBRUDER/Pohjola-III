@@ -29,14 +29,24 @@
       color: white;
       user-select: none;
 
-      &.disabled {
-        opacity: 0.5;
-      }
-
       &:hover:not(.disabled) {
         color: red;
         cursor: pointer;
       }
+    }
+  }
+
+  .start-game {
+    font-size: 1.5rem;
+    border: 0.25rem solid silver;
+    background: rgba(16, 12, 16, 0.5);
+    color: silver;
+    margin: 0.5rem;
+
+    &:hover {
+      color: gold;
+      border: 0.25rem solid gold;
+      cursor: pointer;
     }
   }
 

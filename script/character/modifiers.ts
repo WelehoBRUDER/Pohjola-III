@@ -62,6 +62,14 @@ function getAllModifiers(char: Character | Player) {
       }
     });
   }
+  if (char instanceof Player && typeof startingAspects !== "undefined") {
+    const aspectModifiers = startingAspects[char?.starting_aspect]?.modifiers;
+    if (aspectModifiers) {
+      Object.entries(aspectModifiers).forEach((modifier: any) => {
+        applyModifierToTotal(modifier, modifiers);
+      });
+    }
+  }
   return modifiers;
 }
 

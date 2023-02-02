@@ -42,6 +42,9 @@ const lobby = {
 };
 function createLobby() {
     player.updateAllModifiers();
+    if (challenge("hardcore")) {
+        saveController.saveOver(saveController.currentSave, { auto: true });
+    }
     lobbyHeaderButtons.innerHTML = "";
     lobbyButtons.forEach((button) => {
         const buttonElement = document.createElement("button");

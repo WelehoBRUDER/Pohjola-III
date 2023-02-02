@@ -165,6 +165,11 @@ class Character {
             return crit;
         };
         this.restore = () => {
+            if (this instanceof Player && challenge("no_after_combat_recovery")) {
+                if (this.stats.hp < 1)
+                    this.stats.hp = 1;
+                return;
+            }
             const { hpMax, mpMax } = this.getStats();
             this.stats.hp = hpMax;
             this.stats.mp = mpMax;

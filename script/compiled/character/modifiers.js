@@ -61,6 +61,14 @@ function getAllModifiers(char) {
             }
         });
     }
+    if (char instanceof Player && typeof startingAspects !== "undefined") {
+        const aspectModifiers = startingAspects[char?.starting_aspect]?.modifiers;
+        if (aspectModifiers) {
+            Object.entries(aspectModifiers).forEach((modifier) => {
+                applyModifierToTotal(modifier, modifiers);
+            });
+        }
+    }
     return modifiers;
 }
 function applyModifierToTotal(modifier, total) {

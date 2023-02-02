@@ -73,9 +73,20 @@ class Player extends Character {
     this.updateAllModifiers();
   }
 
-  addItem(base_item: Item, amount?: number, options?: { dontEquip?: boolean }) {
-    base_item.amount = amount || base_item.amount || 1;
-    let item = base_item.updateClass();
+  addItem(base_item: Item, amount?: number, options?: { dontEquip?: boolean; forceEquip?: boolean }) {
+    let item: Item = base_item.updateClass();
+    item.amount = amount || base_item.amount || 1;
+
+    if (item.slot && options?.forceEquip) {
+      player.equip(item as Weapon | Armor | Talisman, { auto: true });
+      item.amount--;
+    } else if (item.slot && !options?.dontEquip && !player.equipment[item.slot]) {
+      player.equip(item as Weapon | Armor | Talisman, { auto: true });
+      item.amount--;
+    }
+
+    if (item.amount <= 0) return;
+
     if (item.stackable) {
       let existing_item = this.inventory.find((i: any) => i.id === item.id);
       if (existing_item) {
@@ -98,7 +109,7 @@ class Player extends Character {
     }
   }
 
-  equip(item: Weapon | Armor, options?: { auto?: boolean; removeFromInventory?: boolean }) {
+  equip(item: Weapon | Armor | Talisman, options?: { auto?: boolean; removeFromInventory?: boolean }) {
     let equipment = item.updateClass();
     if (!this.equipment[equipment.slot]) {
       equipment.amount = 1;
@@ -121,7 +132,7 @@ class Player extends Character {
       item = this.equipment[slot];
       this.equipment[slot] = null;
     }
-    this.addItem(item as Item);
+    this.addItem(item as Item, 1, { dontEquip: true });
   }
 
   addAbility(ability: any) {

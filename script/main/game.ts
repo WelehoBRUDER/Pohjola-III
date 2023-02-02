@@ -46,7 +46,7 @@ class Game {
     if (aspect.items) {
       aspect.items.forEach((item: any) => {
         // @ts-ignore
-        player.addItem(new Item(items[item.item]), item.amount);
+        player.addItem(new Item(items[item.item]), item.amount, { forceEquip: true });
       });
     }
     startingChallenges.forEach((challenge: any) => {
@@ -64,6 +64,7 @@ class Game {
     player = new Player({ ...player });
     player.restoreClasses();
     player.perks?.push(new Perk(perks[0]));
+    saveController.saveGame(player.name);
     lobby.current_view = "char";
     createLobby();
     createCharView();

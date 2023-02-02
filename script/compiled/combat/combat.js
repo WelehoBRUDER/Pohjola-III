@@ -276,6 +276,9 @@ class Combat {
             combatSummaryText.append(game.getLocalizedString("you_lost") + ` -${this.xp} ${game.getLocalizedString("xp")}!`);
             combatSummaryButtons.innerHTML = `<button class="main-button" onclick="combat.finish_combat()">${game.getLocalizedString("continue")}</button>`;
         }
+        if (challenge("hardcore")) {
+            saveController.saveOver(saveController.currentSave, { auto: true });
+        }
     }
     finish_combat() {
         stats.total_combat_time += +this.time.toFixed(1);

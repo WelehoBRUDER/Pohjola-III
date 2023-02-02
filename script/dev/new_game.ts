@@ -1,24 +1,36 @@
 const startingAspects: any = {
   curiosity: {
     id: "curiosity",
+    modifiers: {
+      expGainP: 5,
+    },
     items: [{ item: "ring_of_knowledge", amount: 1 }],
-  },
-  study: {
-    id: "study",
-    items: [
-      { item: "wood_stave", amount: 1 },
-      { item: "acolyte_hood", amount: 1 },
-    ],
   },
   strength: {
     id: "strength",
+    modifiers: {
+      damageP: 4,
+    },
     items: [
       { item: "long_sword", amount: 1 },
       { item: "ragged_armor", amount: 1 },
     ],
   },
+  study: {
+    id: "study",
+    modifiers: {
+      mpMaxP: 7,
+    },
+    items: [
+      { item: "wood_stave", amount: 1 },
+      { item: "acolyte_hood", amount: 1 },
+    ],
+  },
   health: {
     id: "health",
+    modifiers: {
+      hpMaxP: 7,
+    },
     items: [
       { item: "small_recovery_gem", amount: 3 },
       { item: "medium_healing_potion", amount: 3 },
@@ -82,10 +94,10 @@ const characterCreationSections: any = [
     id: "starting_aspect",
     type: "aspect",
     values: [
-      startingAspects["curiosity"],
-      startingAspects["study"],
       startingAspects["strength"],
+      startingAspects["study"],
       startingAspects["health"],
+      startingAspects["curiosity"],
       startingAspects["determination"],
     ],
   },
@@ -223,6 +235,13 @@ function createSectionValue(section: any) {
 function aspectTooltip(aspect: any) {
   let tooltip = `<f>1.25rem<f><c>goldenrod<c>${game.getLocalizedString(aspect.id)}<c>white<c>\n`;
   tooltip += `<f>1rem<f><c>silver<c>"${game.getLocalizedString(`${aspect.id}_desc`)}"<c>silver<c>\n`;
+  if (aspect.modifiers) {
+    tooltip += `<f>1rem<f><c>white<c>${game.getLocalizedString("modifiers")}:<c>white<c>\n`;
+    Object.entries(aspect.modifiers).forEach(([key, value]: [string, any]) => {
+      console.log(key, value);
+      tooltip += effectSyntax(key, value);
+    });
+  }
   if (aspect.items?.length > 0) {
     tooltip += `<f>1rem<f><c>white<c>${game.getLocalizedString("starting_items")}:<c>white<c>\n`;
     aspect.items.forEach((item: any) => {

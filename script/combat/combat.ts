@@ -285,6 +285,9 @@ class Combat {
         "continue"
       )}</button>`;
     }
+    if (challenge("hardcore")) {
+      saveController.saveOver(saveController.currentSave, { auto: true });
+    }
   }
 
   finish_combat() {

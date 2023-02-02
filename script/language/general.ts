@@ -83,6 +83,28 @@ const english = {
   pouch: "Potion Pouch",
   potion_pouch_tt: "Use a potion from your pouch",
 
+  // Menu
+  new_game: "New Game",
+  load_game: "Load Game",
+  settings: "Settings",
+  credits: "Credits",
+
+  // Saves
+  save: "Save",
+  load: "Load",
+  delete: "Delete",
+  save_name: "Save Name",
+  save_to_file: "Save to file",
+  load_from_file: "Load from file",
+  back_to_menu: "Back to menu",
+  last_saved: "Last saved",
+  progress: "Progress",
+  player_level: "Player Level",
+  created_at: "Created at",
+  version: "Version",
+  id: "ID",
+  hardcore_emphasis: "HARDCORE!",
+
   // effect strings
   damageFlat: "Damage per second",
   damagePercent: "Damage per second",

@@ -47,8 +47,18 @@ class Player extends Character {
         this.updateAllModifiers();
     }
     addItem(base_item, amount, options) {
-        base_item.amount = amount || base_item.amount || 1;
         let item = base_item.updateClass();
+        item.amount = amount || base_item.amount || 1;
+        if (item.slot && options?.forceEquip) {
+            player.equip(item, { auto: true });
+            item.amount--;
+        }
+        else if (item.slot && !options?.dontEquip && !player.equipment[item.slot]) {
+            player.equip(item, { auto: true });
+            item.amount--;
+        }
+        if (item.amount <= 0)
+            return;
         if (item.stackable) {
             let existing_item = this.inventory.find((i) => i.id === item.id);
             if (existing_item) {
@@ -95,7 +105,7 @@ class Player extends Character {
             item = this.equipment[slot];
             this.equipment[slot] = null;
         }
-        this.addItem(item);
+        this.addItem(item, 1, { dontEquip: true });
     }
     addAbility(ability) {
         const ability_class = new Ability(ability);
