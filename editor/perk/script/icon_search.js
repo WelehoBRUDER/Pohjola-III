@@ -59,6 +59,7 @@ const all_icons = [
   "gfx/status/physical.png",
   "gfx/status/power.png",
   "gfx/status/speedometer.png",
+  "gfx/status/dodge_icon.png",
   "gfx/status/stoned-skull.png",
   "gfx/status/ward.png",
   "gfx/icons/piercing-sword.png",

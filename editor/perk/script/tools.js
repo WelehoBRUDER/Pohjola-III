@@ -161,3 +161,48 @@ function savePerk() {
   } else perks[index] = editing;
   renderPerks();
 }
+
+function romanNumeral(num) {
+  const lookup = {
+    M: 1000,
+    CM: 900,
+    D: 500,
+    CD: 400,
+    C: 100,
+    XC: 90,
+    L: 50,
+    XL: 40,
+    X: 10,
+    IX: 9,
+    V: 5,
+    IV: 4,
+    I: 1,
+  };
+  let roman = "";
+  let i;
+  for (i in lookup) {
+    while (num >= lookup[i]) {
+      roman += i;
+      num -= lookup[i];
+    }
+  }
+  return roman;
+}
+
+function idToName(id) {
+  const string = id.split("_");
+  string.forEach((s, i) => {
+    if (!isNaN(parseInt(s))) {
+      string[i] = romanNumeral(s);
+    } else string[i] = s.charAt(0).toUpperCase() + s.slice(1);
+  });
+  return string.join(" ");
+}
+
+function generateEnglishLocalisation() {
+  let localisation = ``;
+  perks.forEach((perk) => {
+    localisation += `${perk.id}: "${idToName(perk.id)}",\n`;
+  });
+  console.log(localisation);
+}

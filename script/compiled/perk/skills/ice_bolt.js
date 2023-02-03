@@ -55,7 +55,9 @@ skills.push({
                     modifiers: {
                         ability_ice_bolt: {
                             effect_frozen: {
-                                speedPV: -10,
+                                modifiers: {
+                                    speedPV: -10,
+                                },
                             },
                             mpCostV: 5,
                         },
@@ -65,7 +67,9 @@ skills.push({
                     modifiers: {
                         ability_ice_bolt: {
                             effect_frozen: {
-                                speedPV: -10,
+                                modifiers: {
+                                    speedPV: -10,
+                                },
                             },
                             mpCostV: 10,
                         },

@@ -120,6 +120,40 @@ const perks = [
         cost: 1,
     },
     {
+        id: "agility_7",
+        desc: "",
+        pos: {
+            x: 4.53,
+            y: -1.66,
+        },
+        icon: "gfx/status/acrobatic.png",
+        relative_to: "agility_5",
+        requires: ["agility_5"],
+        class: "",
+        modifiers: {
+            agiV: 1,
+        },
+        commands: {},
+        cost: 1,
+    },
+    {
+        id: "agility_8",
+        desc: "",
+        pos: {
+            x: 5.19,
+            y: 2.33,
+        },
+        icon: "gfx/status/acrobatic.png",
+        cost: 1,
+        relative_to: "agility_5",
+        requires: ["agility_5"],
+        class: "",
+        modifiers: {
+            agiV: 1,
+        },
+        commands: {},
+    },
+    {
         id: "power_1",
         desc: "power_desc",
         pos: {
@@ -345,6 +379,57 @@ const perks = [
         cost: 1,
     },
     {
+        id: "smart_7",
+        desc: "",
+        pos: {
+            x: -2.25,
+            y: -1.66,
+        },
+        icon: "gfx/status/brain.png",
+        relative_to: "smart_3",
+        requires: ["smart_3"],
+        class: "",
+        modifiers: {
+            intV: 1,
+        },
+        commands: {},
+        cost: 1,
+    },
+    {
+        id: "smart_8",
+        desc: "",
+        pos: {
+            x: -0.44,
+            y: 4.73,
+        },
+        icon: "gfx/status/brain.png",
+        relative_to: "smart_5",
+        requires: ["smart_5"],
+        class: "",
+        modifiers: {
+            intV: 1,
+        },
+        commands: {},
+        cost: 1,
+    },
+    {
+        id: "smart_9",
+        desc: "",
+        pos: {
+            x: -3.47,
+            y: 3.08,
+        },
+        icon: "gfx/status/brain.png",
+        relative_to: "smart_5",
+        requires: ["smart_5"],
+        class: "",
+        modifiers: {
+            intV: 1,
+        },
+        commands: {},
+        cost: 1,
+    },
+    {
         id: "smart_caution",
         desc: "",
         pos: {
@@ -466,6 +551,40 @@ const perks = [
         cost: 1,
     },
     {
+        id: "strength_7",
+        desc: "",
+        pos: {
+            x: 2.88,
+            y: -3.55,
+        },
+        icon: "gfx/status/biceps.png",
+        relative_to: "strength_5",
+        requires: ["strength_5"],
+        class: "",
+        modifiers: {
+            strV: 1,
+        },
+        commands: {},
+        cost: 1,
+    },
+    {
+        id: "strength_8",
+        desc: "",
+        pos: {
+            x: 4.69,
+            y: -1.56,
+        },
+        icon: "gfx/status/biceps.png",
+        cost: 1,
+        relative_to: "strength_5",
+        requires: ["strength_5"],
+        class: "",
+        modifiers: {
+            strV: 1,
+        },
+        commands: {},
+    },
+    {
         id: "tough_1",
         desc: "tough_desc",
         pos: {
@@ -563,6 +682,40 @@ const perks = [
         class: "",
         modifiers: {
             physicalDamageP: 7,
+        },
+        commands: {},
+        cost: 1,
+    },
+    {
+        id: "tough_7",
+        desc: "",
+        pos: {
+            x: 5.28,
+            y: 2.72,
+        },
+        icon: "gfx/status/weight-lifting-up.png",
+        relative_to: "tough_5",
+        requires: ["tough_5"],
+        class: "",
+        modifiers: {
+            vitV: 1,
+        },
+        commands: {},
+        cost: 1,
+    },
+    {
+        id: "tough_8",
+        desc: "",
+        pos: {
+            x: 2.48,
+            y: 4.91,
+        },
+        icon: "gfx/status/weight-lifting-up.png",
+        relative_to: "tough_5",
+        requires: ["tough_5"],
+        class: "",
+        modifiers: {
+            vitV: 1,
         },
         commands: {},
         cost: 1,
@@ -722,6 +875,40 @@ const perks = [
         class: "",
         modifiers: {
             elementalDamageP: 7,
+        },
+        commands: {},
+        cost: 1,
+    },
+    {
+        id: "will_7",
+        desc: "",
+        pos: {
+            x: -4.22,
+            y: -1.78,
+        },
+        icon: "gfx/status/wisdom.png",
+        relative_to: "will_5",
+        requires: ["will_5"],
+        class: "",
+        modifiers: {
+            spiV: 1,
+        },
+        commands: {},
+        cost: 1,
+    },
+    {
+        id: "will_8",
+        desc: "",
+        pos: {
+            x: -4.36,
+            y: 0.95,
+        },
+        icon: "gfx/status/wisdom.png",
+        relative_to: "will_5",
+        requires: ["will_5"],
+        class: "",
+        modifiers: {
+            spiV: 1,
         },
         commands: {},
         cost: 1,

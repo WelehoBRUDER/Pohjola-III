@@ -1,5 +1,6 @@
 interface EffectObject {
-  [id: string]: any;
+  [key: string]: any;
+  id: string;
   icon: string;
   duration: number;
   type: string;
@@ -20,7 +21,8 @@ interface Inflict {
 }
 
 class Effect {
-  [id: string]: any;
+  [key: string]: any;
+  id: string;
   icon: string;
   duration: number;
   type: string;

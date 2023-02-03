@@ -102,7 +102,7 @@ const abilities = {
         cooldown: 11,
         onCooldown: 0,
         power: 0,
-        mpCost: 8,
+        mpCost: 17,
         weight: 3,
     },
     thorns_bind: {
@@ -116,7 +116,7 @@ const abilities = {
         cooldown: 13,
         onCooldown: 0,
         power: 0,
-        mpCost: 15,
+        mpCost: 20,
         weight: 3,
     },
     ice_bolt: {
@@ -130,7 +130,7 @@ const abilities = {
         cooldown: 10,
         onCooldown: 0,
         power: 0,
-        mpCost: 10,
+        mpCost: 18,
         weight: 3,
     },
     magic_blast: {
@@ -143,7 +143,7 @@ const abilities = {
         cooldown: 5,
         onCooldown: 0,
         power: 0,
-        mpCost: 10,
+        mpCost: 15,
         weight: 2,
     },
     piercing_comet: {
@@ -166,7 +166,7 @@ const abilities = {
         type: "heal",
         effectsToSelf: [effects.regeneration_1],
         cooldown: 12,
-        mpCost: 10,
+        mpCost: 20,
         weight: 1,
     },
     holy_grace: {
@@ -175,7 +175,7 @@ const abilities = {
         type: "heal",
         effectsToSelf: [effects.holy_grace],
         cooldown: 14,
-        mpCost: 20,
+        mpCost: 25,
         weight: 1,
     },
     battle_aura: {

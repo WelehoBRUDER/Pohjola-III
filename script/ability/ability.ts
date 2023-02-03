@@ -52,7 +52,7 @@ class Ability {
 
     if (ability.effectsToSelf) {
       this.effectsToSelf = [];
-      ability.effectsToSelf.map((effect: Effect) => {
+      ability.effectsToSelf.map((effect: EffectObject) => {
         // @ts-ignore
         this.effectsToSelf!.push(new Effect(effects[effect.id]));
       });

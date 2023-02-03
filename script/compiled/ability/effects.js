@@ -117,6 +117,7 @@ const effects = {
         buffDebuff: "buff",
         inflict: {
             healingPercent: 0.04,
+            healingFlat: 10,
         },
     },
     troll_regen: {

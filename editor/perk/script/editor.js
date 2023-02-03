@@ -1,6 +1,10 @@
 const perkContainer = document.querySelector(".perks");
 const perkInfo = document.querySelector(".perk-info");
 
+window.onmouseup = (e) => {
+  clearTimeout(heldDownTimer);
+};
+
 let heldDownTimer;
 
 function renderPerks() {
@@ -33,7 +37,6 @@ function renderPerks() {
       }, 100);
     };
     perkDiv.onmouseup = (e) => {
-      clearTimeout(heldDownTimer);
       if (e.shiftKey && dragData.selected?.id !== perk.id) {
         if (!dragData.selected.requires.includes(perk.id)) {
           dragData.selected.requires.push(perk.id);
@@ -140,7 +143,6 @@ function drag(e) {
     // Update perk position
     if (dragData.perk.relative_to) {
       const found = perkContainer.querySelector(`.perk[perk-id="${dragData.perk.relative_to}"]`);
-      console.log(roundToTwoDecimals((clientX - found.offsetLeft) / 64));
       dragData.perk.pos.x = roundToTwoDecimals((clientX - found.offsetLeft) / 64);
       dragData.perk.pos.y = roundToTwoDecimals((clientY - found.offsetTop) / 64);
     } else {

@@ -1,5 +1,6 @@
 "use strict";
 class Effect {
+    id;
     icon;
     duration;
     type;

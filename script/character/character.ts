@@ -146,7 +146,7 @@ class Character {
     this.getSpellPower = () => {
       const stats = this.getStats({ dontUpdateModifiers: true });
       if (this instanceof Enemy) {
-        return (60 + stats.int + stats.atk / 2) / 100;
+        return (60 + stats.int * 3 + stats.atk / 2) / 100;
       } else {
         if (this.equipment?.weapon?.spell_scale) {
           return this.equipment.weapon.getSpellScale() / 100;
