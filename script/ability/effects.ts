@@ -11,7 +11,7 @@ const effect_types = ["curse", "divine", "fire", "ice", "poison", "thunder", "bl
 //   },
 // },
 
-const effects: any = {
+const effects = {
   wounded: {
     id: "wounded",
     icon: "gfx/status/blood.png",
@@ -93,12 +93,11 @@ const effects: any = {
     type: "stun",
     buffDebuff: "debuff",
     modifiers: {
-      agiP: -60,
-      speedP: -40,
-      atkP: -5,
+      agiP: -55,
+      speedP: -25,
       physicalDefenceV: -10,
       magicalDefenceV: -10,
-      elementalDefenceV: -15,
+      elementalDefenceV: -10,
     },
   } as EffectObject,
   regeneration_1: {

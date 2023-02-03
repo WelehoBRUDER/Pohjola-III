@@ -157,6 +157,7 @@ function createStatusIcon(status: Effect) {
 
 function attack() {
   if (player.stats.ap < 100) return;
+  // @ts-ignore
   const ability = new Ability({ ...abilities.player_base_attack });
   game.endTargeting();
   const targets: Enemy[] = combat.getLivingEnemies();
@@ -279,8 +280,13 @@ class Combat {
       this.xp = Math.ceil(player.xp * (random(50, 70) / 100));
       combatSummaryTitle.innerText = game.getLocalizedString("combat_defeat");
       combatSummaryTitle.classList.value = "header defeat";
-      combatSummaryText.append(game.getLocalizedString("combat_defeat_text") + "\n");
-      combatSummaryText.append(game.getLocalizedString("you_lost") + ` -${this.xp} ${game.getLocalizedString("xp")}!`);
+      let text = game.getLocalizedString("combat_defeat_text") + "\n";
+      text += game.getLocalizedString("you_lost") + ` -${this.xp} ${game.getLocalizedString("xp")}!\n`;
+      if (challenge("hardcore")) {
+        text += game.getLocalizedString("hardcore_death_text");
+        saveController.deleteSave(saveController.currentSave, { force: true });
+      }
+      combatSummaryText.append(textSyntax(text));
       combatSummaryButtons.innerHTML = `<button class="main-button" onclick="combat.finish_combat()">${game.getLocalizedString(
         "continue"
       )}</button>`;

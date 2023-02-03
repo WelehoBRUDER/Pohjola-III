@@ -48,7 +48,6 @@ const perks = [
         class: "",
         modifiers: {
             agiV: 1,
-            agiP: 5,
         },
         commands: {},
         cost: 1,
@@ -60,13 +59,12 @@ const perks = [
             x: 2,
             y: 2,
         },
-        icon: "gfx/icons/running-ninja.png",
+        icon: "gfx/status/acrobatic.png",
         relative_to: "agility_1",
         requires: ["agility_1"],
         class: "",
         modifiers: {
             agiV: 1,
-            speedP: 5,
         },
         commands: {},
         cost: 1,
@@ -84,7 +82,6 @@ const perks = [
         class: "",
         modifiers: {
             agiV: 3,
-            speedP: 5,
         },
         cost: 2,
     },
@@ -163,7 +160,7 @@ const perks = [
             x: -2,
             y: -2,
         },
-        icon: "gfx/icons/swords-power.png",
+        icon: "gfx/icons/crossed-swords.png",
         relative_to: "power_1",
         requires: ["power_1"],
         class: "",
@@ -275,7 +272,6 @@ const perks = [
         class: "",
         modifiers: {
             intV: 1,
-            intP: 5,
         },
         commands: {},
         cost: 1,
@@ -293,7 +289,6 @@ const perks = [
         class: "",
         modifiers: {
             intV: 1,
-            intP: 5,
         },
         cost: 1,
     },
@@ -396,7 +391,6 @@ const perks = [
         class: "",
         modifiers: {
             strV: 1,
-            strP: 5,
         },
         commands: {},
         cost: 1,
@@ -414,7 +408,6 @@ const perks = [
         class: "",
         modifiers: {
             strV: 1,
-            strP: 5,
         },
         commands: {},
         cost: 1,
@@ -501,7 +494,6 @@ const perks = [
         class: "",
         modifiers: {
             vitV: 1,
-            vitP: 5,
         },
         commands: {},
         cost: 1,
@@ -513,13 +505,12 @@ const perks = [
             x: 0.5,
             y: 3,
         },
-        icon: "gfx/status/heart-plus.png",
+        icon: "gfx/status/weight-lifting-up.png",
         relative_to: "tough_1",
         requires: ["tough_1"],
         class: "",
         modifiers: {
             vitV: 1,
-            hpMaxP: 5,
         },
         commands: {},
         cost: 1,
@@ -537,7 +528,7 @@ const perks = [
         class: "",
         modifiers: {
             vitV: 3,
-            hpMaxP: 5,
+            hpMaxP: 7,
         },
         commands: {},
         cost: 2,
@@ -662,7 +653,6 @@ const perks = [
         class: "",
         modifiers: {
             spiV: 1,
-            spiP: 5,
         },
         commands: {},
         cost: 1,
@@ -674,13 +664,12 @@ const perks = [
             x: -2,
             y: 1.5,
         },
-        icon: "gfx/icons/wizard-face.png",
+        icon: "gfx/status/wisdom.png",
         relative_to: "will_1",
         requires: ["will_1"],
         class: "",
         modifiers: {
             spiV: 1,
-            mpMaxV: 10,
         },
         commands: {},
         cost: 1,

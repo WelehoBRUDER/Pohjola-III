@@ -35,14 +35,14 @@ class Ability {
         if (ability.effectsToEnemy) {
             this.effectsToEnemy = [];
             ability.effectsToEnemy.map((effect) => {
-                // This can't be undefined since we have assigned it above!
+                // @ts-ignore
                 this.effectsToEnemy.push(new Effect(effects[effect.id]));
             });
         }
         if (ability.effectsToSelf) {
             this.effectsToSelf = [];
             ability.effectsToSelf.map((effect) => {
-                // This can't be undefined since we have assigned it above!
+                // @ts-ignore
                 this.effectsToSelf.push(new Effect(effects[effect.id]));
             });
         }
@@ -84,6 +84,17 @@ class Ability {
                 }
             }
             if (this.type === "attack") {
+                const hasDodged = target.dodge();
+                if (hasDodged) {
+                    if (target.isEnemy) {
+                        createDroppingText("DODGED!", target.card.main, "dodge");
+                        game.resume();
+                    }
+                    else {
+                        createDroppingText("DODGED!", tools, "dodge");
+                    }
+                    return update();
+                }
                 const { critRate, critPower } = user.getCrit();
                 let damage = calculateDamage(user, target, this);
                 const didCrit = Math.random() < critRate / 100;
@@ -167,6 +178,7 @@ class Ability {
         };
         this.updateStats = (holder) => {
             let id = this.id;
+            // @ts-ignore
             const baseStats = { ...abilities[id] };
             id = "ability_" + id;
             Object.entries(this).forEach(([key, value]) => {

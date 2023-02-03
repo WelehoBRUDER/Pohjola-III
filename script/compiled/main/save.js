@@ -74,9 +74,13 @@ class SaveController {
             }
         }
     }
-    deleteSave(id) {
+    deleteSave(id, options) {
         const save = this.saveSlots.find((save) => save.id === id);
         if (save) {
+            if (options?.force) {
+                this.saveSlots = this.saveSlots.filter((save) => save.id !== id);
+                localStorage.setItem("PohjolaIII_saved_games", JSON.stringify(this.saveSlots));
+            }
             const text = `<c>white<c>${game.getLocalizedString("delete")} <c>goldenrod<c>${save.name}<c>white<c>?`;
             confirmationWindow(text, () => {
                 this.saveSlots = this.saveSlots.filter((save) => save.id !== id);

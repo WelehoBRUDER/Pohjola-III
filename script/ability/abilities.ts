@@ -1,4 +1,4 @@
-const abilities: any = {
+const abilities = {
   player_base_attack: {
     id: "player_base_attack",
     icon: "gfx/abilities/pointy-sword.png",
@@ -185,4 +185,4 @@ const abilities: any = {
     cooldown: 12,
     weight: 2,
   },
-};
+} as const;

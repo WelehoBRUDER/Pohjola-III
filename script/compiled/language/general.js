@@ -114,8 +114,8 @@ const english = {
     healingFlat_first: "<c>lime<c>Heals<c>white<c>",
     healingFlat_last: "<c>green<c>health<c>white<c> every second",
     // Stat tooltips
-    str_tt: "Increases <i><v>icons.physical<v><i> physical damage by 2%.",
-    agi_tt: "Increases <i><v>icons.speed<v><i> speed by 1 and <i><v>icons.critRate<v><i> crit rate by 0.2%.",
+    str_tt: "Increases <i><v>icons.physical<v><i> physical damage by 2%\nand <i><v>icons.critPower<v><i> critical damage by 0.5%.",
+    agi_tt: "Increases <i><v>icons.speed<v><i> speed by 1, <i><v>icons.critRate<v><i> crit rate by 0.2%\nand dodge chance by <v>(player.allModifiers?.dodgeFromAgi || 0) + 0.5<v>§%.",
     int_tt: "Improves <i><v>icons.magical<v><i> magical damage and increases <i><v>icons.mpMax<v><i> mana by 2.",
     vit_tt: "Increases <i><v>icons.hpMax<v><i> health by 5.",
     spi_tt: "Improves <i><v>icons.elemental<v><i> elemental damage and increases <i><v>icons.mpMax<v><i> mana by 2.",
@@ -124,6 +124,7 @@ const english = {
     hpMax_tt: "This is your <i><v>icons.hpMax<v><i> health.",
     mpMax_tt: "This is your <i><v>icons.mpMax<v><i> mana.",
     speed_tt: "Lowers the time it takes to get your turn in combat.\nHigher is better.",
+    dodge_tt: "Increases the chance to dodge an attack.",
     critRate_tt: "Increases the chance of a <i><v>icons.critPower<v><i> critical hit.",
     critPower_tt: "Increases the damage multiplier of a <i><v>icons.critPower<v><i> critical hit.",
     // def

@@ -2,7 +2,7 @@ interface AbilityObject {
   [id: string]: any;
   icon: string;
   type: string;
-  isSpell: boolean;
+  isSpell?: boolean;
   weight: number;
   cooldown: number;
 }
@@ -45,7 +45,7 @@ class Ability {
     if (ability.effectsToEnemy) {
       this.effectsToEnemy = [];
       ability.effectsToEnemy.map((effect: Effect) => {
-        // This can't be undefined since we have assigned it above!
+        // @ts-ignore
         this.effectsToEnemy!.push(new Effect(effects[effect.id]));
       });
     }
@@ -53,7 +53,7 @@ class Ability {
     if (ability.effectsToSelf) {
       this.effectsToSelf = [];
       ability.effectsToSelf.map((effect: Effect) => {
-        // This can't be undefined since we have assigned it above!
+        // @ts-ignore
         this.effectsToSelf!.push(new Effect(effects[effect.id]));
       });
     }
@@ -93,6 +93,16 @@ class Ability {
         }
       }
       if (this.type === "attack") {
+        const hasDodged = target.dodge();
+        if (hasDodged) {
+          if (target.isEnemy) {
+            createDroppingText("DODGED!", target.card.main, "dodge");
+            game.resume();
+          } else {
+            createDroppingText("DODGED!", tools, "dodge");
+          }
+          return update();
+        }
         const { critRate, critPower } = user.getCrit();
         let damage = calculateDamage(user, target, this);
         const didCrit = Math.random() < critRate / 100;
@@ -173,6 +183,7 @@ class Ability {
 
     this.updateStats = (holder: Player | Enemy): void => {
       let id = this.id;
+      // @ts-ignore
       const baseStats: Ability = { ...abilities[id] };
       id = "ability_" + id;
       Object.entries(this).forEach(([key, value]) => {

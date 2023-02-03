@@ -221,6 +221,7 @@ class Character {
         crit[key] = value + increase;
       });
       crit["critRate"] += this.getStats().agi / 5;
+      crit["critPower"] += this.getStats().str / 2;
       return crit;
     };
 
@@ -353,6 +354,21 @@ class Character {
 
       return Math.floor(powerLevel);
     };
+  }
+
+  getDodge(): number {
+    const agi = this.getStats({ dontUpdateModifiers: true }).agi;
+    const dodgeFromAgiMulti = (this.allModifiers?.["dodgeFromAgiP"] || 0) + 0.5;
+    const dodge = this.allModifiers?.["dodge"] || 0;
+    const dodgeFromAgi = agi * dodgeFromAgiMulti;
+    const value = dodge + dodgeFromAgi;
+    return Math.max(0, Math.min(90, parseFloat(value.toFixed(1))));
+  }
+
+  dodge(): boolean {
+    const dodge = this.getDodge();
+    const random = Math.random() * 100;
+    return random < dodge;
   }
 
   regen(): void {

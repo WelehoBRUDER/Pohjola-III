@@ -51,13 +51,13 @@ function calculateDamage(attacker: Player | Enemy, defender: Player | Enemy, att
     modifier *= attack.power ?? 1;
   }
 
-  if (attacker instanceof Enemy) {
-    console.log("dmg", damage);
-    console.log("stats", attackerStats);
-    console.log("def", defence);
-    console.log("mod", modifier);
-    console.log("boost", boost);
-  }
+  // if (attacker instanceof Enemy) {
+  //   console.log("dmg", damage);
+  //   console.log("stats", attackerStats);
+  //   console.log("def", defence);
+  //   console.log("mod", modifier);
+  //   console.log("boost", boost);
+  // }
 
   // Lower damage by defence
   modifier *= defence;

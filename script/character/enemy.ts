@@ -55,6 +55,7 @@ class Enemy extends Character {
       return ability.canUse(this) && (ability.type === "heal" ? this.stats.hp / this.getStats().hpMax < 0.5 : true);
     });
     if (usables.length === 0) {
+      // @ts-ignore
       usables.push(new Ability({ ...abilities.player_base_attack }));
     }
     return usables[Math.floor(Math.random() * usables.length)];

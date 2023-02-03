@@ -243,7 +243,9 @@ class Player extends Character {
                 this.equipment[slot] = null;
             }
         });
+        // @ts-ignore
         this.abilities = this.abilities.map((ability) => new Ability(abilities[ability.id]));
+        // @ts-ignore
         this.abilities_total = this.abilities_total.map((ability) => new Ability(abilities[ability.id]));
     }
     heal(amount) {
@@ -305,7 +307,7 @@ const defaultPlayer = {
     equipment: defaultEquipment,
     abilities: [],
     critRate: 3,
-    critPower: 50,
+    critPower: 45,
     inventory: [],
     abilities_total: [],
     traits: [],
