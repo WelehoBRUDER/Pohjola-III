@@ -651,11 +651,10 @@ main.game {
       top: 0;
       width: 100%;
       height: 2.5rem;
-      padding: 0.5rem 0.5rem;
-      display: flex;
-      align-items: center;
+      padding: 0.5rem 0.3rem;
       box-sizing: border-box;
       pointer-events: none;
+      margin-top: 0.125rem;
 
       span {
         font-weight: lighter;

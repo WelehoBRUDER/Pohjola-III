@@ -76,6 +76,7 @@ function handleKeydownConsole(e: KeyboardEvent) {
   const listOpen = intellisenseData.active;
   if (tabbed) {
     e.preventDefault();
+    phantomText.textContent = consoleInput.value;
     if (intellisenseData.active) {
       intellisenseData.index++;
       if (intellisenseData.index >= consoleIntellisenseElem.children.length) intellisenseData.index = 0;
@@ -86,6 +87,7 @@ function handleKeydownConsole(e: KeyboardEvent) {
       updateTrailingText();
     } else {
       consoleIntellisense({ showAll: true });
+      updateTrailingText();
     }
   }
   if (e.key === "§") {
@@ -97,6 +99,7 @@ function handleKeydownConsole(e: KeyboardEvent) {
       e.preventDefault();
       return command.click();
     }
+    updateTrailingText();
   }
   if (e.key === "ArrowUp") {
     if (!listOpen) {
@@ -124,20 +127,21 @@ function handleKeydownConsole(e: KeyboardEvent) {
 }
 
 function typeToConsole(e: InputEvent) {
-  trailingText.textContent = "";
   updateTrailingText();
   if (intellisenseData.active && intellisenseData.index !== -1 && e.data === " ") {
-    return (consoleInput.value = consoleInput.value.slice(0, -1));
+    consoleInput.value = consoleInput.value.slice(0, -1);
+    return (phantomText.textContent = consoleInput.value);
   }
-  phantomText.textContent = consoleInput.value;
   consoleIntellisenseElem.innerHTML = "";
   if (consoleInput.value === "§") consoleInput.value = "";
   if (!devConsole.open) return (consoleInput.value = "");
+  phantomText.textContent = consoleInput.value;
   consoleIntellisense();
 }
 
 function consoleIntellisense(options?: { showAll?: boolean }) {
   consoleIntellisenseElem.innerHTML = "";
+  updateTrailingText();
   const value = consoleInput.value;
   const valueArr = value.split(" ");
   const [commandName] = valueArr;
@@ -160,9 +164,6 @@ function consoleIntellisense(options?: { showAll?: boolean }) {
     const intellisenseOption = document.createElement("div");
     intellisenseOption.classList.add("intellisense-option");
     intellisenseOption.innerHTML = command.name || command.id;
-    if (index === 0) {
-      intellisenseOption.classList.add("selected");
-    }
     intellisenseOption.onclick = () => {
       if (valueArr.length > 1) {
         const id = command.onSelect ? command.onSelect : command.id;
@@ -176,6 +177,10 @@ function consoleIntellisense(options?: { showAll?: boolean }) {
       }
     };
     consoleIntellisenseElem.append(intellisenseOption);
+    if (index === 0) {
+      intellisenseOption.classList.add("selected");
+      updateTrailingText();
+    }
   });
 }
 
@@ -183,6 +188,7 @@ function advanceIntellisense(command: string) {
   intellisenseData.active = false;
   consoleIntellisenseElem.innerHTML = "";
   consoleInput.value = command + " ";
+  phantomText.textContent = consoleInput.value;
   consoleInput.focus();
   consoleIntellisense();
 }
