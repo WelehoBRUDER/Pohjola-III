@@ -141,45 +141,50 @@
         display: none;
       }
 
-      .perk {
-        border: 0.25rem solid silver;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+      .perk-container {
         position: absolute;
         left: 0;
         top: 0;
-        background: rgb(36, 36, 36);
+        .perk {
+          border: 0.25rem solid silver;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          left: 0;
+          top: 0;
+          background: rgb(36, 36, 36);
 
-        img {
-          width: 75%;
-          height: 75%;
-          object-fit: contain;
-          filter: drop-shadow(0px 0px 0.5rem #131313);
-          pointer-events: none;
-          user-select: none;
-        }
+          img {
+            width: 75%;
+            height: 75%;
+            object-fit: contain;
+            filter: drop-shadow(0px 0px 0.5rem #131313);
+            pointer-events: none;
+            user-select: none;
+          }
 
-        &.unavailable {
-          filter: brightness(0.5);
-        }
+          &.unavailable {
+            filter: brightness(0.5);
+          }
 
-        &:hover:not(.unavailable) {
-          filter: brightness(1.5);
-          cursor: pointer;
-        }
+          &:hover:not(.unavailable) {
+            filter: brightness(1.5);
+            cursor: pointer;
+          }
 
-        &.owned {
-          border: 0.25rem solid goldenrod;
-        }
+          &.owned {
+            border: 0.25rem solid goldenrod;
+          }
 
-        &.adventure {
-          background: rgb(58, 58, 58);
-        }
+          &.adventure {
+            background: rgb(58, 58, 58);
+          }
 
-        &.tough {
-          background: rgb(83, 13, 13);
+          &.tough {
+            background: rgb(83, 13, 13);
+          }
         }
       }
     }

@@ -22,8 +22,13 @@
     <div class="console" style="display: none">
       <div class="log"></div>
       <div class="input">
-        <input type="text" id="console-input" onkeydown="typeToConsole(event)" oninput="clearBadSymbols()">
+        <input type="text" id="console-input">
+        <div class="prediction">
+          <span class="phantom"></span>
+          <span class="trailing"></span>
+        </div>
       </div>
+      <div class="console-intellisense"></div>
     </div>
     <div id="tooltip"></div>
     <div id="bloody-screen"></div>

@@ -33,7 +33,7 @@ const enemies = {
     critRate: 3,
     critPower: 50,
     sprite: "skeleton_type/skeleton_warrior.png",
-    abilities: [{ ...abilities.physical_attack }],
+    abilities: [{ ...(abilities.physical_attack as any) }],
     loot: [
       {
         gold: [7, 13],
@@ -80,7 +80,7 @@ const enemies = {
     critRate: 3,
     critPower: 50,
     sprite: "skeleton_type/skeleton_brute.png",
-    abilities: [{ ...abilities.physical_attack }],
+    abilities: [{ ...(abilities.physical_attack as any) }],
     loot: [
       {
         gold: [14, 27],
@@ -132,7 +132,7 @@ const enemies = {
     critRate: 4,
     critPower: 50,
     sprite: "skeleton_type/skeleton_knight.png",
-    abilities: [{ ...abilities.physical_attack }, { ...abilities.disorienting_blow }],
+    abilities: [{ ...(abilities.physical_attack as any) }, { ...(abilities.disorienting_blow as any) }],
     loot: [
       {
         gold: [28, 61],
@@ -184,7 +184,7 @@ const enemies = {
     critRate: 5,
     critPower: 50,
     sprite: "skeleton_type/skeleton_mage.png",
-    abilities: [{ ...abilities.magical_attack }, { ...abilities.flame }],
+    abilities: [{ ...(abilities.magical_attack as any) }, { ...(abilities.flame as any) }],
     loot: [
       {
         gold: [200, 300],
@@ -236,7 +236,7 @@ const enemies = {
     critRate: 8,
     critPower: 50,
     sprite: "greenskin_type/goblin.jpg",
-    abilities: [{ ...abilities.physical_attack }],
+    abilities: [{ ...(abilities.physical_attack as any) }],
     loot: [
       {
         gold: [27, 53],
@@ -283,7 +283,7 @@ const enemies = {
     critRate: 4,
     critPower: 50,
     sprite: "greenskin_type/orc.png",
-    abilities: [{ ...abilities.physical_attack }],
+    abilities: [{ ...(abilities.physical_attack as any) }],
     loot: [
       {
         gold: [50, 100],
@@ -335,7 +335,7 @@ const enemies = {
     critRate: 4,
     critPower: 50,
     sprite: "greenskin_type/orc_berserker.png",
-    abilities: [{ ...abilities.physical_attack }, { ...abilities.battle_aura }],
+    abilities: [{ ...(abilities.physical_attack as any) }, { ...(abilities.battle_aura as any) }],
     loot: [
       {
         gold: [120, 200],
@@ -387,7 +387,7 @@ const enemies = {
     critRate: 4,
     critPower: 50,
     sprite: "greenskin_type/troll.jpg",
-    abilities: [{ ...abilities.physical_attack }, { ...abilities.disorienting_blow }],
+    abilities: [{ ...(abilities.physical_attack as any) }, { ...(abilities.disorienting_blow as any) }],
     loot: [
       {
         gold: [250, 400],
@@ -403,7 +403,7 @@ const enemies = {
         amount: [1, 1],
       },
     ],
-    spawnWithEffects: [{ ...effects.troll_regen }],
+    spawnWithEffects: [{ ...(effects.troll_regen as any) }],
     xp: 2000,
   },
   minotaur: {
@@ -440,7 +440,7 @@ const enemies = {
     critRate: 8,
     critPower: 60,
     sprite: "monster_type/minotaur.png",
-    abilities: [{ ...abilities.physical_attack }, { ...abilities.bull_rush }, { ...abilities.gore }],
+    abilities: [{ ...(abilities.physical_attack as any) }, { ...(abilities.bull_rush as any) }, { ...(abilities.gore as any) }],
     loot: [
       {
         gold: [175, 290],
@@ -487,7 +487,7 @@ const enemies = {
     critRate: 8,
     critPower: 70,
     sprite: "monster_type/minotaur_warrior.png",
-    abilities: [{ ...abilities.physical_attack }, { ...abilities.bull_rush }, { ...abilities.gore }],
+    abilities: [{ ...(abilities.physical_attack as any) }, { ...(abilities.bull_rush as any) }, { ...(abilities.gore as any) }],
     loot: [
       {
         gold: [300, 400],

@@ -11,6 +11,40 @@ const effect_types = ["curse", "divine", "fire", "ice", "poison", "thunder", "bl
 //   },
 // },
 
+// type ImportantObject<T> = {
+//   id: T;
+//   important_data: "something";
+//   important_data2: 5;
+// };
+
+// type ImportantObjects<T> = {
+//   [K in keyof T]: ImportantObject<K>;
+// };
+
+// const important_objects: ImportantObjects<{ a: string; b: string; c: string }> = {
+//   a: {
+//     id: "a",
+//     important_data: "something",
+//     important_data2: 5,
+//   },
+//   b: {
+//     id: "b",
+//     important_data: "something",
+//     important_data2: 5,
+//   },
+//   c: {
+//     id: "c",
+//     important_data: "something",
+//     important_data2: 5,
+//   },
+// };
+
+// const differentObject = {
+//   id: "a",
+// };
+
+// const important_object = important_objects[differentObject.id];
+
 const effects = {
   wounded: {
     id: "wounded",

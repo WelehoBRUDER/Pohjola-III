@@ -3,6 +3,7 @@ const developerCommands: any = [
     name: "help",
     description: "List all available commands",
     help: "help [command] - List all available commands. If a command is specified, the help text for that command will be displayed.",
+    list: [],
     execute: (args: string[]) => {
       const command = args[0];
       if (command) {
@@ -26,6 +27,7 @@ const developerCommands: any = [
     name: "clear",
     description: "Clear the console",
     help: "Clears the console, while keeping the command history.",
+    list: [],
     execute: () => {
       devConsole.commandHistory = [""]; // This only clears the logs, not the actual command history
       consoleLog.innerHTML = "";
@@ -35,6 +37,7 @@ const developerCommands: any = [
     name: "dev",
     description: "Enable developer mode",
     help: "dev [save] - Enable developer mode. If 'save' is specified, the setting will be saved to local storage.<br>Use 'dev' again to disable developer mode.<br>Developer mode enables cheat commands and removes certain limitations.",
+    list: [[{ id: "save" }]],
     execute: (args: string[]) => {
       DEVTOOLS.ENABLED = !DEVTOOLS.ENABLED;
       const saveToLocalStorage = args[0] === "save";
@@ -51,6 +54,7 @@ const developerCommands: any = [
     description: "Deal massive damage with every attack",
     help: "onepunch - Deal massive damage with every attack.<br>Use 'onepunch' again to disable this cheat.",
     isCheat: true,
+    list: [],
     execute: () => {
       DEVTOOLS.ONE_PUNCH = !DEVTOOLS.ONE_PUNCH;
       devConsole.commandHistory.push(`${DEVTOOLS.ONE_PUNCH ? "You have become ONE" : "Your power has been taken away"}`);
@@ -61,7 +65,7 @@ const developerCommands: any = [
     description: "Remove cooldowns from all abilities",
     help: "nocd - Remove cooldowns from all abilities.<br>Use 'nocd' again to disable this cheat.",
     isCheat: true,
-
+    list: [],
     execute: () => {
       DEVTOOLS.NO_CD = !DEVTOOLS.NO_CD;
       devConsole.commandHistory.push(`Skills are now ${DEVTOOLS.NO_CD ? "instant" : "lethargic"}`);
@@ -72,6 +76,7 @@ const developerCommands: any = [
     description: "Cast abilities without spending mana",
     help: "freecast - Cast abilities without spending mana.<br>Use 'freecast' again to disable this cheat.",
     isCheat: true,
+    list: [],
     execute: () => {
       DEVTOOLS.FREE_CAST = !DEVTOOLS.FREE_CAST;
       devConsole.commandHistory.push(`Your mana is now ${DEVTOOLS.FREE_CAST ? "infinite" : "very much finite"}`);
@@ -82,6 +87,7 @@ const developerCommands: any = [
     description: "Become invincible",
     help: "god - All damage dealt to you will be 0, and you are immune to debuffs.<br>Use 'god' again to disable this cheat.",
     isCheat: true,
+    list: [],
     execute: () => {
       DEVTOOLS.GOD = !DEVTOOLS.GOD;
       devConsole.commandHistory.push(`Invincibility ${DEVTOOLS.GOD ? "granted" : "taken away"}`);
@@ -92,6 +98,7 @@ const developerCommands: any = [
     description: "[item] [amount] Adds specified quantity of items to your inventory",
     help: "item [item] [amount] - Adds specified quantity of items to your inventory.<br>Example: item small_healing_potion 3",
     isCheat: true,
+    list: [Object.values(items), [{ id: "amount - number", onSelect: "5" }]],
     execute: (args: string[]) => {
       const item: string = args[0];
       const quantity = args[1] ? parseInt(args[1]) : 1;
@@ -116,6 +123,7 @@ const developerCommands: any = [
     description: "Add gold",
     help: "gold [amount] - Add gold to your inventory.<br>Example: gold 100",
     isCheat: true,
+    list: [[{ id: "amount - number", onSelect: "100" }]],
     execute: (args: string[]) => {
       const amount = args[0] ? parseInt(args[0]) : 100;
       player.addGold(amount);
@@ -127,6 +135,7 @@ const developerCommands: any = [
     description: "Add experience points",
     help: "xp [amount] - Add experience points.<br>Example: xp 100",
     isCheat: true,
+    list: [[{ id: "amount - number", onSelect: "50" }]],
     execute: (args: string[]) => {
       const xp = args[0] ? parseInt(args[0]) : 0;
       player.addXP(xp);
@@ -138,6 +147,7 @@ const developerCommands: any = [
     description: "Add skill points",
     help: "sp [amount] - Add skill points.<br>Example: sp 5",
     isCheat: true,
+    list: [[{ id: "amount - number", onSelect: "5" }]],
     execute: (args: string[]) => {
       const sp = args[0] ? parseInt(args[0]) : 0;
       player.skill_points += sp;
@@ -150,6 +160,7 @@ const developerCommands: any = [
     description: "Add perk points",
     help: "pp [amount] - Add perk points.<br>Example: pp 5",
     isCheat: true,
+    list: [[{ id: "amount - number", onSelect: "5" }]],
     execute: (args: string[]) => {
       const sp = args[0] ? parseInt(args[0]) : 0;
       player.perk_points += sp;

@@ -99,14 +99,35 @@ class Perk {
         return tooltip;
     }
 }
+const perkZoomValues = [0.33, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.75, 2];
+let perkZoom = 7;
+function zoomPerks(e, container) {
+    const delta = Math.sign(e.deltaY);
+    if (delta === 1) {
+        if (perkZoom > 0) {
+            perkZoom--;
+        }
+    }
+    else if (delta === -1) {
+        if (perkZoom < perkZoomValues.length - 1) {
+            perkZoom++;
+        }
+    }
+    container.style.transform = `scale(${perkZoomValues[perkZoom]})`;
+}
 function createPerks() {
     lobbyContent.innerHTML = "";
+    const perkContainer = document.createElement("div");
+    perkContainer.classList.add("perk-container");
     const baseSize = 64;
     const lineSize = 32;
     const lineWidth = 6;
     lobbyContent.onwheel = (e) => {
         e.preventDefault();
+        zoomPerks(e, perkContainer);
     };
+    lobbyContent.append(perkContainer);
+    perkContainer.style.transform = `scale(${perkZoomValues[perkZoom]})`;
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     sideBarDetails();
     const FullPerks = perks.map((p) => new Perk(p));
@@ -127,7 +148,7 @@ function createPerks() {
         perkDiv.onclick = () => perk.assign();
         tooltip(perkDiv, perk.tooltip());
         if (perk.relative_to) {
-            const found = lobbyContent.querySelector(`.perk[perk-id="${perk.relative_to}"]`);
+            const found = perkContainer.querySelector(`.perk[perk-id="${perk.relative_to}"]`);
             perkDiv.style.left = `${Math.round(perk.pos.x * baseSize + found.offsetLeft)}px`;
             perkDiv.style.top = `${Math.round(perk.pos.y * baseSize + found.offsetTop)}px`;
         }
@@ -136,14 +157,14 @@ function createPerks() {
             perkDiv.style.top = `${Math.round(perk.pos.y * baseSize)}px`;
         }
         perkDiv.append(img);
-        lobbyContent.append(perkDiv);
+        perkContainer.append(perkDiv);
     });
     // Draw lines between perks
     FullPerks.forEach((_perk) => {
-        let perk = lobbyContent.querySelector(`.perk[perk-id="${_perk.id}"]`);
+        let perk = perkContainer.querySelector(`.perk[perk-id="${_perk.id}"]`);
         if (_perk.requires) {
             _perk.requires.forEach((req) => {
-                let found = lobbyContent.querySelector(`.perk[perk-id="${req}"]`);
+                let found = perkContainer.querySelector(`.perk[perk-id="${req}"]`);
                 let color = "rgb(65, 65, 65)";
                 let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
                 if (_perk.owned())
@@ -162,10 +183,10 @@ function createPerks() {
     });
     svg.setAttribute("width", "4000");
     svg.setAttribute("height", "4000");
-    lobbyContent.append(svg);
+    perkContainer.append(svg);
     if (drag_details.bgPosX === 0 && drag_details.bgPosY === 0) {
         // Center the background on "foundations_of_power", the first perk
-        const found = lobbyContent.querySelector(`.perk[perk-id="0_foundation_of_power"]`);
+        const found = perkContainer.querySelector(`.perk[perk-id="0_foundation_of_power"]`);
         drag_details.bgPosX = found.offsetLeft - window.innerWidth / 2 + found.offsetWidth * 3;
         drag_details.bgPosY = found.offsetTop - window.innerHeight / 2 + found.offsetHeight;
     }

@@ -103,9 +103,6 @@
             margin: 0;
             padding: 0;
             border: none;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
 
             &:hover:not(.selected) {
               color: white;
