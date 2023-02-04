@@ -249,6 +249,10 @@ const properties = {
         addPercentageSuffix: true,
         lowerIsBetter: true,
     },
+    mpRegenFromIntV: {
+        multiplyBy: 100,
+        addPercentageSuffix: true,
+    },
 };
 function getProperties(key) {
     const props = {

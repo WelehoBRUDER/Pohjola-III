@@ -37,6 +37,9 @@ const english = {
   physicalDefence: "Physical Defence",
   magicalDefence: "Magical Defence",
   elementalDefence: "Elemental Defence",
+  mpRegen: "Mana Regen",
+  mpRegenFromInt: "Intelligence as Mana Regen",
+  mpRegenFromSpi: "Spirit as Mana Regen",
 
   // combat
   combat_defeat: "Defeat",
@@ -130,6 +133,7 @@ const english = {
   spell_scale_tt: "Multiplies the damage of spells by this amount as percentage.",
   hpMax_tt: "This is your <i><v>icons.hpMax<v><i> health.",
   mpMax_tt: "This is your <i><v>icons.mpMax<v><i> mana.",
+  mpRegen_tt: "How much <i><v>icons.mpMax<v><i> mana you <i><v>icons.mpRegen<v><i> regenerate every second.",
   speed_tt: "Lowers the time it takes to get your turn in combat.\nHigher is better.",
   dodge_tt: "Increases the chance to dodge an attack.",
   critRate_tt: "Increases the chance of a <i><v>icons.critPower<v><i> critical hit.",

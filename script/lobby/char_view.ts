@@ -16,6 +16,10 @@ function createCharView() {
   const abilities = player.abilities;
   const abilities_total = player.abilities_total;
 
+  abilityManagement.append(abilityToolbar, totalAbilities);
+  charScreen.append(abilityManagement, modifiersScreen);
+  lobbyContent.append(charScreen);
+
   for (let i = 0; i < 6; i++) {
     let slot;
     if (player.abilities[i]) {
@@ -53,10 +57,14 @@ function createCharView() {
     totalAbilities.append(slot);
   });
 
+  const displayableValues = ["mpRegenFromIntV", "mpRegenFromSpiV"];
+
   const modifiers = sortObject(player.allModifiers);
   Object.entries(modifiers).forEach(([key, value]: any) => {
-    if (key.endsWith("V") || key.includes("ability")) return;
-    value = (value - 1) * 100;
+    if ((key.endsWith("V") && !displayableValues.includes(key)) || key.includes("ability")) return;
+    if (!key.endsWith("V")) {
+      value = (value - 1) * 100;
+    }
     if (value === 0) return;
     const modifier = document.createElement("div");
     modifier.classList.add("modifier");
@@ -65,11 +73,11 @@ function createCharView() {
     valueElement.append(textSyntax(effectSyntax(key, value)));
     modifier.append(valueElement);
     modifiersScreen.append(modifier);
+    const valueWidth = valueElement.getBoundingClientRect().width;
+    if (valueWidth > 250) {
+      valueElement.style.transform = `scale(${(250 / valueWidth).toFixed(2)})`;
+    }
   });
-
-  abilityManagement.append(abilityToolbar, totalAbilities);
-  charScreen.append(abilityManagement, modifiersScreen);
-  lobbyContent.append(charScreen);
 
   window.onresize = () => {
     resizeAbilities();

@@ -30,6 +30,7 @@ function sideBarDetails() {
     const stats = player.getStats();
     const crit = player.getCrit();
     delete stats.ap;
+    stats["mpRegen"] = player.getManaRegen();
     stats["speed"] = Math.round(player.getSpeed() * 100);
     stats["dodge"] = player.getDodge() + "%";
     stats["critRate"] = crit.critRate + "%";

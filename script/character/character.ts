@@ -383,8 +383,8 @@ class Character {
     const stats = this.getStats({ dontUpdateModifiers: true });
     const mpRegenMulti = this.allModifiers?.["mpRegenP"] || 1;
     const mpRegenFlat = this.allModifiers?.["mpRegenV"] || 0;
-    const mpRegenFromInt = this.allModifiers?.["mpRegenFromInt"] * stats.int || 0;
-    const mpRegenFromSpi = this.allModifiers?.["mpRegenFromSpi"] * stats.spi || 0;
+    const mpRegenFromInt = this.allModifiers?.["mpRegenFromIntV"] * stats.int || 0;
+    const mpRegenFromSpi = this.allModifiers?.["mpRegenFromSpiV"] * stats.spi || 0;
     return Math.floor((1 + mpRegenFlat + mpRegenFromInt + mpRegenFromSpi) * mpRegenMulti * challenge("mana_regen_debuff"));
   }
 

@@ -390,10 +390,10 @@ const perks = [
         requires: ["smart_3"],
         class: "",
         modifiers: {
-            intV: 1,
+            mpRegenFromIntV: 0.1,
         },
         commands: {},
-        cost: 1,
+        cost: 2,
     },
     {
         id: "smart_8",
