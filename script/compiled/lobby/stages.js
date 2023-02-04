@@ -187,6 +187,24 @@ const floors = [
         ],
     },
 ];
+function calculateFloorPower(stages) {
+    let power = 0;
+    stages.forEach((stage) => {
+        let stagePower = 0;
+        stage.foes.forEach((foe) => {
+            // @ts-ignore
+            const en = new Enemy(enemies[foe.id]);
+            const pw = en.calculateCombatPower();
+            stagePower += pw;
+        });
+        power += stagePower;
+    });
+    console.log(power);
+    const pw = Math.round(power / stages.length);
+    const { color } = getDangerLevel(pw);
+    const danger = Math.floor(pw * 0.65).toString();
+    return { danger, color };
+}
 let currentStage = "";
 function createFloors() {
     lobbyContent.innerHTML = `
@@ -199,15 +217,19 @@ function createFloors() {
     floors.forEach((floor) => {
         const stageElement = document.createElement("div");
         stageElement.classList.add("stage");
+        let floorTooltip = `<f>1.25rem<f><c>goldenrod<c>${game.getLocalizedString(floor.id)}\n<f>1rem<f><c>silver<c>"${game.getLocalizedString(floor.id + "_desc")}"\n\n<c>white<c>`;
         if (!player.completed_stages.includes(floor.beat_stage_to_unlock) && floor.beat_stage_to_unlock !== "" && !DEVTOOLS.ENABLED) {
             stageElement.classList.add("locked");
-            tooltip(stageElement, `<c>white<c>${game.getLocalizedString("beat_stage_to_unlock")}: <c>yellow<c>${game.getLocalizedString(floor.beat_stage_to_unlock)}`);
+            floorTooltip += `<c>white<c>${game.getLocalizedString("beat_stage_to_unlock")}: <c>yellow<c>${game.getLocalizedString(floor.beat_stage_to_unlock)}`;
         }
         else {
             stageElement.onclick = () => {
                 createStages(floor.stages);
             };
         }
+        const { danger, color } = calculateFloorPower(floor.stages);
+        floorTooltip += `<c>white<c>${game.getLocalizedString("average_power")}: <c>${color}<c>${danger}`;
+        tooltip(stageElement, floorTooltip);
         stageElement.innerText = game.getLocalizedString(floor.id);
         floorsElement.append(stageElement);
     });

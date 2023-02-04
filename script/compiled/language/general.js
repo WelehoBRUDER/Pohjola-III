@@ -206,8 +206,12 @@ const english = {
     total_combat_time: "Total Combat Time",
     time_played: "Time Played",
     // Floors
-    floor_1: "Spooky Scary Skeletons",
-    floor_2: "Smelly Greenskins",
+    floor_1: "Catacombs of Vithail",
+    floor_1_desc: "A cold and decrepit place, \nlong abandoned by the living.",
+    floor_2: "The Forgotten Woods",
+    floor_2_desc: "A dark and gloomy forest, \noverrun by orcs and goblins.",
+    floor_3: "Minorian Highway",
+    floor_3_desc: "A long and winding road, \nleading to the ancient city of Minor.",
     // Stages
     tutorial: "Tutorial",
     graveyard_expedition: "Graveyard Expedition",
@@ -229,6 +233,8 @@ const english = {
     stage_18: "Stage 18",
     stage_19: "Stage 19",
     stage_20: "King of the Ancient Forest",
+    stage_21: "Stage 21",
+    stage_22: "Stage 22",
     // Menu text //
     name: "Name",
     starting_aspect: "Aspect",
