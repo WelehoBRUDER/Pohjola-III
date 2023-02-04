@@ -2,38 +2,47 @@
 const lobbyButtons = [
     {
         id: "char",
+        icon: "gfx/icons/skills.png",
         click: createCharView,
     },
     {
         id: "perks",
+        icon: "gfx/icons/orb-direction.png",
         click: createPerks,
     },
     {
         id: "skills",
+        icon: "gfx/icons/swords-power.png",
         click: createSkills,
     },
     {
         id: "inventory",
+        icon: "gfx/icons/hand-bag.png",
         click: createInventory,
     },
     {
         id: "store",
+        icon: "gfx/icons/coins-pile.png",
         click: createStore,
     },
     {
         id: "crafting",
+        icon: "gfx/icons/sword-smithing.png",
         click: createCrafting,
     },
     {
         id: "stages",
+        icon: "gfx/icons/dungeon-gate.png",
         click: createFloors,
     },
     {
         id: "statistics",
+        icon: "gfx/icons/papers.png",
         click: createStats,
     },
     {
         id: "saves",
+        icon: "gfx/icons/save.png",
         click: createSaves,
     },
 ];
@@ -48,16 +57,21 @@ function createLobby() {
     lobbyHeaderButtons.innerHTML = "";
     lobbyButtons.forEach((button) => {
         const buttonElement = document.createElement("button");
+        const buttonIcon = document.createElement("img");
+        const buttonText = document.createElement("span");
         buttonElement.classList.add("lobby-button");
-        buttonElement.innerText = game.getLocalizedString(button.id);
+        buttonIcon.classList.add("lobby-button-icon");
+        buttonText.innerText = game.getLocalizedString(button.id);
         buttonElement.onclick = () => {
             lobby.current_view = button.id;
             createLobby();
             button.click();
         };
+        buttonIcon.src = button.icon;
         if (lobby.current_view === button.id) {
             buttonElement.classList.add("selected");
         }
+        buttonElement.append(buttonIcon, buttonText);
         lobbyHeaderButtons.append(buttonElement);
     });
     lobbyContent.onwheel = null;

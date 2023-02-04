@@ -84,14 +84,15 @@ class SaveController {
       if (options?.force) {
         this.saveSlots = this.saveSlots.filter((save) => save.id !== id);
         localStorage.setItem("PohjolaIII_saved_games", JSON.stringify(this.saveSlots));
+      } else {
+        const text = `<c>white<c>${game.getLocalizedString("delete")} <c>goldenrod<c>${save.name}<c>white<c>?`;
+        confirmationWindow(text, () => {
+          this.saveSlots = this.saveSlots.filter((save) => save.id !== id);
+          localStorage.setItem("PohjolaIII_saved_games", JSON.stringify(this.saveSlots));
+          closeConfirmationWindow();
+          createSaves();
+        });
       }
-      const text = `<c>white<c>${game.getLocalizedString("delete")} <c>goldenrod<c>${save.name}<c>white<c>?`;
-      confirmationWindow(text, () => {
-        this.saveSlots = this.saveSlots.filter((save) => save.id !== id);
-        localStorage.setItem("PohjolaIII_saved_games", JSON.stringify(this.saveSlots));
-        closeConfirmationWindow();
-        createSaves();
-      });
     }
   }
 
