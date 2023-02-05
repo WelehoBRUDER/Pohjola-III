@@ -295,6 +295,13 @@ class Combat {
             stats.most_turns = this.turns;
         if (this.defeat) {
             player.xp -= this.xp;
+            if (challenge("hardcore")) {
+                this.playing = false;
+                mainMenuElement.classList.remove("no-display");
+                lobbyScreen.classList.add("no-display");
+                combatScreen.classList.add("no-display");
+                return mainMenu();
+            }
         }
         else {
             if (!player.completed_stages.includes(currentStage)) {

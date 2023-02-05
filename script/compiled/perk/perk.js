@@ -41,7 +41,7 @@ class Perk {
         return player.perks.findIndex((p) => p.id === this.id) > -1;
     }
     assign() {
-        if (this.owned())
+        if (this.owned() || !this.available())
             return;
         hideHover();
         if (player.perk_points >= this.cost) {

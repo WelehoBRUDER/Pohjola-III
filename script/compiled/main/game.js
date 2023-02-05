@@ -140,16 +140,10 @@ class Game {
         this.initCombat(foes);
     }
     endCombatAndGoToLobby() {
-        if (challenge("hardcore")) {
-            this.playing = false;
-            mainMenuElement.classList.remove("no-display");
-            lobbyScreen.classList.add("no-display");
-            combatScreen.classList.add("no-display");
-            return mainMenu();
-        }
         lobbyScreen.classList.remove("no-display");
         combatScreen.classList.add("no-display");
         sideBarDetails();
+        createFloors();
     }
     randomShake(num) {
         // Randomly generate  shake animations using translate

@@ -60,7 +60,7 @@ class Perk {
   }
 
   assign(): void {
-    if (this.owned()) return;
+    if (this.owned() || !this.available()) return;
     hideHover();
     if (player.perk_points >= this.cost) {
       player.perk_points -= this.cost;
