@@ -47,7 +47,7 @@ const lobbyButtons = [
     },
 ];
 const lobby = {
-    current_view: "crafting",
+    current_view: "stages",
 };
 function createLobby() {
     player.updateAllModifiers();

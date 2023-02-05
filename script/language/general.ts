@@ -85,6 +85,7 @@ const english = {
   boss: "This stage is a boss fight!",
   pouch: "Potion Pouch",
   potion_pouch_tt: "Use a potion from your pouch",
+  average_power: "Average Power",
 
   // Menu
   new_game: "New Game",
@@ -292,6 +293,10 @@ const english = {
   healing_weakness_desc: "<c>white<c>Healing is less effective.",
   mana_regen_debuff: "Mana regeneration",
   mana_regen_debuff_desc: "<c>white<c>Passive mana regeneration is weaker.",
+
+  // Dungeons
+  enter_dungeon_1: "Are you sure you wish to enter",
+  vithail_dungeon: "Vithail Crypts",
 
   // Perks //
   "0_foundation_of_power": "Foundation of Power",

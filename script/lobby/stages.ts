@@ -208,7 +208,6 @@ function calculateFloorPower(stages: Stage[]): { danger: string; color: string }
     });
     power += stagePower;
   });
-  console.log(power);
   const pw = Math.round(power / stages.length);
   const { color } = getDangerLevel(pw);
   const danger = Math.floor(pw * 0.65).toString();
@@ -223,8 +222,10 @@ function createFloors() {
       <h1>${game.getLocalizedString("floors")}</h1>
     </div>
     <div class="floors"></div>
+    <div class="dungeons"></div>
     `;
   const floorsElement = document.querySelector(".floors")!;
+  const dungeonsElement = document.querySelector(".dungeons")!;
   floors.forEach((floor: any) => {
     const stageElement = document.createElement("div");
     stageElement.classList.add("stage");
@@ -247,6 +248,20 @@ function createFloors() {
     tooltip(stageElement, floorTooltip);
     stageElement.innerText = game.getLocalizedString(floor.id);
     floorsElement.append(stageElement);
+  });
+  dungeons.forEach((dungeon: any) => {
+    const dungeonElement = document.createElement("div");
+    dungeonElement.classList.add("stage");
+    dungeonElement.innerText = game.getLocalizedString(dungeon.id);
+    dungeonElement.onclick = () => {
+      const txt = `<c>white<c>${game.getLocalizedString("enter_dungeon_1")} <c>goldenrod<c>${game.getLocalizedString(
+        dungeon.id
+      )}<c>white<c>?`;
+      confirmationWindow(txt, () => {
+        dungeonController.enterDungeon(dungeon);
+      });
+    };
+    dungeonsElement.append(dungeonElement);
   });
 }
 

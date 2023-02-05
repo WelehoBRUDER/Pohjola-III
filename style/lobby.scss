@@ -86,6 +86,32 @@
     }
   }
 
+  .dungeon {
+    position: relative;
+    width: 80%;
+    height: 100%;
+    border: 0.5rem solid black;
+    box-sizing: border-box;
+    background: rgb(20, 20, 20);
+    box-shadow: inset 0px 0px 2rem 1.6rem rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    .room {
+      width: 6rem;
+      height: 6rem;
+      border: 0.25rem solid black;
+      background: rgba(27, 27, 27, 0.6);
+    }
+
+    .current-room {
+      background: rgba(51, 51, 51, 0.8);
+      border: 0.25rem solid goldenrod;
+    }
+  }
+
   .lobby-view {
     width: 80%;
     height: 100%;
@@ -241,8 +267,15 @@
   }
 }
 
+.dungeons {
+  .stage {
+    filter: sharpen(0.5) brightness(0.5);
+  }
+}
+
 .stages,
-.floors {
+.floors,
+.dungeons {
   width: calc(100% - 3rem);
   height: min-content;
   display: flex;
@@ -922,12 +955,14 @@
   padding: 2rem 0rem;
   pointer-events: none;
   opacity: 0;
+  text-align: center;
 
   .text {
     color: white;
     font-size: 2rem;
 
     pre {
+      white-space: pre-wrap;
       font-size: 2rem;
     }
   }
