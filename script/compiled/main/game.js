@@ -55,7 +55,7 @@ class Game {
         lobbyScreen.classList.remove("no-display");
         player = new Player({ ...player });
         player.restoreClasses();
-        player.perks?.push(new Perk(perks[0]));
+        player.perks?.push(new Perk({ ...perks[0], level: 1 }));
         saveController.saveGame(player.name);
         lobby.current_view = "char";
         createLobby();

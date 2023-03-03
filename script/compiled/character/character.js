@@ -39,6 +39,10 @@ class Character {
             if (!perk.level) {
                 perk.level = 1;
             }
+            if (!perk.levels) {
+                // @ts-expect-error
+                perk.levels = perks.find((p) => p.id === perk.id).levels;
+            }
         });
         this.getModifiers = () => {
             return getAllModifiers(this);
