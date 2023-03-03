@@ -26,11 +26,15 @@ function getAllModifiers(char) {
         }
     });
     char.perks?.forEach((perk) => {
-        if (perk.modifiers) {
-            Object.entries(perk.modifiers).forEach((modifier) => {
-                applyModifierToTotal(modifier, modifiers);
-            });
-        }
+        perk.levels.forEach((level, lvl) => {
+            if (lvl >= perk.level)
+                return;
+            if (level.modifiers) {
+                Object.entries(level.modifiers).forEach((modifier) => {
+                    applyModifierToTotal(modifier, modifiers);
+                });
+            }
+        });
     });
     char.skills?.forEach((skill) => {
         const mods = skill.getCurrentLevel({ increment: true });

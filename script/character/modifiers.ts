@@ -27,11 +27,14 @@ function getAllModifiers(char: Character | Player) {
     }
   });
   char.perks?.forEach((perk: any) => {
-    if (perk.modifiers) {
-      Object.entries(perk.modifiers).forEach((modifier: any) => {
-        applyModifierToTotal(modifier, modifiers);
-      });
-    }
+    perk.levels.forEach((level: any, lvl: number) => {
+      if (lvl >= perk.level) return;
+      if (level.modifiers) {
+        Object.entries(level.modifiers).forEach((modifier: any) => {
+          applyModifierToTotal(modifier, modifiers);
+        });
+      }
+    });
   });
   char.skills?.forEach((skill: Skill) => {
     const mods = skill.getCurrentLevel({ increment: true });

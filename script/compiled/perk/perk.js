@@ -5,6 +5,8 @@ class Perk {
     pos;
     icon;
     cost;
+    level;
+    levels;
     relative_to;
     requires;
     class;
@@ -16,17 +18,24 @@ class Perk {
         this.pos = perk.pos;
         this.icon = perk.icon;
         this.cost = perk.cost;
+        this.level = perk.level || 0;
+        this.levels = perk.levels || [];
         this.relative_to = perk.relative_to;
         this.requires = perk.requires;
         this.class = perk.class;
         this.modifiers = perk.modifiers;
         this.commands = perk.commands;
     }
+    maxLevel() {
+        return this.levels.length;
+    }
     available() {
         if (player.perk_points < this.cost)
             return false;
         if (!this.requires)
             return true;
+        if (player.hasPerk(this.id, this.maxLevel()))
+            return false;
         let required = this.requires.length;
         this.requires.forEach((perk) => {
             // @ts-ignore
@@ -38,17 +47,27 @@ class Perk {
     }
     owned() {
         // @ts-ignore
-        return player.perks.findIndex((p) => p.id === this.id) > -1;
+        return player.hasPerk(this.id);
     }
     assign() {
-        if (this.owned() || !this.available())
+        if (!this.available())
             return;
         hideHover();
         if (player.perk_points >= this.cost) {
             player.perk_points -= this.cost;
-            player.perks?.push({ ...this });
-            if (this.commands) {
-                Object.entries(this.commands).forEach(([key, value]) => {
+            if (!player.hasPerk(this.id)) {
+                this.level = 1;
+                player.perks?.push({ ...this });
+            }
+            else {
+                const prk = player.getPerk(this.id);
+                if (prk) {
+                    prk.level += 1;
+                }
+            }
+            let level = player.getPerk(this.id)?.level || 1;
+            if (this.levels[level - 1]?.commands) {
+                Object.entries(this.levels[level - 1].commands).forEach(([key, value]) => {
                     game.executeCommand(key, value);
                 });
             }
@@ -86,11 +105,42 @@ class Perk {
                 }
             });
         }
-        if (this.modifiers && Object.keys(this.modifiers).length > 0) {
-            tooltip += "\n<f>1.2rem<f><c>silver<c>Effects:\n";
-            Object.entries(this.modifiers).map(([key, value]) => {
-                tooltip += " " + effectSyntax(key, value);
-            });
+        if (this.levels) {
+            const level = player.getPerk(this.id)?.level || 0;
+            const maxLevel = this.maxLevel();
+            tooltip += `<f>1.2rem<f><c>silver<c>${game.getLocalizedString("level")}: ${level}/${maxLevel}\n`;
+            if (level > 0) {
+                tooltip += "\n<f>1.2rem<f><c>silver<c>Current Effects:\n";
+                let total = {};
+                this.levels.forEach((lvl, index) => {
+                    if (index >= level)
+                        return;
+                    Object.entries(lvl.modifiers).map(([key, value]) => {
+                        total[key] = total?.[key] + value || value;
+                    });
+                });
+                Object.entries(total).map(([key, value]) => {
+                    tooltip += " " + effectSyntax(key, value);
+                });
+            }
+            if (level < maxLevel) {
+                tooltip += "\n<f>1.2rem<f><c>silver<c>Next Level Effects:\n";
+                let total = {};
+                this.levels.forEach((lvl, index) => {
+                    if (index > level)
+                        return;
+                    Object.entries(lvl.modifiers).map(([key, value]) => {
+                        total[key] = total?.[key] + value || value;
+                    });
+                });
+                Object.entries(total).map(([key, value]) => {
+                    tooltip += " " + effectSyntax(key, value);
+                });
+            }
+            // tooltip += "\n<f>1.2rem<f><c>silver<c>Effects:\n";
+            // Object.entries(this.modifiers).map(([key, value]) => {
+            //   tooltip += " " + effectSyntax(key, value);
+            // });
         }
         if (this.cost > 0) {
             const col = player.perk_points >= this.cost ? "lime" : "red";
@@ -133,10 +183,18 @@ function createPerks() {
     const FullPerks = perks.map((p) => new Perk(p));
     // Create perk elements and place them on the screen
     FullPerks.forEach((perk) => {
-        const perkDiv = document.createElement("div");
+        const perkDiv = document.createElement("div"); // this is a wrapper..
+        const properPerkDiv = document.createElement("div");
+        const perkLevelDiv = document.createElement("div");
         const img = document.createElement("img");
         img.src = perk.icon;
         perkDiv.setAttribute("perk-id", perk.id);
+        properPerkDiv.classList.add("perk-bg");
+        perkLevelDiv.classList.add("perk-level-wheel");
+        // Set level wheel
+        const currentLevel = player.getPerk(perk.id)?.level || 0;
+        const maxLevel = perk.maxLevel();
+        perkLevelDiv.style.setProperty("--value", `${(1 - currentLevel / maxLevel) * 100}%`);
         perkDiv.style.width = `${baseSize}px`;
         perkDiv.style.height = `${baseSize}px`;
         perkDiv.classList.add("perk");
@@ -156,7 +214,8 @@ function createPerks() {
             perkDiv.style.left = `${Math.round(perk.pos.x * baseSize)}px`;
             perkDiv.style.top = `${Math.round(perk.pos.y * baseSize)}px`;
         }
-        perkDiv.append(img);
+        properPerkDiv.append(perkLevelDiv, img);
+        perkDiv.append(properPerkDiv);
         perkContainer.append(perkDiv);
     });
     // Draw lines between perks

@@ -200,6 +200,18 @@ function savePerks() {
   const __perks = perks.sort((a, b) => (a.id > b.id ? 1 : -1));
   __perks.map((p) => {
     if (!p.cost) p.cost = 1;
+    if (!p.icon) p.icon = "gfx/icons/totem-head.png";
+    if (!p.level) p.level = 0;
+    if (!p.levels) {
+      p.levels = [
+        {
+          modifiers: p.modifiers,
+          commands: p.commands,
+        },
+      ];
+      delete p.modifiers;
+      delete p.commands;
+    }
   });
   let text = "const perks: PerkObject[] =";
   text += JSON.stringify(__perks, null, 1);

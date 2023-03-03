@@ -93,7 +93,7 @@ function handleKeydownConsole(e: KeyboardEvent) {
   if (e.key === "§") {
     return (consoleInput.value = "");
   }
-  if (e.key === " " || e.key === "Enter") {
+  if (e.key === " ") {
     const command: HTMLDivElement = consoleIntellisenseElem.querySelector(".selected") as HTMLDivElement;
     if (command) {
       e.preventDefault();
@@ -198,5 +198,9 @@ function clearBadSymbols() {
     consoleInput.value = consoleInput.value.replaceAll("§", "");
   }
 }
+
+consoleInput.addEventListener("click", () => {
+  consoleIntellisenseElem.innerHTML = "";
+});
 
 const devConsole = new DeveloperConsole();

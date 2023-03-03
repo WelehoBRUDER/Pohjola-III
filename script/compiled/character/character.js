@@ -35,6 +35,11 @@ class Character {
         this.critRate = char.critRate ?? 0;
         this.critPower = char.critPower ?? 0;
         this.regenProc = 0;
+        this.perks.forEach((perk) => {
+            if (!perk.level) {
+                perk.level = 1;
+            }
+        });
         this.getModifiers = () => {
             return getAllModifiers(this);
         };

@@ -185,4 +185,11 @@ function addDragToScroll(elem: HTMLElement) {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => createLobby());
+document.addEventListener("DOMContentLoaded", () => {
+  player.updateAllModifiers();
+  player.abilities.forEach((abi) => abi.updateStats(player));
+  player.addItem(new Item({ ...items.small_healing_potion }), 2);
+  player.addItem(new Item({ ...items.small_mana_potion }), 1);
+  player.perks?.push(new Perk({ ...perks[0], level: 1 }));
+  createLobby();
+});

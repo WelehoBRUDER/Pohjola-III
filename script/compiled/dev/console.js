@@ -92,7 +92,7 @@ function handleKeydownConsole(e) {
     if (e.key === "§") {
         return (consoleInput.value = "");
     }
-    if (e.key === " " || e.key === "Enter") {
+    if (e.key === " ") {
         const command = consoleIntellisenseElem.querySelector(".selected");
         if (command) {
             e.preventDefault();
@@ -201,5 +201,8 @@ function clearBadSymbols() {
         consoleInput.value = consoleInput.value.replaceAll("§", "");
     }
 }
+consoleInput.addEventListener("click", () => {
+    consoleIntellisenseElem.innerHTML = "";
+});
 const devConsole = new DeveloperConsole();
 //# sourceMappingURL=console.js.map

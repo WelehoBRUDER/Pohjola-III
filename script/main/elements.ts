@@ -66,6 +66,7 @@ const lobbySidebar: HTMLDivElement = lobbyScreen.querySelector(".side-bar")!;
 const lobbyView: HTMLDivElement = lobbyScreen.querySelector(".lobby-view")!;
 const lobbyContent: HTMLDivElement = lobbyScreen.querySelector(".lobby-content")!;
 const dungeonScreen: HTMLDivElement = lobbyScreen.querySelector(".dungeon")!;
+const dungeonContent: HTMLDivElement = dungeonScreen.querySelector(".dungeon-content")!;
 
 const screens: any = {
   skills: {

@@ -8,7 +8,7 @@ const dungeons: Dungeon[] = [
         foes: [],
         isBoss: false,
         loot: [],
-        position: { x: 2, y: 50 },
+        position: { x: 60, y: 50 },
         connections: { east: "vithail_dungeon_2" },
       },
       {
@@ -25,6 +25,7 @@ const dungeons: Dungeon[] = [
         foes: [new Enemy(enemies.skeleton)],
         isBoss: false,
         loot: [],
+        getKeys: ["ruby_key_vithail"],
         relative_to: "vithail_dungeon_2",
         position: { x: 3, y: 0 },
         connections: { west: "vithail_dungeon_2" },

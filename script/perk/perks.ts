@@ -7,16 +7,21 @@ const perks: PerkObject[] = [
       y: 19,
     },
     icon: "gfx/icons/skills.png",
-    modifiers: {
-      atkV: 1,
-      strV: 1,
-      vitV: 1,
-      agiV: 1,
-      intV: 1,
-      spiV: 1,
-    },
     class: "adventure",
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          atkV: 1,
+          strV: 1,
+          vitV: 1,
+          agiV: 1,
+          intV: 1,
+          spiV: 1,
+        },
+      },
+    ],
   },
   {
     id: "agility_1",
@@ -26,13 +31,18 @@ const perks: PerkObject[] = [
       y: 0,
     },
     icon: "gfx/status/acrobatic.png",
-    modifiers: {
-      agiV: 2,
-    },
     class: "agility",
     relative_to: "0_foundation_of_power",
     requires: ["0_foundation_of_power"],
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          agiV: 2,
+        },
+      },
+    ],
   },
   {
     id: "agility_2",
@@ -45,11 +55,26 @@ const perks: PerkObject[] = [
     relative_to: "agility_1",
     requires: ["agility_1"],
     class: "",
-    modifiers: {
-      agiV: 1,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          agiV: 1,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          agiV: 1,
+        },
+      },
+      {
+        modifiers: {
+          agiV: 1,
+        },
+      },
+    ],
   },
   {
     id: "agility_3",
@@ -62,11 +87,26 @@ const perks: PerkObject[] = [
     relative_to: "agility_1",
     requires: ["agility_1"],
     class: "",
-    modifiers: {
-      agiV: 1,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          agiV: 1,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          agiV: 1,
+        },
+      },
+      {
+        modifiers: {
+          agiV: 1,
+        },
+      },
+    ],
   },
   {
     id: "agility_4",
@@ -79,10 +119,15 @@ const perks: PerkObject[] = [
     relative_to: "agility_2",
     requires: ["agility_2", "agility_3"],
     class: "",
-    modifiers: {
-      agiV: 3,
-    },
     cost: 2,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          agiV: 3,
+        },
+      },
+    ],
   },
   {
     id: "agility_5",
@@ -95,11 +140,21 @@ const perks: PerkObject[] = [
     relative_to: "agility_4",
     requires: ["agility_4"],
     class: "",
-    modifiers: {
-      agiV: 2,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          agiV: 2,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          agiV: 2,
+        },
+      },
+    ],
   },
   {
     id: "agility_6",
@@ -112,11 +167,16 @@ const perks: PerkObject[] = [
     relative_to: "agility_4",
     requires: ["agility_4"],
     class: "",
-    modifiers: {
-      speedV: 5,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          speedV: 5,
+        },
+        commands: {},
+      },
+    ],
   },
   {
     id: "agility_7",
@@ -129,11 +189,26 @@ const perks: PerkObject[] = [
     relative_to: "agility_5",
     requires: ["agility_5"],
     class: "",
-    modifiers: {
-      agiV: 1,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          agiV: 1,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          agiV: 1,
+        },
+      },
+      {
+        modifiers: {
+          agiV: 1,
+        },
+      },
+    ],
   },
   {
     id: "agility_8",
@@ -147,10 +222,25 @@ const perks: PerkObject[] = [
     relative_to: "agility_5",
     requires: ["agility_5"],
     class: "",
-    modifiers: {
-      agiV: 1,
-    },
-    commands: {},
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          agiV: 1,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          agiV: 1,
+        },
+      },
+      {
+        modifiers: {
+          agiV: 1,
+        },
+      },
+    ],
   },
   {
     id: "power_1",
@@ -160,13 +250,18 @@ const perks: PerkObject[] = [
       y: -2.5,
     },
     icon: "gfx/icons/crossed-swords.png",
-    modifiers: {
-      atkV: 1,
-    },
     class: "power",
     relative_to: "0_foundation_of_power",
     requires: ["0_foundation_of_power"],
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          atkV: 1,
+        },
+      },
+    ],
   },
   {
     id: "power_2",
@@ -179,12 +274,17 @@ const perks: PerkObject[] = [
     relative_to: "power_1",
     requires: ["power_1"],
     class: "",
-    modifiers: {
-      critRateV: 1.5,
-      atkV: 1,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          critRateV: 1.5,
+          atkV: 1,
+        },
+        commands: {},
+      },
+    ],
   },
   {
     id: "power_3",
@@ -197,11 +297,16 @@ const perks: PerkObject[] = [
     relative_to: "power_1",
     requires: ["power_1"],
     class: "",
-    modifiers: {
-      critRateV: 1.5,
-      atkV: 1,
-    },
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          critRateV: 1.5,
+          atkV: 1,
+        },
+      },
+    ],
   },
   {
     id: "power_4",
@@ -214,13 +319,18 @@ const perks: PerkObject[] = [
     relative_to: "power_2",
     requires: ["power_2", "power_3"],
     class: "",
-    modifiers: {
-      atkV: 1,
-      critRateV: 1,
-      critPowerV: 5,
-    },
-    commands: {},
     cost: 2,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          atkV: 1,
+          critRateV: 1,
+          critPowerV: 5,
+        },
+        commands: {},
+      },
+    ],
   },
   {
     id: "power_5",
@@ -233,12 +343,17 @@ const perks: PerkObject[] = [
     relative_to: "power_4",
     requires: ["power_4"],
     class: "",
-    modifiers: {
-      atkV: 1,
-      critPowerV: 5,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          atkV: 1,
+          critPowerV: 5,
+        },
+        commands: {},
+      },
+    ],
   },
   {
     id: "power_6",
@@ -251,12 +366,17 @@ const perks: PerkObject[] = [
     relative_to: "power_4",
     requires: ["power_4"],
     class: "",
-    modifiers: {
-      atkV: 1,
-      critRateV: 2.5,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          atkV: 1,
+          critRateV: 2.5,
+        },
+        commands: {},
+      },
+    ],
   },
   {
     id: "power_raw_power",
@@ -269,12 +389,17 @@ const perks: PerkObject[] = [
     relative_to: "power_5",
     requires: ["power_5", "strength_5"],
     class: "",
-    modifiers: {
-      physicalDamageP: 5,
-      critPowerV: 10,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          physicalDamageP: 5,
+          critPowerV: 10,
+        },
+        commands: {},
+      },
+    ],
   },
   {
     id: "smart_1",
@@ -284,13 +409,18 @@ const perks: PerkObject[] = [
       y: 2.5,
     },
     icon: "gfx/status/brain.png",
-    modifiers: {
-      intV: 2,
-    },
     class: "smart",
     relative_to: "0_foundation_of_power",
     requires: ["0_foundation_of_power"],
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          intV: 2,
+        },
+      },
+    ],
   },
   {
     id: "smart_2",
@@ -303,11 +433,26 @@ const perks: PerkObject[] = [
     relative_to: "smart_1",
     requires: ["smart_1"],
     class: "",
-    modifiers: {
-      intV: 1,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          intV: 1,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          intV: 1,
+        },
+      },
+      {
+        modifiers: {
+          intV: 1,
+        },
+      },
+    ],
   },
   {
     id: "smart_3",
@@ -320,10 +465,25 @@ const perks: PerkObject[] = [
     relative_to: "smart_1",
     requires: ["smart_1"],
     class: "",
-    modifiers: {
-      intV: 1,
-    },
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          intV: 1,
+        },
+      },
+      {
+        modifiers: {
+          intV: 1,
+        },
+      },
+      {
+        modifiers: {
+          intV: 1,
+        },
+      },
+    ],
   },
   {
     id: "smart_4",
@@ -336,12 +496,17 @@ const perks: PerkObject[] = [
     relative_to: "smart_2",
     requires: ["smart_2", "smart_3"],
     class: "",
-    modifiers: {
-      intV: 3,
-      mpMaxP: 5,
-    },
-    commands: {},
     cost: 2,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          intV: 3,
+          mpMaxP: 5,
+        },
+        commands: {},
+      },
+    ],
   },
   {
     id: "smart_5",
@@ -354,11 +519,21 @@ const perks: PerkObject[] = [
     relative_to: "smart_4",
     requires: ["smart_4"],
     class: "",
-    modifiers: {
-      intV: 2,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          intV: 2,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          intV: 2,
+        },
+      },
+    ],
   },
   {
     id: "smart_6",
@@ -371,11 +546,16 @@ const perks: PerkObject[] = [
     relative_to: "smart_4",
     requires: ["smart_4"],
     class: "",
-    modifiers: {
-      magicalDamageP: 7,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          magicalDamageP: 7,
+        },
+        commands: {},
+      },
+    ],
   },
   {
     id: "smart_7",
@@ -388,11 +568,21 @@ const perks: PerkObject[] = [
     relative_to: "smart_3",
     requires: ["smart_3"],
     class: "",
-    modifiers: {
-      mpRegenFromIntV: 0.1,
-    },
-    commands: {},
     cost: 2,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          mpRegenFromIntV: 0.1,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          mpRegenFromIntV: 0.1,
+        },
+      },
+    ],
   },
   {
     id: "smart_8",
@@ -405,11 +595,26 @@ const perks: PerkObject[] = [
     relative_to: "smart_5",
     requires: ["smart_5"],
     class: "",
-    modifiers: {
-      intV: 1,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          intV: 1,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          intV: 1,
+        },
+      },
+      {
+        modifiers: {
+          intV: 1,
+        },
+      },
+    ],
   },
   {
     id: "smart_9",
@@ -422,11 +627,26 @@ const perks: PerkObject[] = [
     relative_to: "smart_5",
     requires: ["smart_5"],
     class: "",
-    modifiers: {
-      intV: 1,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          intV: 1,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          intV: 1,
+        },
+      },
+      {
+        modifiers: {
+          intV: 1,
+        },
+      },
+    ],
   },
   {
     id: "smart_caution",
@@ -439,12 +659,17 @@ const perks: PerkObject[] = [
     relative_to: "smart_6",
     requires: ["smart_6", "tough_6"],
     class: "",
-    modifiers: {
-      magicalDefenceV: 3,
-      elementalDefenceV: 3,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          magicalDefenceV: 3,
+          elementalDefenceV: 3,
+        },
+        commands: {},
+      },
+    ],
   },
   {
     id: "strength_1",
@@ -454,13 +679,18 @@ const perks: PerkObject[] = [
       y: -2,
     },
     icon: "gfx/status/biceps.png",
-    modifiers: {
-      strV: 2,
-    },
     class: "strength",
     relative_to: "0_foundation_of_power",
     requires: ["0_foundation_of_power"],
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          strV: 2,
+        },
+      },
+    ],
   },
   {
     id: "strength_2",
@@ -473,11 +703,26 @@ const perks: PerkObject[] = [
     relative_to: "strength_1",
     requires: ["strength_1"],
     class: "",
-    modifiers: {
-      strV: 1,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          strV: 1,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          strV: 1,
+        },
+      },
+      {
+        modifiers: {
+          strV: 1,
+        },
+      },
+    ],
   },
   {
     id: "strength_3",
@@ -490,11 +735,26 @@ const perks: PerkObject[] = [
     relative_to: "strength_1",
     requires: ["strength_1"],
     class: "",
-    modifiers: {
-      strV: 1,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          strV: 1,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          strV: 1,
+        },
+      },
+      {
+        modifiers: {
+          strV: 1,
+        },
+      },
+    ],
   },
   {
     id: "strength_4",
@@ -507,12 +767,17 @@ const perks: PerkObject[] = [
     relative_to: "strength_2",
     requires: ["strength_2", "strength_3"],
     class: "",
-    modifiers: {
-      strV: 3,
-      atkP: 5,
-    },
-    commands: {},
     cost: 2,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          strV: 3,
+          atkP: 5,
+        },
+        commands: {},
+      },
+    ],
   },
   {
     id: "strength_5",
@@ -525,11 +790,21 @@ const perks: PerkObject[] = [
     relative_to: "strength_4",
     requires: ["strength_4"],
     class: "",
-    modifiers: {
-      strV: 2,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          strV: 2,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          strV: 2,
+        },
+      },
+    ],
   },
   {
     id: "strength_6",
@@ -542,12 +817,27 @@ const perks: PerkObject[] = [
     relative_to: "strength_4",
     requires: ["strength_4"],
     class: "",
-    modifiers: {
-      strV: 1,
-      physicalDefenceV: 3,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          strV: 1,
+          physicalDefenceV: 3,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          strV: 1,
+        },
+      },
+      {
+        modifiers: {
+          strV: 1,
+        },
+      },
+    ],
   },
   {
     id: "strength_7",
@@ -560,11 +850,26 @@ const perks: PerkObject[] = [
     relative_to: "strength_5",
     requires: ["strength_5"],
     class: "",
-    modifiers: {
-      strV: 1,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          strV: 1,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          strV: 1,
+        },
+      },
+      {
+        modifiers: {
+          strV: 1,
+        },
+      },
+    ],
   },
   {
     id: "strength_8",
@@ -578,10 +883,25 @@ const perks: PerkObject[] = [
     relative_to: "strength_5",
     requires: ["strength_5"],
     class: "",
-    modifiers: {
-      strV: 1,
-    },
-    commands: {},
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          strV: 1,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          strV: 1,
+        },
+      },
+      {
+        modifiers: {
+          strV: 1,
+        },
+      },
+    ],
   },
   {
     id: "tough_1",
@@ -591,13 +911,18 @@ const perks: PerkObject[] = [
       y: 2.5,
     },
     icon: "gfx/status/weight-lifting-up.png",
-    modifiers: {
-      vitV: 2,
-    },
     class: "tough",
     relative_to: "0_foundation_of_power",
     requires: ["0_foundation_of_power"],
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          vitV: 2,
+        },
+      },
+    ],
   },
   {
     id: "tough_2",
@@ -610,11 +935,26 @@ const perks: PerkObject[] = [
     relative_to: "tough_1",
     requires: ["tough_1"],
     class: "",
-    modifiers: {
-      vitV: 1,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          vitV: 1,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          vitV: 1,
+        },
+      },
+      {
+        modifiers: {
+          vitV: 1,
+        },
+      },
+    ],
   },
   {
     id: "tough_3",
@@ -627,11 +967,26 @@ const perks: PerkObject[] = [
     relative_to: "tough_1",
     requires: ["tough_1"],
     class: "",
-    modifiers: {
-      vitV: 1,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          vitV: 1,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          vitV: 1,
+        },
+      },
+      {
+        modifiers: {
+          vitV: 1,
+        },
+      },
+    ],
   },
   {
     id: "tough_4",
@@ -644,12 +999,17 @@ const perks: PerkObject[] = [
     relative_to: "tough_2",
     requires: ["tough_2", "tough_3"],
     class: "",
-    modifiers: {
-      vitV: 3,
-      hpMaxP: 7,
-    },
-    commands: {},
     cost: 2,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          vitV: 3,
+          hpMaxP: 7,
+        },
+        commands: {},
+      },
+    ],
   },
   {
     id: "tough_5",
@@ -662,11 +1022,21 @@ const perks: PerkObject[] = [
     relative_to: "tough_4",
     requires: ["tough_4"],
     class: "",
-    modifiers: {
-      vitV: 2,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          vitV: 2,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          vitV: 2,
+        },
+      },
+    ],
   },
   {
     id: "tough_6",
@@ -679,11 +1049,16 @@ const perks: PerkObject[] = [
     relative_to: "tough_4",
     requires: ["tough_4"],
     class: "",
-    modifiers: {
-      physicalDamageP: 7,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          physicalDamageP: 7,
+        },
+        commands: {},
+      },
+    ],
   },
   {
     id: "tough_7",
@@ -696,11 +1071,26 @@ const perks: PerkObject[] = [
     relative_to: "tough_5",
     requires: ["tough_5"],
     class: "",
-    modifiers: {
-      vitV: 1,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          vitV: 1,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          vitV: 1,
+        },
+      },
+      {
+        modifiers: {
+          vitV: 1,
+        },
+      },
+    ],
   },
   {
     id: "tough_8",
@@ -713,11 +1103,26 @@ const perks: PerkObject[] = [
     relative_to: "tough_5",
     requires: ["tough_5"],
     class: "",
-    modifiers: {
-      vitV: 1,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          vitV: 1,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          vitV: 1,
+        },
+      },
+      {
+        modifiers: {
+          vitV: 1,
+        },
+      },
+    ],
   },
   {
     id: "tough_defensive",
@@ -730,12 +1135,17 @@ const perks: PerkObject[] = [
     relative_to: "tough_5",
     requires: ["tough_5", "agility_6"],
     class: "",
-    modifiers: {
-      hpMaxP: 7.5,
-      speedP: 7.5,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          hpMaxP: 7.5,
+          speedP: 7.5,
+        },
+        commands: {},
+      },
+    ],
   },
   {
     id: "warrior",
@@ -748,14 +1158,19 @@ const perks: PerkObject[] = [
     relative_to: "agility_5",
     requires: ["agility_5", "strength_6"],
     class: "",
-    modifiers: {
-      critRateV: 2,
-      agiP: 5,
-      strP: 5,
-      physicalDefenceV: 2,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          critRateV: 2,
+          agiP: 5,
+          strP: 5,
+          physicalDefenceV: 2,
+        },
+        commands: {},
+      },
+    ],
   },
   {
     id: "weak_points",
@@ -768,13 +1183,18 @@ const perks: PerkObject[] = [
     relative_to: "power_6",
     requires: ["power_6", "will_5"],
     class: "",
-    modifiers: {
-      critRateV: 3,
-      mpMaxV: 3,
-      critPowerV: 9,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          critRateV: 3,
+          mpMaxV: 3,
+          critPowerV: 9,
+        },
+        commands: {},
+      },
+    ],
   },
   {
     id: "will_1",
@@ -784,13 +1204,18 @@ const perks: PerkObject[] = [
       y: 0,
     },
     icon: "gfx/status/wisdom.png",
-    modifiers: {
-      spiV: 2,
-    },
     class: "will",
     relative_to: "0_foundation_of_power",
     requires: ["0_foundation_of_power"],
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          spiV: 2,
+        },
+      },
+    ],
   },
   {
     id: "will_2",
@@ -803,11 +1228,26 @@ const perks: PerkObject[] = [
     relative_to: "will_1",
     requires: ["will_1"],
     class: "",
-    modifiers: {
-      spiV: 1,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          spiV: 1,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          spiV: 1,
+        },
+      },
+      {
+        modifiers: {
+          spiV: 1,
+        },
+      },
+    ],
   },
   {
     id: "will_3",
@@ -820,11 +1260,26 @@ const perks: PerkObject[] = [
     relative_to: "will_1",
     requires: ["will_1"],
     class: "",
-    modifiers: {
-      spiV: 1,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          spiV: 1,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          spiV: 1,
+        },
+      },
+      {
+        modifiers: {
+          spiV: 1,
+        },
+      },
+    ],
   },
   {
     id: "will_4",
@@ -837,12 +1292,17 @@ const perks: PerkObject[] = [
     relative_to: "will_2",
     requires: ["will_2", "will_3"],
     class: "",
-    modifiers: {
-      spiV: 3,
-      mpMaxP: 5,
-    },
-    commands: {},
     cost: 2,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          spiV: 3,
+          mpMaxP: 5,
+        },
+        commands: {},
+      },
+    ],
   },
   {
     id: "will_5",
@@ -855,11 +1315,21 @@ const perks: PerkObject[] = [
     relative_to: "will_4",
     requires: ["will_4"],
     class: "",
-    modifiers: {
-      spiV: 2,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          spiV: 2,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          spiV: 2,
+        },
+      },
+    ],
   },
   {
     id: "will_6",
@@ -872,11 +1342,16 @@ const perks: PerkObject[] = [
     relative_to: "will_4",
     requires: ["will_4"],
     class: "",
-    modifiers: {
-      elementalDamageP: 7,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          elementalDamageP: 7,
+        },
+        commands: {},
+      },
+    ],
   },
   {
     id: "will_7",
@@ -889,11 +1364,26 @@ const perks: PerkObject[] = [
     relative_to: "will_5",
     requires: ["will_5"],
     class: "",
-    modifiers: {
-      spiV: 1,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          spiV: 1,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          spiV: 1,
+        },
+      },
+      {
+        modifiers: {
+          spiV: 1,
+        },
+      },
+    ],
   },
   {
     id: "will_8",
@@ -906,11 +1396,26 @@ const perks: PerkObject[] = [
     relative_to: "will_5",
     requires: ["will_5"],
     class: "",
-    modifiers: {
-      spiV: 1,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          spiV: 1,
+        },
+        commands: {},
+      },
+      {
+        modifiers: {
+          spiV: 1,
+        },
+      },
+      {
+        modifiers: {
+          spiV: 1,
+        },
+      },
+    ],
   },
   {
     id: "will_enlightened",
@@ -923,12 +1428,17 @@ const perks: PerkObject[] = [
     relative_to: "will_6",
     requires: ["will_6", "smart_5"],
     class: "",
-    modifiers: {
-      spiV: 1,
-      intV: 1,
-      mpMaxP: 7.5,
-    },
-    commands: {},
     cost: 1,
+    level: 0,
+    levels: [
+      {
+        modifiers: {
+          spiV: 1,
+          intV: 1,
+          mpMaxP: 7.5,
+        },
+        commands: {},
+      },
+    ],
   },
 ];

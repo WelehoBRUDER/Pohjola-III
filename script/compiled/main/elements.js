@@ -58,6 +58,7 @@ const lobbySidebar = lobbyScreen.querySelector(".side-bar");
 const lobbyView = lobbyScreen.querySelector(".lobby-view");
 const lobbyContent = lobbyScreen.querySelector(".lobby-content");
 const dungeonScreen = lobbyScreen.querySelector(".dungeon");
+const dungeonContent = dungeonScreen.querySelector(".dungeon-content");
 const screens = {
     skills: {
         scroll: 0,

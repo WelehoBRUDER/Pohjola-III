@@ -55,6 +55,7 @@ class Player extends Character {
   xp: number;
   completed_stages: string[];
   starting_aspect: string;
+  key_items: string[];
   constructor(char: PlayerObject) {
     super(char);
     this.race = new Race(char.race) ?? new Race(races.human);
@@ -68,6 +69,7 @@ class Player extends Character {
     this.xp = char.xp ?? 0;
     this.completed_stages = char.completed_stages ?? [];
     this.starting_aspect = char.starting_aspect ?? "determination";
+    this.key_items = char.key_items ?? [];
 
     this.restoreClasses();
     this.updateAllModifiers();
@@ -263,6 +265,9 @@ class Player extends Character {
       this.level += 1;
       this.perk_points += 1;
       this.skill_points += 1;
+      if (this.level < 6 || this.level % 5 === 0) {
+        this.perk_points += 1;
+      }
       this.restore();
     }
     sideBarDetails();
@@ -300,6 +305,10 @@ class Player extends Character {
     }
   }
 
+  getPerk(id: string): Perk | undefined {
+    return this.perks?.find((p: Perk) => p.id === id);
+  }
+
   drinkPotion(potion: Item): void {
     potion.drink(this);
     this.removeItem(potion, 1);
@@ -309,6 +318,10 @@ class Player extends Character {
     const owned = this.inventory.find((i: Item) => i.id === item);
     if (owned?.amount < amount || !owned) return false;
     return true;
+  }
+
+  hasPerk(perk: string, level: number = 1): boolean {
+    return this.perks?.findIndex((p: Perk) => p.id === perk && p.level >= level) !== -1;
   }
 }
 
@@ -365,13 +378,5 @@ const defaultPlayer = {
 let player = new Player({
   ...defaultPlayer,
 });
-
-setTimeout(() => {
-  player.updateAllModifiers();
-  player.abilities.forEach((abi) => abi.updateStats(player));
-  player.addItem(new Item({ ...items.small_healing_potion }), 2);
-  player.addItem(new Item({ ...items.small_mana_potion }), 1);
-  player.perks?.push(new Perk(perks[0]));
-}, 100);
 
 // player.addItem(new Weapon({ ...items.broken_sword }), 203);

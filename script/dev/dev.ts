@@ -20,6 +20,11 @@ if (localStorage.getItem("devtools") === "true") DEVTOOLS.ENABLED = true;
 if (DEVTOOLS.ENABLED) {
   lobbyScreen.classList.remove("no-display");
   mainMenuElement.classList.add("no-display");
+  lobby.current_view = "perks";
   createLobby();
-  dungeonController.enterDungeon(dungeons[0]);
+  //dungeonController.enterDungeon(dungeons[0]);
+}
+
+function convertRemToPixels(rem: number) {
+  return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
 }
