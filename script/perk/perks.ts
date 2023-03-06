@@ -577,11 +577,6 @@ const perks: PerkObject[] = [
         },
         commands: {},
       },
-      {
-        modifiers: {
-          mpRegenFromIntV: 0.1,
-        },
-      },
     ],
   },
   {

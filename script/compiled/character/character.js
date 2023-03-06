@@ -149,20 +149,36 @@ class Character {
                 }
                 stats[key] = Math.round(flat * modifier);
             });
+            if (options?.onlyCoreStats)
+                return stats;
             // Calculate max hp
+            const hpBase = this.getPointsFromStats("hpMax");
             const hpIncrease = this.allModifiers["hpMaxV"] ?? 0;
             const hpModifier = this.allModifiers["hpMaxP"] ?? 1;
             const hpBoost = ((this.level - 1) | 0) * 2; // Level health boost
-            stats["hpMax"] = Math.round((stats["hpMax"] + hpBoost + hpIncrease + stats["vit"] * 5) * hpModifier);
+            stats["hpMax"] = Math.round((stats["hpMax"] + hpBase + hpBoost + hpIncrease) * hpModifier);
             if (this instanceof Enemy) {
                 stats["hpMax"] = Math.round(stats["hpMax"] * challenge("enemy_health"));
             }
             // Calculate max mp
+            const mpBase = this.getPointsFromStats("mpMax");
             const mpIncrease = this.allModifiers["mpMaxV"] ?? 0;
             const mpModifier = this.allModifiers["mpMaxP"] ?? 1;
             const mpBoost = ((this.level - 1) | 0) * 0.5; // Level mana boost
-            stats["mpMax"] = Math.round((stats["mpMax"] + mpBoost + mpIncrease + stats["int"] * 2 + stats["spi"] * 2) * mpModifier);
+            stats["mpMax"] = Math.round((stats["mpMax"] + mpBase + mpBoost + mpIncrease) * mpModifier);
             return stats;
+        };
+        this.getPointsFromStats = (key) => {
+            const stats = ["Str", "Agi", "Vit", "Int", "Spi"];
+            const coreStats = this.getStats({ onlyCoreStats: true });
+            let points = 0;
+            stats.forEach((stat) => {
+                const modifier = this.allModifiers[`${key}From${stat}V`];
+                if (modifier) {
+                    points += coreStats[stat.toLowerCase()] * modifier;
+                }
+            });
+            return points;
         };
         this.getCrit = () => {
             const crit = { critRate: this.critRate, critPower: this.critPower };

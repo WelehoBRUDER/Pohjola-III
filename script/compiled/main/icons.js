@@ -40,4 +40,10 @@ const icons = {
     scaling: "gfx/icons/orb-direction.png",
     spell_scale: "gfx/icons/orb-direction.png",
 };
+const coreStats = ["Str", "Agi", "Int", "Vit", "Spi"];
+coreStats.forEach((stat) => {
+    icons[`hpMaxFrom${stat}`] = `gfx/status/heart-plus.png`;
+    icons[`mpMaxFrom${stat}`] = `gfx/icons/magic-swirl.png`;
+    icons[`mpRegenFrom${stat}`] = `gfx/icons/regeneration.png`;
+});
 //# sourceMappingURL=icons.js.map

@@ -15,6 +15,9 @@ const defaultModifiers = {
     physicalDefenceV: 0,
     magicalDefenceV: 0,
     elementalDefenceV: 0,
+    hpMaxFromVitV: 5,
+    mpMaxFromIntV: 2,
+    mpMaxFromSpiV: 2,
 };
 function getAllModifiers(char) {
     const modifiers = { ...defaultModifiers };

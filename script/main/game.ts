@@ -103,12 +103,23 @@ class Game {
     });
   }
 
-  getLocalizedString(id: string) {
+  getLocalizedString(id: string): string {
     let string: string = id;
+    if (string.includes("From")) {
+      return this.dynamicString(string);
+    }
     if (this.language[id] !== undefined) {
       string = this.language[id];
     }
     return string;
+  }
+
+  dynamicString(id: string): string {
+    // For now this can only "X from Y" strings
+    const [first, second] = id.split("From");
+    const firstString: string = this.getLocalizedString(first);
+    const secondString: string = this.getLocalizedString(second.toLowerCase());
+    return `${firstString} ${this.getLocalizedString("from")} ${secondString}`;
   }
 
   controls(e: KeyboardEvent) {

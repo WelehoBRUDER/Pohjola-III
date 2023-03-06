@@ -578,11 +578,6 @@ const perks = [
                 },
                 commands: {},
             },
-            {
-                modifiers: {
-                    mpRegenFromIntV: 0.1,
-                },
-            },
         ],
     },
     {

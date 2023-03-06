@@ -93,10 +93,20 @@ class Game {
     }
     getLocalizedString(id) {
         let string = id;
+        if (string.includes("From")) {
+            return this.dynamicString(string);
+        }
         if (this.language[id] !== undefined) {
             string = this.language[id];
         }
         return string;
+    }
+    dynamicString(id) {
+        // For now this can only "X from Y" strings
+        const [first, second] = id.split("From");
+        const firstString = this.getLocalizedString(first);
+        const secondString = this.getLocalizedString(second.toLowerCase());
+        return `${firstString} ${this.getLocalizedString("from")} ${secondString}`;
     }
     controls(e) {
         if (e.key === "§")
