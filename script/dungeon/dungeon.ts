@@ -30,8 +30,9 @@ interface RoomObject {
   getKeys?: string[];
   relative_to?: string;
   position: { x: number; y: number };
-  connections: { west?: string; east?: string; north?: string; south?: string };
+  connections: { [key: string]: string | undefined; west?: string; east?: string; north?: string; south?: string };
   keysNeeded?: string[];
+  escapeChance: number;
 }
 
 class Room {
@@ -43,8 +44,9 @@ class Room {
   getKeys?: string[];
   relative_to?: string;
   position: { x: number; y: number };
-  connections: { west?: string; east?: string; north?: string; south?: string };
+  connections: { [key: string]: string | undefined; west?: string; east?: string; north?: string; south?: string };
   keysNeeded?: string[];
+  escapeChance: number;
   constructor(room: RoomObject) {
     this.id = room.id;
     this.foes = room.foes.map((foe: any) => new Enemy(foe)) || [];
@@ -56,11 +58,61 @@ class Room {
         amount: loot.amount,
       };
     });
+    this.escapeChance = room.escapeChance || 0.5;
     this.getKeys = room.getKeys || [];
     this.relative_to = room.relative_to;
     this.position = room.position;
     this.connections = { ...room.connections };
     this.keyNeeded = room.keysNeeded || [];
+  }
+
+  enter() {
+    if (this.foes.length > 0) {
+      let text: string = `<c>crimson<c>You have encountered foes!\n`;
+      let totalPower: number = 0;
+      this.foes.forEach((foe) => {
+        // @ts-ignore
+        const en = new Enemy(enemies[foe.id]);
+        const pw = en.calculateCombatPower();
+        const { level, color } = getDangerLevel(pw);
+        const power = level < 2 ? pw : "💀";
+        totalPower += pw;
+        text += `<c>${color}<c>${game.getLocalizedString(en.id)}, <c>white<c>${game.getLocalizedString("power")}: <c>${color}<c>${power}\n`;
+      });
+      const { level, color } = getDangerLevel(totalPower);
+      text += `<c>white<c>${game.getLocalizedString("total_danger")}: <c>${color}<c>${level < 2 ? totalPower : "💀"}\n`;
+      multiOptionWindow(
+        {
+          title: "BATTLE!",
+          text: text,
+        },
+        [
+          {
+            text: "Fight",
+            click: () => {
+              game.beginCombat(this.foes);
+              closeMultiOptionWindow();
+            },
+          },
+          {
+            text: "Escape" + ` (${this.escapeChance * 100}%)`,
+            click: () => {
+              closeMultiOptionWindow();
+              if (Math.random() < this.escapeChance * 2) {
+                // @ts-ignore
+                const dir = Object.entries(this.connections).find(([dir, id]) => id === dungeonController.prevRoom?.id)[0];
+                dungeonController.move(dir, { force: true });
+                dungeonController.canMove = true;
+                log.write(game.getLocalizedString("escape_success"));
+              } else {
+                game.beginCombat(this.foes);
+                log.write(game.getLocalizedString("escape_failure"));
+              }
+            },
+          },
+        ]
+      );
+    }
   }
 }
 
@@ -105,16 +157,16 @@ function buildDungeon() {
     });
     roomDiv.style.position = "absolute";
     if (room.relative_to) {
-      const relativeRoom = dungeonContent.querySelector(`#${room.relative_to}`);
+      const relativeRoom = dungeonContent.querySelector(`#${room.relative_to}`) as HTMLDivElement;
       if (relativeRoom) {
-        const relativeRoomRect = relativeRoom.getBoundingClientRect();
-        roomDiv.style.left = `${Math.round(relativeRoomRect.left + room.position.x * 16)}px`;
-        roomDiv.style.top = `${Math.round(relativeRoomRect.top - 8 + room.position.y * 16)}px`;
+        const relativeLeft = +relativeRoom.style.left.replace("px", "");
+        const relativeTop = +relativeRoom.style.top.replace("px", "");
+        roomDiv.style.left = `${Math.round(relativeLeft + room.position.x * 10)}px`;
+        roomDiv.style.top = `${Math.round(relativeTop + room.position.y * 10)}px`;
       }
     } else {
-      console.log(Math.round(room.position.y * 16));
-      roomDiv.style.left = `${Math.round(room.position.x * 16)}px`;
-      roomDiv.style.top = `${Math.round(room.position.y * 16)}px`;
+      roomDiv.style.left = `${Math.round(room.position.x * 10)}px`;
+      roomDiv.style.top = `${Math.round(room.position.y * 10)}px`;
     }
     dungeonContent.appendChild(roomDiv);
   });
@@ -123,7 +175,7 @@ function buildDungeon() {
   // Draw lines between perks
   dungeonController.currentDungeon.rooms.forEach((_room: Room) => {
     let room: HTMLDivElement = dungeonContent.querySelector(`#${_room.id}`)!;
-    Object.entries(_room.connections).forEach(([value, key]: [string, string]) => {
+    Object.entries(_room.connections).forEach(([value, key]: [string, string | undefined]) => {
       let found: HTMLDivElement = dungeonContent.querySelector(`#${key}`)!;
       let color = "rgb(65, 65, 65)";
       let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -141,10 +193,11 @@ function buildDungeon() {
   svg.setAttribute("width", "4000");
   svg.setAttribute("height", "4000");
   dungeonContent.appendChild(svg);
-  const found: HTMLDivElement = dungeonContent.querySelector(`#${dungeonController.currentDungeon.rooms[0].id}`)!;
+  dungeonContent.scrollTo(dungeonController.prevScroll.x, dungeonController.prevScroll.y);
+  const found: HTMLDivElement = dungeonContent.querySelector(`#${dungeonController.currentRoom?.id}`)!;
   const posX = found.offsetLeft - window.innerWidth / 2 + found.offsetWidth * 3;
   const posY = found.offsetTop - window.innerHeight / 2 + found.offsetHeight;
-  dungeonContent.scrollTo(posX, posY);
+  dungeonContent.scrollTo({ top: posY, left: posX, behavior: "smooth" });
 }
 
 addDragToScroll(dungeonContent);
@@ -154,10 +207,16 @@ class DungeonController {
   id: string;
   currentRoom: Room | null;
   currentDungeon: Dungeon | null;
+  canMove: boolean;
+  prevScroll: { x: number; y: number };
+  prevRoom: Room | null;
   constructor() {
     this.id = "dungeon_controller";
     this.currentRoom = null;
     this.currentDungeon = null;
+    this.canMove = true;
+    this.prevScroll = { x: 0, y: 0 };
+    this.prevRoom = null;
   }
 
   reset() {
@@ -182,6 +241,27 @@ class DungeonController {
 
   hasKeysNeeded(room: Room) {
     return room.keysNeeded?.every((key) => this.hasKey(key));
+  }
+
+  move(direction: string, options?: { force: boolean }) {
+    if (!this.currentRoom || (!this.canMove && !options?.force)) return;
+    this.canMove = false;
+    const found: HTMLDivElement = dungeonContent.querySelector(`#${this.currentRoom?.id}`)!;
+    const posX = found.offsetLeft - window.innerWidth / 2 + found.offsetWidth * 3;
+    const posY = found.offsetTop - window.innerHeight / 2 + found.offsetHeight;
+    this.prevScroll = { x: posX, y: posY };
+    const nextRoomId = this.currentRoom.connections[direction];
+    if (!nextRoomId) return;
+    const nextRoom = this.currentDungeon?.rooms.find((room) => room.id === nextRoomId);
+    if (!nextRoom) return;
+    if (nextRoom.keysNeeded && !this.hasKeysNeeded(nextRoom)) return;
+    this.prevRoom = this.currentRoom;
+    this.currentRoom = nextRoom;
+    dungeonContent.innerHTML = "";
+    buildDungeon();
+    setTimeout(() => {
+      nextRoom.enter();
+    }, 330);
   }
 }
 

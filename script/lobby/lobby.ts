@@ -149,6 +149,31 @@ function closeConfirmationWindow() {
   confirmPrompt.classList.remove("active");
 }
 
+interface OptionButton {
+  text: string;
+  click: () => void;
+}
+
+function multiOptionWindow({ title, text }: { title: string; text: string }, buttons: OptionButton[]) {
+  multiOptionPrompt.classList.add("active");
+  multiOptionPromptTitle.textContent = title;
+  multiOptionPromptText.textContent = "";
+  console.log(text);
+  multiOptionPromptText.append(textSyntax(text));
+  multiOptionPromptButtons.innerHTML = "";
+  buttons.forEach((button) => {
+    const buttonElement = document.createElement("button");
+    buttonElement.classList.add("multi-option-button");
+    buttonElement.textContent = button.text;
+    buttonElement.onclick = button.click;
+    multiOptionPromptButtons.append(buttonElement);
+  });
+}
+
+function closeMultiOptionWindow() {
+  multiOptionPrompt.classList.remove("active");
+}
+
 const genericDragDetails = {
   lastX: 0,
   lastY: 0,

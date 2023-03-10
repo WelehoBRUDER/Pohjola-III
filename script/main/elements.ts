@@ -24,6 +24,12 @@ const confirmPromptText: HTMLDivElement = confirmPrompt.querySelector(".text")!;
 const confirmPromptYesButton: HTMLDivElement = confirmPrompt.querySelector(".confirm")!;
 const confirmPromptNoButton: HTMLDivElement = confirmPrompt.querySelector(".cancel")!;
 
+/* Multi option prompt */
+const multiOptionPrompt: HTMLDivElement = document.querySelector("#multi-option-prompt")!;
+const multiOptionPromptTitle: HTMLDivElement = multiOptionPrompt.querySelector(".title")!;
+const multiOptionPromptText: HTMLDivElement = multiOptionPrompt.querySelector(".text")!;
+const multiOptionPromptButtons: HTMLDivElement = multiOptionPrompt.querySelector(".buttons")!;
+
 /* Combat */
 const combatScreen: HTMLDivElement = document.querySelector(".combat")!;
 const uiScreen: HTMLDivElement = combatScreen.querySelector(".ui")!;

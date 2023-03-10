@@ -742,6 +742,93 @@ main.game {
   }
 }
 
+#multi-option-prompt {
+  transition: opacity 0.16s;
+  width: 40rem;
+  height: 24rem;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 30;
+  background: #161616;
+  box-shadow: 0 0 0.8rem 0.66rem #1b1b1b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  opacity: 0;
+  text-align: center;
+
+  h2.title {
+    margin: 0;
+    background: rgba(63, 4, 4, 0.8);
+    box-shadow: inset 0 0 0.5rem 0.33rem rgb(32, 1, 1);
+    color: white;
+    width: 100%;
+    height: 5rem;
+    font-size: 4rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .text {
+    width: 100%;
+    height: 14rem;
+    position: absolute;
+    top: 5rem;
+    left: 0;
+    color: white;
+    font-size: 2rem;
+
+    pre {
+      white-space: pre-wrap;
+      font-size: 2rem;
+    }
+  }
+
+  .buttons {
+    width: 100%;
+    height: 5rem;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+      transition: all 0.125s;
+      width: 9.75rem;
+      height: 3.7rem;
+      font-size: 1rem;
+      border: none;
+      margin: 0 1rem;
+      text-transform: uppercase;
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 0 0.5rem white;
+      background: rgb(56, 56, 56);
+      border: 0.2rem solid rgb(32, 32, 32);
+      box-shadow: inset 0 0 0.5rem 0.33rem rgb(36, 36, 36);
+      cursor: pointer;
+
+      &:hover {
+        background: rgb(22, 22, 22);
+        box-shadow: inset 0 0 0.5rem 0.33rem rgb(18, 18, 18);
+      }
+    }
+  }
+
+  &.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
 @keyframes GradientShine {
   0% {
     background-position: 200% 50%;

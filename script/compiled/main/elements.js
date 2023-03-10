@@ -19,6 +19,11 @@ const confirmPrompt = document.querySelector("#confirm-action");
 const confirmPromptText = confirmPrompt.querySelector(".text");
 const confirmPromptYesButton = confirmPrompt.querySelector(".confirm");
 const confirmPromptNoButton = confirmPrompt.querySelector(".cancel");
+/* Multi option prompt */
+const multiOptionPrompt = document.querySelector("#multi-option-prompt");
+const multiOptionPromptTitle = multiOptionPrompt.querySelector(".title");
+const multiOptionPromptText = multiOptionPrompt.querySelector(".text");
+const multiOptionPromptButtons = multiOptionPrompt.querySelector(".buttons");
 /* Combat */
 const combatScreen = document.querySelector(".combat");
 const uiScreen = combatScreen.querySelector(".ui");

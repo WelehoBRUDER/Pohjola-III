@@ -176,6 +176,19 @@ class Game {
     if (e.key === "Shift") {
       hideExtraText();
     }
+    const movementControls: any = {
+      ArrowUp: "north",
+      w: "north",
+      ArrowDown: "south",
+      s: "south",
+      ArrowLeft: "west",
+      a: "west",
+      ArrowRight: "east",
+      d: "east",
+    };
+    if (e.key in movementControls) {
+      dungeonController.move(movementControls[e.key]);
+    }
   }
 
   executeCommand(command: string, value: any) {
