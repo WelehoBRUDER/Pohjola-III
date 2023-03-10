@@ -187,6 +187,10 @@ class Item {
       tooltip += "\n";
     }
 
+    if (this.slot) {
+      tooltip += `<i>${icons[this.slot]}<i> Slot: <c>yellow<c>${game.getLocalizedString(this.slot)}<c>white<c>\n`;
+    }
+
     if (this.speed !== undefined) {
       tooltip += `<i>${icons.speed}<i> Speed: <c>cyan<c>${this.speed}<c>white<c>\n`;
     }

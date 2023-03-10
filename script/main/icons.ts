@@ -40,8 +40,8 @@ const icons: any = {
   spell_scale: "gfx/icons/orb-direction.png",
 };
 
-const coreStats: string[] = ["Str", "Agi", "Int", "Vit", "Spi"];
-coreStats.forEach((stat) => {
+const coreCharacterStats: string[] = ["Str", "Agi", "Vit", "Int", "Spi"];
+coreCharacterStats.forEach((stat) => {
   icons[`hpMaxFrom${stat}`] = `gfx/status/heart-plus.png`;
   icons[`mpMaxFrom${stat}`] = `gfx/icons/magic-swirl.png`;
   icons[`mpRegenFrom${stat}`] = `gfx/icons/regeneration.png`;

@@ -715,6 +715,33 @@ main.game {
   }
 }
 
+#world-log {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 15px;
+  z-index: 5;
+
+  div {
+    font-size: 1.2rem;
+    color: white;
+    text-shadow: 0 0 0.5rem black;
+
+    &.fade-out {
+      animation: fade-out 3s;
+      animation-delay: 7s;
+    }
+  }
+
+  &.large {
+    width: calc(100% - 30px);
+    height: calc(100% - 30px);
+    background: rgba(10, 10, 10, 0.8);
+    overflow: hidden;
+    overflow-y: auto;
+  }
+}
+
 @keyframes GradientShine {
   0% {
     background-position: 200% 50%;

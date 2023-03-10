@@ -900,6 +900,28 @@ const perks = [
         ],
     },
     {
+        id: "strength_9",
+        desc: "",
+        pos: {
+            x: 3.44,
+            y: 0.81,
+        },
+        icon: "gfx/status/heart-plus.png",
+        relative_to: "strength_5",
+        requires: ["strength_5", "strength_6"],
+        class: "",
+        cost: 3,
+        level: 0,
+        levels: [
+            {
+                modifiers: {
+                    hpMaxFromStrV: 2,
+                },
+                commands: {},
+            },
+        ],
+    },
+    {
         id: "tough_1",
         desc: "tough_desc",
         pos: {
@@ -1119,6 +1141,39 @@ const perks = [
                 },
             },
         ],
+    },
+    {
+        id: "tough_9",
+        desc: "",
+        pos: {
+            x: -1.09,
+            y: 3.72,
+        },
+        icon: "gfx/status/heart-plus.png",
+        cost: 2,
+        level: 0,
+        levels: [
+            {
+                modifiers: {
+                    hpMaxFromVitV: 1,
+                },
+            },
+            {
+                modifiers: {
+                    hpMaxFromVitV: 1,
+                },
+            },
+            {
+                modifiers: {
+                    hpMaxFromVitV: 1,
+                },
+            },
+        ],
+        relative_to: "tough_5",
+        requires: ["tough_5", "tough_6"],
+        class: "",
+        modifiers: {},
+        commands: {},
     },
     {
         id: "tough_defensive",
@@ -1429,9 +1484,8 @@ const perks = [
         levels: [
             {
                 modifiers: {
-                    spiV: 1,
-                    intV: 1,
-                    mpMaxP: 7.5,
+                    mpMaxFromSpiV: 1,
+                    mpMaxP: 5,
                 },
                 commands: {},
             },

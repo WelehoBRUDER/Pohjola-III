@@ -86,6 +86,7 @@ const english = {
   pouch: "Potion Pouch",
   potion_pouch_tt: "Use a potion from your pouch",
   average_power: "Average Power",
+  improve_stat: "Increases <i>{statIcon}<i> {stat} by {amount}",
 
   // Menu
   new_game: "New Game",
@@ -124,15 +125,15 @@ const english = {
   healingFlat_last: "<c>green<c>health<c>white<c> every second",
 
   // Stat tooltips
-  str_tt: "Increases <i><v>icons.physical<v><i> physical damage by 2%\nand <i><v>icons.critPower<v><i> critical damage by 0.5%.",
+  str_tt: "Increases <i><v>icons.physical<v><i> physical damage by 2%\nand <i><v>icons.critPower<v><i> critical damage by 0.5%.§",
   agi_tt:
     "Increases <i><v>icons.speed<v><i> speed by 1, <i><v>icons.critRate<v><i> crit rate by 0.2%\nand <i><v>icons.dodge<v><i> dodge chance by <v>(player.allModifiers?.dodgeFromAgi || 0) + 0.5<v>§%.",
   int_tt:
-    "Improves <i><v>icons.magical<v><i> magical damage and increases <i><v>icons.mpMax<v><i> mana by <v>player.allModifiers.mpMaxFromIntV<v>.",
-  vit_tt: "Increases <i><v>icons.hpMax<v><i> health by <v>player.allModifiers.hpMaxFromVitV<v>.",
+    "Improves <i><v>icons.magical<v><i> magical damage and increases <i><v>icons.mpMax<v><i> mana by <v>player.allModifiers.mpMaxFromIntV<v>.§",
+  vit_tt: "Increases <i><v>icons.hpMax<v><i> health by <v>player.allModifiers.hpMaxFromVitV<v>.§",
   spi_tt:
-    "Improves <i><v>icons.elemental<v><i> elemental damage and increases <i><v>icons.mpMax<v><i> mana by <v>player.allModifiers.mpMaxFromSpiV<v>.",
-  atk_tt: "Determines base physical damage and slightly increases spell scaling.",
+    "Improves <i><v>icons.elemental<v><i> elemental damage and increases <i><v>icons.mpMax<v><i> mana by <v>player.allModifiers.mpMaxFromSpiV<v>.§",
+  atk_tt: "Determines base physical damage and slightly increases spell scaling.§",
   spell_scale_tt: "Multiplies the damage of spells by this amount as percentage.",
   hpMax_tt: "This is your <i><v>icons.hpMax<v><i> health.",
   mpMax_tt: "This is your <i><v>icons.mpMax<v><i> mana.",
@@ -336,6 +337,7 @@ const english = {
   strength_6: "Strength VI",
   strength_7: "Strength VII",
   strength_8: "Strength VIII",
+  strength_9: "Strength IX",
   tough_1: "Tough I",
   tough_2: "Tough II",
   tough_3: "Tough III",
@@ -344,6 +346,7 @@ const english = {
   tough_6: "Tough VI",
   tough_7: "Tough VII",
   tough_8: "Tough VIII",
+  tough_9: "Tough IX",
   tough_defensive: "Tough Defensive",
   warrior: "Warrior",
   weak_points: "Weak Points",
@@ -356,4 +359,12 @@ const english = {
   will_7: "Will VII",
   will_8: "Will VIII",
   will_enlightened: "Will Enlightened",
+
+  // Log
+  reached_level: "Reached level {0}!",
+  gained_xp: "Gained {0} XP",
+  gained_gold: "Gained {0} gold",
+  lost_gold: "Lost {0} gold",
+  recovered_health: "Recovered {0} health",
+  recovered_mana: "Recovered {0} mana",
 };

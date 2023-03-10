@@ -108,6 +108,33 @@ class Game {
         const secondString = this.getLocalizedString(second.toLowerCase());
         return `${firstString} ${this.getLocalizedString("from")} ${secondString}`;
     }
+    getMiscEffects(key) {
+        let string = "";
+        if (coreCharacterStats.includes(this.capitalize(key))) {
+            Object.entries(player.allModifiers).forEach(([modifier, value]) => {
+                if (modifier in defaultModifiers)
+                    return;
+                if ([`${key}V`, `${key}P`].includes(modifier))
+                    return;
+                if (modifier.toLowerCase().includes(key)) {
+                    string += getIncreaseString(modifier, value);
+                }
+            });
+        }
+        return string;
+        function getIncreaseString(modifier, value) {
+            let s = game.getLocalizedString("improve_stat");
+            [modifier] = modifier.split("From");
+            s = s
+                .replace("{stat}", game.getLocalizedString(modifier))
+                .replace("{amount}", value.toString())
+                .replace("{statIcon}", icons[modifier]);
+            return s + "\n";
+        }
+    }
+    capitalize(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
     controls(e) {
         if (e.key === "§")
             return devConsole.toggle();
@@ -123,6 +150,9 @@ class Game {
         }
         else if (e.key === "Shift") {
             displayExtraText();
+        }
+        if (e.key === "l") {
+            log.toggle();
         }
         hotkeys.forEach((hotkey) => {
             if (e.code === this.settings[hotkey]) {

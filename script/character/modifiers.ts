@@ -1,6 +1,6 @@
 /* Contains functions used to get all status modifiers */
 
-const defaultModifiers = {
+const defaultModifiers: any = {
   expGainP: 1,
   goldGainP: 1,
   luckP: 1,

@@ -169,10 +169,9 @@ class Character {
             return stats;
         };
         this.getPointsFromStats = (key) => {
-            const stats = ["Str", "Agi", "Vit", "Int", "Spi"];
             const coreStats = this.getStats({ onlyCoreStats: true });
             let points = 0;
-            stats.forEach((stat) => {
+            coreCharacterStats.forEach((stat) => {
                 const modifier = this.allModifiers[`${key}From${stat}V`];
                 if (modifier) {
                     points += coreStats[stat.toLowerCase()] * modifier;

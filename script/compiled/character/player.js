@@ -211,6 +211,7 @@ class Player extends Character {
         const boost = this.allModifiers["expGainP"] ?? 1;
         this.xp += Math.floor(xp * boost);
         stats.total_xp_gained += Math.floor(xp * boost);
+        log.write(`${game.getLocalizedString("gained_xp").replace("{0}", xp.toString())}`);
         while (this.xp >= this.xpForNextLevel()) {
             this.levelUp();
         }
@@ -219,9 +220,11 @@ class Player extends Character {
         const boost = this.allModifiers["goldGainP"] ?? 1;
         stats.total_gold_gained += Math.floor(gold * boost);
         this.gold += Math.floor(gold * boost);
+        log.write(`${game.getLocalizedString("gained_gold").replace("{0}", gold.toString())}`);
     }
     removeGold(gold) {
         this.gold -= gold;
+        log.write(`${game.getLocalizedString("lost_gold").replace("{0}", gold.toString())}`);
     }
     levelUp() {
         if (this.xp >= this.xpForNextLevel()) {
@@ -234,6 +237,7 @@ class Player extends Character {
             }
             this.restore();
         }
+        log.write(`${game.getLocalizedString("reached_level").replace("{0}", this.level.toString())}`);
         sideBarDetails();
     }
     restoreClasses() {
@@ -256,12 +260,14 @@ class Player extends Character {
     heal(amount) {
         amount = Math.floor(amount * challenge("healing_weakness"));
         this.stats.hp += amount;
+        log.write(`${game.getLocalizedString("recovered_health").replace("{0}", amount.toString())}`);
         if (this.stats.hp > this.getStats().hpMax) {
             this.stats.hp = this.getStats().hpMax;
         }
     }
     recoverMana(amount) {
         this.stats.mp += amount;
+        log.write(`${game.getLocalizedString("recovered_mana").replace("{0}", amount.toString())}`);
         if (this.stats.mp > this.getStats().mpMax) {
             this.stats.mp = this.getStats().mpMax;
         }

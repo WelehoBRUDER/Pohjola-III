@@ -68,6 +68,9 @@ const lobbyContent: HTMLDivElement = lobbyScreen.querySelector(".lobby-content")
 const dungeonScreen: HTMLDivElement = lobbyScreen.querySelector(".dungeon")!;
 const dungeonContent: HTMLDivElement = dungeonScreen.querySelector(".dungeon-content")!;
 
+/* World log */
+const worldLog: HTMLDivElement = document.querySelector("#world-log")!;
+
 const screens: any = {
   skills: {
     scroll: 0,

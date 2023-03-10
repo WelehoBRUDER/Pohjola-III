@@ -49,7 +49,7 @@ function sideBarDetails() {
       statText.innerText = `${game.getLocalizedString(key)}: ${value}`;
     }
     statIcon.src = icons[key];
-    tooltip(statElement, game.getLocalizedString(key + "_tt"));
+    tooltip(statElement, game.getLocalizedString(key + "_tt") + "\n" + game.getMiscEffects(key));
     statElement.append(statIcon, statText);
     characterDetails.append(statElement);
     if (key === "atk") {

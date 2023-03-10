@@ -59,6 +59,8 @@ const lobbyView = lobbyScreen.querySelector(".lobby-view");
 const lobbyContent = lobbyScreen.querySelector(".lobby-content");
 const dungeonScreen = lobbyScreen.querySelector(".dungeon");
 const dungeonContent = dungeonScreen.querySelector(".dungeon-content");
+/* World log */
+const worldLog = document.querySelector("#world-log");
 const screens = {
     skills: {
         scroll: 0,

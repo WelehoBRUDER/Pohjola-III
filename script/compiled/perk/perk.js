@@ -34,7 +34,6 @@ class Perk {
             return false;
         if (!this.requires)
             return true;
-        console.log(player.hasPerk(this.id, this.maxLevel()));
         if (player.hasPerk(this.id, this.maxLevel()))
             return false;
         let required = this.requires.length;

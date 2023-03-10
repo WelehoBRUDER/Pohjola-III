@@ -90,11 +90,14 @@ const weapons = {
         id: "executioner",
         price: 1000,
         speed: -12,
-        atk: 23,
+        atk: 21,
         stackable: true,
         icon: "gfx/items/dripping-sword.png",
         tier: itemTiers.rare,
         type: "weapon",
+        modifiers: {
+            hpMaxP: 4,
+        },
     },
     dagger_of_speed: {
         id: "dagger_of_speed",
@@ -337,7 +340,6 @@ const armors = {
         },
         modifiers: {
             expGainP: 10,
-            goldGainP: 30,
         },
         stackable: true,
         icon: "gfx/items/hood.png",
@@ -654,9 +656,21 @@ const talismans = {
         icon: "gfx/items/ring.png",
         price: 250,
         modifiers: {
-            expGainP: 10,
-            goldGainP: 20,
+            expGainP: 15,
             hpMaxP: -5,
+        },
+        speed: 0,
+        stackable: true,
+        tier: itemTiers.uncommon,
+        type: "talisman",
+        slot: "talisman",
+    },
+    ring_of_regeneration: {
+        id: "ring_of_regeneration",
+        icon: "gfx/items/ring.png",
+        price: 250,
+        modifiers: {
+            mpRegenV: 1.5,
         },
         speed: 0,
         stackable: true,
