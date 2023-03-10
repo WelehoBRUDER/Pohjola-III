@@ -1,0 +1,30 @@
+$health: rgb(165, 30, 20);
+$health_light: rgb(218, 60, 49);
+$health_shadow: inset 0px 0px 0.25rem 0.2rem rgb(107, 18, 11);
+$health_gradient: linear-gradient(
+  90deg,
+  rgba(165, 30, 20, 1) 0%,
+  rgb(233, 74, 63) 10%,
+  rgb(202, 53, 42) 25%,
+  rgba(165, 30, 20, 1) 100%
+);
+$mana: rgb(20, 88, 165);
+$mana_light: rgb(0, 128, 218);
+$mana_shadow: inset 0px 0px 0.25rem 0.2rem rgb(16, 74, 139);
+$mana_gradient: linear-gradient(
+  90deg,
+  rgba(20, 88, 165, 1) 0%,
+  rgb(101, 162, 231) 10%,
+  rgb(69, 133, 207) 25%,
+  rgba(20, 88, 165, 1) 100%
+);
+$action: rgb(85, 165, 20);
+$action_gradient: linear-gradient(
+  90deg,
+  rgba(85, 165, 20, 1) 0%,
+  rgb(142, 235, 66) 10%,
+  rgb(110, 196, 40) 25%,
+  rgba(85, 165, 20, 1) 100%
+);
+$action_shadow: inset 0px 0px 0.25rem 0.2rem rgb(10, 10, 10);
+$gold: goldenrod;

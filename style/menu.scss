@@ -1,0 +1,193 @@
+@use "./variables.scss" as *;
+
+.main-menu {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+
+  .menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    .menu-button {
+      margin: 0 1rem;
+      padding: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1rem;
+      color: white;
+      user-select: none;
+
+      &:hover:not(.disabled) {
+        color: red;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .start-game {
+    font-size: 1.5rem;
+    border: 0.25rem solid silver;
+    background: rgba(16, 12, 16, 0.5);
+    color: silver;
+    margin: 0.5rem;
+
+    &:hover {
+      color: gold;
+      border: 0.25rem solid gold;
+      cursor: pointer;
+    }
+  }
+
+  .creation-value {
+    margin: 0.5rem;
+    padding: 0;
+    color: white;
+    user-select: none;
+    display: flex;
+    justify-content: flex-start;
+
+    p {
+      margin: 0;
+      padding: 0;
+    }
+
+    .creation-name {
+      margin-right: 0.5rem;
+      font-size: 1.25rem;
+    }
+
+    input[type="text"] {
+      margin: 0;
+      padding: 0;
+      border: none;
+      background: rgba(16, 12, 16, 0.5);
+      color: white;
+      width: 12rem;
+      text-align: left;
+      font-size: 1.2rem;
+      padding: 0.4rem;
+      font-family: "Almendra";
+    }
+
+    .choice-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .creation-choices {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        &.challenges {
+          flex-direction: column;
+          align-items: flex-start;
+
+          .choice {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            border: none;
+
+            &:hover:not(.selected) {
+              color: white;
+              border: none;
+              background: rgba(68, 166, 231, 0.5);
+            }
+
+            &:hover.selected {
+              color: goldenrod;
+              border: none;
+              background: rgba(71, 71, 71, 0.5);
+            }
+
+            &.selected {
+              border: none;
+            }
+          }
+        }
+
+        .choice {
+          margin: 0 0.5rem;
+          padding: 0.2rem;
+          color: white;
+          user-select: none;
+          border: 0.2rem solid silver;
+
+          &:hover {
+            color: gold;
+            cursor: pointer;
+            border: 0.2rem solid gold;
+          }
+
+          &.selected {
+            color: goldenrod;
+            border: 0.2rem solid goldenrod;
+          }
+        }
+      }
+    }
+  }
+
+  .saves-menu,
+  .settings-menu {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 1175px;
+    height: 75%;
+    background: rgba(24, 24, 24, 0.98);
+    overflow: hidden;
+    overflow-y: auto;
+    border: rgba(8, 8, 8, 0.7) solid 1rem;
+    border-radius: 0.5rem;
+
+    &.responsive-menu {
+      width: auto;
+      height: auto;
+      min-height: 300px;
+      max-height: 600px;
+      border: rgba(8, 8, 8, 0.7) solid 0.25rem;
+    }
+  }
+
+  .settings-menu {
+    padding: 1rem;
+    color: silver;
+    font-size: 1.2rem;
+
+    .setting {
+      display: flex;
+      margin: 0.4rem;
+      justify-content: flex-start;
+      align-items: center;
+
+      .setting-name {
+        padding: 0;
+        margin: 0;
+        margin-right: 0.5rem;
+      }
+
+      .setting-value {
+        padding: 0;
+        margin: 0;
+      }
+    }
+  }
+}

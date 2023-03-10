@@ -1,147 +1,229 @@
 <!DOCTYPE html>
 <html lang="fi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pohjola III</title>
-  <link rel="stylesheet" href="style/main.css">
-  <link rel="stylesheet" href="style/lobby.css">
-  <link rel="stylesheet" href="style/text.css">
-  <link rel="stylesheet" href="style/map.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style/compiled/animation.css">
+  <link rel="stylesheet" href="style/compiled/main.css">
+  <link rel="stylesheet" href="style/compiled/lobby.css">
+  <link rel="stylesheet" href="style/compiled/combat.css">
+  <link rel="stylesheet" href="style/compiled/elements.css">
+  <link rel="stylesheet" href="style/compiled/menu.css">
 </head>
+
 <body>
-  <div class="combatScreen hidden">
-    <div class="playerArea">
-      <div class="playerHpBar">
-        <div class="playerHpLate"></div>
-        <div class="playerHpFill fillbar"></div>
-        <p class="playerHpNum">50/50</p>
-      </div>
-      <div class="playerMpBar">
-        <div class="playerMpFill fillbar"></div>
-        <p class="playerMpNum">25/25</p>
-      </div>
-      <div class="playerStatuses"></div>
-      <div class="playerInteract">
-        <div class="playerActionBar">
-          <div class="playerActionFill"></div>
-          <p class="playerActionNum">73%</p>
+  <main class="game">
+    <div class="console" style="display: none">
+      <div class="log"></div>
+      <div class="input">
+        <input type="text" id="console-input">
+        <div class="prediction">
+          <span class="phantom"></span>
+          <span class="trailing"></span>
         </div>
-        <button class="regularAttack" onclick="regularAttack()"><img src="gfx/abilities/sword-wound.png" alt=""></button>
-        <button class="combatInventory" onclick="openInventory('combat')"><img src="gfx/icons/hand-bag.png" alt=""></button>
-        <div class="playerAbilities">
-          <div class="abilityContainer">
-            <div class="abilitySlot1" onclick="playerUseAbility(1)"></div>
-            <div class="abilitySlot2" onclick="playerUseAbility(2)"></div>
-            <div class="abilitySlot3" onclick="playerUseAbility(3)"></div>
-            <div class="abilitySlot4" onclick="playerUseAbility(4)"></div>
-            <div class="abilitySlot5" onclick="playerUseAbility(5)"></div>
+      </div>
+      <div class="console-intellisense"></div>
+    </div>
+    <div id="world-log"></div>
+    <div id="tooltip"></div>
+    <div id="bloody-screen"></div>
+    <div id="healing-screen"></div>
+    <div id="context-menu"></div>
+    <div id="confirm-action">
+      <div class="text">confirm this action</div>
+      <div class="buttons">
+        <button class="confirm">Confirm</button>
+        <button class="cancel">Cancel</button>
+      </div>
+    </div>
+    <div id="item-amount-prompt" class="disabled">
+      <div class="header">
+        <h2 class="title">[item.name]</h2>
+      </div>
+      <div class="amount">
+        <button class="amount-button" onClick="decreaseAmount()">-</button>
+        <p class="amount-text">1</p>
+        <button class="amount-button" onClick="increaseAmount()">+</button>
+      </div>
+      <div class="price">500</div>
+      <input type="range" min="1" max="99" value="1" class="slider" id="amount-slider"
+        oninput="updateAmount(parseInt(this.value))">
+      <div class="buttons">
+        <button class="button" onClick="confirmAmount()">Confirm</button>
+        <button class="button" onClick="cancelAmount()">Cancel</button>
+      </div>
+    </div>
+    <div id="multi-option-prompt">
+      <h2 class="title">BATTLE!</h2>
+      <div class="text"></div>
+      <div class="buttons"></div>
+    </div>
+    <div class="main-menu"></div>
+    <div class="combat no-display">
+      <div class="ui">
+        <div class="potion-pouch-frame hide"></div>
+        <div class="combat-header">
+          <div class="attack" onclick="attack()">Attack</div>
+          <div class="combat-time">0.0s</div>
+          <div class="pass" onclick="pass()">Pass</div>
+        </div>
+        <div class="toolbar">
+          <!-- Player HP Bar -->
+          <div class="player-hp bar">
+            <div class="fill gradient-shine">
+            </div>
+            <div class="late"></div>
+            <p class="value">100/100</p>
+          </div>
+          <!-- Player Toolbar -->
+          <div class="tools">
+            <div class="potion-pouch" onclick="openPouch()">
+              <img src="./gfx/items/potion.png">
+            </div>
+            <div class="status-effects"></div>
+            <div class="player-action bar">
+              <div class="fill gradient-shine">
+              </div>
+              <div class="late"></div>
+              <p class="value">0%</p>
+            </div>
+            <div class="action-slots"></div>
+          </div>
+          <!-- Player MP Bar -->
+          <div class="player-mp bar">
+            <div class="fill gradient-shine">
+            </div>
+            <div class="late"></div>
+            <p class="value">100/100</p>
+          </div>
+        </div>
+      </div>
+      <div class="enemies"></div>
+      <div class="combat-summary-background hide">
+        <div class="combat-summary">
+          <div class="header victory">VICTORY!</div>
+          <div class="summary-text"></div>
+          <div class="options">
+            <button class="main-button">CONTINUE</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="enemyArea">
-      <div class="enemiesFlex"></div>
-    </div>
-  </div>
-  <div id="inventoryWindow" class="hidden">
-    <div class="draggableArea"></div>
-    <div class="itemsArea"></div>
-    <div class="equipmentArea">
-      <div class="equipmentSlot§weapon"></div>
-      <div class="equipmentSlot§shield"></div>
-      <div class="equipmentSlot§head"></div>
-      <div class="equipmentSlot§body"></div>
-      <div class="equipmentSlot§legs"></div>
-      <div class="equipmentSlot§ring"></div>
-      <div class="equipmentSlot§amulet"></div>
-      <div class="equipmentSlot§talisman"></div>
-      <div class="armorValues"></div>
-    </div>
-  </div>
-  <div id="ItemUseMenu" class="hidden"></div>
-  <div id="useMultiple" class="hidden">
-    <div class="dim"></div>
-    <div class="title"></div>
-    <button class="less" onclick="changeAmount(-1)">↓</button>
-    <button class="lesser" onclick="changeAmount(-5)">↓↓↓</button>
-    <p class="amount"></p>
-    <button class="up" onclick="changeAmount(1)">↑</button>
-    <button class="more" onclick="changeAmount(5)">↑↑↑</button>
-    <div class="confirm" onclick="confirmSelection()">Confirm</div>
-    <div class="cancel" onclick="cancelSelection()">Cancel</div>
-    <p class="totalPrice"></p>
-  </div>
-  <div id="characterWindow" class="hidden">
-    <div class="draggableArea"></div>
-    <div class="contentArea"></div>
-  </div>
-  <div id="perkWindow" class="hidden">
-    <div class="draggableArea"></div>
-    <div class="contentArea"></div>
-  </div>
-  <div class="lootWindow hidden">
-    SPOILS OF BATTLE
-    <div class="lootArea"></div>
-    <p class="goldNumber">37 gold</p>
-    <div class="closeLoot" onclick="closeLootWindow()">CLOSE</div>
-  </div>
-  <div id="textBoxPop"></div>
-  <div class="bloodyScreenEffect"></div>
-  <div class="battleEndScreen invisible">
-    <div class="battleEndContainer scaled">
-      <div class="endTitle">
-        <p class="title loss">DEFEAT</p>
+    <div class="lobby no-display">
+      <div class="side-bar"></div>
+      <div class="dungeon no-display">
+        <div class="dungeon-content"></div>
       </div>
-      <div class="endingText"></div>
-      <div class="okbutton">NEXT</div>
+      <div class="lobby-view">
+        <div class="lobby-header">
+          <div class="lobby-title">
+            <h1>Pohjola III</h1>
+          </div>
+          <div class="lobby-buttons">
+          </div>
+        </div>
+        <div class="lobby-content"></div>
+      </div>
     </div>
-  </div>
-  <div id="mainButtons">
-    <button class="characterDetails" onclick="charDetails()">
-      <img src="gfx/icons/skills.png" alt="">
-    </button>
-  </div>
-  <div id="mainScreenBg" class="hidden"></div>
-  <div class="abiAssign"></div>
-  <div class="gameMap">
-    <p class="mapTitle">CAVE OF BEGINNING</p>
-    <div class="mapContent"></div>
-  </div>
-  <div class="controlButtons">
-    <button class="up">▲</button>
-    <button class="left">◄</button>
-    <button class="right">►</button>
-    <button class="down">▼</button>
-  </div>
+  </main>
 </body>
+
 </html>
+<!-- Language -->
+<script src="script/compiled/language/general.js"></script>
 
-<script src="script/maps/dungeons.js"></script>
-<script src="script/maps/dungeon.js"></script>
+<!-- Audio -->
+<script src="script/compiled/main/sounds.js"></script>
+<script src="script/compiled/main/sound.js"></script>
 
-<script src="script/db/items_db.js"></script>
-<script src="script/db/effects_db.js"></script>
-<script src="script/db/abilities_db.js"></script>
-<script src="script/db/perks_db.js"></script>
-<script src="script/db/permanent_effects_db.js"></script>
-<script src="script/lib.js"></script>
-<script src="script/global.js"></script>
-<script src="script/effects.js"></script>
-<script src="script/items.js"></script>
-<script src="script/classes/statusClass.js"></script>
-<script src="script/abilities.js"></script>
-<script src="script/syntax.js"></script>
-<script src="script/perks.js"></script>
-<script src="script/classes/itemClass.js"></script>
-<script src="script/classes/abilityClass.js"></script>
-<script src="script/classes/enemyClass.js"></script>
-<script src="script/classes/perkClass.js"></script>
-<script src="script/classes/playerClass.js"></script>
-<script src="script/lobby.js"></script>
-<script src="script/inventory.js"></script>
-<script src="script/texts.js"></script>
-<script src="script/textBox.js"></script>
-<script src="script/enemies.js"></script>
-<script src="script/combat.js"></script>
-<script src="script/classes/state.js"></script>
+<!-- Main -->
+<script src="script/compiled/main/main.js"></script>
+<script src="script/compiled/main/icons.js"></script>
+<script src="script/compiled/main/elements.js"></script>
+<script src="script/compiled/main/syntax.js"></script>
+<script src="script/compiled/main/tooltip.js"></script>
+<script src="script/compiled/main/drag.js"></script>
+<script src="script/compiled/main/save.js"></script>
+<script src="script/compiled/main/log.js"></script>
+<script src="script/compiled/main/game.js"></script>
+
+<!-- Effects -->
+<script src="script/compiled/ability/effect.js"></script>
+<script src="script/compiled/ability/effects.js"></script>
+
+<!-- Abilities -->
+<script src="script/compiled/ability/ability.js"></script>
+<script src="script/compiled/ability/abilities.js"></script>
+
+<!-- Modifiers -->
+<script src="script/compiled/character/modifiers.js"></script>
+
+<!-- Items -->
+<script src="script/compiled/item/item.js"></script>
+<script src="script/compiled/item/weapon.js"></script>
+<script src="script/compiled/item/armor.js"></script>
+<script src="script/compiled/item/material.js"></script>
+<script src="script/compiled/item/potion.js"></script>
+<script src="script/compiled/item/talisman.js"></script>
+<script src="script/compiled/item/items.js"></script>
+
+<!-- Characters -->
+<script src="script/compiled/character/character.js"></script>
+<script src="script/compiled/character/enemy.js"></script>
+<script src="script/compiled/character/enemies.js"></script>
+<script src="script/compiled/character/player.js"></script>
+
+<!-- Skills -->
+<script src="script/compiled/perk/skill.js"></script>
+<script src="script/compiled/perk/skills/fierce_attack.js"></script>
+<script src="script/compiled/perk/skills/cleave.js"></script>
+<script src="script/compiled/perk/skills/sharp_strike.js"></script>
+<script src="script/compiled/perk/skills/battle_aura.js"></script>
+<script src="script/compiled/perk/skills/flame.js"></script>
+<script src="script/compiled/perk/skills/thorns_bind.js"></script>
+<script src="script/compiled/perk/skills/ice_bolt.js"></script>
+<script src="script/compiled/perk/skills/magic_blast.js"></script>
+<script src="script/compiled/perk/skills/piercing_comet.js"></script>
+<script src="script/compiled/perk/skills/meteor.js"></script>
+<script src="script/compiled/perk/skills/disorienting_blow.js"></script>
+<script src="script/compiled/perk/skills/healing_light.js"></script>
+<script src="script/compiled/perk/skills/holy_grace.js"></script>
+
+<!-- Perks -->
+<script src="script/compiled/perk/perk.js"></script>
+<script src="script/compiled/perk/perks.js"></script>
+
+<!-- Lobby -->
+<script src="script/compiled/lobby/merchant.js"></script>
+<script src="script/compiled/lobby/side.js"></script>
+<script src="script/compiled/lobby/inventory.js"></script>
+<script src="script/compiled/lobby/store.js"></script>
+<script src="script/compiled/lobby/stages.js"></script>
+<script src="script/compiled/lobby/char_view.js"></script>
+<script src="script/compiled/lobby/crafting.js"></script>
+
+<script src="script/compiled/lobby/lobby.js"></script>
+
+<!-- Combat -->
+<script src=" script/compiled/combat/effects.js"></script>
+<script src="script/compiled/combat/damage.js"></script>
+<script src="script/compiled/combat/combat.js"></script>
+
+<!-- Dungeons -->
+<script src="script/compiled/dungeon/dungeon.js"></script>
+<script src="script/compiled/dungeon/dungeons.js"></script>
+
+
+<!-- Dev -->
+<script src="script/compiled/dev/commands.js"></script>
+<script src="script/compiled/dev/console.js"></script>
+<script src="script/compiled/dev/dev.js"></script>
+<script src="script/compiled/dev/settings.js"></script>
+<script src="script/compiled/dev/new_game.js"></script>
+<script src="script/compiled/dev/menu.js"></script>
