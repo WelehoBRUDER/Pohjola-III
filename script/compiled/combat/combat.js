@@ -112,8 +112,9 @@ function useAbility(hotkey, index) {
         return;
     if (ability.type === "attack") {
         const targets = combat.getLivingEnemies();
-        if (targets.length === 1) {
-            ability.use(player, targets[0]);
+        if (targets.length === 1 || ability.isAOE) {
+            console.log(targets);
+            ability.use(player, targets);
         }
         else {
             console.log("You have multiple targets, please select one");
@@ -121,7 +122,7 @@ function useAbility(hotkey, index) {
         }
     }
     else {
-        ability.use(player, player);
+        ability.use(player, [player]);
     }
 }
 function shakeScreen() {
@@ -162,7 +163,7 @@ function attack() {
     game.endTargeting();
     const targets = combat.getLivingEnemies();
     if (targets.length === 1) {
-        ability.use(player, targets[0]);
+        ability.use(player, targets);
     }
     else {
         console.log("You have multiple targets, please select one");

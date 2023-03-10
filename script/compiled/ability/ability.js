@@ -8,6 +8,7 @@ class Ability {
     cooldown;
     onCooldown;
     weight;
+    isAOE;
     effectsToEnemy;
     effectsToSelf;
     damageType;
@@ -24,6 +25,7 @@ class Ability {
         this.type = ability.type;
         this.isSpell = ability.isSpell ?? false;
         this.weight = ability.weight ?? 1;
+        this.isAOE = ability.isAOE ?? false;
         this.cooldown = ability.cooldown ?? 0;
         this.onCooldown = ability.onCooldown ?? 0;
         this.damageType = ability.damageType;
@@ -70,7 +72,7 @@ class Ability {
                 return false;
             return true;
         };
-        this.use = (user, target) => {
+        this.use = (user, targets) => {
             user.stats.ap = 0;
             this.setCooldown(user);
             if (this.mpCost) {
@@ -84,97 +86,104 @@ class Ability {
                 }
             }
             if (this.type === "attack") {
-                const hasDodged = target.dodge();
-                if (hasDodged) {
+                targets.forEach((target) => {
+                    const hasDodged = target.dodge();
+                    if (hasDodged) {
+                        if (target.isEnemy) {
+                            createDroppingText("DODGED!", target.card.main, "dodge");
+                            game.resume();
+                        }
+                        else {
+                            createDroppingText("DODGED!", tools, "dodge");
+                        }
+                        return update();
+                    }
+                    const { critRate, critPower } = user.getCrit();
+                    let damage = calculateDamage(user, target, this);
+                    const didCrit = Math.random() < critRate / 100;
+                    if (didCrit)
+                        damage = Math.floor(damage * (1 + critPower / 100));
                     if (target.isEnemy) {
-                        createDroppingText("DODGED!", target.card.main, "dodge");
-                        game.resume();
+                        target.hurt(damage, didCrit);
                     }
                     else {
-                        createDroppingText("DODGED!", tools, "dodge");
+                        stats.total_damage_taken += damage;
+                        if (stats.most_damage_taken < damage) {
+                            stats.most_damage_taken = damage;
+                        }
+                        player.stats.hp -= damage;
+                        createDroppingText(damage.toString(), tools);
+                        if (didCrit) {
+                            createDroppingText("CRIT!", tools, "crit");
+                        }
+                        update({ updatePlayerOnly: true });
+                        shakeScreen();
                     }
-                    return update();
-                }
-                const { critRate, critPower } = user.getCrit();
-                let damage = calculateDamage(user, target, this);
-                const didCrit = Math.random() < critRate / 100;
-                if (didCrit)
-                    damage = Math.floor(damage * (1 + critPower / 100));
-                if (target.isEnemy) {
-                    target.hurt(damage, didCrit);
-                }
-                else {
-                    stats.total_damage_taken += damage;
-                    if (stats.most_damage_taken < damage) {
-                        stats.most_damage_taken = damage;
+                    if (this.effectsToEnemy) {
+                        this.effectsToEnemy.forEach((effect) => {
+                            target.addStatus(effect, user, "ability_" + this.id);
+                        });
                     }
-                    player.stats.hp -= damage;
-                    createDroppingText(damage.toString(), tools);
-                    if (didCrit) {
-                        createDroppingText("CRIT!", tools, "crit");
-                    }
-                    update();
-                    shakeScreen();
-                }
-                if (this.effectsToEnemy) {
-                    this.effectsToEnemy.forEach((effect) => {
-                        target.addStatus(effect, user, "ability_" + this.id);
-                    });
-                }
+                });
+                game.resume();
+                update();
             }
             else if (this.type === "heal") {
-                if (this.healFlat || this.healPercent) {
-                    let heal = 0;
-                    if (this.healFlat) {
-                        heal += this.healFlat;
-                    }
-                    if (this.healPercent) {
-                        heal += Math.floor(target.stats.maxHp * this.healPercent);
-                    }
-                    if (target.isEnemy) {
-                        target.heal(heal);
-                    }
-                    else {
-                        stats.total_healing += heal;
-                        if (stats.most_healing < heal) {
-                            stats.most_healing = heal;
+                targets.forEach((target) => {
+                    if (this.healFlat || this.healPercent) {
+                        let heal = 0;
+                        if (this.healFlat) {
+                            heal += this.healFlat;
                         }
-                        player.stats.hp += heal;
-                        createDroppingText(heal.toString(), tools);
-                        update();
+                        if (this.healPercent) {
+                            heal += Math.floor(target.stats.maxHp * this.healPercent);
+                        }
+                        if (target.isEnemy) {
+                            target.heal(heal);
+                        }
+                        else {
+                            stats.total_healing += heal;
+                            if (stats.most_healing < heal) {
+                                stats.most_healing = heal;
+                            }
+                            player.stats.hp += heal;
+                            createDroppingText(heal.toString(), tools);
+                            update();
+                        }
                     }
-                }
-                if (this.effectsToSelf) {
-                    this.effectsToSelf.forEach((effect) => {
-                        target.addStatus(effect, user, "ability_" + this.id);
-                    });
-                }
-                if (user instanceof Player) {
-                    healingScreen.classList.add("show");
-                    setTimeout(() => {
-                        healingScreen.classList.remove("show");
-                    }, 200);
-                }
+                    if (this.effectsToSelf) {
+                        this.effectsToSelf.forEach((effect) => {
+                            target.addStatus(effect, user, "ability_" + this.id);
+                        });
+                    }
+                    if (user instanceof Player) {
+                        healingScreen.classList.add("show");
+                        setTimeout(() => {
+                            healingScreen.classList.remove("show");
+                        }, 200);
+                    }
+                    else if (this.type === "buff") {
+                        if (this.effectsToSelf) {
+                            this.effectsToSelf.forEach((effect) => {
+                                target.addStatus(effect, user, "ability_" + this.id);
+                            });
+                        }
+                        if (user instanceof Player) {
+                            combatScreen.classList.add("buff");
+                            setTimeout(() => {
+                                combatScreen.classList.remove("buff");
+                            }, 200);
+                        }
+                    }
+                    if (user instanceof Player) {
+                        setTimeout(() => {
+                            game.resume();
+                        }, 300 / game.settings.animation_speed);
+                    }
+                });
+                game.resume();
+                update();
             }
-            else if (this.type === "buff") {
-                if (this.effectsToSelf) {
-                    this.effectsToSelf.forEach((effect) => {
-                        target.addStatus(effect, user, "ability_" + this.id);
-                    });
-                }
-                if (user instanceof Player) {
-                    combatScreen.classList.add("buff");
-                    setTimeout(() => {
-                        combatScreen.classList.remove("buff");
-                    }, 200);
-                }
-            }
-            if (user instanceof Player) {
-                setTimeout(() => {
-                    game.resume();
-                }, 300 / game.settings.animation_speed);
-            }
-            update();
         };
         this.updateStats = (holder) => {
             let id = this.id;
@@ -210,6 +219,9 @@ class Ability {
         tooltip += "<f>1.2rem<f><c>white<c>";
         if (DEVTOOLS.ENABLED) {
             tooltip += `<c>white<c> [dev] <c>orange<c>${this.id}<c>white<c>\n`;
+        }
+        if (this.isAOE) {
+            tooltip += `${game.getLocalizedString("aoe")}\n`;
         }
         // Ability type
         tooltip += `${game.getLocalizedString("type")}: ${game.getLocalizedString(this.type)}\n`;

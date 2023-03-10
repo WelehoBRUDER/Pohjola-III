@@ -49,6 +49,7 @@ class Player extends Character {
         this.updateAllModifiers();
     }
     addItem(base_item, amount, options) {
+        console.log(base_item);
         let item = base_item.updateClass();
         item.amount = amount || base_item.amount || 1;
         if (item.slot && options?.forceEquip) {
@@ -106,6 +107,10 @@ class Player extends Character {
         else if (slot === "armor") {
             item = this.equipment[slot];
             this.equipment[slot] = null;
+        }
+        else if (slot === "talisman") {
+            item = this.equipment.talisman;
+            this.equipment.talisman = null;
         }
         this.addItem(item, 1, { dontEquip: true });
     }
@@ -265,9 +270,11 @@ class Player extends Character {
             this.stats.hp = this.getStats().hpMax;
         }
     }
-    recoverMana(amount) {
+    recoverMana(amount, options) {
         this.stats.mp += amount;
-        log.write(`${game.getLocalizedString("recovered_mana").replace("{0}", amount.toString())}`);
+        if (options?.log) {
+            log.write(`${game.getLocalizedString("recovered_mana").replace("{0}", amount.toString())}`);
+        }
         if (this.stats.mp > this.getStats().mpMax) {
             this.stats.mp = this.getStats().mpMax;
         }

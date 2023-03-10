@@ -212,7 +212,7 @@ class Enemy extends Character {
             this.card.main.style.animationDuration = `${1000 / game.settings.animation_speed}ms`;
             this.card.main.style.animationName = "attack";
             setTimeout(() => {
-                ability.use(this, player);
+                ability.use(this, [player]);
             }, 800 / game.settings.animation_speed);
             setTimeout(() => {
                 if (this.card) {
@@ -260,7 +260,7 @@ function createBattlecard(enemy) {
             return;
         if (game.state.targeting && game.state.selected_ability) {
             game.pause();
-            game.state.selected_ability.use(player, enemy);
+            game.state.selected_ability.use(player, [enemy]);
             game.endTargeting();
         }
     });

@@ -209,9 +209,8 @@ class Character {
         }
         stats[key] = Math.round(flat * modifier);
       });
-      if (options?.onlyCoreStats) return stats;
       // Calculate max hp
-      const hpBase = this.getPointsFromStats("hpMax");
+      const hpBase = this.getPointsFromStats("hpMax", stats);
       const hpIncrease = this.allModifiers["hpMaxV"] ?? 0;
       const hpModifier = this.allModifiers["hpMaxP"] ?? 1;
       const hpBoost = ((this.level - 1) | 0) * 2; // Level health boost
@@ -220,7 +219,7 @@ class Character {
         stats["hpMax"] = Math.round(stats["hpMax"] * challenge("enemy_health"));
       }
       // Calculate max mp
-      const mpBase = this.getPointsFromStats("mpMax");
+      const mpBase = this.getPointsFromStats("mpMax", stats);
       const mpIncrease = this.allModifiers["mpMaxV"] ?? 0;
       const mpModifier = this.allModifiers["mpMaxP"] ?? 1;
       const mpBoost = ((this.level - 1) | 0) * 0.5; // Level mana boost
@@ -228,8 +227,7 @@ class Character {
       return stats;
     };
 
-    this.getPointsFromStats = (key: string): number => {
-      const coreStats = this.getStats({ onlyCoreStats: true });
+    this.getPointsFromStats = (key: string, coreStats: any): number => {
       let points = 0;
       coreCharacterStats.forEach((stat: string) => {
         const modifier = this.allModifiers[`${key}From${stat}V`];

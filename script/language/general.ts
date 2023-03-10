@@ -61,6 +61,7 @@ const english = {
   mpCost: "Mana Cost",
   duration: "Duration",
   cooldown: "Cooldown",
+  aoe: "<c>lime<c>This ability hits all foes!<c>white<c>",
   expGain: "Experience Gain",
   goldGain: "Gold Gain",
   luck: "Luck",
@@ -87,6 +88,7 @@ const english = {
   potion_pouch_tt: "Use a potion from your pouch",
   average_power: "Average Power",
   improve_stat: "Increases <i>{statIcon}<i> {stat} by {amount}",
+  you_lost: "You lost",
 
   // Menu
   new_game: "New Game",

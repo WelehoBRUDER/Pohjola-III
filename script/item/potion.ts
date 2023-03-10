@@ -20,7 +20,7 @@ class Potion extends Item {
 
   drink(user: Player | Enemy) {
     if (this.heal) user.heal(this.heal);
-    if (this.manaRecover) user.recoverMana(this.manaRecover);
+    if (this.manaRecover) user.recoverMana(this.manaRecover, { log: true });
     if (this.effectsToSelf) this.effectsToSelf.forEach((effect: EffectObject) => user.addStatus(effect, user));
     if (isInCombat()) {
       if (this.heal) {

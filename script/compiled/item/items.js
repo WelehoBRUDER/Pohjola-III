@@ -670,7 +670,7 @@ const talismans = {
         icon: "gfx/items/ring.png",
         price: 250,
         modifiers: {
-            mpRegenV: 1.5,
+            mpRegenV: 2,
         },
         speed: 0,
         stackable: true,

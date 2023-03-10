@@ -112,14 +112,15 @@ function useAbility(hotkey: string | null, index?: number | null) {
   if (!ability.canUse(player) || player.stats.ap < 100) return;
   if (ability.type === "attack") {
     const targets: Enemy[] = combat.getLivingEnemies();
-    if (targets.length === 1) {
-      ability.use(player, targets[0]);
+    if (targets.length === 1 || ability.isAOE) {
+      console.log(targets);
+      ability.use(player, targets);
     } else {
       console.log("You have multiple targets, please select one");
       game.startTargeting(ability);
     }
   } else {
-    ability.use(player, player);
+    ability.use(player, [player]);
   }
 }
 
@@ -162,7 +163,7 @@ function attack() {
   game.endTargeting();
   const targets: Enemy[] = combat.getLivingEnemies();
   if (targets.length === 1) {
-    ability.use(player, targets[0]);
+    ability.use(player, targets);
   } else {
     console.log("You have multiple targets, please select one");
     game.startTargeting(ability);
