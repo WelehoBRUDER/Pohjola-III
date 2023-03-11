@@ -112,6 +112,21 @@ const weapons = {
             critRateV: 5,
         },
     },
+    vithail_cursed_sword: {
+        id: "vithail_cursed_sword",
+        price: 1500,
+        speed: 6,
+        atk: 27,
+        stackable: true,
+        icon: "gfx/items/broadsword.png",
+        tier: itemTiers.epic,
+        type: "weapon",
+        modifiers: {
+            critRateV: 5,
+            critPowerV: 5,
+            vitP: -10,
+        },
+    },
     astral_spear: {
         id: "astral_spear",
         price: 3000,

@@ -24,6 +24,8 @@ const multiOptionPrompt = document.querySelector("#multi-option-prompt");
 const multiOptionPromptTitle = multiOptionPrompt.querySelector(".title");
 const multiOptionPromptText = multiOptionPrompt.querySelector(".text");
 const multiOptionPromptButtons = multiOptionPrompt.querySelector(".buttons");
+/* Notifications screen */
+const notificationsScreen = document.querySelector("#notifications");
 /* Combat */
 const combatScreen = document.querySelector(".combat");
 const uiScreen = combatScreen.querySelector(".ui");

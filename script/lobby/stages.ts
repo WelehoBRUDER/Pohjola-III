@@ -51,14 +51,11 @@ class Stage {
       // @ts-ignore
       const en = new Enemy(enemies[foe.id]);
       const pw = en.calculateCombatPower();
-      const { level, color } = getDangerLevel(pw);
-      const power = level < 2 ? pw : "💀";
+      text += getEnemyPowerText(en, pw);
       totalPower += pw;
-      text += `<c>${color}<c>${game.getLocalizedString(en.id)}, <c>white<c>${game.getLocalizedString("power")}: <c>${color}<c>${power}\n`;
     });
     text += "<f>1.25rem<f>";
-    const { level, color } = getDangerLevel(totalPower);
-    text += `<c>white<c>${game.getLocalizedString("total_danger")}: <c>${color}<c>${level < 2 ? totalPower : "💀"}\n`;
+    text += getTotalPowerText(totalPower);
     if (player.completed_stages.includes(this.id)) {
       if (challenges.no_grinding) {
         text += `<c>orange<c>${game.getLocalizedString("already_completed")}\n`;
@@ -134,7 +131,7 @@ const floors: any = [
   {
     id: "floor_2",
     map: "southern_plains",
-    beat_stage_to_unlock: "tomb_of_the_mage",
+    key_item_to_unlock: "vithail_lord_insignia",
     stages: [
       new Stage({
         id: "stage_11",
@@ -216,6 +213,22 @@ function calculateFloorPower(stages: Stage[]): { danger: string; color: string }
 
 let currentStage: string = "";
 
+function isFloorUnlocked(floor: any): boolean {
+  if (DEVTOOLS.ENABLED) return true;
+  let unlocked = true;
+  if (floor.beat_stage_to_unlock && floor.beat_stage_to_unlock !== "") {
+    unlocked = player.completed_stages.includes(floor.beat_stage_to_unlock);
+  }
+  if (floor.key_item_to_unlock && floor.key_item_to_unlock !== "") {
+    unlocked = player.hasKeyItem(floor.key_item_to_unlock);
+  }
+  return unlocked;
+}
+
+function isDungeonUnlocked(dungeon: any) {
+  return player.completed_stages.includes(dungeon.beat_stage_to_unlock);
+}
+
 function createFloors() {
   lobbyContent.innerHTML = `
     <div class="stages-upper">
@@ -232,12 +245,19 @@ function createFloors() {
     let floorTooltip = `<f>1.25rem<f><c>goldenrod<c>${game.getLocalizedString(floor.id)}\n<f>1rem<f><c>silver<c>"${game.getLocalizedString(
       floor.id + "_desc"
     )}"\n\n<c>white<c>`;
-    if (!player.completed_stages.includes(floor.beat_stage_to_unlock) && floor.beat_stage_to_unlock !== "" && !DEVTOOLS.ENABLED) {
+    if (!isFloorUnlocked(floor)) {
       stageElement.classList.add("locked");
 
-      floorTooltip += `<c>white<c>${game.getLocalizedString("beat_stage_to_unlock")}: <c>yellow<c>${game.getLocalizedString(
-        floor.beat_stage_to_unlock
-      )}`;
+      if (floor.key_item_to_unlock) {
+        floorTooltip += `<c>white<c>${game.getLocalizedString("key_item_to_unlock")}: <c>yellow<c>${game.getLocalizedString(
+          floor.key_item_to_unlock
+        )}\n`;
+      }
+      if (floor.beat_stage_to_unlock) {
+        floorTooltip += `<c>white<c>${game.getLocalizedString("beat_stage_to_unlock")}: <c>yellow<c>${game.getLocalizedString(
+          floor.beat_stage_to_unlock
+        )}\n`;
+      }
     } else {
       stageElement.onclick = () => {
         createStages(floor.stages);
@@ -253,14 +273,28 @@ function createFloors() {
     const dungeonElement = document.createElement("div");
     dungeonElement.classList.add("stage");
     dungeonElement.innerText = game.getLocalizedString(dungeon.id);
-    dungeonElement.onclick = () => {
-      const txt = `<c>white<c>${game.getLocalizedString("enter_dungeon_1")} <c>goldenrod<c>${game.getLocalizedString(
-        dungeon.id
-      )}<c>white<c>?`;
-      confirmationWindow(txt, () => {
-        dungeonController.enterDungeon(dungeon);
-      });
-    };
+    let dungeonTooltip = `<f>1.25rem<f><c>goldenrod<c>${game.getLocalizedString(
+      dungeon.id
+    )}\n<f>1rem<f><c>silver<c>"${game.getLocalizedString(dungeon.id + "_desc")}"\n\n<c>white<c>`;
+
+    dungeonTooltip += game.getLocalizedString("dungeon_warn");
+
+    if (!isDungeonUnlocked(dungeon)) {
+      dungeonElement.classList.add("locked");
+      dungeonTooltip += `<c>white<c>${game.getLocalizedString("beat_stage_to_unlock")}: <c>yellow<c>${game.getLocalizedString(
+        dungeon.beat_stage_to_unlock
+      )}\n`;
+    } else {
+      dungeonElement.onclick = () => {
+        const txt = `<c>white<c>${game.getLocalizedString("enter_dungeon_1")} <c>goldenrod<c>${game.getLocalizedString(
+          dungeon.id
+        )}<c>white<c>?`;
+        confirmationWindow(txt, () => {
+          dungeonController.enterDungeon(dungeon);
+        });
+      };
+    }
+    tooltip(dungeonElement, dungeonTooltip);
     dungeonsElement.append(dungeonElement);
   });
 }

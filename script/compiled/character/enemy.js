@@ -293,4 +293,13 @@ function createBattlecard(enemy) {
         status_effects: battlecard.querySelector(".status-effects"),
     };
 }
+function getEnemyPowerText(en, pw) {
+    const { level, color } = getDangerLevel(pw);
+    const power = level < 2 ? pw : "💀";
+    return `<c>${color}<c>${game.getLocalizedString(en.id)}, <c>white<c>${game.getLocalizedString("power")}: <c>${color}<c>${power}\n`;
+}
+function getTotalPowerText(pw) {
+    const { level, color } = getDangerLevel(pw);
+    return `<c>white<c>${game.getLocalizedString("total_danger")}: <c>${color}<c>${level < 2 ? pw : "💀"}\n`;
+}
 //# sourceMappingURL=enemy.js.map

@@ -54,6 +54,8 @@ class Player extends Character {
   level: number;
   xp: number;
   completed_stages: string[];
+  completed_rooms: string[];
+  completed_dungeons: string[];
   starting_aspect: string;
   key_items: string[];
   constructor(char: PlayerObject) {
@@ -68,6 +70,8 @@ class Player extends Character {
     this.level = char.level ?? 1;
     this.xp = char.xp ?? 0;
     this.completed_stages = char.completed_stages ?? [];
+    this.completed_rooms = char.completed_rooms ?? [];
+    this.completed_dungeons = char.completed_dungeons ?? [];
     this.starting_aspect = char.starting_aspect ?? "determination";
     this.key_items = char.key_items ?? [];
 
@@ -277,7 +281,9 @@ class Player extends Character {
       }
       this.restore();
     }
-    log.write(`${game.getLocalizedString("reached_level").replace("{0}", this.level.toString())}`);
+    const text = game.getLocalizedString("reached_level").replace("{0}", this.level.toString());
+    log.write(text);
+    log.createNotification(text);
     sideBarDetails();
   }
 
@@ -326,6 +332,12 @@ class Player extends Character {
     this.removeItem(potion, 1);
   }
 
+  addKeyItem(item: string) {
+    if (!this.key_items) this.key_items = [];
+    if (this.key_items.includes(item)) return;
+    this.key_items.push(item);
+  }
+
   hasItem(item: string, amount: number = 1): boolean {
     const owned = this.inventory.find((i: Item) => i.id === item);
     if (owned?.amount < amount || !owned) return false;
@@ -334,6 +346,18 @@ class Player extends Character {
 
   hasPerk(perk: string, level: number = 1): boolean {
     return this.perks?.findIndex((p: Perk) => p.id === perk && p.level >= level) !== -1;
+  }
+
+  hasCompletedRoom(room: string): boolean {
+    return this.completed_rooms?.includes(room);
+  }
+
+  hasCompletedDungeon(dungeon: string): boolean {
+    return this.completed_dungeons?.includes(dungeon);
+  }
+
+  hasKeyItem(item: string): boolean {
+    return this.key_items?.includes(item);
   }
 }
 

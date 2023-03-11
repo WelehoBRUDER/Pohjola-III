@@ -211,7 +211,15 @@ class Game {
     lobbyScreen.classList.remove("no-display");
     combatScreen.classList.add("no-display");
     sideBarDetails();
-    createFloors();
+    if (!dungeonController.currentDungeon) {
+      createFloors();
+    } else if (dungeonController.currentRoom && !combat.defeat) {
+      dungeonController.canMove = true;
+      dungeonController.currentRoom.foes = [];
+      dungeonController.currentRoom.enter();
+    } else {
+      dungeonController.leaveDungeon();
+    }
   }
 
   randomShake(num: number) {

@@ -325,3 +325,14 @@ function createBattlecard(enemy: Enemy) {
     status_effects: battlecard.querySelector(".status-effects") as HTMLDivElement,
   };
 }
+
+function getEnemyPowerText(en: Enemy, pw: number): string {
+  const { level, color } = getDangerLevel(pw);
+  const power = level < 2 ? pw : "💀";
+  return `<c>${color}<c>${game.getLocalizedString(en.id)}, <c>white<c>${game.getLocalizedString("power")}: <c>${color}<c>${power}\n`;
+}
+
+function getTotalPowerText(pw: number) {
+  const { level, color } = getDangerLevel(pw);
+  return `<c>white<c>${game.getLocalizedString("total_danger")}: <c>${color}<c>${level < 2 ? pw : "💀"}\n`;
+}
