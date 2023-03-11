@@ -29,6 +29,8 @@ class Player extends Character {
     level;
     xp;
     completed_stages;
+    completed_rooms;
+    completed_dungeons;
     starting_aspect;
     key_items;
     constructor(char) {
@@ -43,6 +45,8 @@ class Player extends Character {
         this.level = char.level ?? 1;
         this.xp = char.xp ?? 0;
         this.completed_stages = char.completed_stages ?? [];
+        this.completed_rooms = char.completed_rooms ?? [];
+        this.completed_dungeons = char.completed_dungeons ?? [];
         this.starting_aspect = char.starting_aspect ?? "determination";
         this.key_items = char.key_items ?? [];
         this.restoreClasses();
@@ -242,7 +246,9 @@ class Player extends Character {
             }
             this.restore();
         }
-        log.write(`${game.getLocalizedString("reached_level").replace("{0}", this.level.toString())}`);
+        const text = game.getLocalizedString("reached_level").replace("{0}", this.level.toString());
+        log.write(text);
+        log.createNotification(text);
         sideBarDetails();
     }
     restoreClasses() {
@@ -286,6 +292,13 @@ class Player extends Character {
         potion.drink(this);
         this.removeItem(potion, 1);
     }
+    addKeyItem(item) {
+        if (!this.key_items)
+            this.key_items = [];
+        if (this.key_items.includes(item))
+            return;
+        this.key_items.push(item);
+    }
     hasItem(item, amount = 1) {
         const owned = this.inventory.find((i) => i.id === item);
         if (owned?.amount < amount || !owned)
@@ -294,6 +307,15 @@ class Player extends Character {
     }
     hasPerk(perk, level = 1) {
         return this.perks?.findIndex((p) => p.id === perk && p.level >= level) !== -1;
+    }
+    hasCompletedRoom(room) {
+        return this.completed_rooms?.includes(room);
+    }
+    hasCompletedDungeon(dungeon) {
+        return this.completed_dungeons?.includes(dungeon);
+    }
+    hasKeyItem(item) {
+        return this.key_items?.includes(item);
     }
 }
 const defaultPlayer = {

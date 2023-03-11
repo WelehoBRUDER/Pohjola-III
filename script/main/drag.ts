@@ -19,7 +19,7 @@ function calcElementArea(element: HTMLElement) {
 
 function dragElem(
   elem: HTMLElement,
-  snapContainers: Array<any>,
+  snapContainers?: Array<any>,
   onclick?: Function,
   callback?: Function,
   onclick_args?: any,
@@ -27,10 +27,11 @@ function dragElem(
   callback_args?: any,
   callback_params?: boolean
 ) {
+  const dragTimeout = snapContainers ? 200 : 0;
   elem.onmousedown = (e: MouseEvent) => {
     dragProperties.click = true;
     clearTimeout(dragProperties.heldDownTimer);
-    dragProperties.heldDownTimer = setTimeout(() => dragMouseDown(e), 200);
+    dragProperties.heldDownTimer = setTimeout(() => dragMouseDown(e), dragTimeout);
   };
   elem.onmouseup = (e: any) => {
     clearTimeout(dragProperties.heldDownTimer);
@@ -53,8 +54,8 @@ function dragElem(
     dragProperties.positions.pos3 = e.x;
     dragProperties.positions.pos4 = e.y;
     elem.style.position = "absolute";
-    elem.style.boxShadow = "inset 0 0 8px 4px gold, 0 0 8px 6px gold";
     elem.style.zIndex = "99";
+    if (snapContainers) elem.style.boxShadow = "inset 0 0 8px 4px gold, 0 0 8px 6px gold";
     hideHover();
     document.onmouseup = closeDragElem;
     document.onmousemove = (e) => elemDrag(e);
@@ -64,27 +65,19 @@ function dragElem(
     dragProperties.dragging = true;
     e = e || (window.event as MouseEvent);
     e.preventDefault();
-    elem.style.left = `${
-      dragProperties.positions.pos1 + e.x - dragProperties.positions.pos3
-    }px`;
-    elem.style.top = `${
-      dragProperties.positions.pos2 + e.y - dragProperties.positions.pos4
-    }px`;
+    elem.style.left = `${dragProperties.positions.pos1 + e.x - dragProperties.positions.pos3}px`;
+    elem.style.top = `${dragProperties.positions.pos2 + e.y - dragProperties.positions.pos4}px`;
   }
 
   function closeDragElem(e: MouseEvent) {
     document.onmouseup = null;
     document.onmousemove = null;
     let snapped = false;
+    if (!snapContainers) return;
     for (const container of snapContainers) {
       Array.from(container.childNodes).some((_area: any, index: number) => {
         let area = calcElementArea(_area);
-        if (
-          e.x >= area.xMin &&
-          e.x <= area.xMax &&
-          e.y >= area.yMin &&
-          e.y <= area.yMax
-        ) {
+        if (e.x >= area.xMin && e.x <= area.xMax && e.y >= area.yMin && e.y <= area.yMax) {
           snapped = true;
           elem.style.position = "absolute";
           elem.style.boxShadow = "";

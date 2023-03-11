@@ -262,10 +262,15 @@ class Combat {
         combatSummaryBackground.classList.remove("hide");
         combatSummaryButtons.innerHTML = "";
         combatSummaryText.innerHTML = "";
+        const canGetLoot = dungeonController.currentDungeon
+            ? !player.hasCompletedRoom(dungeonController.currentRoom?.id || "") || !challenge("no_grinding")
+            : true;
         if (this.getLivingEnemies().length === 0) {
             combatSummaryTitle.innerText = game.getLocalizedString("combat_victory");
             combatSummaryTitle.classList.value = "header victory";
-            combatSummaryText.append(defeatedEnemies());
+            if (canGetLoot) {
+                combatSummaryText.append(defeatedEnemies());
+            }
             combatSummaryButtons.innerHTML = `<button class="main-button" onclick="combat.finish_combat()">${game.getLocalizedString("continue")}</button>`;
         }
         else {
@@ -294,6 +299,9 @@ class Combat {
             stats.most_combat_time = +this.time.toFixed(1);
         if (this.turns > stats.most_turns)
             stats.most_turns = this.turns;
+        const canGetLoot = dungeonController.currentDungeon
+            ? !player.hasCompletedRoom(dungeonController.currentRoom?.id || "") || !challenge("no_grinding")
+            : true;
         if (this.defeat) {
             player.xp -= this.xp;
             if (challenge("hardcore")) {
@@ -305,16 +313,19 @@ class Combat {
             }
         }
         else {
-            if (!player.completed_stages.includes(currentStage)) {
+            if (!player.completed_stages.includes(currentStage) && !dungeonController.currentDungeon) {
                 player.completed_stages.push(currentStage);
             }
-            player.addGold(this.gold);
-            player.addXP(this.xp);
-            this.loot.forEach((item) => {
-                player.addItem(new Item({ ...item.item }), item.amount);
-            });
+            if (!dungeonController.currentDungeon || canGetLoot) {
+                player.addGold(this.gold);
+                player.addXP(this.xp);
+                this.loot.forEach((item) => {
+                    player.addItem(new Item({ ...item.item }), item.amount);
+                });
+            }
         }
-        if (!challenges.no_after_combat_recovery) {
+        if (!challenges.no_after_combat_recovery && !dungeonController.currentDungeon) {
+            console.log("restoring player");
             player.restore();
         }
         this.gold = 0;

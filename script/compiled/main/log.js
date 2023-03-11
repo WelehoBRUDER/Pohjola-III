@@ -1,14 +1,16 @@
 "use strict";
 class WorldLog {
     messages = [];
+    notifications = [];
     constructor() {
         this.messages = [];
+        this.notifications = [];
     }
     write(text) {
         const message = document.createElement("div");
         message.classList.add("message");
-        message.innerText = text;
         message.classList.add("fade-out");
+        message.append(textSyntax(text));
         this.messages.push(message);
         worldLog.append(message);
         setTimeout(() => {
@@ -30,6 +32,38 @@ class WorldLog {
         else {
             worldLog.scrollTop = 0;
             worldLog.innerHTML = "";
+        }
+    }
+    createNotification(text, timeout = 10) {
+        const notification = document.createElement("div");
+        const notificationDrag = document.createElement("div");
+        const notificationDismiss = document.createElement("div");
+        notification.classList.add("notification");
+        notificationDrag.classList.add("drag");
+        notificationDismiss.classList.add("dismiss");
+        notification.append(textSyntax(text));
+        notificationDismiss.innerText = "OK";
+        notificationDismiss.addEventListener("click", removeNotification);
+        notification.append(notificationDrag);
+        notification.append(notificationDismiss);
+        this.notifications.push(notification);
+        notificationsScreen.append(notification);
+        dragElem(notification);
+        setTimeout(() => {
+            notification.classList.add("active");
+        }, 1);
+        // Negative timeout means notification will not dismiss automatically
+        if (timeout > 0) {
+            setTimeout(removeNotification, timeout * 1000);
+        }
+        if (this.notifications.length > 9) {
+            this.notifications.shift()?.remove();
+        }
+        function removeNotification() {
+            notification.classList.remove("active");
+            setTimeout(() => {
+                notification.remove();
+            }, 150);
         }
     }
 }

@@ -17,10 +17,11 @@ function calcElementArea(element) {
     };
 }
 function dragElem(elem, snapContainers, onclick, callback, onclick_args, onclick_params, callback_args, callback_params) {
+    const dragTimeout = snapContainers ? 200 : 0;
     elem.onmousedown = (e) => {
         dragProperties.click = true;
         clearTimeout(dragProperties.heldDownTimer);
-        dragProperties.heldDownTimer = setTimeout(() => dragMouseDown(e), 200);
+        dragProperties.heldDownTimer = setTimeout(() => dragMouseDown(e), dragTimeout);
     };
     elem.onmouseup = (e) => {
         clearTimeout(dragProperties.heldDownTimer);
@@ -43,8 +44,9 @@ function dragElem(elem, snapContainers, onclick, callback, onclick_args, onclick
         dragProperties.positions.pos3 = e.x;
         dragProperties.positions.pos4 = e.y;
         elem.style.position = "absolute";
-        elem.style.boxShadow = "inset 0 0 8px 4px gold, 0 0 8px 6px gold";
         elem.style.zIndex = "99";
+        if (snapContainers)
+            elem.style.boxShadow = "inset 0 0 8px 4px gold, 0 0 8px 6px gold";
         hideHover();
         document.onmouseup = closeDragElem;
         document.onmousemove = (e) => elemDrag(e);
@@ -60,13 +62,12 @@ function dragElem(elem, snapContainers, onclick, callback, onclick_args, onclick
         document.onmouseup = null;
         document.onmousemove = null;
         let snapped = false;
+        if (!snapContainers)
+            return;
         for (const container of snapContainers) {
             Array.from(container.childNodes).some((_area, index) => {
                 let area = calcElementArea(_area);
-                if (e.x >= area.xMin &&
-                    e.x <= area.xMax &&
-                    e.y >= area.yMin &&
-                    e.y <= area.yMax) {
+                if (e.x >= area.xMin && e.x <= area.xMax && e.y >= area.yMin && e.y <= area.yMax) {
                     snapped = true;
                     elem.style.position = "absolute";
                     elem.style.boxShadow = "";

@@ -30,6 +30,9 @@ const multiOptionPromptTitle: HTMLDivElement = multiOptionPrompt.querySelector("
 const multiOptionPromptText: HTMLDivElement = multiOptionPrompt.querySelector(".text")!;
 const multiOptionPromptButtons: HTMLDivElement = multiOptionPrompt.querySelector(".buttons")!;
 
+/* Notifications screen */
+const notificationsScreen: HTMLDivElement = document.querySelector("#notifications")!;
+
 /* Combat */
 const combatScreen: HTMLDivElement = document.querySelector(".combat")!;
 const uiScreen: HTMLDivElement = combatScreen.querySelector(".ui")!;

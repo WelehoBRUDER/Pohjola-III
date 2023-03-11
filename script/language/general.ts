@@ -178,6 +178,7 @@ const english = {
   skeleton_brute: "Skeleton Brute",
   skeleton_knight: "Skeleton Knight",
   skeleton_mage: "Skeleton Mage",
+  skeleton_lord: "Skeleton Lord",
   goblin: "Goblin",
   orc: "Orc",
   orc_berserker: "Orc Berserker",
@@ -300,8 +301,26 @@ const english = {
   mana_regen_debuff_desc: "<c>white<c>Passive mana regeneration is weaker.",
 
   // Dungeons
+  beat_stage_to_unlock: "Complete stage to unlock",
+  key_item_to_unlock: "You need this to enter",
+  dungeon_warn: "<c>crimson<c>Your health and mana will not be restored after combat!\n<c>white<c>",
   enter_dungeon_1: "Are you sure you wish to enter",
   vithail_dungeon: "Vithail Crypts",
+  vithail_dungeon_desc: "A cursed crypt, ruled by a powerful skeleton lord.\nHis aura prevents the curse from being lifted.",
+
+  // Dungeon events
+  keys_found: "Found key item(s)",
+  keys_needed: "Key item(s) needed",
+  loot_found: "Found loot",
+  restored: "Health and mana restored from the fountain.",
+  restored_in_dungeon: "You feel the power of the fountain restore your health and mana.",
+  vithail_dungeon_end:
+    "<c>white<c>You've slain the Skeleton Lord and with him, the curse of the crypts. You can leave now, or continue exploring.\n<c>lime<c>Vithail Crypts cleared!",
+
+  // Key items
+  ruby_key_vithail: "Ruby Key",
+  lord_key_vithail: "Vithail Lord Chamber's Key",
+  vithail_lord_insignia: "Lord of Vithail Insignia",
 
   // Perks //
   "0_foundation_of_power": "Foundation of Power",
@@ -369,4 +388,6 @@ const english = {
   lost_gold: "Lost {0} gold",
   recovered_health: "Recovered {0} health",
   recovered_mana: "Recovered {0} mana",
+  escape_success: "Escaped successfully!",
+  escape_failure: "Failed to escape!",
 };

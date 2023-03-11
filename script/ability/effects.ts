@@ -155,6 +155,20 @@ const effects = {
       healingFlat: 10,
     },
   } as EffectObject,
+  lordly_presence: {
+    id: "lordly_presence",
+    icon: "gfx/icons/totem-head.png",
+    duration: 0,
+    isInfinite: true,
+    type: "heal",
+    buffDebuff: "buff",
+    inflict: {
+      healingFlat: 1,
+    },
+    modifiers: {
+      mpRegenV: 1,
+    },
+  } as EffectObject,
   troll_regen: {
     id: "troll_regen",
     icon: "gfx/status/great-heart.png",

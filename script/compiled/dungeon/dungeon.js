@@ -14,12 +14,15 @@ class Room {
     foes;
     isBoss;
     loot;
+    exit;
+    end;
     getKeys;
     relative_to;
     position;
     connections;
     keysNeeded;
     escapeChance;
+    restore;
     constructor(room) {
         this.id = room.id;
         this.foes = room.foes.map((foe) => new Enemy(foe)) || [];
@@ -31,12 +34,15 @@ class Room {
                 amount: loot.amount,
             };
         });
+        this.exit = room.exit;
+        this.end = room.end;
         this.escapeChance = room.escapeChance || 0.5;
         this.getKeys = room.getKeys || [];
         this.relative_to = room.relative_to;
         this.position = room.position;
         this.connections = { ...room.connections };
-        this.keyNeeded = room.keysNeeded || [];
+        this.keysNeeded = room.keysNeeded || [];
+        this.restore = room.restore || undefined;
     }
     enter() {
         if (this.foes.length > 0) {
@@ -46,13 +52,10 @@ class Room {
                 // @ts-ignore
                 const en = new Enemy(enemies[foe.id]);
                 const pw = en.calculateCombatPower();
-                const { level, color } = getDangerLevel(pw);
-                const power = level < 2 ? pw : "💀";
+                text += getEnemyPowerText(en, pw);
                 totalPower += pw;
-                text += `<c>${color}<c>${game.getLocalizedString(en.id)}, <c>white<c>${game.getLocalizedString("power")}: <c>${color}<c>${power}\n`;
             });
-            const { level, color } = getDangerLevel(totalPower);
-            text += `<c>white<c>${game.getLocalizedString("total_danger")}: <c>${color}<c>${level < 2 ? totalPower : "💀"}\n`;
+            text += getTotalPowerText(totalPower);
             multiOptionWindow({
                 title: "BATTLE!",
                 text: text,
@@ -68,20 +71,136 @@ class Room {
                     text: "Escape" + ` (${this.escapeChance * 100}%)`,
                     click: () => {
                         closeMultiOptionWindow();
-                        if (Math.random() < this.escapeChance * 2) {
+                        if (Math.random() < this.escapeChance) {
                             // @ts-ignore
                             const dir = Object.entries(this.connections).find(([dir, id]) => id === dungeonController.prevRoom?.id)[0];
                             dungeonController.move(dir, { force: true });
                             dungeonController.canMove = true;
                             log.write(game.getLocalizedString("escape_success"));
+                            log.createNotification(game.getLocalizedString("escape_success"));
                         }
                         else {
                             game.beginCombat(this.foes);
                             log.write(game.getLocalizedString("escape_failure"));
+                            log.createNotification(game.getLocalizedString("escape_failure"));
                         }
                     },
                 },
             ]);
+        }
+        else {
+            if (!player.hasCompletedRoom(this.id)) {
+                player.completed_rooms.push(this.id);
+                if (this.loot.length > 0) {
+                    const lootNames = this.loot.map((loot) => {
+                        if (loot.item === "gold") {
+                            return `${loot.amount} ${game.getLocalizedString("gold")}`;
+                        }
+                        else {
+                            // @ts-ignore
+                            const col = items[loot.item].tier.color;
+                            return `<c>white<c><c>${col}<c>${game.getLocalizedString(loot.item)}<c>white<c> (${loot.amount}) `;
+                        }
+                    });
+                    log.write(game.getLocalizedString("loot_found") + `: ${lootNames.join(", ")}`);
+                    this.loot.forEach((loot) => {
+                        if (loot.item === "gold") {
+                            player.addGold(loot.amount);
+                        }
+                        else {
+                            // @ts-ignore
+                            player.addItem(new Item(items[loot.item]), loot.amount);
+                        }
+                    });
+                    log.createNotification(game.getLocalizedString("loot_found") + `: ${lootNames.join(", ")}`);
+                }
+                if ((this.getKeys?.length || 0) > 0) {
+                    this.getKeys?.forEach((key) => {
+                        player.addKeyItem(key);
+                    });
+                    const keyNames = dungeonController.getKeyNames(this.getKeys || []);
+                    log.write(game.getLocalizedString("keys_found") + `: ${keyNames.join(", ")}`);
+                    log.createNotification(game.getLocalizedString("keys_found") + `: ${keyNames.join(", ")}`);
+                }
+            }
+            if (this.end) {
+                if (!player.hasCompletedDungeon(dungeonController.currentDungeon?.id || "")) {
+                    player.completed_dungeons.push(dungeonController.currentDungeon?.id || "");
+                }
+                multiOptionWindow({
+                    title: "END",
+                    text: game.getLocalizedString(`${dungeonController.currentDungeon?.id}_end`),
+                }, [
+                    {
+                        text: "Leave",
+                        click: () => {
+                            closeMultiOptionWindow();
+                            dungeonController.leaveDungeon();
+                        },
+                    },
+                    {
+                        text: "Stay",
+                        click: () => {
+                            closeMultiOptionWindow();
+                            dungeonController.canMove = true;
+                        },
+                    },
+                ]);
+            }
+            if (this.exit) {
+                multiOptionWindow({
+                    title: "EXIT",
+                    text: "You are standing at the exit of the dungeon.",
+                }, [
+                    {
+                        text: "Leave",
+                        click: () => {
+                            closeMultiOptionWindow();
+                            dungeonController.leaveDungeon();
+                        },
+                    },
+                    {
+                        text: "Stay",
+                        click: () => {
+                            closeMultiOptionWindow();
+                            dungeonController.canMove = true;
+                        },
+                    },
+                ]);
+            }
+            else if (this.restore) {
+                multiOptionWindow({
+                    title: "RESTORATION",
+                    text: "You found a shrine that can restore your health and mana!",
+                }, [
+                    {
+                        text: "Use it!",
+                        click: () => {
+                            player.restore();
+                            log.write(game.getLocalizedString("restored"));
+                            log.createNotification(game.getLocalizedString("restored_in_dungeon"));
+                            closeMultiOptionWindow();
+                            this.restore = false;
+                            dungeonController.canMove = true;
+                        },
+                    },
+                    {
+                        text: "Leave it",
+                        click: () => {
+                            closeMultiOptionWindow();
+                            dungeonController.canMove = true;
+                        },
+                    },
+                ]);
+            }
+            else if (this.restore === false) {
+                log.write(game.getLocalizedString("restore_depleted"));
+                dungeonController.canMove = true;
+            }
+            else {
+                dungeonController.canMove = true;
+            }
+            sideBarDetails();
         }
     }
 }
@@ -104,7 +223,13 @@ function buildDungeon() {
             roomDiv.classList.add("current-room");
             roomIcons.push(createRoomIcon("gfx/icons/barbarian.png"));
         }
-        if (room.keysNeeded) {
+        if (room.restore) {
+            roomIcons.push(createRoomIcon("gfx/icons/shrine-enabled.png"));
+        }
+        else if (room.restore === false) {
+            roomIcons.push(createRoomIcon("gfx/icons/shrine-disabled.png"));
+        }
+        if ((room.keysNeeded?.length || 0) > 0) {
             if (dungeonController.hasKeysNeeded(room)) {
                 roomIcons.push(createRoomIcon("gfx/icons/open-gate.png"));
             }
@@ -121,6 +246,9 @@ function buildDungeon() {
         }
         if (room.loot.length > 0) {
             roomIcons.push(createRoomIcon("gfx/icons/chest.png"));
+        }
+        if ((room.getKeys?.length || 0) > 0) {
+            roomIcons.push(createRoomIcon("gfx/icons/key.png"));
         }
         roomIcons.forEach((icon, index) => {
             if (index === 0)
@@ -192,14 +320,22 @@ class DungeonController {
         this.currentRoom = null;
         this.currentDungeon = null;
     }
+    leaveDungeon() {
+        this.prevScroll = { x: dungeonContent.scrollLeft, y: dungeonContent.scrollTop };
+        this.prevRoom = null;
+        this.reset();
+        dungeonScreen.classList.add("no-display");
+        lobbyView.classList.remove("no-display");
+        dungeonContent.innerHTML = "";
+    }
     enterDungeon(dungeon) {
         closeConfirmationWindow();
         this.reset();
         lobbyView.classList.add("no-display");
         dungeonScreen.classList.remove("no-display");
         dungeonContent.innerHTML = "";
-        this.currentDungeon = dungeon;
-        this.currentRoom = dungeon.rooms[0];
+        this.currentDungeon = new Dungeon(JSON.parse(JSON.stringify(dungeon)));
+        this.currentRoom = this.currentDungeon.rooms[0];
         buildDungeon();
     }
     hasKey(key) {
@@ -208,10 +344,12 @@ class DungeonController {
     hasKeysNeeded(room) {
         return room.keysNeeded?.every((key) => this.hasKey(key));
     }
+    getKeyNames(keys) {
+        return keys.map((key) => game.getLocalizedString(key));
+    }
     move(direction, options) {
         if (!this.currentRoom || (!this.canMove && !options?.force))
             return;
-        this.canMove = false;
         const found = dungeonContent.querySelector(`#${this.currentRoom?.id}`);
         const posX = found.offsetLeft - window.innerWidth / 2 + found.offsetWidth * 3;
         const posY = found.offsetTop - window.innerHeight / 2 + found.offsetHeight;
@@ -222,10 +360,15 @@ class DungeonController {
         const nextRoom = this.currentDungeon?.rooms.find((room) => room.id === nextRoomId);
         if (!nextRoom)
             return;
-        if (nextRoom.keysNeeded && !this.hasKeysNeeded(nextRoom))
+        if (nextRoom.keysNeeded && !this.hasKeysNeeded(nextRoom)) {
+            log.createNotification(`${game.getLocalizedString("keys_needed")}: ${dungeonController.getKeyNames(nextRoom.keysNeeded).join(", ")}`);
             return;
+        }
         this.prevRoom = this.currentRoom;
         this.currentRoom = nextRoom;
+        if (this.currentRoom.foes.length > 0 || this.currentRoom.restore) {
+            this.canMove = false;
+        }
         dungeonContent.innerHTML = "";
         buildDungeon();
         setTimeout(() => {
