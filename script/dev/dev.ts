@@ -16,7 +16,7 @@ const DEVTOOLS: DevTools = {
 
 if (localStorage.getItem("devtools") === "true") DEVTOOLS.ENABLED = true;
 
-const gameVersion = "0.1";
+const gameVersion = "0.1.1";
 
 // Skip main menu
 if (DEVTOOLS.ENABLED) {
@@ -25,6 +25,7 @@ if (DEVTOOLS.ENABLED) {
   lobby.current_view = "perks";
   createLobby();
   //dungeonController.enterDungeon(dungeons[0]);
+  game.beginCombat([new Enemy(enemies.skeleton), new Enemy(enemies.skeleton)]);
 }
 
 function convertRemToPixels(rem: number) {

@@ -256,6 +256,7 @@ class Settings {
     hotkey_ability_6;
     tick_speed;
     animation_speed;
+    lock_on_targeting;
     constructor(settings) {
         this.hotkey_ability_1 = settings?.hotkey_ability_1 || "Digit1";
         this.hotkey_ability_2 = settings?.hotkey_ability_2 || "Digit2";
@@ -265,6 +266,7 @@ class Settings {
         this.hotkey_ability_6 = settings?.hotkey_ability_6 || "Digit6";
         this.tick_speed = settings?.tick_speed || 60;
         this.animation_speed = settings?.animation_speed || 2;
+        this.lock_on_targeting = settings?.lock_on_targeting || true;
     }
 }
 function challenge(id, options) {

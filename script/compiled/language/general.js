@@ -47,6 +47,13 @@ const english = {
     defeated_enemies: "Defeated enemies",
     loot_gained: "Loot gained",
     continue: "Continue",
+    // Settings
+    animation_speed: "Animation speed",
+    animation_speed_tt: "<f>0.85rem<f>How fast combat animations are played.\nValues deviating from default may cause weird animations.\n\n<f>0.85rem<f>Default: 1x",
+    tick_speed: "Tick speed",
+    tick_speed_tt: "<f>0.85rem<f>Controls the speed of the game's internal clock.\nHigher values will make the game run faster, but may cause lag.\nLower values will make the game run slower, but smoother.\n\n<f>0.85rem<f>Default: 1x (60 ticks per second)",
+    lock_on_targeting: "Lock on targeting",
+    lock_on_targeting_tt: "<f>0.85rem<f>When enabled, an enemy will always be the target during combat.\nWhen disabled, you must always choose your target when using a skill.",
     // misc
     increases: "Increases",
     decreases: "Decreases",

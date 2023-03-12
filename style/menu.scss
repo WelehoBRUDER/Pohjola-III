@@ -168,15 +168,19 @@
   }
 
   .settings-menu {
-    padding: 1rem;
-    color: silver;
+    color: white;
     font-size: 1.2rem;
 
     .setting {
       display: flex;
-      margin: 0.4rem;
       justify-content: flex-start;
       align-items: center;
+      user-select: none;
+      padding: 0.4rem;
+
+      &:hover {
+        background: rgba(5, 90, 129, 0.5);
+      }
 
       .setting-name {
         padding: 0;
@@ -187,6 +191,18 @@
       .setting-value {
         padding: 0;
         margin: 0;
+        display: flex;
+        align-items: center;
+
+        div {
+          width: 1rem;
+          height: 1rem;
+          border: 0.1rem solid silver;
+          background: rgba(8, 8, 8, 0.9);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
       }
     }
   }

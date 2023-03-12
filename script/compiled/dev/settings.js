@@ -12,6 +12,10 @@ const settingsLayout = [
         values: [30, 60, 90, 120, 150],
         labels: ["0.5x", "1x", "1.5x", "2x", "2.5x"],
     },
+    {
+        id: "lock_on_targeting",
+        type: "checkbox",
+    },
 ];
 function createSettings() {
     const settingsMenu = document.createElement("div");
@@ -20,16 +24,21 @@ function createSettings() {
     settingsLayout.forEach((setting) => {
         const settingElement = document.createElement("div");
         const settingName = document.createElement("p");
-        const settingValue = createSettingValue(setting);
+        const settingValue = createSettingValue(setting, settingElement);
         settingElement.classList.add("setting");
         settingName.classList.add("setting-name");
         settingName.innerText = game.getLocalizedString(setting.id);
         settingElement.append(settingName, settingValue);
         settingsMenu.append(settingElement);
+        // Tooltip, when available
+        const settingTT = game.getLocalizedString(setting.id + "_tt");
+        if (settingTT !== setting.id + "_tt") {
+            tooltip(settingElement, settingTT);
+        }
     });
     mainMenuElement.append(settingsMenu);
 }
-function createSettingValue(setting) {
+function createSettingValue(setting, element) {
     const settingValue = document.createElement("div");
     settingValue.classList.add("setting-value");
     switch (setting.type) {
@@ -53,6 +62,18 @@ function createSettingValue(setting) {
                 }
             };
             settingValue.append(select);
+            break;
+        case "checkbox":
+            const checkbox = document.createElement("div");
+            checkbox.innerText = game.settings[setting.id] ? "X" : "";
+            if (element) {
+                element.onclick = () => {
+                    game.settings[setting.id] = !game.settings[setting.id];
+                    checkbox.innerText = game.settings[setting.id] ? "X" : "";
+                    game.saveSettings();
+                };
+            }
+            settingValue.append(checkbox);
             break;
     }
     return settingValue;
