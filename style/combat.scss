@@ -73,6 +73,12 @@
         }
       }
 
+      &.target {
+        .card {
+          outline: 0.25rem solid goldenrod;
+        }
+      }
+
       &.dead {
         width: 0;
         box-shadow: none;

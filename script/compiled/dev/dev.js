@@ -16,7 +16,6 @@ if (DEVTOOLS.ENABLED) {
     lobby.current_view = "perks";
     createLobby();
     //dungeonController.enterDungeon(dungeons[0]);
-    game.beginCombat([new Enemy(enemies.skeleton), new Enemy(enemies.skeleton)]);
 }
 function convertRemToPixels(rem) {
     return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);

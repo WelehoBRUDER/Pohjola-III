@@ -250,7 +250,7 @@ const enemies = {
             {
                 item: items.skull,
                 chance: 1,
-                amount: [1],
+                amount: [1, 1],
             },
         ],
         xp: 400,
