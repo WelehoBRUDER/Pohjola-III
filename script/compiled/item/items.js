@@ -466,6 +466,64 @@ const armors = {
         type: "armor",
         slot: "legs",
     },
+    /* Ranger set */
+    ranger_vest: {
+        id: "ranger_vest",
+        price: 550,
+        speed: 5,
+        defence: {
+            physical: 9,
+            magical: 8,
+            elemental: 4,
+        },
+        modifiers: {
+            dodgeV: 3,
+            hpMaxP: 3,
+        },
+        stackable: true,
+        icon: "gfx/items/leather-vest.png",
+        tier: itemTiers.rare,
+        type: "armor",
+        slot: "armor",
+    },
+    ranger_hood: {
+        id: "ranger_hood",
+        price: 325,
+        speed: 2,
+        defence: {
+            physical: 3,
+            magical: 3,
+            elemental: 1,
+        },
+        modifiers: {
+            dodgeV: 1,
+            hpMaxP: 1,
+        },
+        stackable: true,
+        icon: "gfx/items/hood.png",
+        tier: itemTiers.rare,
+        type: "armor",
+        slot: "helmet",
+    },
+    ranger_boots: {
+        id: "ranger_boots",
+        price: 325,
+        speed: 2,
+        defence: {
+            physical: 3,
+            magical: 3,
+            elemental: 1,
+        },
+        modifiers: {
+            dodgeV: 1,
+            hpMaxP: 1,
+        },
+        stackable: true,
+        icon: "gfx/items/leg-armor.png",
+        tier: itemTiers.rare,
+        type: "armor",
+        slot: "legs",
+    },
     /* Acolyte Set */
     acolyte_hood: {
         id: "acolyte_hood",

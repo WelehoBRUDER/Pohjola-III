@@ -186,7 +186,7 @@ function clickItem(item, options) {
         }
         else if (options?.sell) {
             buttons.push({
-                text: "sell_item",
+                text: game.getLocalizedString("sell_item"),
                 action: () => {
                     sellItem(item);
                 },

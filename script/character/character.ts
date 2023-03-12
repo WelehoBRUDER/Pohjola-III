@@ -383,7 +383,7 @@ class Character {
   getDodge(): number {
     const agi = this.getStats({ dontUpdateModifiers: true }).agi;
     const dodgeFromAgiMulti = (this.allModifiers?.["dodgeFromAgiP"] || 0) + 0.5;
-    const dodge = this.allModifiers?.["dodge"] || 0;
+    const dodge = this.allModifiers?.["dodgeV"] || 0;
     const dodgeFromAgi = agi * dodgeFromAgiMulti;
     const value = dodge + dodgeFromAgi;
     return Math.max(0, Math.min(90, parseFloat(value.toFixed(1))));

@@ -40,6 +40,7 @@ const english = {
   mpRegen: "Mana Regen",
   mpRegenFromInt: "Intelligence as Mana Regen",
   mpRegenFromSpi: "Spirit as Mana Regen",
+  dodge: "Dodge",
 
   // combat
   combat_defeat: "Defeat",
@@ -100,6 +101,13 @@ const english = {
   average_power: "Average Power",
   improve_stat: "Increases <i>{statIcon}<i> {stat} by {amount}",
   you_lost: "You lost",
+  buy_item: "Buy item",
+  buy_multiple_item: "Buy multiple items",
+  sell_item: "Sell item",
+  sell_multiple_item: "Sell multiple items",
+  drink_potion: "Drink potion",
+  equip_item: "Equip item",
+  unequip_item: "Unequip item",
 
   // Menu
   new_game: "New Game",

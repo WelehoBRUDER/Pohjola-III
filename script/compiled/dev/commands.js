@@ -97,6 +97,31 @@ const developerCommands = [
         },
     },
     {
+        name: "fight",
+        description: "[enemy] [amount] Fight an enemy",
+        help: "fight [enemy] [amount] - Fight an enemy. Specify amount for group battle.<br>Example: fight skeleton 2",
+        isCheat: true,
+        list: [Object.values(enemies), [{ id: "amount - number", onSelect: "1" }]],
+        execute: (args) => {
+            const enemy = args[0];
+            const amount = args[1] ? parseInt(args[1]) : 1;
+            if (enemy) {
+                // @ts-ignore
+                if (enemies[enemy]) {
+                    // @ts-ignore
+                    const enemiesList = new Array(amount).fill(0).map(() => new Enemy(enemies[enemy]));
+                    game.beginCombat(enemiesList);
+                }
+                else {
+                    devConsole.commandHistory.push(`Enemy "${enemy}" not found`);
+                }
+            }
+            else {
+                devConsole.commandHistory.push("Too few arguments, expected: fight [enemy] [amount");
+            }
+        },
+    },
+    {
         name: "item",
         description: "[item] [amount] Adds specified quantity of items to your inventory",
         help: "item [item] [amount] - Adds specified quantity of items to your inventory.<br>Example: item small_healing_potion 3",
@@ -115,7 +140,7 @@ const developerCommands = [
                     devConsole.commandHistory.push(`Added ${quantity} ${item} to your inventory`);
                 }
                 else {
-                    devConsole.commandHistory.push(`Item ${item} not found`);
+                    devConsole.commandHistory.push(`Item "${item}" not found`);
                 }
             }
             else {
