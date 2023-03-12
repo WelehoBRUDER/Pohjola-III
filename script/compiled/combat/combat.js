@@ -118,7 +118,12 @@ function useAbility(hotkey, index) {
         }
         else {
             console.log("You have multiple targets, please select one");
-            game.startTargeting(ability);
+            if (game.settings.lock_on_targeting) {
+                ability.use(player, [targets[combat.target]]);
+            }
+            else {
+                game.startTargeting(ability);
+            }
         }
     }
     else {
@@ -166,8 +171,12 @@ function attack() {
         ability.use(player, targets);
     }
     else {
-        console.log("You have multiple targets, please select one");
-        game.startTargeting(ability);
+        if (game.settings.lock_on_targeting) {
+            ability.use(player, [targets[combat.target]]);
+        }
+        else {
+            game.startTargeting(ability);
+        }
     }
 }
 function pass() {
@@ -227,6 +236,7 @@ class Combat {
     xp;
     turns;
     defeat;
+    target; // index of the enemy being targeted, only used when lock on is enabled
     constructor() {
         this.init();
         this.id = "combat";
@@ -236,6 +246,7 @@ class Combat {
         this.xp = 0;
         this.turns = 0;
         this.defeat = false;
+        this.target = 0;
     }
     init() { }
     getLivingEnemies() {
@@ -249,11 +260,12 @@ class Combat {
         this.xp = 0;
         this.turns = 0;
         this.defeat = false;
+        this.target = 0;
         enemyContainer.innerHTML = "";
         combatSummaryBackground.classList.add("hide");
-        this.enemies.forEach((enemy) => {
+        this.enemies.forEach((enemy, index) => {
             // @ts-ignore
-            enemy.init();
+            enemy.init(index);
         });
         game.resume();
     }
@@ -335,6 +347,11 @@ class Combat {
         player.reset({ removeStatuses: true });
         combatSummaryBackground.classList.add("hide");
         game.endCombatAndGoToLobby();
+    }
+    updateCards() {
+        this.enemies.forEach((enemy) => {
+            enemy.updateCard();
+        });
     }
 }
 const combat = new Combat();

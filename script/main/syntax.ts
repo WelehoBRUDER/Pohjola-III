@@ -187,6 +187,9 @@ const properties: any = {
   critPowerV: {
     addPercentageSuffix: true,
   } as Property,
+  dodgeV: {
+    addPercentageSuffix: true,
+  } as Property,
   powerV: {
     addPercentageSuffix: true,
     multiplyBy: 100,

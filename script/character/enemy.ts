@@ -43,7 +43,6 @@ class Enemy extends Character {
     });
     if (this.spawnWithEffects) {
       this.spawnWithEffects.map((effect: any) => {
-        console.log(effect);
         this.addStatus(effect, this);
       });
     }
@@ -98,8 +97,13 @@ class Enemy extends Character {
       setTimeout(() => {
         if (this.card) {
           this.card.main.remove();
-          if (combat.getLivingEnemies().length === 0) {
+          const viableTargets = combat.getLivingEnemies();
+          if (viableTargets.length === 0) {
             combat.end();
+          }
+          if (game.settings.lock_on_targeting) {
+            combat.target = viableTargets[0].index || 0;
+            viableTargets[0].updateCard();
           }
         }
       }, 3000 / game.settings.animation_speed);
@@ -207,6 +211,13 @@ class Enemy extends Character {
     if (this.card) {
       const stats = this.getStats();
       if (this.stats.hp < 0) this.stats.hp = 0;
+      if (game.settings.lock_on_targeting) {
+        if (combat.target === this.index) {
+          this.card.main.classList.add("target");
+        } else {
+          this.card.main.classList.remove("target");
+        }
+      }
       const hpRemain = (this.stats.hp / stats.hpMax) * 100;
       const { main, ap_fill, ap_value, hp_fill, hp_late, hp_value } = this.card;
       ap_value.innerText = this.stats.ap.toFixed(1) + "%";
@@ -289,6 +300,11 @@ function createBattlecard(enemy: Enemy) {
     battlecard.setAttribute("enemy-data-index", enemy.index.toString());
   }
   battlecard.addEventListener("click", () => {
+    if (game.settings.lock_on_targeting) {
+      combat.target = enemy.index || 0;
+      combat.updateCards();
+      return;
+    }
     if (combatScreen.classList.contains("paused")) return;
     if (game.state.targeting && game.state.selected_ability) {
       game.pause();

@@ -257,7 +257,7 @@ function createFloors() {
         dungeonElement.innerText = game.getLocalizedString(dungeon.id);
         let dungeonTooltip = `<f>1.25rem<f><c>goldenrod<c>${game.getLocalizedString(dungeon.id)}\n<f>1rem<f><c>silver<c>"${game.getLocalizedString(dungeon.id + "_desc")}"\n\n<c>white<c>`;
         dungeonTooltip += game.getLocalizedString("dungeon_warn");
-        if (!isDungeonUnlocked(dungeon)) {
+        if (!isDungeonUnlocked(dungeon) && !DEVTOOLS.ENABLED) {
             dungeonElement.classList.add("locked");
             dungeonTooltip += `<c>white<c>${game.getLocalizedString("beat_stage_to_unlock")}: <c>yellow<c>${game.getLocalizedString(dungeon.beat_stage_to_unlock)}\n`;
         }

@@ -40,6 +40,7 @@ const english = {
   mpRegen: "Mana Regen",
   mpRegenFromInt: "Intelligence as Mana Regen",
   mpRegenFromSpi: "Spirit as Mana Regen",
+  dodge: "Dodge",
 
   // combat
   combat_defeat: "Defeat",
@@ -48,6 +49,17 @@ const english = {
   defeated_enemies: "Defeated enemies",
   loot_gained: "Loot gained",
   continue: "Continue",
+
+  // Settings
+  animation_speed: "Animation speed",
+  animation_speed_tt:
+    "<f>0.85rem<f>How fast combat animations are played.\nValues deviating from default may cause weird animations.\n\n<f>0.85rem<f>Default: 1x",
+  tick_speed: "Tick speed",
+  tick_speed_tt:
+    "<f>0.85rem<f>Controls the speed of the game's internal clock.\nHigher values will make the game run faster, but may cause lag.\nLower values will make the game run slower, but smoother.\n\n<f>0.85rem<f>Default: 1x (60 ticks per second)",
+  lock_on_targeting: "Lock on targeting",
+  lock_on_targeting_tt:
+    "<f>0.85rem<f>When enabled, an enemy will always be the target during combat.\nWhen disabled, you must always choose your target when using a skill.",
 
   // misc
   increases: "Increases",
@@ -89,6 +101,13 @@ const english = {
   average_power: "Average Power",
   improve_stat: "Increases <i>{statIcon}<i> {stat} by {amount}",
   you_lost: "You lost",
+  buy_item: "Buy item",
+  buy_multiple_item: "Buy multiple items",
+  sell_item: "Sell item",
+  sell_multiple_item: "Sell multiple items",
+  drink_potion: "Drink potion",
+  equip_item: "Equip item",
+  unequip_item: "Unequip item",
 
   // Menu
   new_game: "New Game",

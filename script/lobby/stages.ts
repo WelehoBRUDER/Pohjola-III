@@ -279,7 +279,7 @@ function createFloors() {
 
     dungeonTooltip += game.getLocalizedString("dungeon_warn");
 
-    if (!isDungeonUnlocked(dungeon)) {
+    if (!isDungeonUnlocked(dungeon) && !DEVTOOLS.ENABLED) {
       dungeonElement.classList.add("locked");
       dungeonTooltip += `<c>white<c>${game.getLocalizedString("beat_stage_to_unlock")}: <c>yellow<c>${game.getLocalizedString(
         dungeon.beat_stage_to_unlock

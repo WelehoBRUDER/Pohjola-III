@@ -131,17 +131,19 @@ class Player extends Character {
   }
 
   unequip(slot: string) {
-    let item;
-    if (slot === "weapon") {
-      item = this.equipment.weapon;
-      this.equipment.weapon = null;
-    } else if (slot === "armor") {
-      item = this.equipment[slot];
-      this.equipment[slot] = null;
-    } else if (slot === "talisman") {
-      item = this.equipment.talisman;
-      this.equipment.talisman = null;
-    }
+    let item = this.equipment[slot];
+    this.equipment[slot] = null;
+    // console.log(slot);
+    // if (slot === "weapon") {
+    //   item = this.equipment.weapon;
+    //   this.equipment.weapon = null;
+    // } else if (slot === "armor") {
+    //   item = this.equipment[slot];
+    //   this.equipment[slot] = null;
+    // } else if (slot === "talisman") {
+    //   item = this.equipment.talisman;
+    //   this.equipment.talisman = null;
+    // }
     this.addItem(item as Item, 1, { dontEquip: true });
   }
 

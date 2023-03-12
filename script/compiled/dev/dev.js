@@ -8,7 +8,7 @@ const DEVTOOLS = {
 };
 if (localStorage.getItem("devtools") === "true")
     DEVTOOLS.ENABLED = true;
-const gameVersion = "0.1";
+const gameVersion = "0.1.1";
 // Skip main menu
 if (DEVTOOLS.ENABLED) {
     lobbyScreen.classList.remove("no-display");

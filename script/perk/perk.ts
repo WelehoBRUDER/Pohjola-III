@@ -58,8 +58,8 @@ class Perk {
 
   available(): boolean {
     if (player.perk_points < this.cost) return false;
-    if (!this.requires) return true;
     if (player.hasPerk(this.id, this.maxLevel())) return false;
+    if (!this.requires) return true;
     let required = this.requires.length;
     this.requires.forEach((perk) => {
       // @ts-ignore
