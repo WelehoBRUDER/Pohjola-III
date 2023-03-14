@@ -171,7 +171,7 @@ const floors = [
     {
         id: "floor_3",
         map: "southern_plains",
-        beat_stage_to_unlock: "stage_20",
+        key_item_to_unlock: "orc_chief_tusk",
         stages: [
             new Stage({
                 id: "stage_21",
@@ -299,16 +299,18 @@ function createStages(stages) {
     });
 }
 function calculateProgress(player) {
-    let totalStages = 0;
-    let completedStages = 0;
+    let totalNeed = 0;
+    let completed = 0;
     floors.forEach((floor) => {
-        totalStages += floor.stages.length;
+        totalNeed += floor.stages.length;
         floor.stages.forEach((stage) => {
             if (player.completed_stages.includes(stage.id)) {
-                completedStages++;
+                completed++;
             }
         });
     });
-    return Math.floor((completedStages / totalStages) * 100);
+    totalNeed += keyItems.length;
+    completed += player.key_items?.length || 0;
+    return Math.floor((completed / totalNeed) * 100);
 }
 //# sourceMappingURL=stages.js.map

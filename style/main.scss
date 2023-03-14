@@ -838,8 +838,8 @@ main.game {
 
   .notification {
     transition: transform 0.21s, opacity 0.24s;
-    width: 20rem;
-    height: 9rem;
+    width: 22rem;
+    height: 12em;
     opacity: 0;
     transform: scale(0);
     background: rgb(15, 15, 15);
@@ -853,6 +853,11 @@ main.game {
     align-items: center;
     justify-content: center;
     user-select: none;
+
+    pre {
+      white-space: pre-wrap;
+      text-align: center;
+    }
 
     .drag {
       cursor: move;

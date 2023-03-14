@@ -17,6 +17,9 @@ class SaveController {
       saves.map((save: SaveFile) => {
         save.lastSaved = new Date(save.lastSaved);
         save.created = new Date(save.created);
+        if (save.version === "1") {
+          save.version = (0.09).toFixed(2);
+        }
       });
     }
     return saves;
@@ -31,6 +34,7 @@ class SaveController {
       return;
     }
     const index = this.saveSlots.findIndex((save) => save.id === id);
+    saveFile.version = gameVersion;
     if (index !== -1) {
       this.saveSlots[index] = saveFile;
     } else {
@@ -145,7 +149,7 @@ class SaveFile {
       this.id = id;
     }
     this.name = saveFile.name || "New Game";
-    this.version = "1";
+    this.version = saveFile.version ?? gameVersion;
     this.saveData = new SaveData();
     this.lastSaved = new Date();
     if (!saveFile.created) {
@@ -271,7 +275,7 @@ function saveScreen(menu: boolean = false) {
     <div class="line">|</div>
         <div class="size">${(size / 1000).toFixed(2)} kb</div>
         <div class="line">|</div>
-        <div class="ver">${game.getLocalizedString("version")}: ${save.version}</div>
+        <div class="ver">${game.getLocalizedString("version")}: ${gameVersionText(save.version)}</div>
 
         ${
           DEVTOOLS.ENABLED

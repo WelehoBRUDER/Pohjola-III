@@ -112,6 +112,20 @@ const weapons = {
             critRateV: 5,
         },
     },
+    orcish_berserker_axes: {
+        id: "orcish_berserker_axes",
+        price: 1050,
+        speed: 0,
+        atk: 20,
+        stackable: true,
+        icon: "gfx/items/sharp-axe.png",
+        tier: itemTiers.rare,
+        type: "weapon",
+        modifiers: {
+            strP: 7,
+            agiP: 7,
+        },
+    },
     vithail_cursed_sword: {
         id: "vithail_cursed_sword",
         price: 1500,
@@ -523,6 +537,48 @@ const armors = {
         tier: itemTiers.rare,
         type: "armor",
         slot: "legs",
+    },
+    /* Orc Chief set */
+    orc_chief_headdress: {
+        id: "orc_chief_headdress",
+        price: 1080,
+        speed: 0,
+        defence: {
+            physical: 8,
+            magical: 5,
+            elemental: 4,
+        },
+        modifiers: {
+            strV: 3,
+            vitV: 3,
+            agiV: 3,
+            hpMaxP: 5,
+        },
+        stackable: true,
+        icon: "gfx/items/horned-helm.png",
+        tier: itemTiers.epic,
+        type: "armor",
+        slot: "helmet",
+    },
+    orc_chief_armor: {
+        id: "orc_chief_armor",
+        price: 2000,
+        speed: 0,
+        defence: {
+            physical: 18,
+            magical: 10,
+            elemental: 10,
+        },
+        modifiers: {
+            hpMaxV: 20,
+            hpMaxP: 7,
+            strP: 5,
+        },
+        stackable: true,
+        icon: "gfx/items/leather-vest.png",
+        tier: itemTiers.epic,
+        type: "armor",
+        slot: "armor",
     },
     /* Acolyte Set */
     acolyte_hood: {

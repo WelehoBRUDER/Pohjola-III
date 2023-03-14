@@ -336,6 +336,7 @@ class DungeonController {
         dungeonContent.innerHTML = "";
         this.currentDungeon = new Dungeon(JSON.parse(JSON.stringify(dungeon)));
         this.currentRoom = this.currentDungeon.rooms[0];
+        this.canMove = true;
         buildDungeon();
     }
     hasKey(key) {

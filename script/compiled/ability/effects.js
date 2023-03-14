@@ -163,6 +163,19 @@ const effects = {
             mpRegenV: 1,
         },
     },
+    boss_effect: {
+        id: "boss_effect",
+        icon: "gfx/icons/brute.png",
+        duration: 0,
+        isInfinite: true,
+        type: "heal",
+        buffDebuff: "buff",
+        modifiers: {
+            stunResistanceV: 20,
+            bleedResistanceV: 20,
+            poisonResistanceV: 20,
+        },
+    },
     troll_regen: {
         id: "troll_regen",
         icon: "gfx/status/great-heart.png",

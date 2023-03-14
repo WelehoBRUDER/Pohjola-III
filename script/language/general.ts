@@ -42,6 +42,16 @@ const english = {
   mpRegenFromSpi: "Spirit as Mana Regen",
   dodge: "Dodge",
 
+  // Resistances
+  fireResistance: "Fire Resistance",
+  iceResistance: "Ice Resistance",
+  thunderResistance: "Thunder Resistance",
+  curseResistance: "Curse Resistance",
+  poisonResistance: "Poison Resistance",
+  bleedResistance: "Bleed Resistance",
+  divineResistance: "Divine Resistance",
+  stunResistance: "Stun Resistance",
+
   // combat
   combat_defeat: "Defeat",
   combat_defeat_text: "You have been defeated in battle!",
@@ -201,6 +211,7 @@ const english = {
   goblin: "Goblin",
   orc: "Orc",
   orc_berserker: "Orc Berserker",
+  orc_chieftain: "Orc Chieftain",
   troll: "Troll",
 
   // Skill names //
@@ -326,6 +337,8 @@ const english = {
   enter_dungeon_1: "Are you sure you wish to enter",
   vithail_dungeon: "Vithail Crypts",
   vithail_dungeon_desc: "A cursed crypt, ruled by a powerful skeleton lord.\nHis aura prevents the curse from being lifted.",
+  abandoned_fort: "Abandoned Fort",
+  abandoned_fort_desc: "Fortress abandoned by its former lord.\nNow ruled by a powerful orc chief.",
 
   // Dungeon events
   keys_found: "Found key item(s)",
@@ -335,11 +348,16 @@ const english = {
   restored_in_dungeon: "You feel the power of the fountain restore your health and mana.",
   vithail_dungeon_end:
     "<c>white<c>You've slain the Skeleton Lord and with him, the curse of the crypts. You can leave now, or continue exploring.\n<c>lime<c>Vithail Crypts cleared!",
+  abandoned_fort_end:
+    "<c>white<c>You've slain the Orc Chief and his minions. You can leave now, or continue exploring.\n<c>lime<c>Abandoned Fort cleared!",
 
   // Key items
   ruby_key_vithail: "Ruby Key",
   lord_key_vithail: "Vithail Lord Chamber's Key",
   vithail_lord_insignia: "Lord of Vithail Insignia",
+  abandoned_fort_jail_key: "Jail Key (Abandoned Fort)",
+  abandoned_fort_keep_key: "Key to the Keep (Abandoned Fort)",
+  orc_chief_tusk: "Orc Chief Tusk",
 
   // Perks //
   "0_foundation_of_power": "Foundation of Power",
