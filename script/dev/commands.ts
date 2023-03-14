@@ -117,6 +117,27 @@ const developerCommands: any = [
     },
   },
   {
+    name: "killall",
+    description: "Kill all enemies in the current fight.",
+    help: "killall - Kill all enemies in the current fight.",
+    isCheat: true,
+    list: [],
+    execute: () => {
+      const _enemies = combat.getLivingEnemies();
+      if (_enemies.length > 0) {
+        _enemies.forEach((enemy: Enemy) => {
+          enemy.stats.hp = 0;
+          update();
+          enemy.die();
+        });
+        devConsole.commandHistory.push("All enemies killed");
+      } else {
+        devConsole.commandHistory.push("No enemies to kill");
+      }
+    },
+  },
+
+  {
     name: "item",
     description: "[item] [amount] Adds specified quantity of items to your inventory",
     help: "item [item] [amount] - Adds specified quantity of items to your inventory.<br>Example: item small_healing_potion 3",

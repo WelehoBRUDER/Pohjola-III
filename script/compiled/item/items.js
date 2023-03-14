@@ -112,6 +112,20 @@ const weapons = {
             critRateV: 5,
         },
     },
+    orcish_berserker_axes: {
+        id: "orcish_berserker_axes",
+        price: 1050,
+        speed: 0,
+        atk: 20,
+        stackable: true,
+        icon: "gfx/items/sharp-axe.png",
+        tier: itemTiers.rare,
+        type: "weapon",
+        modifiers: {
+            strP: 7,
+            agiP: 7,
+        },
+    },
     vithail_cursed_sword: {
         id: "vithail_cursed_sword",
         price: 1500,

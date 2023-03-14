@@ -1,8 +1,14 @@
 # Version 0.1.2 ~ 2023.3.14
 
 ## New features & additions
+- Added new dungeon: `Abandoned Fort`
+  * Unlocked after defeating the troll.
+  * Fight boss "Orc Chieftain" to complete.
+- Added "killall" command to the game.
 
 ## Bug fixes
+- Fixed text overflowing from notifications.
+- Fixed stun resistance doing nothing.
 
 # Version 0.1.1 ~ 2023.3.12
 

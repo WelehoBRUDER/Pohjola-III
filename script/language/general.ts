@@ -42,6 +42,16 @@ const english = {
   mpRegenFromSpi: "Spirit as Mana Regen",
   dodge: "Dodge",
 
+  // Resistances
+  fireResistance: "Fire Resistance",
+  iceResistance: "Ice Resistance",
+  thunderResistance: "Thunder Resistance",
+  curseResistance: "Curse Resistance",
+  poisonResistance: "Poison Resistance",
+  bleedResistance: "Bleed Resistance",
+  divineResistance: "Divine Resistance",
+  stunResistance: "Stun Resistance",
+
   // combat
   combat_defeat: "Defeat",
   combat_defeat_text: "You have been defeated in battle!",
