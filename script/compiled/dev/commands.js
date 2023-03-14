@@ -97,6 +97,45 @@ const developerCommands = [
         },
     },
     {
+        name: "enter",
+        description: "[dungeon] Enter a dungeon",
+        help: "fight [enemy] [amount] - Enter a specified dungeon.<br>Example: enter vithail_dungeon",
+        isCheat: true,
+        list: [dungeons],
+        execute: (args) => {
+            const dungeon = args[0];
+            if (dungeon) {
+                const index = dungeons.findIndex((d) => d.id === dungeon);
+                if (index !== -1) {
+                    dungeonController.enterDungeon(dungeons[index]);
+                    devConsole.commandHistory.push(`Entered dungeon ${dungeon}`);
+                }
+                else {
+                    devConsole.commandHistory.push(`Dungeon "${dungeon}" not found`);
+                }
+            }
+            else {
+                devConsole.commandHistory.push("Too few arguments, expected: enter [dungeon]");
+            }
+        },
+    },
+    {
+        name: "leave",
+        description: "Leave the current dungeon",
+        help: "leave - Leave the current dungeon.",
+        isCheat: true,
+        list: [],
+        execute: () => {
+            if (dungeonController.currentDungeon) {
+                devConsole.commandHistory.push(`Left dungeon ${dungeonController.currentDungeon.id}`);
+                dungeonController.leaveDungeon();
+            }
+            else {
+                devConsole.commandHistory.push("Not in a dungeon");
+            }
+        },
+    },
+    {
         name: "fight",
         description: "[enemy] [amount] Fight an enemy",
         help: "fight [enemy] [amount] - Fight an enemy. Specify amount for group battle.<br>Example: fight skeleton 2",
@@ -117,7 +156,7 @@ const developerCommands = [
                 }
             }
             else {
-                devConsole.commandHistory.push("Too few arguments, expected: fight [enemy] [amount");
+                devConsole.commandHistory.push("Too few arguments, expected: fight [enemy] [amount]");
             }
         },
     },

@@ -4,7 +4,12 @@
 - Added new dungeon: `Abandoned Fort`
   * Unlocked after defeating the troll.
   * Fight boss "Orc Chieftain" to complete.
+- Added orc related items.
+  * Orc chief armor set.
+  * Orc berserker axes.
 - Added "killall" command to the game.
+- Added "enter" command to the game.
+- Added "leave" command to the game.
 
 ## Bug fixes
 - Fixed text overflowing from notifications.
