@@ -1,3 +1,9 @@
+# Version 0.1.2 ~ 2023.3.14
+
+## New features & additions
+
+## Bug fixes
+
 # Version 0.1.1 ~ 2023.3.12
 
 ## New features & additions
@@ -6,7 +12,7 @@
 - Added the "ranger" armor set. 
   * This armor set is a bit weaker than the "plate" armor set, but it has a chance to dodge attacks.
 - Added some missing localization.
-# Bug fixes
+## Bug fixes
 - Fixed being able to upgrade the first perk, despite it having no levels. 
   * This happened because the max level check was done after a requirement check  
   which the first perk passes by default.
