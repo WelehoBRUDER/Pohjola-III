@@ -1,3 +1,11 @@
+# Version 0.1.3 ~ 2023.3.16
+
+## New features & additions
+- Added classes.
+  * Currently there are 4 classes: warrior, rogue, mage and paladin.
+  * Each class has a unique skill.
+  * Each class has a unique armor set.
+
 # Version 0.1.2 ~ 2023.3.14
 
 ## New features & additions

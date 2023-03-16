@@ -41,6 +41,9 @@ const english = {
   mpRegenFromInt: "Intelligence as Mana Regen",
   mpRegenFromSpi: "Spirit as Mana Regen",
   dodge: "Dodge",
+  meleeDamage: "Melee Damage",
+  spellPower: "Spell Power",
+  healPower: "Heal Power",
 
   // Resistances
   fireResistance: "Fire Resistance",

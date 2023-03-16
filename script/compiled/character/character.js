@@ -97,16 +97,19 @@ class Character {
         };
         this.getSpellPower = () => {
             const stats = this.getStats({ dontUpdateModifiers: true });
+            let value = 0;
             if (this instanceof Enemy) {
-                return (60 + stats.int * 3 + stats.atk / 2) / 100;
+                value = (60 + stats.int * 3 + stats.atk / 2) / 100;
             }
             else {
                 if (this.equipment?.weapon?.spell_scale) {
-                    return this.equipment.weapon.getSpellScale() / 100;
+                    value = this.equipment.weapon.getSpellScale() / 100;
                 }
                 else
-                    return (50 + stats.atk / 2 + stats.int / 2) / 100;
+                    value = (50 + stats.atk / 2 + stats.int / 2) / 100;
             }
+            const modif = this.allModifiers.spellPowerP ?? 1;
+            return value * modif;
         };
         this.getSpeed = () => {
             let base = 0.4;
@@ -220,13 +223,13 @@ class Character {
                 }
             }
             if (index === -1) {
-                effect.init(user.allModifiers?.[key]?.["effect_" + status.id]);
+                effect.init(user.allModifiers?.[key]?.["effect_" + status.id], user);
                 effect.lasts = effect.duration;
                 effect.inflictTimer = 0;
                 this.statuses.push(effect);
             }
             else {
-                effect.init(user.allModifiers?.[key]?.["effect_" + status.id]);
+                effect.init(user.allModifiers?.[key]?.["effect_" + status.id], user);
                 this.statuses[index].lasts = effect.duration;
             }
             this.updateAllModifiers();

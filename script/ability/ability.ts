@@ -2,6 +2,7 @@ interface AbilityObject {
   [id: string]: any;
   icon: string;
   type: string;
+  skillType?: string;
   isSpell?: boolean;
   weight: number;
   cooldown: number;
@@ -13,6 +14,7 @@ class Ability {
   mpCost: number;
   hpCost: number;
   type: string;
+  skillType: string; // Either melee or ranged
   isSpell: boolean;
   cooldown: number;
   onCooldown: number;
@@ -32,6 +34,7 @@ class Ability {
     this.mpCost = ability.mpCost ?? 0;
     this.hpCost = ability.hpCost ?? 0;
     this.type = ability.type;
+    this.skillType = ability.skillType ?? "";
     this.isSpell = ability.isSpell ?? false;
     this.weight = ability.weight ?? 1;
     this.isAOE = ability.isAOE ?? false;
@@ -207,6 +210,10 @@ class Ability {
           this[key] = { ...updateObject(key, value, holder.allModifiers[id]) };
         }
       });
+      if (this.healFlat) {
+        this.healFlat = Math.round(this.healFlat * holder.allModifiers.healPowerP);
+        this.healPercent = Math.round(this.healPercent * holder.allModifiers.healPowerP);
+      }
     };
   }
 
@@ -277,7 +284,7 @@ class Ability {
       this.effectsToEnemy.forEach((effect: Effect) => {
         if (options?.owner) {
           const displayEffect = new Effect(effect);
-          displayEffect.init(options?.owner?.allModifiers?.["ability_" + this.id]?.["effect_" + effect.id]);
+          displayEffect.init(options?.owner?.allModifiers?.["ability_" + this.id]?.["effect_" + effect.id], options?.owner);
           tooltip += displayEffect.tooltip({ container: true });
         } else {
           tooltip += effect.tooltip({ container: true });
@@ -289,7 +296,7 @@ class Ability {
       this.effectsToSelf.forEach((effect: Effect) => {
         if (options?.owner) {
           const displayEffect = new Effect(effect);
-          displayEffect.init(options?.owner?.allModifiers?.["ability_" + this.id]?.["effect_" + effect.id]);
+          displayEffect.init(options?.owner?.allModifiers?.["ability_" + this.id]?.["effect_" + effect.id], options?.owner);
           tooltip += displayEffect.tooltip({ container: true });
         } else {
           tooltip += effect.tooltip({ container: true });

@@ -18,6 +18,10 @@ const defaultModifiers = {
     hpMaxFromVitV: 5,
     mpMaxFromIntV: 2,
     mpMaxFromSpiV: 2,
+    meleeDamageP: 1,
+    rangedDamageP: 1,
+    spellPowerP: 1,
+    healPowerP: 1,
 };
 function getAllModifiers(char) {
     const modifiers = { ...defaultModifiers };
@@ -75,6 +79,11 @@ function getAllModifiers(char) {
                 applyModifierToTotal(modifier, modifiers);
             });
         }
+    }
+    if (char instanceof Player && char.class?.modifiers) {
+        Object.entries(char.class.modifiers).forEach((modifier) => {
+            applyModifierToTotal(modifier, modifiers);
+        });
     }
     return modifiers;
 }

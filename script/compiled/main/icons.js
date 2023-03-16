@@ -39,6 +39,10 @@ const icons = {
     damage: "gfx/icons/damage.png",
     scaling: "gfx/icons/orb-direction.png",
     spell_scale: "gfx/icons/orb-direction.png",
+    meleeDamage: "gfx/icons/melee_damage.png",
+    rangedDamage: "gfx/icons/ranged_damage.png",
+    spellPower: "gfx/icons/orb-direction.png",
+    healPower: "gfx/icons/healing.png",
 };
 const coreCharacterStats = ["Str", "Agi", "Vit", "Int", "Spi"];
 coreCharacterStats.forEach((stat) => {

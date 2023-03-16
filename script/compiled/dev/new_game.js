@@ -90,6 +90,11 @@ const characterCreationSections = [
         type: "input",
     },
     {
+        id: "class",
+        type: "aspect",
+        values: [classManager.get("warrior"), classManager.get("rogue"), classManager.get("mage"), classManager.get("paladin")],
+    },
+    {
         id: "starting_aspect",
         type: "aspect",
         values: [
@@ -157,11 +162,16 @@ function createSectionValue(section) {
                 const gridItem = document.createElement("div");
                 gridItem.classList.add("choice");
                 const gridItemName = document.createElement("p");
-                if (player.starting_aspect === value.id) {
+                if (player.starting_aspect === value.id || player.class.id === value.id) {
                     gridItem.classList.add("selected");
                 }
                 gridItem.onclick = () => {
-                    player.starting_aspect = value.id;
+                    if (value.type === "class") {
+                        player.class = new CharClass(value);
+                    }
+                    else {
+                        player.starting_aspect = value.id;
+                    }
                     grid.querySelectorAll(".choice").forEach((item) => {
                         item.classList.remove("selected");
                     });
@@ -230,7 +240,6 @@ function aspectTooltip(aspect) {
     if (aspect.modifiers) {
         tooltip += `<f>1rem<f><c>white<c>${game.getLocalizedString("modifiers")}:<c>white<c>\n`;
         Object.entries(aspect.modifiers).forEach(([key, value]) => {
-            console.log(key, value);
             tooltip += effectSyntax(key, value);
         });
     }
@@ -240,7 +249,7 @@ function aspectTooltip(aspect) {
             tooltip += `<f>1rem<f><c>white<c>${item.amount}x <c>gold<c>${game.getLocalizedString(item.item)}<c>white<c>\n`;
         });
     }
-    else {
+    else if (aspect?.type !== "class") {
         tooltip += `<f>1rem<f><c>white<c>${game.getLocalizedString("no_items")}<c>white<c>\n`;
     }
     return tooltip;

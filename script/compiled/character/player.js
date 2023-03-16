@@ -33,6 +33,7 @@ class Player extends Character {
     completed_dungeons;
     starting_aspect;
     key_items;
+    class;
     constructor(char) {
         super(char);
         this.race = new Race(char.race) ?? new Race(races.human);
@@ -49,6 +50,7 @@ class Player extends Character {
         this.completed_dungeons = char.completed_dungeons ?? [];
         this.starting_aspect = char.starting_aspect ?? "determination";
         this.key_items = char.key_items ?? [];
+        this.class = char.class ? new CharClass(char.class) : new CharClass(classManager.get("paladin"));
         this.restoreClasses();
         this.updateAllModifiers();
     }
@@ -365,7 +367,8 @@ const defaultPlayer = {
     skill_points: 0,
     level: 1,
     xp: 0,
-    starting_aspect: "determination",
+    starting_aspect: "strength",
+    class: classManager.get("warrior"),
 };
 let player = new Player({
     ...defaultPlayer,

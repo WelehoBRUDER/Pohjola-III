@@ -43,13 +43,13 @@ function calculateDamage(attacker, defender, attack) {
     if (!attack.isSpell) {
         modifier *= attack.power ?? 1;
     }
-    // if (attacker instanceof Enemy) {
-    //   console.log("dmg", damage);
-    //   console.log("stats", attackerStats);
-    //   console.log("def", defence);
-    //   console.log("mod", modifier);
-    //   console.log("boost", boost);
-    // }
+    // Modify damage by attack type (melee or ranged)
+    if (attack.skillType === "melee") {
+        modifier *= attacker.allModifiers["meleeDamageP"];
+    }
+    else if (attack.skillType === "ranged") {
+        modifier *= attacker.allModifiers["rangedDamageP"];
+    }
     // Lower damage by defence
     modifier *= defence;
     // Apply damage
