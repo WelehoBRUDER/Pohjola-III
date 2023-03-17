@@ -5,7 +5,7 @@ function sideBarDetails() {
   }
   const misc = document.createElement("div");
   misc.classList.add("misc");
-  const miscStats = ["gold", "perk_points", "skill_points", "level", "xp", "power_level"];
+  const miscStats = ["gold", "perk_points", "skill_points", "level", "xp", "class", "power_level"];
   miscStats.forEach((stat) => {
     const statElement = document.createElement("div");
     statElement.classList.add("stat");
@@ -17,8 +17,13 @@ function sideBarDetails() {
       valueElement.innerText += " / " + player.xpForNextLevel();
     } else if (stat === "power_level") {
       valueElement.innerText = player.calculateCombatPower();
+    } else if (stat === "class") {
+      valueElement.innerText = game.getLocalizedString(player.class.id);
+      tooltip(statElement, player.class.tooltip());
     }
-    tooltip(statElement, game.getLocalizedString(stat + "_tt"));
+    if (stat !== "class") {
+      tooltip(statElement, game.getLocalizedString(stat + "_tt"));
+    }
     statElement.append(valueElement);
     misc.append(statElement);
   });

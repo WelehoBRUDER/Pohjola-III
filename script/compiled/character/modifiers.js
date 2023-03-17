@@ -18,6 +18,10 @@ const defaultModifiers = {
     hpMaxFromVitV: 5,
     mpMaxFromIntV: 2,
     mpMaxFromSpiV: 2,
+    meleeDamageP: 1,
+    rangedDamageP: 1,
+    spellPowerP: 1,
+    healPowerP: 1,
 };
 function getAllModifiers(char) {
     const modifiers = { ...defaultModifiers };
@@ -76,7 +80,106 @@ function getAllModifiers(char) {
             });
         }
     }
+    if (char instanceof Player && char.class?.modifiers) {
+        Object.entries(char.class.modifiers).forEach((modifier) => {
+            applyModifierToTotal(modifier, modifiers);
+        });
+        char.class.perks.forEach((perk) => {
+            Object.entries(perk.modifiers).forEach((modifier) => {
+                applyModifierToTotal(modifier, modifiers);
+            });
+        });
+    }
     return modifiers;
+}
+function getModifierBreakdown(modif, char) {
+    const breakdown = {
+        traitsP: 1,
+        perksP: 1,
+        statusesP: 1,
+        raceP: 1,
+        equipmentP: 1,
+        aspectP: 1,
+        classP: 1,
+    };
+    char.traits.forEach((trait) => {
+        if (trait.modifiers) {
+            Object.entries(trait.modifiers).forEach((modifier) => {
+                if (modifier[0] === modif && modifier[0].endsWith("P")) {
+                    breakdown.traitsP *= 1 + modifier[1] / 100;
+                }
+                else
+                    return;
+            });
+        }
+    });
+    char.perks?.forEach((perk) => {
+        perk.levels.forEach((level, lvl) => {
+            if (lvl >= perk.level)
+                return;
+            if (level.modifiers) {
+                Object.entries(level.modifiers).forEach((modifier) => {
+                    if (modifier[0] === modif && modifier[0].endsWith("P")) {
+                        breakdown.perksP *= 1 + modifier[1] / 100;
+                    }
+                });
+            }
+        });
+    });
+    char.statuses.forEach((status) => {
+        if (status.modifiers) {
+            Object.entries(status.modifiers).forEach((modifier) => {
+                if (modifier[0] === modif && modifier[0].endsWith("P")) {
+                    breakdown.statusesP *= 1 + modifier[1] / 100;
+                }
+            });
+        }
+    });
+    if (char.race?.modifiers) {
+        Object.entries(char.race.modifiers).forEach((modifier) => {
+            if (modifier[0] === modif && modifier[0].endsWith("P")) {
+                breakdown.raceP *= 1 + modifier[1] / 100;
+            }
+        });
+    }
+    if (char.equipment) {
+        Object.values(char.equipment).forEach((item) => {
+            if (item?.modifiers) {
+                Object.entries(item.modifiers).forEach((modifier) => {
+                    if (modifier[0] === modif && modifier[0].endsWith("P")) {
+                        breakdown.equipmentP *= 1 + modifier[1] / 100;
+                    }
+                });
+            }
+        });
+    }
+    if (char instanceof Player && typeof startingAspects !== "undefined") {
+        const aspectModifiers = startingAspects[char?.starting_aspect]?.modifiers;
+        if (aspectModifiers) {
+            Object.entries(aspectModifiers).forEach((modifier) => {
+                if (modifier[0] === modif && modifier[0].endsWith("P")) {
+                    breakdown.aspectP *= 1 + modifier[1] / 100;
+                }
+            });
+        }
+    }
+    if (char instanceof Player && char.class?.modifiers) {
+        Object.entries(char.class.modifiers).forEach((modifier) => {
+            if (modifier[0] === modif && modifier[0].endsWith("P")) {
+                breakdown.classP *= 1 + modifier[1] / 100;
+            }
+        });
+        char.class.perks.forEach((perk) => {
+            if (perk.modifiers) {
+                Object.entries(perk.modifiers).forEach((modifier) => {
+                    if (modifier[0] === modif && modifier[0].endsWith("P")) {
+                        breakdown.classP *= 1 + modifier[1] / 100;
+                    }
+                });
+            }
+        });
+    }
+    return breakdown;
 }
 function applyModifierToTotal(modifier, total) {
     const key = modifier[0];

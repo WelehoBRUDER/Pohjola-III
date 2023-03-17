@@ -171,9 +171,9 @@ const effects = {
         type: "heal",
         buffDebuff: "buff",
         modifiers: {
-            stunResistanceV: 20,
-            bleedResistanceV: 20,
-            poisonResistanceV: 20,
+            stunResistanceV: 50,
+            bleedResistanceV: 50,
+            poisonResistanceV: 50,
         },
     },
     troll_regen: {
@@ -195,6 +195,17 @@ const effects = {
         buffDebuff: "buff",
         modifiers: {
             damageP: 10,
+        },
+    },
+    haste_1: {
+        id: "haste_1",
+        icon: "gfx/icons/running-ninja.png",
+        duration: 7,
+        type: "buff",
+        buffDebuff: "buff",
+        modifiers: {
+            speedP: 10,
+            dodgeP: 10,
         },
     },
 };

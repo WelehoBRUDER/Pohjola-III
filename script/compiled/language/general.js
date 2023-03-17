@@ -41,6 +41,9 @@ const english = {
     mpRegenFromInt: "Intelligence as Mana Regen",
     mpRegenFromSpi: "Spirit as Mana Regen",
     dodge: "Dodge",
+    meleeDamage: "Melee Damage",
+    spellPower: "Spell Power",
+    healPower: "Heal Power",
     // Resistances
     fireResistance: "Fire Resistance",
     iceResistance: "Ice Resistance",
@@ -50,6 +53,11 @@ const english = {
     bleedResistance: "Bleed Resistance",
     divineResistance: "Divine Resistance",
     stunResistance: "Stun Resistance",
+    // Classes
+    warrior: "Warrior",
+    rogue: "Rogue",
+    mage: "Mage",
+    paladin: "Paladin",
     // combat
     combat_defeat: "Defeat",
     combat_defeat_text: "You have been defeated in battle!",
@@ -111,6 +119,10 @@ const english = {
     drink_potion: "Drink potion",
     equip_item: "Equip item",
     unequip_item: "Unequip item",
+    level: "Level",
+    confirm_perk_unlock: `Are you sure you want to unlock perk "{id}" ?`,
+    // Special
+    divine_desc: "Extra damage vs unholy enemies",
     // Menu
     new_game: "New Game",
     load_game: "Load Game",
@@ -171,7 +183,7 @@ const english = {
     poison_tt: "Reduces damage taken from poison attacks.",
     bleed_tt: "Reduces damage taken from bleed attacks.",
     divine_tt: "Reduces damage taken from divine attacks.",
-    stun_tt: "Reduces chance of getting stunned.",
+    stun_tt: "Reduces length of stuns.",
     // Ability names //
     sharp_strike: "Sharp Strike",
     fierce_attack: "Fierce Attack",
@@ -375,7 +387,7 @@ const english = {
     tough_8: "Tough VIII",
     tough_9: "Tough IX",
     tough_defensive: "Tough Defensive",
-    warrior: "Warrior",
+    warrior_perk: "Warrior",
     weak_points: "Weak Points",
     will_1: "Will I",
     will_2: "Will II",
@@ -386,6 +398,35 @@ const english = {
     will_7: "Will VII",
     will_8: "Will VIII",
     will_enlightened: "Will Enlightened",
+    // Class specific perks
+    // WARRIOR
+    warrior_vitality: "Warrior's Vitality",
+    warrior_vitality_desc: "Close combat invigorates you.",
+    warrior_power: "Combat Prowess",
+    warrior_power_desc: "Your skill in melee improves.",
+    warrior_strength: "Strength Training",
+    warrior_strength_desc: "Those muscles won't build themselves.",
+    // ROGUE
+    rogue_make_haste: "Make Haste",
+    rogue_make_haste_desc: "Keep moving or perish.",
+    rogue_nimble: "Nimbler",
+    rogue_nimble_desc: "Your foes are struggling to keep track of you.",
+    rogue_agile: "Agility Training",
+    rogue_agile_desc: "You're getting better at dodging.",
+    // MAGE
+    mage_mana_regen: "Mana Regeneration",
+    mage_mana_regen_desc: "Your mana regenerates faster.",
+    mage_spell_mastery: "Spell Mastery",
+    mage_spell_mastery_desc: "Your spells are more powerful.",
+    mage_books: "Hitting the Books",
+    mage_books_desc: "Book good.",
+    // PALADIN
+    paladin_smite: "Smite the Wicked",
+    paladin_smite_desc: "Unholy beings will be destroyed before the divine.",
+    paladin_vigour: "Vigour",
+    paladin_vigour_desc: "Your flesh is blessed.",
+    paladin_strength: "Strength Training",
+    paladin_strength_desc: "Those muscles won't build themselves.",
     // Log
     reached_level: "Reached level {0}!",
     gained_xp: "Gained {0} XP",

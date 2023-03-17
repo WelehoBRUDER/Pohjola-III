@@ -84,4 +84,7 @@ const screens: any = {
   skills: {
     scroll: 0,
   },
+  class: {
+    scroll: 0,
+  },
 } as const;

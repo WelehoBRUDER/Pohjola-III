@@ -1198,7 +1198,7 @@ const perks: PerkObject[] = [
     ],
   },
   {
-    id: "warrior",
+    id: "warrior_perk",
     desc: "",
     pos: {
       x: -2.14,

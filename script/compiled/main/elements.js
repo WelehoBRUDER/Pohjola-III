@@ -72,5 +72,8 @@ const screens = {
     skills: {
         scroll: 0,
     },
+    class: {
+        scroll: 0,
+    },
 };
 //# sourceMappingURL=elements.js.map

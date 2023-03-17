@@ -1,3 +1,16 @@
+# Version 0.1.3 ~ 2023.3.16
+
+## New features & additions
+- Added classes.
+  * Currently there are 4 classes: warrior, rogue, mage and paladin.
+- Added purchasable perks for each class.
+  * Perks are unlocked at certain levels and cost money.
+  * Perks can also require certain stats to be unlocked.
+
+# Changes
+- See breakdown of your modifiers in character screen (tooltip when hovering).
+- Stun resistance now reduces the duration of stuns instead of resisting them.
+
 # Version 0.1.2 ~ 2023.3.14
 
 ## New features & additions

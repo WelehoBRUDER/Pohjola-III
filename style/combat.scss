@@ -285,6 +285,11 @@
       color: rgb(146, 146, 146);
       text-shadow: -0.25rem 0.25rem 0.75rem rgb(99, 99, 99);
     }
+
+    &.weak {
+      color: rgb(170, 160, 160);
+      text-shadow: -0.25rem 0.25rem 0.75rem rgb(133, 130, 130);
+    }
   }
 
   &.paused {

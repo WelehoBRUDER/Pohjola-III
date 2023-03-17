@@ -5,6 +5,7 @@ interface SkillObject {
   id: string;
   levels: any[];
   icon?: string;
+  hiddenUntilOwned?: boolean;
   requirements?: any[];
   currentLevel?: number;
   upgrades?: SkillObject[];
@@ -19,6 +20,7 @@ class Skill {
   levels: any[];
   icon: string;
   currentLevel: number;
+  hiddenUntilOwned: boolean;
   requirements: any[];
   upgrades: SkillObject[];
   isOwned?: boolean;
@@ -32,6 +34,7 @@ class Skill {
     this.levels = skill.levels ? [...skill.levels] : [];
     this.currentLevel = skill.currentLevel || 0;
     this.icon = skill.icon || icons.placeholder;
+    this.hiddenUntilOwned = skill.hiddenUntilOwned ?? false;
     this.requirements = skill.requirements ? [...skill.requirements] : [];
     this.upgrades = skill.upgrades ? [...skill.upgrades] : [];
     this.isOwned = skill.isOwned ?? false;
@@ -221,6 +224,7 @@ function createSkills() {
   };
   const _skills = skills.map((skill: SkillObject) => new Skill(skill));
   _skills.forEach((skill: Skill) => {
+    if (skill.hiddenUntilOwned && !player.hasAbility(skill.id)) return;
     const skillWrapper = document.createElement("div");
     const connectorTop = document.createElement("div");
     const connectorBottom = document.createElement("div");

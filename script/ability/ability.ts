@@ -2,6 +2,8 @@ interface AbilityObject {
   [id: string]: any;
   icon: string;
   type: string;
+  special?: string;
+  skillType?: string;
   isSpell?: boolean;
   weight: number;
   cooldown: number;
@@ -13,6 +15,8 @@ class Ability {
   mpCost: number;
   hpCost: number;
   type: string;
+  special?: string;
+  skillType: string; // Either melee or ranged
   isSpell: boolean;
   cooldown: number;
   onCooldown: number;
@@ -32,6 +36,8 @@ class Ability {
     this.mpCost = ability.mpCost ?? 0;
     this.hpCost = ability.hpCost ?? 0;
     this.type = ability.type;
+    this.special = ability.special ?? "";
+    this.skillType = ability.skillType ?? "";
     this.isSpell = ability.isSpell ?? false;
     this.weight = ability.weight ?? 1;
     this.isAOE = ability.isAOE ?? false;
@@ -120,7 +126,7 @@ class Ability {
             player.stats.hp -= damage;
             createDroppingText(damage.toString(), tools);
             if (didCrit) {
-              createDroppingText("CRIT!", tools, "crit");
+              createDroppingText("CRIT!", tools, "crit", { fontSize: 90 });
             }
             update({ updatePlayerOnly: true });
             shakeScreen();
@@ -133,7 +139,7 @@ class Ability {
         });
         game.resume();
         update();
-      } else if (this.type === "heal") {
+      } else if (this.type === "heal" || this.type === "buff") {
         targets.forEach((target: Player | Enemy) => {
           if (this.healFlat || this.healPercent) {
             let heal: number = 0;
@@ -207,6 +213,10 @@ class Ability {
           this[key] = { ...updateObject(key, value, holder.allModifiers[id]) };
         }
       });
+      if (this.healFlat) {
+        this.healFlat = Math.round(this.healFlat * holder.allModifiers.healPowerP);
+        this.healPercent = Math.round(this.healPercent * holder.allModifiers.healPowerP);
+      }
     };
   }
 
@@ -221,6 +231,10 @@ class Ability {
     tooltip += "<f>1.2rem<f><c>white<c>";
     if (DEVTOOLS.ENABLED) {
       tooltip += `<c>white<c> [dev] <c>orange<c>${this.id}<c>white<c>\n`;
+    }
+
+    if (this.special) {
+      tooltip += `<c>orange<c>${game.getLocalizedString(this.special + "_desc")}<c>white<c>\n`;
     }
 
     if (this.isAOE) {
@@ -277,7 +291,7 @@ class Ability {
       this.effectsToEnemy.forEach((effect: Effect) => {
         if (options?.owner) {
           const displayEffect = new Effect(effect);
-          displayEffect.init(options?.owner?.allModifiers?.["ability_" + this.id]?.["effect_" + effect.id]);
+          displayEffect.init(options?.owner?.allModifiers?.["ability_" + this.id]?.["effect_" + effect.id], options?.owner);
           tooltip += displayEffect.tooltip({ container: true });
         } else {
           tooltip += effect.tooltip({ container: true });
@@ -289,7 +303,7 @@ class Ability {
       this.effectsToSelf.forEach((effect: Effect) => {
         if (options?.owner) {
           const displayEffect = new Effect(effect);
-          displayEffect.init(options?.owner?.allModifiers?.["ability_" + this.id]?.["effect_" + effect.id]);
+          displayEffect.init(options?.owner?.allModifiers?.["ability_" + this.id]?.["effect_" + effect.id], options?.owner);
           tooltip += displayEffect.tooltip({ container: true });
         } else {
           tooltip += effect.tooltip({ container: true });

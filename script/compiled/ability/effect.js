@@ -48,7 +48,7 @@ class Effect {
         }
         return tooltip;
     }
-    init(bonuses) {
+    init(bonuses, caster) {
         if (!bonuses)
             bonuses = {};
         Object.entries(this).forEach(([key, value]) => {
@@ -69,6 +69,15 @@ class Effect {
                 });
             }
         });
+        console.log(caster);
+        if (this.inflict && caster) {
+            if (this.inflict.healingFlat) {
+                this.inflict.healingFlat = Math.round(this.inflict.healingFlat * caster.allModifiers.healPowerP);
+            }
+            if (this.inflict.healingPercent) {
+                this.inflict.healingPercent = +(this.inflict.healingPercent * caster.allModifiers.healPowerP).toFixed(3);
+            }
+        }
         return this;
     }
 }
