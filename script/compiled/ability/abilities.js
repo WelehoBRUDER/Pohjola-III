@@ -235,5 +235,13 @@ const abilities = {
         cooldown: 12,
         weight: 2,
     },
+    haste_enchant: {
+        id: "haste_enchant",
+        icon: "gfx/icons/running-ninja.png",
+        type: "buff",
+        effectsToSelf: [effects.haste_1],
+        cooldown: 15,
+        weight: 2,
+    },
 };
 //# sourceMappingURL=abilities.js.map

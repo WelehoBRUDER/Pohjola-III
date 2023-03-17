@@ -319,6 +319,9 @@ class Player extends Character {
     hasKeyItem(item) {
         return this.key_items?.includes(item);
     }
+    hasClassPerk(perk) {
+        return this.class.perks?.find((p) => p.id === perk) !== undefined;
+    }
 }
 const defaultPlayer = {
     id: "player",
@@ -368,7 +371,7 @@ const defaultPlayer = {
     level: 1,
     xp: 0,
     starting_aspect: "strength",
-    class: classManager.get("paladin"),
+    class: classManager.get("warrior"),
 };
 let player = new Player({
     ...defaultPlayer,

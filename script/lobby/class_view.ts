@@ -25,7 +25,9 @@ function createClassView() {
       perkElem.classList.add("class-perk");
       perkElem.innerText = game.getLocalizedString(perk.id);
       tooltip(perkElem, perk.tooltip());
-      if (!perk.available()) {
+      if (player.hasClassPerk(perk.id)) {
+        perkElem.classList.add("owned");
+      } else if (!perk.available()) {
         perkElem.classList.add("locked");
       }
       perkElem.onclick = () => {

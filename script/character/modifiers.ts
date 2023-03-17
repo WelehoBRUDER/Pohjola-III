@@ -84,6 +84,11 @@ function getAllModifiers(char: Character | Player) {
     Object.entries(char.class.modifiers).forEach((modifier: any) => {
       applyModifierToTotal(modifier, modifiers);
     });
+    char.class.perks.forEach((perk: any) => {
+      Object.entries(perk.modifiers).forEach((modifier: any) => {
+        applyModifierToTotal(modifier, modifiers);
+      });
+    });
   }
   return modifiers;
 }
@@ -160,6 +165,15 @@ function getModifierBreakdown(modif: string, char: Player | Enemy): any {
     Object.entries(char.class.modifiers).forEach((modifier: any) => {
       if (modifier[0] === modif && modifier[0].endsWith("P")) {
         breakdown.classP *= 1 + modifier[1] / 100;
+      }
+    });
+    char.class.perks.forEach((perk: any) => {
+      if (perk.modifiers) {
+        Object.entries(perk.modifiers).forEach((modifier: any) => {
+          if (modifier[0] === modif && modifier[0].endsWith("P")) {
+            breakdown.classP *= 1 + modifier[1] / 100;
+          }
+        });
       }
     });
   }

@@ -203,4 +203,15 @@ const effects = {
       damageP: 10,
     },
   } as EffectObject,
+  haste_1: {
+    id: "haste_1",
+    icon: "gfx/icons/running-ninja.png",
+    duration: 7,
+    type: "buff",
+    buffDebuff: "buff",
+    modifiers: {
+      speedP: 10,
+      dodgeP: 10,
+    },
+  } as EffectObject,
 } as const;

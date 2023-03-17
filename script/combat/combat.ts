@@ -124,6 +124,7 @@ function useAbility(hotkey: string | null, index?: number | null) {
       }
     }
   } else {
+    console.log("?");
     ability.use(player, [player]);
   }
 }

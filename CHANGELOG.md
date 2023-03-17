@@ -3,8 +3,9 @@
 ## New features & additions
 - Added classes.
   * Currently there are 4 classes: warrior, rogue, mage and paladin.
-  * Each class has a unique skill.
-  * Each class has a unique armor set.
+- Added purchasable perks for each class.
+  * Perks are unlocked at certain levels and cost money.
+  * Perks can also require certain stats to be unlocked.
 
 # Changes
 - See breakdown of your modifiers in character screen (tooltip when hovering).

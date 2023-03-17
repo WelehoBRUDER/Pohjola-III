@@ -132,7 +132,7 @@ class Ability {
                 game.resume();
                 update();
             }
-            else if (this.type === "heal") {
+            else if (this.type === "heal" || this.type === "buff") {
                 targets.forEach((target) => {
                     if (this.healFlat || this.healPercent) {
                         let heal = 0;
@@ -227,6 +227,9 @@ class Ability {
         tooltip += "<f>1.2rem<f><c>white<c>";
         if (DEVTOOLS.ENABLED) {
             tooltip += `<c>white<c> [dev] <c>orange<c>${this.id}<c>white<c>\n`;
+        }
+        if (this.special) {
+            tooltip += `<c>orange<c>${game.getLocalizedString(this.special + "_desc")}<c>white<c>\n`;
         }
         if (this.isAOE) {
             tooltip += `${game.getLocalizedString("aoe")}\n`;

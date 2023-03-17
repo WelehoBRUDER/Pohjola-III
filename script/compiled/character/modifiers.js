@@ -84,6 +84,11 @@ function getAllModifiers(char) {
         Object.entries(char.class.modifiers).forEach((modifier) => {
             applyModifierToTotal(modifier, modifiers);
         });
+        char.class.perks.forEach((perk) => {
+            Object.entries(perk.modifiers).forEach((modifier) => {
+                applyModifierToTotal(modifier, modifiers);
+            });
+        });
     }
     return modifiers;
 }
@@ -162,6 +167,15 @@ function getModifierBreakdown(modif, char) {
         Object.entries(char.class.modifiers).forEach((modifier) => {
             if (modifier[0] === modif && modifier[0].endsWith("P")) {
                 breakdown.classP *= 1 + modifier[1] / 100;
+            }
+        });
+        char.class.perks.forEach((perk) => {
+            if (perk.modifiers) {
+                Object.entries(perk.modifiers).forEach((modifier) => {
+                    if (modifier[0] === modif && modifier[0].endsWith("P")) {
+                        breakdown.classP *= 1 + modifier[1] / 100;
+                    }
+                });
             }
         });
     }
