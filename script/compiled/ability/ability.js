@@ -4,6 +4,7 @@ class Ability {
     mpCost;
     hpCost;
     type;
+    special;
     skillType; // Either melee or ranged
     isSpell;
     cooldown;
@@ -24,6 +25,7 @@ class Ability {
         this.mpCost = ability.mpCost ?? 0;
         this.hpCost = ability.hpCost ?? 0;
         this.type = ability.type;
+        this.special = ability.special ?? "";
         this.skillType = ability.skillType ?? "";
         this.isSpell = ability.isSpell ?? false;
         this.weight = ability.weight ?? 1;
@@ -116,7 +118,7 @@ class Ability {
                         player.stats.hp -= damage;
                         createDroppingText(damage.toString(), tools);
                         if (didCrit) {
-                            createDroppingText("CRIT!", tools, "crit");
+                            createDroppingText("CRIT!", tools, "crit", { fontSize: 90 });
                         }
                         update({ updatePlayerOnly: true });
                         shakeScreen();

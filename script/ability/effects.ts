@@ -177,9 +177,9 @@ const effects = {
     type: "heal",
     buffDebuff: "buff",
     modifiers: {
-      stunResistanceV: 20,
-      bleedResistanceV: 20,
-      poisonResistanceV: 20,
+      stunResistanceV: 50,
+      bleedResistanceV: 50,
+      poisonResistanceV: 50,
     },
   } as EffectObject,
   troll_regen: {

@@ -207,20 +207,9 @@ class Character {
             const index = this.statuses.findIndex((s) => s.id === status.id);
             const effect = new Effect(status);
             const resistance = this.getResistances()[effect.type];
-            // If the effect is stun, check if it's resisted
+            // If the effect is stun, reduce duration by resistance
             if (effect.type === "stun") {
-                if (Math.random() * 120 < resistance) {
-                    if (this instanceof Player) {
-                        createDroppingText("Stun resisted!", tools, "resist");
-                    }
-                    else {
-                        createDroppingText("Stun resisted!", this.card.main, "resist");
-                    }
-                    return;
-                }
-                else {
-                    effect.duration = Math.round(effect.duration * (1 - resistance / 180));
-                }
+                effect.duration = Math.round(effect.duration * (1 - resistance / 100));
             }
             if (index === -1) {
                 effect.init(user.allModifiers?.[key]?.["effect_" + status.id], user);

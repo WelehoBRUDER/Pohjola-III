@@ -174,7 +174,7 @@ const english = {
     poison_tt: "Reduces damage taken from poison attacks.",
     bleed_tt: "Reduces damage taken from bleed attacks.",
     divine_tt: "Reduces damage taken from divine attacks.",
-    stun_tt: "Reduces chance of getting stunned.",
+    stun_tt: "Reduces length of stuns.",
     // Ability names //
     sharp_strike: "Sharp Strike",
     fierce_attack: "Fierce Attack",

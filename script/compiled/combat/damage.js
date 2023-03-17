@@ -12,6 +12,7 @@ function calculateDamage(attacker, defender, attack) {
     let damage = attacker.getDamage();
     const attackerStats = attacker.getStats();
     const defences = defender.getDefences();
+    const resist = defender.getResistances();
     const key = attack.damageType ?? "physical";
     if (attack.isSpell) {
         damage = attack.damage * attacker.getSpellPower();
@@ -49,6 +50,16 @@ function calculateDamage(attacker, defender, attack) {
     }
     else if (attack.skillType === "ranged") {
         modifier *= attacker.allModifiers["rangedDamageP"];
+    }
+    // Modify damage by special properties
+    if (attack.special) {
+        modifier *= Math.max(1 - resist[attack.special] / 100, 0.5); // Resistance can't reduce damage below 50%
+        if (defender instanceof Player) {
+            createDroppingText("WEAK!", tools, "weak", { fontSize: 40 });
+        }
+        else if (defender.card) {
+            createDroppingText("WEAK!", defender.card.main, "weak", { fontSize: 40 });
+        }
     }
     // Lower damage by defence
     modifier *= defence;

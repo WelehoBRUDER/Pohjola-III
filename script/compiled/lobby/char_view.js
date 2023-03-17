@@ -71,6 +71,16 @@ function createCharView() {
         valueElement.append(textSyntax(effectSyntax(key, value)));
         modifier.append(valueElement);
         modifiersScreen.append(modifier);
+        const breakdown = getModifierBreakdown(key, player);
+        if (breakdown) {
+            let breakdownText = `${game.getLocalizedString("breakdown")}:\n`;
+            Object.entries(breakdown).forEach(([key, value]) => {
+                if (value === 1)
+                    return;
+                breakdownText += effectSyntax(key, (value - 1) * 100);
+            });
+            tooltip(modifier, breakdownText);
+        }
         const valueWidth = valueElement.getBoundingClientRect().width;
         if (valueWidth > 250) {
             valueElement.style.transform = `scale(${(250 / valueWidth).toFixed(2)})`;

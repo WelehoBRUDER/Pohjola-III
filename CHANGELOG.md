@@ -6,6 +6,10 @@
   * Each class has a unique skill.
   * Each class has a unique armor set.
 
+# Changes
+- See breakdown of your modifiers in character screen (tooltip when hovering).
+- Stun resistance now reduces the duration of stuns instead of resisting them.
+
 # Version 0.1.2 ~ 2023.3.14
 
 ## New features & additions

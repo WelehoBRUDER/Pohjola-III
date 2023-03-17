@@ -2,6 +2,7 @@ interface AbilityObject {
   [id: string]: any;
   icon: string;
   type: string;
+  special?: string;
   skillType?: string;
   isSpell?: boolean;
   weight: number;
@@ -14,6 +15,7 @@ class Ability {
   mpCost: number;
   hpCost: number;
   type: string;
+  special?: string;
   skillType: string; // Either melee or ranged
   isSpell: boolean;
   cooldown: number;
@@ -34,6 +36,7 @@ class Ability {
     this.mpCost = ability.mpCost ?? 0;
     this.hpCost = ability.hpCost ?? 0;
     this.type = ability.type;
+    this.special = ability.special ?? "";
     this.skillType = ability.skillType ?? "";
     this.isSpell = ability.isSpell ?? false;
     this.weight = ability.weight ?? 1;
@@ -123,7 +126,7 @@ class Ability {
             player.stats.hp -= damage;
             createDroppingText(damage.toString(), tools);
             if (didCrit) {
-              createDroppingText("CRIT!", tools, "crit");
+              createDroppingText("CRIT!", tools, "crit", { fontSize: 90 });
             }
             update({ updatePlayerOnly: true });
             shakeScreen();
