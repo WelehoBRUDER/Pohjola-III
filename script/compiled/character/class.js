@@ -3,6 +3,7 @@ class CharClass {
     id;
     type;
     modifiers;
+    perks;
     constructor(_base) {
         if (!_base)
             throw new Error(`No base class provided.`);
@@ -12,6 +13,7 @@ class CharClass {
         this.id = base.id;
         this.type = "class";
         this.modifiers = base.modifiers;
+        this.perks = base.perks;
     }
     tooltip() {
         let tooltip = `<f>1.2rem<f><c>goldenrod<c>${game.getLocalizedString(this.id)}\n`;
@@ -38,6 +40,7 @@ class ClassManager {
                     meleeDamageP: 10,
                     spellPowerP: -5,
                 },
+                perks: [],
             },
             {
                 id: "rogue",
@@ -50,6 +53,7 @@ class ClassManager {
                     meleeDamageP: 10,
                     spellPowerP: -5,
                 },
+                perks: [],
             },
             {
                 id: "mage",
@@ -62,6 +66,7 @@ class ClassManager {
                     spellPowerP: 10,
                     meleeDamageP: -5,
                 },
+                perks: [],
             },
             {
                 id: "paladin",
@@ -75,6 +80,7 @@ class ClassManager {
                     meleeDamageP: 5,
                     healPowerP: 5,
                 },
+                perks: [],
             },
         ];
     }

@@ -11,6 +11,11 @@ const lobbyButtons = [
         click: createPerks,
     },
     {
+        id: "class",
+        icon: "gfx/icons/embrassed-energy.png",
+        click: createClassView,
+    },
+    {
         id: "skills",
         icon: "gfx/icons/swords-power.png",
         click: createSkills,
@@ -47,7 +52,7 @@ const lobbyButtons = [
     },
 ];
 const lobby = {
-    current_view: "stages",
+    current_view: "class",
 };
 function createLobby() {
     player.updateAllModifiers();

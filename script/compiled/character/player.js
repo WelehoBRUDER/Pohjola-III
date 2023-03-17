@@ -368,7 +368,7 @@ const defaultPlayer = {
     level: 1,
     xp: 0,
     starting_aspect: "strength",
-    class: classManager.get("warrior"),
+    class: classManager.get("paladin"),
 };
 let player = new Player({
     ...defaultPlayer,

@@ -2,6 +2,7 @@ interface I_Class {
   id: string;
   type: string;
   modifiers: any;
+  perks: ClassPerk[];
 }
 
 class CharClass {
@@ -9,6 +10,7 @@ class CharClass {
   id: string;
   type: string;
   modifiers: any;
+  perks: ClassPerk[];
   constructor(_base: I_Class) {
     if (!_base) throw new Error(`No base class provided.`);
     const base: I_Class = classManager.get(_base.id);
@@ -16,6 +18,7 @@ class CharClass {
     this.id = base.id;
     this.type = "class";
     this.modifiers = base.modifiers;
+    this.perks = base.perks;
   }
 
   tooltip(): string {
@@ -45,6 +48,7 @@ class ClassManager {
           meleeDamageP: 10,
           spellPowerP: -5,
         },
+        perks: [],
       },
       {
         id: "rogue",
@@ -57,6 +61,7 @@ class ClassManager {
           meleeDamageP: 10,
           spellPowerP: -5,
         },
+        perks: [],
       },
       {
         id: "mage",
@@ -69,6 +74,7 @@ class ClassManager {
           spellPowerP: 10,
           meleeDamageP: -5,
         },
+        perks: [],
       },
       {
         id: "paladin",
@@ -82,6 +88,7 @@ class ClassManager {
           meleeDamageP: 5,
           healPowerP: 5,
         },
+        perks: [],
       },
     ];
   }

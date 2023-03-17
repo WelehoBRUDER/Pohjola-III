@@ -376,5 +376,11 @@ class Character {
         });
         this.abilities = abilities;
     }
+    getAllAbilities() {
+        return this.abilities.concat(this.abilities_total || []);
+    }
+    hasAbility(id) {
+        return this.getAllAbilities().findIndex((abi) => abi.id === id) !== -1;
+    }
 }
 //# sourceMappingURL=character.js.map

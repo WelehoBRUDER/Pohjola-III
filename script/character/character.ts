@@ -444,4 +444,12 @@ class Character {
     });
     this.abilities = abilities;
   }
+
+  getAllAbilities(): Ability[] {
+    return this.abilities.concat(this.abilities_total || []);
+  }
+
+  hasAbility(id: string): boolean {
+    return this.getAllAbilities().findIndex((abi: Ability) => abi.id === id) !== -1;
+  }
 }

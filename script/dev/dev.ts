@@ -26,7 +26,7 @@ const gameVersionText = (ver: string) => {
 if (DEVTOOLS.ENABLED) {
   lobbyScreen.classList.remove("no-display");
   mainMenuElement.classList.add("no-display");
-  lobby.current_view = "perks";
+  //lobby.current_view = "perks";
   createLobby();
   //dungeonController.enterDungeon(dungeons[1]);
 }
