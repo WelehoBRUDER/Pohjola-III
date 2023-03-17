@@ -55,6 +55,12 @@ const english = {
   divineResistance: "Divine Resistance",
   stunResistance: "Stun Resistance",
 
+  // Classes
+  warrior: "Warrior",
+  rogue: "Rogue",
+  mage: "Mage",
+  paladin: "Paladin",
+
   // combat
   combat_defeat: "Defeat",
   combat_defeat_text: "You have been defeated in battle!",
@@ -121,6 +127,8 @@ const english = {
   drink_potion: "Drink potion",
   equip_item: "Equip item",
   unequip_item: "Unequip item",
+  level: "Level",
+  confirm_perk_unlock: `Are you sure you want to unlock perk "{id}" ?`,
 
   // Menu
   new_game: "New Game",
@@ -409,7 +417,7 @@ const english = {
   tough_8: "Tough VIII",
   tough_9: "Tough IX",
   tough_defensive: "Tough Defensive",
-  warrior: "Warrior",
+  warrior_perk: "Warrior",
   weak_points: "Weak Points",
   will_1: "Will I",
   will_2: "Will II",

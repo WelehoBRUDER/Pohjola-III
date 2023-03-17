@@ -217,6 +217,7 @@ const developerCommands = [
         execute: (args) => {
             const amount = args[0] ? parseInt(args[0]) : 100;
             player.addGold(amount);
+            sideBarDetails();
             devConsole.commandHistory.push(`Added ${amount} gold`);
         },
     },

@@ -15,10 +15,6 @@ class ClassPerk {
         this.commands = base.commands;
     }
     available() {
-        if (this.unlock.level) {
-            if (player.level < this.unlock.level)
-                return false;
-        }
         if (this.unlock.stats) {
             const stats = this.unlock.stats;
             const pStats = player.getStats();
@@ -36,11 +32,15 @@ class ClassPerk {
         console.log("lmao");
         return true;
     }
-    assign() {
+    assign(options) {
         if (!this.available())
             return;
         hideHover();
-        player.gold -= this.unlock.gold;
+        closeConfirmationWindow();
+        if (!options?.confirmed) {
+            return confirmationWindow(`<f>1.5rem<f>${game.getLocalizedString("confirm_perk_unlock").replace("{id}", this.id)}`, () => this.assign({ confirmed: true }));
+        }
+        player.removeGold(this.unlock.gold);
         player.class.perks.push({ ...this });
         if (this.commands) {
             Object.entries(this.commands).forEach(([key, value]) => {
@@ -48,6 +48,7 @@ class ClassPerk {
             });
         }
         player.restore();
+        createClassView();
     }
     tooltip() {
         let tooltip = `<f>1.5rem<f><c>gold<c>${game.getLocalizedString(this.id)}\n`;
@@ -57,6 +58,7 @@ class ClassPerk {
         }
         // Perk description
         tooltip += `<c>silver<c>${game.getLocalizedString(this.id) + "_desc"}<c>white<c>\n`;
+        // Perk unlock
         if (this.commands) {
             Object.entries(this.commands).forEach(([key, value]) => {
                 if (key === "add_ability") {
@@ -82,18 +84,22 @@ const classPerks = {
     rogue: [],
     mage: [],
     paladin: [
-        new ClassPerk({
-            id: "paladin_smite",
-            type: "classPerk",
-            class: "paladin",
-            unlock: {
-                level: 1,
-                gold: 100,
-            },
-            commands: {
-                add_ability: { ...abilities.smite },
-            },
-        }),
+        {
+            level: 1,
+            perks: [
+                new ClassPerk({
+                    id: "paladin_smite",
+                    type: "classPerk",
+                    class: "paladin",
+                    unlock: {
+                        gold: 100,
+                    },
+                    commands: {
+                        add_ability: { ...abilities.smite },
+                    },
+                }),
+            ],
+        },
     ],
 };
 //# sourceMappingURL=class_perk.js.map
