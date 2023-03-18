@@ -205,7 +205,7 @@ const effects = {
         buffDebuff: "buff",
         modifiers: {
             speedP: 10,
-            dodgeP: 10,
+            dodgeV: 10,
         },
     },
 };

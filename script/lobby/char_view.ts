@@ -76,9 +76,9 @@ function createCharView() {
     const breakdown = getModifierBreakdown(key, player);
     if (breakdown) {
       let breakdownText = `${game.getLocalizedString("breakdown")}:\n`;
-      Object.entries(breakdown).forEach(([key, value]: any) => {
-        if (value === 1) return;
-        breakdownText += effectSyntax(key, (value - 1) * 100);
+      Object.entries(breakdown).forEach(([_key, _value]: any) => {
+        if (_value === 1) return;
+        breakdownText += effectSyntax(_key, (_value - 1) * 100, getProperties(key));
       });
 
       tooltip(modifier, breakdownText);

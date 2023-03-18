@@ -30,6 +30,8 @@ class Perk {
         return this.levels.length;
     }
     available() {
+        if (DEVTOOLS.IGNORE_REQUIREMENTS)
+            return true;
         if (player.perk_points < this.cost)
             return false;
         if (player.hasPerk(this.id, this.maxLevel()))

@@ -205,9 +205,13 @@ class Ability {
         if (typeof value !== "number" || typeof value === "object") return;
         if (typeof value === "number") {
           if (key === "onCooldown") return;
-          const bonus = holder.allModifiers[id]?.[key + "V"] ?? 0;
-          const modifier = 1 + (holder.allModifiers[id]?.[key + "P"] / 100 || 0);
+          let bonus = holder.allModifiers[id]?.[key + "V"] ?? 0;
+          let modifier = 1 + (holder.allModifiers[id]?.[key + "P"] / 100 || 0);
           const base = baseStats[key] !== undefined ? baseStats[key] : 0;
+          const genericModifier = holder.allModifiers[`all_${key}P`];
+          const genericBonus = holder.allModifiers[`all_${key}V`];
+          if (genericModifier) modifier *= genericModifier;
+          if (genericBonus) bonus += genericBonus;
           this[key] = +(((base || 0) + bonus) * modifier).toFixed(2);
         } else if (typeof value === "object" && !Array.isArray(value)) {
           this[key] = { ...updateObject(key, value, holder.allModifiers[id]) };

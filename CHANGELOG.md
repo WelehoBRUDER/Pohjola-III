@@ -1,3 +1,9 @@
+# Version 0.1.4 ~ 2023.3.18
+
+## New features & additions
+- Added level 5 perks for each class.
+- Added "ignore" command to the game.
+
 # Version 0.1.3 ~ 2023.3.16
 
 ## New features & additions
