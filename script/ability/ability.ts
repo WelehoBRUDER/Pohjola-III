@@ -102,6 +102,7 @@ class Ability {
       }
       if (this.type === "attack") {
         targets.forEach((target: Player | Enemy) => {
+          console.log(target);
           const hasDodged = target?.dodge();
           if (hasDodged) {
             if (target.isEnemy) {
