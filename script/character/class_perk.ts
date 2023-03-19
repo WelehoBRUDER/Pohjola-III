@@ -259,7 +259,65 @@ const classPerks: ClassPerks = {
     },
     {
       level: 10,
-      perks: [],
+      perks: [
+        new ClassPerk({
+          id: "warrior_wider_arc",
+          type: "classPerk",
+          class: "warrior",
+          unlock: {
+            stats: {
+              str: 25,
+              agi: 15,
+            },
+            gold: 5000,
+          },
+          commands: {
+            add_ability: { ...abilities.cleave },
+          },
+        }),
+        {
+          exclusive: true,
+          perks: [
+            new ClassPerk({
+              id: "warrior_utility",
+              type: "classPerk",
+              class: "warrior",
+              exclusive: ["warrior_master_basics"],
+              unlock: {
+                stats: {
+                  str: 20,
+                  int: 15,
+                  agi: 15,
+                },
+                gold: 3000,
+              },
+              modifiers: {
+                spellPowerP: 7.5,
+                damageP: 2.5,
+                all_cooldownP: -5,
+              },
+            }),
+            new ClassPerk({
+              id: "warrior_master_basics",
+              type: "classPerk",
+              class: "warrior",
+              exclusive: ["warrior_utility"],
+              unlock: {
+                stats: {
+                  str: 25,
+                },
+                gold: 3000,
+              },
+              modifiers: {
+                ability_player_base_attack: {
+                  powerV: 0.1,
+                },
+                meleeDamageP: 5,
+              },
+            }),
+          ],
+        },
+      ],
     },
     {
       level: 15,
@@ -347,6 +405,7 @@ const classPerks: ClassPerks = {
               id: "rogue_bob_and_weave",
               type: "classPerk",
               class: "rogue",
+              exclusive: ["rogue_parry_and_riposte"],
               unlock: {
                 stats: {
                   agi: 20,
@@ -365,6 +424,7 @@ const classPerks: ClassPerks = {
               id: "rogue_parry_and_riposte",
               type: "classPerk",
               class: "rogue",
+              exclusive: ["rogue_bob_and_weave"],
               unlock: {
                 stats: {
                   agi: 20,
@@ -384,7 +444,64 @@ const classPerks: ClassPerks = {
     },
     {
       level: 10,
-      perks: [],
+      perks: [
+        new ClassPerk({
+          id: "rogue_poison_cloud",
+          type: "classPerk",
+          class: "rogue",
+          unlock: {
+            stats: {
+              agi: 20,
+              vit: 15,
+            },
+            gold: 5000,
+          },
+          commands: {
+            add_ability: { ...abilities.poison_cloud },
+          },
+        }),
+        {
+          exclusive: true,
+          perks: [
+            new ClassPerk({
+              id: "rogue_dancer",
+              type: "classPerk",
+              class: "rogue",
+              unlock: {
+                stats: {
+                  agi: 25,
+                },
+                gold: 3000,
+              },
+              modifiers: {
+                all_cooldownP: -10,
+                speedP: 10,
+                dodgeV: 3,
+                hpMaxP: -15,
+              },
+            }),
+            new ClassPerk({
+              id: "rogue_fencer",
+              type: "classPerk",
+              class: "rogue",
+              unlock: {
+                stats: {
+                  agi: 20,
+                  vit: 17,
+                },
+                gold: 3000,
+              },
+              modifiers: {
+                bleedResistanceV: 15,
+                meleeDamageP: 7.5,
+                physicalDefenceV: 2.5,
+                dodgeV: 1.5,
+                all_cooldownP: 5,
+              },
+            }),
+          ],
+        },
+      ],
     },
     {
       level: 15,
@@ -500,7 +617,7 @@ const classPerks: ClassPerks = {
               },
               modifiers: {
                 all_mpCostP: -15,
-                all_cooldownP: -10,
+                all_cooldownP: -5,
               },
             }),
           ],
@@ -509,7 +626,61 @@ const classPerks: ClassPerks = {
     },
     {
       level: 10,
-      perks: [],
+      perks: [
+        new ClassPerk({
+          id: "mage_meteor",
+          type: "classPerk",
+          class: "mage",
+          unlock: {
+            stats: {
+              int: 32,
+            },
+            gold: 5000,
+          },
+          commands: {
+            add_ability: { ...abilities.meteor },
+          },
+        }),
+        {
+          exclusive: true,
+          perks: [
+            new ClassPerk({
+              id: "mage_magical_studies",
+              type: "classPerk",
+              class: "mage",
+              exclusive: ["mage_elementalist"],
+              unlock: {
+                stats: {
+                  int: 28,
+                },
+                gold: 3000,
+              },
+              modifiers: {
+                magicalDamageP: 15,
+                spellPowerP: 10,
+                elementalDamageP: 5,
+              },
+            }),
+            new ClassPerk({
+              id: "mage_elementalist",
+              type: "classPerk",
+              class: "mage",
+              exclusive: ["mage_magical_studies"],
+              unlock: {
+                stats: {
+                  int: 28,
+                },
+                gold: 3000,
+              },
+              modifiers: {
+                elementalDamageP: 15,
+                spellPowerP: 10,
+                magicalDamageP: 5,
+              },
+            }),
+          ],
+        },
+      ],
     },
     {
       level: 15,
@@ -640,7 +811,66 @@ const classPerks: ClassPerks = {
     },
     {
       level: 10,
-      perks: [],
+      perks: [
+        new ClassPerk({
+          id: "paladin_grace_of_gods",
+          type: "classPerk",
+          class: "paladin",
+          unlock: {
+            stats: {
+              spi: 30,
+            },
+            gold: 5000,
+          },
+          commands: {
+            add_ability: { ...abilities.holy_grace },
+          },
+        }),
+        {
+          exclusive: true,
+          perks: [
+            new ClassPerk({
+              id: "paladin_offensive_stance",
+              type: "classPerk",
+              class: "paladin",
+              exclusive: ["paladin_defensive_stance"],
+              unlock: {
+                stats: {
+                  spi: 25,
+                  str: 25,
+                },
+                gold: 3000,
+              },
+              modifiers: {
+                meleeDamageP: 15,
+                spellPowerP: 15,
+                damageP: 5,
+                all_cooldownP: 5,
+              },
+            }),
+            new ClassPerk({
+              id: "paladin_defensive_stance",
+              type: "classPerk",
+              class: "paladin",
+              exclusive: ["paladin_offensive_stance"],
+              unlock: {
+                stats: {
+                  vit: 32,
+                },
+                gold: 3000,
+              },
+              modifiers: {
+                hpMaxP: 15,
+                healPowerP: 10,
+                physicalDefenceV: 5,
+                magicalDefenceV: 5,
+                elementalDefenceV: 5,
+                all_cooldownP: 5,
+              },
+            }),
+          ],
+        },
+      ],
     },
     {
       level: 15,

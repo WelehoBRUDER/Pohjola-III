@@ -164,6 +164,7 @@ class Ability {
           }
           if (this.effectsToSelf) {
             this.effectsToSelf.forEach((effect: Effect) => {
+              console.log("target & user", target, user);
               target.addStatus(effect, user, "ability_" + this.id);
             });
           }
@@ -241,9 +242,14 @@ class Ability {
       tooltip += `<c>orange<c>${game.getLocalizedString(this.special + "_desc")}<c>white<c>\n`;
     }
 
+    if (skills.findIndex((skill) => skill.id === this.id) === -1) {
+      tooltip += `<c>crimson<c>${game.getLocalizedString("cant_upgrade_skill")}<c>white<c>\n`;
+    }
+
     if (this.isAOE) {
       tooltip += `${game.getLocalizedString("aoe")}\n`;
     }
+
     // Ability type
     tooltip += `${game.getLocalizedString("type")}: ${game.getLocalizedString(this.type)}\n`;
 

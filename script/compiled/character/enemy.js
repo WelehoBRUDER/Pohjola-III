@@ -246,7 +246,7 @@ class Enemy extends Character {
             this.card.main.style.animationDuration = `${1000 / game.settings.animation_speed}ms`;
             this.card.main.style.animationName = "heal";
             setTimeout(() => {
-                ability.use(this, target);
+                ability.use(this, [target]);
             }, 600 / game.settings.animation_speed);
             setTimeout(() => {
                 if (this.card) {

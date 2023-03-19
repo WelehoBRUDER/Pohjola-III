@@ -13,8 +13,14 @@ function sideBarDetails() {
     const valueElement = document.createElement("div");
     valueElement.classList.add("value");
     valueElement.innerText = player[stat];
-    if (stat === "xp") {
-      valueElement.innerText += " / " + player.xpForNextLevel();
+    if (stat === "level") {
+      if (player.level >= 100) {
+        valueElement.innerText += " (MAX)";
+      }
+    } else if (stat === "xp") {
+      if (player.level < 100) {
+        valueElement.innerText += " / " + player.xpForNextLevel();
+      }
     } else if (stat === "power_level") {
       valueElement.innerText = player.calculateCombatPower();
     } else if (stat === "class") {

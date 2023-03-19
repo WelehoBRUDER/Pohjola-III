@@ -2,6 +2,7 @@
 skills.push({
     id: "holy_grace",
     icon: "gfx/status/holy-grace.png",
+    hiddenUntilOwned: true,
     levels: [
         {
             commands: {
@@ -9,7 +10,6 @@ skills.push({
             },
         },
     ],
-    requirements: [{ skill_total: "healing_light", level: 4 }],
     upgrades: [
         {
             id: "holy_grace_upgrade_1",

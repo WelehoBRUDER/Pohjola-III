@@ -127,6 +127,7 @@ const english = {
     class_perk_exclusive: "Exclusive with",
     // Special
     divine_desc: "Extra damage vs unholy enemies",
+    poison_desc: "Deals poison damage",
     // Menu
     new_game: "New Game",
     load_game: "Load Game",
@@ -213,6 +214,7 @@ const english = {
     orc_chieftain: "Orc Chieftain",
     troll: "Troll",
     // Skill names //
+    player_base_attack: "Normal attack",
     skill_fierce_attack: "Fierce Attack",
     fierce_attack_upgrade_1: "Fierce Attack I",
     fierce_attack_upgrade_2: "Fierce Attack II",
@@ -416,6 +418,12 @@ const english = {
     warrior_battle_arts_desc: "Some spells can really make a difference.",
     warrior_berserking: "Berserking",
     warrior_berserking_desc: "No time for magic - that's for pansies!",
+    warrior_wider_arc: "Wider Arc",
+    warrior_wider_arc_desc: "You're getting better at hitting multiple foes.",
+    warrior_utility: "Utility",
+    warrior_utility_desc: "You find new tricks to use on your enemies.",
+    warrior_master_basics: "Master the Basics",
+    warrior_master_basics_desc: "I fear not the man who has practiced 10k attacks once,\n but I fear the man who has practiced one attack 10k times.",
     // ROGUE
     rogue_make_haste: "Make Haste",
     rogue_make_haste_desc: "Keep moving or perish.",
@@ -429,6 +437,12 @@ const english = {
     rogue_bob_and_weave_desc: "Avoiding hits and ending fights is more your style.",
     rogue_parry_and_riposte: "Parry & Riposte",
     rogue_parry_and_riposte_desc: "'En garde!' you say to your enemies.",
+    rogue_poison_cloud: "Poison Cloud",
+    rogue_poison_cloud_desc: "Let's see how they fight while coughing to death!",
+    rogue_dancer: "Death's Dancer",
+    rogue_dancer_desc: "Your graceful motions emphasize your enemy's demise.",
+    rogue_fencer: "Fair Fencer",
+    rogue_fencer_desc: "It's not backstabbing if it comes from the front.",
     // MAGE
     mage_mana_regen: "Mana Regeneration",
     mage_mana_regen_desc: "Your mana regenerates faster.",
@@ -442,6 +456,12 @@ const english = {
     mage_blast_them_desc: "Must. Hit. Harder!",
     mage_conserve_mana: "Conserve Mana",
     mage_conserve_mana_desc: "Your spell casting is more efficient.",
+    mage_meteor: "Cosmic Force",
+    mage_meteor_desc: "Don't look up.",
+    mage_magical_studies: "Magical Studies",
+    mage_magical_studies_desc: "You are more comfortable with pure magic.",
+    mage_elementalist: "Elementalist",
+    mage_elementalist_desc: "You like to dabble in elemental powers.",
     // PALADIN
     paladin_smite: "Smite the Wicked",
     paladin_smite_desc: "Unholy beings will be destroyed before the divine.",
@@ -455,6 +475,12 @@ const english = {
     paladin_divine_dedication_desc: "You seek strength through divinity.",
     paladin_sword_and_shield: "Sword & Shield",
     paladin_sword_and_shield_desc: "Your divine body shall smite the sinful.",
+    paladin_grace_of_gods: "Grace of the Gods",
+    paladin_grace_of_gods_desc: "Your healing power is blessed by the Gods.",
+    paladin_offensive_stance: "Offensive Stance",
+    paladin_offensive_stance_desc: "Those heretics must perish NOW!",
+    paladin_defensive_stance: "Defensive Stance",
+    paladin_defensive_stance_desc: "The heretics won't die if I do.",
     // Log
     reached_level: "Reached level {0}!",
     gained_xp: "Gained {0} XP",
