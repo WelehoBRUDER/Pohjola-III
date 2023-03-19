@@ -35,6 +35,7 @@ class SaveController {
     }
     const index = this.saveSlots.findIndex((save) => save.id === id);
     saveFile.version = gameVersion;
+    console.log(file, saveFile);
     if (index !== -1) {
       this.saveSlots[index] = saveFile;
     } else {
@@ -66,6 +67,7 @@ class SaveController {
         confirmationWindow(text, () => this.loadSave(id));
       } else {
         try {
+          console.log("loaded save:", save);
           closeConfirmationWindow();
           mainMenuElement.classList.add("no-display");
           lobbyScreen.classList.remove("no-display");
@@ -147,6 +149,7 @@ class SaveFile {
   lastSaved: Date;
   created: Date;
   constructor(saveFile: SaveFile) {
+    console.log("saveFile:", saveFile);
     if (saveFile?.id) {
       this.id = saveFile.id;
     } else {
@@ -158,7 +161,7 @@ class SaveFile {
     }
     this.name = saveFile.name || "New Game";
     this.version = saveFile.version ?? gameVersion;
-    this.saveData = new SaveData();
+    this.saveData = saveFile ? new SaveData(saveFile.saveData) : new SaveData();
     this.lastSaved = new Date();
     if (!saveFile.created) {
       this.created = new Date();
@@ -176,10 +179,10 @@ class SaveData {
   player: Player;
   stats: Statistics;
   challenges: Challenges;
-  constructor() {
-    this.player = this.stripPlayer();
-    this.stats = stats;
-    this.challenges = challenges;
+  constructor(file?: SaveData) {
+    this.player = file ? file.player : this.stripPlayer();
+    this.stats = file ? file.stats : stats;
+    this.challenges = file ? file.challenges : challenges;
   }
 
   stripPlayer(): Player {

@@ -1,0 +1,271 @@
+[
+  {
+    "name": "Warrior 0.1.4",
+    "version": "0.14",
+    "saveData": {
+      "player": {
+        "name": "Warrior 0.1.4",
+        "stats": { "str": 9, "vit": 9, "agi": 9, "int": 9, "spi": 9, "hp": 89, "mp": 44, "atk": 4, "hpMax": 0, "mpMax": 0, "ap": 0 },
+        "defences": { "physical": 0, "magical": 0, "elemental": 0 },
+        "resistances": { "fire": 0, "ice": 0, "thunder": 0, "curse": 0, "poison": 0, "bleed": 0, "divine": 0, "stun": 0 },
+        "abilities": [{ "id": "battle_aura" }, { "id": "fierce_attack" }],
+        "critRate": 3,
+        "critPower": 45,
+        "traits": [],
+        "statuses": [],
+        "perks": [
+          {
+            "id": "0_foundation_of_power",
+            "desc": "0_foundation_of_power_desc",
+            "pos": { "x": 31.5, "y": 19 },
+            "icon": "gfx/icons/skills.png",
+            "cost": 1,
+            "level": 1,
+            "levels": [{ "modifiers": { "atkV": 1, "strV": 1, "vitV": 1, "agiV": 1, "intV": 1, "spiV": 1 } }],
+            "class": "adventure"
+          },
+          {
+            "id": "strength_1",
+            "desc": "strength_desc",
+            "pos": { "x": 2.5, "y": -2 },
+            "icon": "gfx/status/biceps.png",
+            "cost": 1,
+            "level": 1,
+            "levels": [{ "modifiers": { "strV": 2 } }],
+            "relative_to": "0_foundation_of_power",
+            "requires": ["0_foundation_of_power"],
+            "class": "strength"
+          },
+          {
+            "id": "power_1",
+            "desc": "power_desc",
+            "pos": { "x": -1.5, "y": -2.5 },
+            "icon": "gfx/icons/crossed-swords.png",
+            "cost": 1,
+            "level": 1,
+            "levels": [{ "modifiers": { "atkV": 1 } }],
+            "relative_to": "0_foundation_of_power",
+            "requires": ["0_foundation_of_power"],
+            "class": "power"
+          },
+          {
+            "id": "power_2",
+            "desc": "power_desc",
+            "pos": { "x": 1, "y": -2.5 },
+            "icon": "gfx/icons/crossed-swords.png",
+            "cost": 1,
+            "level": 1,
+            "levels": [{ "modifiers": { "critRateV": 1.5, "atkV": 1 }, "commands": {} }],
+            "relative_to": "power_1",
+            "requires": ["power_1"],
+            "class": ""
+          },
+          {
+            "id": "power_3",
+            "desc": "power_desc",
+            "pos": { "x": -2, "y": -2 },
+            "icon": "gfx/icons/crossed-swords.png",
+            "cost": 1,
+            "level": 1,
+            "levels": [{ "modifiers": { "critRateV": 1.5, "atkV": 1 } }],
+            "relative_to": "power_1",
+            "requires": ["power_1"],
+            "class": ""
+          },
+          {
+            "id": "power_4",
+            "desc": "power_desc",
+            "pos": { "x": -1.67, "y": -1.88 },
+            "icon": "gfx/icons/crossed-swords.png",
+            "cost": 2,
+            "level": 1,
+            "levels": [{ "modifiers": { "atkV": 1, "critRateV": 1, "critPowerV": 5 }, "commands": {} }],
+            "relative_to": "power_2",
+            "requires": ["power_2", "power_3"],
+            "class": ""
+          },
+          {
+            "id": "power_5",
+            "desc": "",
+            "pos": { "x": 1.92, "y": -1.5 },
+            "icon": "gfx/icons/crossed-swords.png",
+            "cost": 1,
+            "level": 1,
+            "levels": [{ "modifiers": { "atkV": 1, "critPowerV": 5 }, "commands": {} }],
+            "relative_to": "power_4",
+            "requires": ["power_4"],
+            "class": ""
+          },
+          {
+            "id": "power_6",
+            "desc": "",
+            "pos": { "x": -2.25, "y": -1.28 },
+            "icon": "gfx/status/power.png",
+            "cost": 1,
+            "level": 1,
+            "levels": [{ "modifiers": { "atkV": 1, "critRateV": 2.5 }, "commands": {} }],
+            "relative_to": "power_4",
+            "requires": ["power_4"],
+            "class": ""
+          },
+          {
+            "id": "tough_1",
+            "desc": "tough_desc",
+            "pos": { "x": 1.5, "y": 2.5 },
+            "icon": "gfx/status/weight-lifting-up.png",
+            "cost": 1,
+            "level": 1,
+            "levels": [{ "modifiers": { "vitV": 2 } }],
+            "relative_to": "0_foundation_of_power",
+            "requires": ["0_foundation_of_power"],
+            "class": "tough"
+          },
+          {
+            "id": "agility_1",
+            "desc": "agility_desc",
+            "pos": { "x": 3, "y": 0 },
+            "icon": "gfx/status/acrobatic.png",
+            "cost": 1,
+            "level": 1,
+            "levels": [{ "modifiers": { "agiV": 2 } }],
+            "relative_to": "0_foundation_of_power",
+            "requires": ["0_foundation_of_power"],
+            "class": "agility"
+          },
+          {
+            "id": "tough_2",
+            "desc": "tough_desc",
+            "pos": { "x": 2, "y": 1.5 },
+            "icon": "gfx/status/weight-lifting-up.png",
+            "cost": 1,
+            "level": 1,
+            "levels": [{ "modifiers": { "vitV": 1 }, "commands": {} }, { "modifiers": { "vitV": 1 } }, { "modifiers": { "vitV": 1 } }],
+            "relative_to": "tough_1",
+            "requires": ["tough_1"],
+            "class": ""
+          }
+        ],
+        "skills": [
+          { "id": "battle_aura", "currentLevel": 1, "isOwned": true },
+          { "id": "fierce_attack", "currentLevel": 1, "isOwned": true },
+          { "id": "fierce_attack_upgrade_1", "currentLevel": 2, "isOwned": true },
+          { "id": "fierce_attack_upgrade_3", "currentLevel": 3, "isOwned": true }
+        ],
+        "allModifiers": {
+          "expGainP": 1,
+          "goldGainP": 1,
+          "luckP": 1,
+          "physicalDamageP": 1,
+          "magicalDamageP": 1,
+          "elementalDamageP": 1,
+          "speedP": 1,
+          "allCooldownP": 1,
+          "physicalDefenceP": 1,
+          "magicalDefenceP": 1,
+          "elementalDefenceP": 1,
+          "physicalDefenceV": 0,
+          "magicalDefenceV": 0,
+          "elementalDefenceV": 0,
+          "hpMaxFromVitV": 5,
+          "mpMaxFromIntV": 2,
+          "mpMaxFromSpiV": 2,
+          "meleeDamageP": 1.1550000000000002,
+          "rangedDamageP": 1,
+          "spellPowerP": 0.95,
+          "healPowerP": 1,
+          "atkV": 7,
+          "strV": 5,
+          "vitV": 4,
+          "agiV": 4,
+          "intV": 1,
+          "spiV": 1,
+          "critRateV": 6.5,
+          "critPowerV": 10,
+          "ability_fierce_attack": { "cooldownP": -15, "powerV": 0.2 },
+          "damageP": 1.04,
+          "strP": 1.1025,
+          "hpMaxP": 1.03,
+          "hpMaxFromStrV": 0.5
+        },
+        "dead": false,
+        "regenProc": 0.31666666666666665,
+        "id": "player",
+        "equipment": {
+          "weapon": { "id": "long_sword", "type": "weapon", "amount": 1 },
+          "helmet": null,
+          "armor": { "id": "ragged_armor", "type": "armor", "amount": 1 },
+          "legs": null,
+          "talisman": null
+        },
+        "inventory": [
+          { "id": "bone", "type": "material", "amount": 23 },
+          { "id": "skull", "type": "material", "amount": 1 }
+        ],
+        "abilities_total": [],
+        "gold": 45,
+        "perk_points": 0,
+        "skill_points": 0,
+        "level": 8,
+        "xp": 169,
+        "completed_stages": ["tutorial", "graveyard_expedition", "undead_menace", "stage_4"],
+        "completed_rooms": [],
+        "completed_dungeons": [],
+        "starting_aspect": "strength",
+        "key_items": [],
+        "class": {
+          "id": "warrior",
+          "type": "class",
+          "modifiers": { "strP": 5, "hpMaxP": 3, "strV": 2, "agiV": 1, "meleeDamageP": 10, "spellPowerP": -5 },
+          "perks": [
+            {
+              "id": "warrior_power",
+              "type": "classPerk",
+              "class": "warrior",
+              "unlock": { "gold": 100 },
+              "modifiers": { "meleeDamageP": 5 }
+            },
+            { "id": "warrior_strength", "type": "classPerk", "class": "warrior", "unlock": { "gold": 100 }, "modifiers": { "strP": 5 } },
+            {
+              "id": "warrior_vitality",
+              "type": "classPerk",
+              "class": "warrior",
+              "unlock": { "stats": { "str": 15 }, "gold": 250 },
+              "modifiers": { "hpMaxFromStrV": 0.5 }
+            }
+          ]
+        },
+        "race": { "modifiers": {}, "id": "human" }
+      },
+      "stats": {
+        "total_damage": 1643,
+        "total_damage_taken": 365,
+        "total_healing": 0,
+        "total_kills": 31,
+        "total_deaths": 0,
+        "total_turns": 59,
+        "total_combat_time": 216.59999999999997,
+        "total_xp_gained": 650,
+        "total_gold_gained": 495,
+        "time_played": 0,
+        "most_damage": 65,
+        "most_healing": 0,
+        "most_damage_taken": 21,
+        "most_turns": 4,
+        "most_combat_time": 13.1
+      },
+      "challenges": {
+        "real_time_combat": false,
+        "no_after_combat_recovery": false,
+        "hardcore": false,
+        "no_grinding": false,
+        "enemy_damage": 0,
+        "enemy_health": 0,
+        "healing_weakness": 0,
+        "mana_regen_debuff": 0
+      }
+    },
+    "lastSaved": "2023-03-19T16:28:49.779Z",
+    "created": "2023-03-19T15:55:46.924Z",
+    "id": "79rt5innh383rzasx26yq"
+  }
+]
