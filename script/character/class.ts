@@ -18,7 +18,7 @@ class CharClass {
     this.id = base.id;
     this.type = "class";
     this.modifiers = base.modifiers;
-    this.perks = base.perks;
+    this.perks = _base.perks ?? [];
   }
 
   tooltip(): string {

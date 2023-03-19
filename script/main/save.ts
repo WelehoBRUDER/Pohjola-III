@@ -72,7 +72,8 @@ class SaveController {
           mainMenuElement.classList.add("no-display");
           lobbyScreen.classList.remove("no-display");
           const { player: loadedPlayer, stats: loadedStats, challenges: loadedChallenges } = save.saveData;
-          player = new Player({ ...loadedPlayer });
+          console.log(player.class);
+          player = new Player(loadedPlayer);
           Object.assign(stats, new Statistics({ ...loadedStats }));
           Object.assign(challenges, new Challenges({ ...loadedChallenges }));
           player.restoreClasses();

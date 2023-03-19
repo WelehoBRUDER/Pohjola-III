@@ -69,7 +69,6 @@ class Effect {
                 });
             }
         });
-        console.log(caster);
         if (this.inflict && caster) {
             if (this.inflict.healingFlat) {
                 this.inflict.healingFlat = Math.round(this.inflict.healingFlat * caster.allModifiers.healPowerP);

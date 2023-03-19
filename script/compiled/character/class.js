@@ -13,7 +13,7 @@ class CharClass {
         this.id = base.id;
         this.type = "class";
         this.modifiers = base.modifiers;
-        this.perks = base.perks;
+        this.perks = _base.perks ?? [];
     }
     tooltip() {
         let tooltip = `<f>1.2rem<f><c>goldenrod<c>${game.getLocalizedString(this.id)}\n`;
