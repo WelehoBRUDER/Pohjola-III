@@ -216,6 +216,8 @@ class Enemy extends Character {
         this.attackAnimation(ability);
     }
     attackAnimation(ability) {
+        if (this.dead || !this.card)
+            return;
         if (this.card) {
             this.card.main.style.animation = "none";
             this.card.main.style.offsetHeight; // trigger reflow
@@ -224,7 +226,9 @@ class Enemy extends Character {
             this.card.main.style.animationDuration = `${1000 / game.settings.animation_speed}ms`;
             this.card.main.style.animationName = "attack";
             setTimeout(() => {
-                ability.use(this, [player]);
+                if (!this.dead) {
+                    ability.use(this, [player]);
+                }
             }, 800 / game.settings.animation_speed);
             setTimeout(() => {
                 if (this.card) {
@@ -238,6 +242,8 @@ class Enemy extends Character {
         }
     }
     healingAnimation(ability, target) {
+        if (this.dead || !this.card)
+            return;
         if (this.card) {
             this.card.main.style.animation = "none";
             this.card.main.style.offsetHeight; // trigger reflow
@@ -246,7 +252,9 @@ class Enemy extends Character {
             this.card.main.style.animationDuration = `${1000 / game.settings.animation_speed}ms`;
             this.card.main.style.animationName = "heal";
             setTimeout(() => {
-                ability.use(this, [target]);
+                if (!this.dead) {
+                    ability.use(this, [target]);
+                }
             }, 600 / game.settings.animation_speed);
             setTimeout(() => {
                 if (this.card) {
