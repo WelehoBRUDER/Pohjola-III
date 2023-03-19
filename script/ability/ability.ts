@@ -102,7 +102,7 @@ class Ability {
       }
       if (this.type === "attack") {
         targets.forEach((target: Player | Enemy) => {
-          const hasDodged = target.dodge();
+          const hasDodged = target?.dodge();
           if (hasDodged) {
             if (target.isEnemy) {
               createDroppingText("DODGED!", target.card.main, "dodge");
