@@ -62,6 +62,8 @@ class Skill {
     }
     available() {
         let available = true;
+        if (DEVTOOLS.IGNORE_REQUIREMENTS)
+            return true;
         if (player.skill_points <= 0)
             return false;
         if (this.requirements) {

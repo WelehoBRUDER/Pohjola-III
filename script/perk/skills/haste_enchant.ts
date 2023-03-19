@@ -9,7 +9,7 @@ skills.push({
           cooldownP: -4,
           effect_haste_1: {
             modifiers: {
-              dodgePV: 2,
+              dodgeVV: 2,
             },
           },
         },

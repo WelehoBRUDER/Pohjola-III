@@ -55,7 +55,6 @@ class Player extends Character {
         this.updateAllModifiers();
     }
     addItem(base_item, amount, options) {
-        console.log(base_item);
         let item = base_item.updateClass();
         item.amount = amount || base_item.amount || 1;
         if (item.slot && options?.forceEquip) {
@@ -223,8 +222,23 @@ class Player extends Character {
         this.xp += Math.floor(xp * boost);
         stats.total_xp_gained += Math.floor(xp * boost);
         log.write(`${game.getLocalizedString("gained_xp").replace("{0}", xp.toString())}`);
-        while (this.xp >= this.xpForNextLevel()) {
+        if (this.level >= 100) {
+            return;
+        }
+        const levelsGained = [];
+        while (this.xp >= this.xpForNextLevel() && this.level < 100) {
             this.levelUp();
+            levelsGained.push(this.level);
+        }
+        // ~index is a bitwise NOT operator, which is used to reverse the reversed array again
+        if (levelsGained.length > 0) {
+            levelsGained.reverse();
+            levelsGained.forEach((level, index) => {
+                const notifText = game.getLocalizedString("reached_level").replace("{0}", level.toString());
+                const logText = game.getLocalizedString("reached_level").replace("{0}", levelsGained.at(~index).toString());
+                log.write(logText);
+                log.createNotification(notifText, 25);
+            });
         }
     }
     addGold(gold) {
@@ -238,6 +252,8 @@ class Player extends Character {
         log.write(`${game.getLocalizedString("lost_gold").replace("{0}", gold.toString())}`);
     }
     levelUp() {
+        if (this.level >= 100)
+            return;
         if (this.xp >= this.xpForNextLevel()) {
             this.xp -= this.xpForNextLevel();
             this.level += 1;
@@ -246,11 +262,8 @@ class Player extends Character {
             if (this.level < 6 || this.level % 5 === 0) {
                 this.perk_points += 1;
             }
-            this.restore();
+            this.restore({ bypassChallenges: true });
         }
-        const text = game.getLocalizedString("reached_level").replace("{0}", this.level.toString());
-        log.write(text);
-        log.createNotification(text);
         sideBarDetails();
     }
     restoreClasses() {

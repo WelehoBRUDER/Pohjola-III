@@ -85,9 +85,11 @@ function getAllModifiers(char: Character | Player) {
       applyModifierToTotal(modifier, modifiers);
     });
     char.class.perks.forEach((perk: any) => {
-      Object.entries(perk.modifiers).forEach((modifier: any) => {
-        applyModifierToTotal(modifier, modifiers);
-      });
+      if (perk.modifiers) {
+        Object.entries(perk.modifiers).forEach((modifier: any) => {
+          applyModifierToTotal(modifier, modifiers);
+        });
+      }
     });
   }
   return modifiers;

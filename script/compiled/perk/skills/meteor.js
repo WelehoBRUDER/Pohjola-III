@@ -2,6 +2,7 @@
 skills.push({
     id: "meteor",
     icon: "gfx/abilities/meteor-impact.png",
+    hiddenUntilOwned: true,
     levels: [
         {
             commands: {
@@ -9,7 +10,6 @@ skills.push({
             },
         },
     ],
-    requirements: [{ skill_total: "magic_blast", level: 4 }],
     upgrades: [
         {
             id: "meteor_upgrade_1",

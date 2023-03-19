@@ -62,19 +62,28 @@ class SaveController {
                 confirmationWindow(text, () => this.loadSave(id));
             }
             else {
-                closeConfirmationWindow();
-                mainMenuElement.classList.add("no-display");
-                lobbyScreen.classList.remove("no-display");
-                const { player: loadedPlayer, stats: loadedStats, challenges: loadedChallenges } = save.saveData;
-                player = new Player({ ...loadedPlayer });
-                Object.assign(stats, new Statistics({ ...loadedStats }));
-                Object.assign(challenges, new Challenges({ ...loadedChallenges }));
-                player.restoreClasses();
-                this.currentSave = id;
-                lobby.current_view = "char";
-                createLobby();
-                createCharView();
-                sideBarDetails();
+                try {
+                    closeConfirmationWindow();
+                    mainMenuElement.classList.add("no-display");
+                    lobbyScreen.classList.remove("no-display");
+                    const { player: loadedPlayer, stats: loadedStats, challenges: loadedChallenges } = save.saveData;
+                    player = new Player({ ...loadedPlayer });
+                    Object.assign(stats, new Statistics({ ...loadedStats }));
+                    Object.assign(challenges, new Challenges({ ...loadedChallenges }));
+                    player.restoreClasses();
+                    this.currentSave = id;
+                    lobby.current_view = "char";
+                    createLobby();
+                    createCharView();
+                    sideBarDetails();
+                    log.createNotification(`Loaded save file: ${save.name}`, -1);
+                    log.write(`<c>white<c>Loaded save file: <c>goldenrod<c>${save.name}`);
+                }
+                catch (err) {
+                    log.createNotification("Could not load save file.", -1);
+                    log.write(`<c>red<c>Error loading save file: ${err}`);
+                    console.error(err);
+                }
             }
         }
     }

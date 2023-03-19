@@ -164,6 +164,7 @@ class Ability {
           }
           if (this.effectsToSelf) {
             this.effectsToSelf.forEach((effect: Effect) => {
+              console.log("target & user", target, user);
               target.addStatus(effect, user, "ability_" + this.id);
             });
           }
@@ -205,9 +206,13 @@ class Ability {
         if (typeof value !== "number" || typeof value === "object") return;
         if (typeof value === "number") {
           if (key === "onCooldown") return;
-          const bonus = holder.allModifiers[id]?.[key + "V"] ?? 0;
-          const modifier = 1 + (holder.allModifiers[id]?.[key + "P"] / 100 || 0);
+          let bonus = holder.allModifiers[id]?.[key + "V"] ?? 0;
+          let modifier = 1 + (holder.allModifiers[id]?.[key + "P"] / 100 || 0);
           const base = baseStats[key] !== undefined ? baseStats[key] : 0;
+          const genericModifier = holder.allModifiers[`all_${key}P`];
+          const genericBonus = holder.allModifiers[`all_${key}V`];
+          if (genericModifier) modifier *= genericModifier;
+          if (genericBonus) bonus += genericBonus;
           this[key] = +(((base || 0) + bonus) * modifier).toFixed(2);
         } else if (typeof value === "object" && !Array.isArray(value)) {
           this[key] = { ...updateObject(key, value, holder.allModifiers[id]) };
@@ -237,9 +242,14 @@ class Ability {
       tooltip += `<c>orange<c>${game.getLocalizedString(this.special + "_desc")}<c>white<c>\n`;
     }
 
+    if (skills.findIndex((skill) => skill.id === this.id) === -1) {
+      tooltip += `<c>crimson<c>${game.getLocalizedString("cant_upgrade_skill")}<c>white<c>\n`;
+    }
+
     if (this.isAOE) {
       tooltip += `${game.getLocalizedString("aoe")}\n`;
     }
+
     // Ability type
     tooltip += `${game.getLocalizedString("type")}: ${game.getLocalizedString(this.type)}\n`;
 

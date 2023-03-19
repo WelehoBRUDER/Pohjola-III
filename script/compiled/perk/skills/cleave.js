@@ -2,6 +2,7 @@
 skills.push({
     id: "cleave",
     icon: "gfx/abilities/axe-swing.png",
+    hiddenUntilOwned: true,
     levels: [
         {
             commands: {

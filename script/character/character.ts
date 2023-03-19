@@ -94,8 +94,12 @@ class Character {
         perk.level = 1;
       }
       if (!perk.levels) {
-        // @ts-expect-error
-        perk.levels = perks.find((p) => p.id === perk.id).levels;
+        const prk = perks.find((p) => p.id === perk.id)?.levels;
+        if (prk) {
+          perk.levels = prk;
+        } else {
+          perk.levels = [];
+        }
       }
     });
 
@@ -119,7 +123,7 @@ class Character {
             }
           });
         }
-        defences[key] = Math.floor((value + boost) * modifier);
+        defences[key] = Math.min(Math.floor((value + boost) * modifier), 90);
       });
       return defences;
     };
@@ -252,10 +256,12 @@ class Character {
       return crit;
     };
 
-    this.restore = (): void => {
-      if (this instanceof Player && challenge("no_after_combat_recovery")) {
-        if (this.stats.hp < 1) this.stats.hp = 1;
-        return;
+    this.restore = (options?: { bypassChallenges: false }): void => {
+      if (!options?.bypassChallenges) {
+        if (this instanceof Player && challenge("no_after_combat_recovery")) {
+          if (this.stats.hp < 1) this.stats.hp = 1;
+          return;
+        }
       }
       const { hpMax, mpMax } = this.getStats();
       this.stats.hp = hpMax;

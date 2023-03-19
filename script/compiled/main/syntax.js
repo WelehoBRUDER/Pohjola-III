@@ -256,6 +256,18 @@ const properties = {
         multiplyBy: 100,
         addPercentageSuffix: true,
     },
+    all_mpCostP: {
+        addPercentageSuffix: true,
+        lowerIsBetter: true,
+    },
+    all_cooldownP: {
+        addPercentageSuffix: true,
+        lowerIsBetter: true,
+    },
+    all_cooldownV: {
+        addSuffix: "s",
+        lowerIsBetter: true,
+    },
 };
 function getProperties(key) {
     const props = {
@@ -280,7 +292,7 @@ function getProperties(key) {
     }
     return props;
 }
-function effectSyntax(key, value) {
+function effectSyntax(key, value, _props) {
     // Syntax when value is an ability object
     if (key.startsWith("ability_")) {
         let text = "";
@@ -307,7 +319,7 @@ function effectSyntax(key, value) {
     }
     // Simple syntax when value is a number
     else if (typeof value === "number") {
-        const props = getProperties(key);
+        const props = _props ? _props : getProperties(key);
         const valueType = key.substring(key.length - 1);
         let dots = true;
         let prefix = value >= 0 ? "+" : "";

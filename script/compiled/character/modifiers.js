@@ -85,9 +85,11 @@ function getAllModifiers(char) {
             applyModifierToTotal(modifier, modifiers);
         });
         char.class.perks.forEach((perk) => {
-            Object.entries(perk.modifiers).forEach((modifier) => {
-                applyModifierToTotal(modifier, modifiers);
-            });
+            if (perk.modifiers) {
+                Object.entries(perk.modifiers).forEach((modifier) => {
+                    applyModifierToTotal(modifier, modifiers);
+                });
+            }
         });
     }
     return modifiers;

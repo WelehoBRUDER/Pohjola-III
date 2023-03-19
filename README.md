@@ -18,7 +18,7 @@ Develop your character with equipment, perks and skills in order to face fantasy
   * Challenges can greatly affect how you approach the game.
 
 ## Development
-Current game version: 0.1.3
+Current game version: 0.1.4
 [CHANGELOG.md](https://github.com/WelehoBRUDER/Pohjola-III/blob/main/CHANGELOG.md)  
 The game's development may be sporadic, with long periods of inactivity and short bursts of activity.  
 Any suggestions or found bugs can be reported in the [issues](https://github.com/WelehoBRUDER/Pohjola-III/issues) tab.

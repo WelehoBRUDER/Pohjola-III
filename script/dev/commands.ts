@@ -94,6 +94,26 @@ const developerCommands: any = [
     },
   },
   {
+    name: "ignore",
+    description: "[category] Ignore specific requirements",
+    help: "ignore [category] - Ignore certain requirements in the game. Arguments:<br>leveling - ignores all requirements for perks/class/skills<br>Example: ignore leveling.",
+    isCheat: true,
+    list: [[{ id: "leveling" }]],
+    execute: (args: string[]) => {
+      const cat = args[0];
+      if (cat) {
+        if (cat === "leveling") {
+          DEVTOOLS.IGNORE_REQUIREMENTS = !DEVTOOLS.IGNORE_REQUIREMENTS;
+          devConsole.commandHistory.push(`Criteria to unlock leveling ${DEVTOOLS.IGNORE_REQUIREMENTS ? "ignored" : "once again needed"}`);
+        } else {
+          devConsole.commandHistory.push(`Category "${cat}" is not valid`);
+        }
+      } else {
+        devConsole.commandHistory.push("Too few arguments, expected: ignore [category]");
+      }
+    },
+  },
+  {
     name: "enter",
     description: "[dungeon] Enter a dungeon",
     help: "fight [enemy] [amount] - Enter a specified dungeon.<br>Example: enter vithail_dungeon",
@@ -207,7 +227,7 @@ const developerCommands: any = [
     execute: (args: string[]) => {
       const amount = args[0] ? parseInt(args[0]) : 100;
       player.addGold(amount);
-      sideBarDetails();
+      createLobby();
       devConsole.commandHistory.push(`Added ${amount} gold`);
     },
   },
@@ -220,6 +240,7 @@ const developerCommands: any = [
     execute: (args: string[]) => {
       const xp = args[0] ? parseInt(args[0]) : 0;
       player.addXP(xp);
+      createLobby();
       devConsole.commandHistory.push(`Added ${xp} experience points`);
     },
   },
@@ -232,7 +253,7 @@ const developerCommands: any = [
     execute: (args: string[]) => {
       const sp = args[0] ? parseInt(args[0]) : 0;
       player.skill_points += sp;
-      sideBarDetails();
+      createLobby();
       devConsole.commandHistory.push(`Added ${sp} skill points`);
     },
   },
@@ -245,7 +266,7 @@ const developerCommands: any = [
     execute: (args: string[]) => {
       const sp = args[0] ? parseInt(args[0]) : 0;
       player.perk_points += sp;
-      sideBarDetails();
+      createLobby();
       devConsole.commandHistory.push(`Added ${sp} perk points`);
     },
   },

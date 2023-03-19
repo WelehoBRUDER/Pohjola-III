@@ -57,6 +57,7 @@ class Perk {
   }
 
   available(): boolean {
+    if (DEVTOOLS.IGNORE_REQUIREMENTS) return true;
     if (player.perk_points < this.cost) return false;
     if (player.hasPerk(this.id, this.maxLevel())) return false;
     if (!this.requires) return true;
