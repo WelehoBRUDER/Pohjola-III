@@ -202,10 +202,10 @@ class InventoryController {
     // Create elements
     const toolBar = document.createElement("div");
     const search = document.createElement("input");
-    const sortArr = ["tier", "price", "attack", "speed", "slot", "physicalDef", "magicalDef", "elementalDef", "hpMax", "mpMax"];
+    const sortArr = ["tier", "price", "atk", "speed", "slot", "physicalDefence", "magicalDefence", "elementalDefence", "hpMax", "mpMax"];
     const filterArr = ["weapon", "armor", "talisman", "material", "consumable"];
-    const sort = toggleableCustomSelect(sortArr, "blue");
-    const filter = toggleableCustomSelect(filterArr, "purple");
+    const sort = toggleableCustomSelect(sortArr, { color: "rgb(21, 21, 206)", dark: "rgb(8, 8, 128)" }, "Sort items");
+    const filter = toggleableCustomSelect(filterArr, { color: "violet", dark: "purple" }, "Filter items");
 
     // Add classes
     toolBar.classList.add("inventory-toolbar");

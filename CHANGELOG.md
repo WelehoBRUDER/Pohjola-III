@@ -1,6 +1,7 @@
 # Version 0.2.0 ~ 2023.3.21
 
 ## New features & additions
+- Added search & filter to all inventory screens (including store).
 
 ## Changes
 - Added highlight to perk tree when hovering over a perk.

@@ -89,12 +89,55 @@ const screens: any = {
   },
 } as const;
 
-function toggleableCustomSelect(content: any[], className: string, defaultSelected: string = "toggle_select", callback?: any) {
+function toggleableCustomSelect(
+  content: any[],
+  style: { color: string; dark: string } = { color: "rgb(21, 21, 206)", dark: "rgb(8, 8, 128)" },
+  defaultSelected: string = "toggle_select",
+  callback?: any
+) {
   const select = document.createElement("div");
   const selectContent = document.createElement("div");
   const selectOptions = document.createElement("div");
-  select.classList.add("toggleable-select", className);
-  selectContent.textContent = defaultSelected;
+  const selectText = document.createElement("p");
+  const selectArrow = document.createElement("span");
+
+  // Set classes and styles
+  select.classList.add("toggleable-select");
+  select.style.setProperty("--color", style.color);
+  select.style.setProperty("--dark", style.dark);
+  selectContent.classList.add("select-content");
+  selectOptions.classList.add("select-options");
+  selectOptions.classList.add("hidden");
+  selectText.classList.add("text");
+  selectArrow.classList.add("arrow");
+
+  // Set default selected
+  selectText.textContent = game.getLocalizedString(defaultSelected);
+  selectText.setAttribute("data-value", defaultSelected);
+  selectArrow.textContent = "<";
+
+  selectContent.onclick = () => {
+    selectOptions.classList.toggle("hidden");
+    selectArrow.classList.toggle("up");
+  };
+
+  content.forEach((option: string) => {
+    const optionElement = document.createElement("div");
+    const optionValue = document.createElement("div");
+    const optionName = document.createElement("div");
+    const cancel = document.createElement("div");
+    optionElement.classList.add("option");
+    optionValue.classList.add("value");
+    optionName.classList.add("text");
+    cancel.classList.add("cancel");
+    optionName.textContent = game.getLocalizedString(option);
+    optionName.setAttribute("data-value", option);
+    cancel.textContent = "X";
+    optionElement.append(optionValue, optionName, cancel);
+    selectOptions.append(optionElement);
+  });
+
+  selectContent.append(selectText, selectArrow);
   select.append(selectContent, selectOptions);
   return select;
 }
