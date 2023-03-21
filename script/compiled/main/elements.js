@@ -76,4 +76,13 @@ const screens = {
         scroll: 0,
     },
 };
+function toggleableCustomSelect(content, className, defaultSelected = "toggle_select", callback) {
+    const select = document.createElement("div");
+    const selectContent = document.createElement("div");
+    const selectOptions = document.createElement("div");
+    select.classList.add("toggleable-select", className);
+    selectContent.textContent = defaultSelected;
+    select.append(selectContent, selectOptions);
+    return select;
+}
 //# sourceMappingURL=elements.js.map

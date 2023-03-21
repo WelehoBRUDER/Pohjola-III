@@ -88,3 +88,13 @@ const screens: any = {
     scroll: 0,
   },
 } as const;
+
+function toggleableCustomSelect(content: any[], className: string, defaultSelected: string = "toggle_select", callback?: any) {
+  const select = document.createElement("div");
+  const selectContent = document.createElement("div");
+  const selectOptions = document.createElement("div");
+  select.classList.add("toggleable-select", className);
+  selectContent.textContent = defaultSelected;
+  select.append(selectContent, selectOptions);
+  return select;
+}

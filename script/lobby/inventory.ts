@@ -29,6 +29,18 @@ class InventoryController {
   inventoryElement: HTMLDivElement | null;
   inventoryGridElement: HTMLDivElement | null;
   inventoryEquipmentElement: HTMLDivElement | null;
+
+  tools: {
+    search: string;
+    filter: {
+      name: string;
+      reverse: boolean;
+    };
+    sort: {
+      name: string;
+      reverse: boolean;
+    };
+  };
   constructor() {
     this.fullInventory = [];
     this.inventory = [];
@@ -37,9 +49,30 @@ class InventoryController {
     this.inventoryElement = null;
     this.inventoryGridElement = null;
     this.inventoryEquipmentElement = null;
+
+    this.tools = {
+      search: "",
+      filter: {
+        name: "all",
+        reverse: false,
+      },
+      sort: {
+        name: "none",
+        reverse: false,
+      },
+    };
   }
 
   private setFullInventory(fullInventory: Item[]) {
+    fullInventory.forEach((item: any, index: number) => {
+      if (!(item instanceof Item)) {
+        // @ts-ignore
+        return (fullInventory[index] = new Item({ ...items[item.item.id], price: item.price }));
+      }
+    });
+    fullInventory.forEach((item: Item, index: number) => {
+      fullInventory[index] = item.updateClass(item.price);
+    });
     this.fullInventory = fullInventory;
   }
 
@@ -64,7 +97,7 @@ class InventoryController {
   }) {
     // Set properties
     this.setFullInventory(options?.inventory || this.inventory);
-    this.setInventory(options?.inventory || this.inventory);
+    this.setInventory(this.fullInventory);
     this.setMode(options?.mode || this.mode);
     if (options?.equipment) this.setEquipment(options?.equipment);
 
@@ -84,7 +117,7 @@ class InventoryController {
     this.inventoryGridElement = inventoryGrid;
 
     // Append elements
-    inventoryContainer.append(inventoryGrid);
+    inventoryContainer.append(this.createFilterTools(), inventoryGrid);
     inventoryScreen.append(inventoryContainer);
     if (options?.equipment) {
       this.inventoryEquipmentElement = inventoryEquipment;
@@ -132,10 +165,6 @@ class InventoryController {
     if (this.inventoryGridElement === null) return;
     this.inventoryGridElement.innerHTML = "";
     this.inventory.forEach((item: any) => {
-      if (this.mode === "buy") {
-        // @ts-ignore
-        item = new Item({ ...items[item.item.id], price: item.price });
-      }
       let options: any = {
         buy: this.mode === "buy",
         sell: this.mode === "sell",
@@ -155,6 +184,51 @@ class InventoryController {
       }
       this.inventoryGridElement!.append(slot); // This has already been checked at the start
     });
+  }
+
+  updateInventory() {
+    if (this.tools.search.length > 0) {
+      this.inventory = this.fullInventory.filter((item: Item) => {
+        const name = game.getLocalizedString(item.id);
+        return name.toLowerCase().includes(this.tools.search.toLowerCase());
+      });
+    } else {
+      this.inventory = this.fullInventory;
+    }
+    this.buildItems();
+  }
+
+  createFilterTools() {
+    // Create elements
+    const toolBar = document.createElement("div");
+    const search = document.createElement("input");
+    const sortArr = ["tier", "price", "attack", "speed", "slot", "physicalDef", "magicalDef", "elementalDef", "hpMax", "mpMax"];
+    const filterArr = ["weapon", "armor", "talisman", "material", "consumable"];
+    const sort = toggleableCustomSelect(sortArr, "blue");
+    const filter = toggleableCustomSelect(filterArr, "purple");
+
+    // Add classes
+    toolBar.classList.add("inventory-toolbar");
+    search.classList.add("search");
+
+    search.placeholder = game.getLocalizedString("search");
+
+    toolBar.append(search, sort, filter);
+
+    search.oninput = () => {
+      this.tools.search = search.value;
+      this.updateInventory();
+    };
+
+    search.onfocus = () => {
+      game.typing = true;
+    };
+
+    search.onblur = () => {
+      game.typing = false;
+    };
+
+    return toolBar;
   }
 }
 

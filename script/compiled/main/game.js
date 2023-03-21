@@ -5,6 +5,7 @@ class Game {
     language;
     tick;
     playing;
+    typing;
     constructor() {
         this.state = {
             paused: false,
@@ -14,6 +15,7 @@ class Game {
         this.settings = new Settings();
         this.language = english;
         this.playing = false;
+        this.typing = false;
         this.init();
     }
     init() {
@@ -139,6 +141,8 @@ class Game {
     controls(e) {
         if (e.key === "§")
             return devConsole.toggle();
+        if (this.typing)
+            return;
         if (devConsole.open && e.key !== "Escape")
             return;
         if (e.key === "p") {
@@ -162,6 +166,8 @@ class Game {
         });
     }
     controlsUp(e) {
+        if (this.typing)
+            return;
         if (e.key === "Shift") {
             hideExtraText();
         }

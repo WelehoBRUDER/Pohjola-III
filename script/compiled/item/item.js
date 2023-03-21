@@ -177,6 +177,7 @@ class Item {
         if (this.toCraft) {
             this.toCraft.forEach((item) => {
                 const owned = player.inventory.find((i) => i.id === item.item);
+                // @ts-ignore
                 if (!owned || owned.amount < item.amount)
                     return (canCraft = false);
             });
