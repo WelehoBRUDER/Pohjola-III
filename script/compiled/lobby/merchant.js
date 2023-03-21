@@ -36,6 +36,7 @@ const merchant = {
         { item: items.plate_armor, price: 1500 },
         { item: items.plate_boots, price: 950 },
         { item: items.ring_of_knowledge, price: 300 },
+        { item: items.ring_of_luck, price: 300 },
         { item: items.ring_of_regeneration, price: 300 },
         { item: items.spiritual_pendant, price: 300 },
         { item: items.pendant_of_sorcery, price: 300 },

@@ -133,6 +133,8 @@ const english = {
   confirm_perk_unlock: `Are you sure you want to unlock perk\n"{id}" ?`,
   class_perk_owned: "You have this perk!",
   class_perk_exclusive: "Exclusive with",
+  xp: "Experience",
+  class: "Class",
 
   // Special
   divine_desc: "Extra damage vs unholy enemies",

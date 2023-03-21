@@ -9,7 +9,7 @@ const DEVTOOLS = {
 };
 if (localStorage.getItem("devtools") === "true")
     DEVTOOLS.ENABLED = true;
-const gameVersion = (0.14).toFixed(2);
+const gameVersion = (0.2).toFixed(2);
 const gameVersionText = (ver) => {
     if (parseFloat(ver) < 0.1)
         return "Old";

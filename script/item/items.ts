@@ -798,6 +798,19 @@ const talismans = {
     type: "talisman",
     slot: "talisman",
   },
+  ring_of_luck: {
+    id: "ring_of_luck",
+    icon: "gfx/items/ring.png",
+    price: 250,
+    modifiers: {
+      goldGainP: 15,
+    },
+    speed: 0,
+    stackable: true,
+    tier: itemTiers.uncommon,
+    type: "talisman",
+    slot: "talisman",
+  },
   ring_of_regeneration: {
     id: "ring_of_regeneration",
     icon: "gfx/items/ring.png",

@@ -70,6 +70,7 @@ class Player extends Character {
         if (item.stackable) {
             let existing_item = this.inventory.find((i) => i.id === item.id);
             if (existing_item) {
+                // @ts-ignore
                 existing_item.amount += item.amount;
             }
             else {
@@ -83,7 +84,9 @@ class Player extends Character {
     removeItem(item, amount) {
         let existing_item = this.inventory.find((i) => i.id === item.id);
         if (existing_item) {
+            // @ts-ignore
             existing_item.amount -= amount || item.amount || 1;
+            // @ts-ignore
             if (existing_item.amount <= 0) {
                 this.inventory = this.inventory.filter((i) => i.id !== item.id);
             }
@@ -316,6 +319,7 @@ class Player extends Character {
     }
     hasItem(item, amount = 1) {
         const owned = this.inventory.find((i) => i.id === item);
+        // @ts-ignore
         if (owned?.amount < amount || !owned)
             return false;
         return true;

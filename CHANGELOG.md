@@ -1,3 +1,18 @@
+# Version 0.2.0 ~ 2023.3.21
+
+## New features & additions
+
+## Changes
+- Added highlight to perk tree when hovering over a perk.
+  - Highlights perks that are required to unlock the hovered perk.
+  - Will not highlight already owned perks.
+- Dodge text is now silver instead of black.
+
+## Bug fixes
+- Fixed enemies attacking after death.
+- Fixed enemies attacking multiple times in a row.
+- Fixed lock-on targeting not working properly.
+
 # Version 0.1.4 ~ 2023.3.19
 
 ## New features & additions

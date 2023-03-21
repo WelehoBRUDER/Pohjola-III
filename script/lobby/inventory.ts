@@ -2,7 +2,14 @@ function createInventory() {
   lobbyContent.innerHTML = "";
   hideHover();
   sideBarDetails();
-  lobbyContent.append(buildInventoryScreen({ includeEquipment: true, offset: 270 }));
+  lobbyContent.append(
+    inventoryController.buildInventoryScreen({
+      inventory: player.inventory,
+      equipment: player.equipment,
+      mode: "inventory",
+      offset: 270,
+    })
+  );
 }
 
 function isInCombat() {
@@ -13,72 +20,145 @@ function isPlayerTurn() {
   return player.stats.ap >= 100;
 }
 
-function buildInventoryScreen(options?: {
-  includeEquipment?: boolean;
-  offset?: number;
-  offsetPercent?: number;
-  filter?: string;
-  class?: string;
-}) {
-  const invScreen = document.createElement("div");
-  const inventoryContainer = document.createElement("div");
-  invScreen.classList.add("inventory");
-  if (options?.class) invScreen.classList.add(options?.class);
-  inventoryContainer.classList.add("inventory-container");
-  const inventory: any = player.inventory;
-  const inventoryGrid = document.createElement("div");
-  inventoryContainer.append(inventoryGrid);
-  inventoryGrid.classList.add("inventory-flex");
-  inventory.forEach((item: any) => {
-    if (options?.filter) {
-      if (options?.filter === "crafting") {
-        if (item.type === "potion") return;
-      }
-    }
-    const slot = createSlot(item);
-    if (options?.includeEquipment) {
-      slot.addEventListener("mouseover", () => {
-        hoverEquipSlot(item);
-      });
-      slot.addEventListener("mouseleave", () => {
-        removeHoverEquipSlot(item);
-      });
-    }
-    inventoryGrid.append(slot);
-  });
+class InventoryController {
+  [key: string]: any;
+  fullInventory: any[];
+  inventory: any[];
+  equipment: { [key: string]: Item } | null;
+  mode: string;
+  inventoryElement: HTMLDivElement | null;
+  inventoryGridElement: HTMLDivElement | null;
+  inventoryEquipmentElement: HTMLDivElement | null;
+  constructor() {
+    this.fullInventory = [];
+    this.inventory = [];
+    this.equipment = null;
+    this.mode = "inventory";
+    this.inventoryElement = null;
+    this.inventoryGridElement = null;
+    this.inventoryEquipmentElement = null;
+  }
 
-  const inventoryEquipment = document.createElement("div");
-  if (options?.includeEquipment) {
+  private setFullInventory(fullInventory: Item[]) {
+    this.fullInventory = fullInventory;
+  }
+
+  private setInventory(inventory: Item[]) {
+    this.inventory = inventory;
+  }
+  private setEquipment(equipment: { [key: string]: Item }) {
+    this.equipment = equipment;
+  }
+
+  private setMode(mode: string) {
+    this.mode = mode;
+  }
+
+  buildInventoryScreen(options?: {
+    inventory?: any[];
+    equipment?: { [key: string]: Item };
+    mode?: string;
+    offset?: number;
+    offsetPercent?: number;
+    class?: string;
+  }) {
+    // Set properties
+    this.setFullInventory(options?.inventory || this.inventory);
+    this.setInventory(options?.inventory || this.inventory);
+    this.setMode(options?.mode || this.mode);
+    if (options?.equipment) this.setEquipment(options?.equipment);
+
+    // Create elements and add classes
+    const inventoryScreen = document.createElement("div");
+    const inventoryContainer = document.createElement("div");
+    const inventoryGrid = document.createElement("div");
+    const inventoryEquipment = document.createElement("div");
+    inventoryScreen.classList.add("inventory");
+    if (options?.class) inventoryScreen.classList.add(options?.class);
+    inventoryContainer.classList.add("inventory-container");
+    inventoryGrid.classList.add("inventory-flex");
     inventoryEquipment.classList.add("inventory-equipment");
+
+    // Set more properties
+    this.inventoryElement = inventoryScreen;
+    this.inventoryGridElement = inventoryGrid;
+
+    // Append elements
+    inventoryContainer.append(inventoryGrid);
+    inventoryScreen.append(inventoryContainer);
+    if (options?.equipment) {
+      this.inventoryEquipmentElement = inventoryEquipment;
+      inventoryScreen.append(inventoryEquipment);
+    }
+
+    // Handle resizing the screen
+    window.onresize = () => {
+      resizeInventoryContainer();
+    };
+
+    function resizeInventoryContainer() {
+      const offset = options?.offsetPercent ? lobbyContent.offsetWidth * (options?.offsetPercent / 100 ?? 0) : options?.offset ?? 0;
+      let width = lobbyContent.offsetWidth - offset;
+      const slotSize = 90;
+      const slotsPerRow = Math.floor(width / slotSize) > 2 ? Math.floor(width / slotSize) : 2;
+      width = slotsPerRow * slotSize;
+      inventoryContainer.style.width = width + "px";
+      inventoryGrid.style.width = width + "px";
+      inventoryEquipment.style.width = lobbyContent.offsetWidth - width + "px";
+    }
+
+    if (this.mode === "crafting") {
+      this.setInventory(this.fullInventory.filter((item: Item) => item.type === "material"));
+    }
+
+    resizeInventoryContainer();
+    this.buildItems();
+    if (options?.equipment) this.buildEquipment();
+    return inventoryScreen;
+  }
+
+  buildEquipment() {
+    if (this.inventoryEquipmentElement === null) return;
+    this.inventoryEquipmentElement.innerHTML = "";
     Object.entries(player.equipment).forEach(([slot, item]: [string, Item]) => {
       const slotElement = createSlot(item, { isEquipped: true, slot: slot });
       slotElement.classList.add("equip");
       slotElement.setAttribute("data-item-slot", slot);
-      inventoryEquipment.append(slotElement);
+      this.inventoryEquipmentElement!.append(slotElement);
     });
   }
 
-  window.onresize = () => {
-    resizeInventoryContainer();
-  };
+  buildItems() {
+    if (this.inventoryGridElement === null) return;
+    this.inventoryGridElement.innerHTML = "";
+    this.inventory.forEach((item: any) => {
+      if (this.mode === "buy") {
+        // @ts-ignore
+        item = new Item({ ...items[item.item.id], price: item.price });
+      }
+      let options: any = {
+        buy: this.mode === "buy",
+        sell: this.mode === "sell",
+        craft: this.mode === "craft",
+        material: item.type === "material",
+      };
+      const slot = createSlot(item, options);
 
-  function resizeInventoryContainer() {
-    const offset = options?.offsetPercent ? lobbyContent.offsetWidth * (options?.offsetPercent / 100 ?? 0) : options?.offset ?? 0;
-    let width = lobbyContent.offsetWidth - offset;
-    const slotSize = 90;
-    const slotsPerRow = Math.floor(width / slotSize) > 2 ? Math.floor(width / slotSize) : 2;
-    width = slotsPerRow * slotSize;
-    inventoryContainer.style.width = width + "px";
-    inventoryGrid.style.width = width + "px";
-    inventoryEquipment.style.width = lobbyContent.offsetWidth - width + "px";
+      // Add highlight to slot if equipment is shown
+      if (this.equipment) {
+        slot.addEventListener("mouseover", () => {
+          hoverEquipSlot(item);
+        });
+        slot.addEventListener("mouseleave", () => {
+          removeHoverEquipSlot(item);
+        });
+      }
+      this.inventoryGridElement!.append(slot); // This has already been checked at the start
+    });
   }
-  invScreen.append(inventoryContainer);
-  if (options?.includeEquipment) {
-    invScreen.append(inventoryEquipment);
-  }
-  resizeInventoryContainer();
-  return invScreen;
 }
+
+const inventoryController = new InventoryController();
 
 function createSlot(
   item: Item,

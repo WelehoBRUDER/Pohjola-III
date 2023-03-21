@@ -246,6 +246,20 @@ function createPerks() {
       perkDiv.style.left = `${Math.round(perk.pos.x * baseSize)}px`;
       perkDiv.style.top = `${Math.round(perk.pos.y * baseSize)}px`;
     }
+    if (perk.requires) {
+      perkDiv.addEventListener("mouseover", () => {
+        perk.requires.forEach((req: string) => {
+          let found: HTMLDivElement = perkContainer.querySelector(`.perk[perk-id="${req}"]`)!;
+          found.classList.add("highlighted");
+        });
+      });
+      perkDiv.addEventListener("mouseleave", () => {
+        perk.requires.forEach((req: string) => {
+          let found: HTMLDivElement = perkContainer.querySelector(`.perk[perk-id="${req}"]`)!;
+          found.classList.remove("highlighted");
+        });
+      });
+    }
     properPerkDiv.append(perkLevelDiv, img);
     perkDiv.append(properPerkDiv);
     perkContainer.append(perkDiv);

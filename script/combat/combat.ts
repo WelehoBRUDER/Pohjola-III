@@ -171,7 +171,7 @@ function attack() {
     ability.use(player, targets);
   } else {
     if (game.settings.lock_on_targeting) {
-      ability.use(player, [targets[combat.target]]);
+      ability.use(player, [combat.enemies[combat.target]]);
     } else {
       game.startTargeting(ability);
     }

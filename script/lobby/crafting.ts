@@ -6,7 +6,14 @@ function createCrafting() {
   hideHover();
   sideBarDetails();
   craftScreen.width;
-  lobbyContent.append(buildInventoryScreen({ offsetPercent: 50, filter: "crafting", class: "craft" }));
+  lobbyContent.append(
+    inventoryController.buildInventoryScreen({
+      inventory: player.inventory,
+      mode: "crafting",
+      offsetPercent: 50,
+      class: "craft",
+    })
+  );
   lobbyContent.append(buildCraftingScreen());
 }
 

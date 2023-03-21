@@ -94,12 +94,14 @@ class Ability {
                     if (!target)
                         return;
                     const hasDodged = target.dodge();
+                    console.count("player attacked");
                     if (hasDodged) {
                         if (target.isEnemy) {
                             createDroppingText("DODGED!", target.card.main, "dodge");
                             game.resume();
                         }
                         else {
+                            console.count("player dodge");
                             createDroppingText("DODGED!", tools, "dodge");
                         }
                         return update();

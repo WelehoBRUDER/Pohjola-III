@@ -46,7 +46,7 @@ interface PlayerObject extends CharacterObject {
 class Player extends Character {
   [race: string]: any;
   equipment: I_Equipment;
-  inventory: Weapon | Armor | Material | Item[] = [];
+  inventory: Item[] = [];
   abilities_total: Ability[];
   gold: number;
   perk_points: number;
@@ -98,6 +98,7 @@ class Player extends Character {
     if (item.stackable) {
       let existing_item = this.inventory.find((i: any) => i.id === item.id);
       if (existing_item) {
+        // @ts-ignore
         existing_item.amount += item.amount;
       } else {
         this.inventory.push(item);
@@ -110,7 +111,9 @@ class Player extends Character {
   removeItem(item: Item, amount?: number): void {
     let existing_item = this.inventory.find((i: any) => i.id === item.id);
     if (existing_item) {
+      // @ts-ignore
       existing_item.amount -= amount || item.amount || 1;
+      // @ts-ignore
       if (existing_item.amount <= 0) {
         this.inventory = this.inventory.filter((i: any) => i.id !== item.id);
       }
@@ -356,6 +359,7 @@ class Player extends Character {
 
   hasItem(item: string, amount: number = 1): boolean {
     const owned = this.inventory.find((i: Item) => i.id === item);
+    // @ts-ignore
     if (owned?.amount < amount || !owned) return false;
     return true;
   }

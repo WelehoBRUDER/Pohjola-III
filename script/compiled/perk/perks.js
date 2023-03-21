@@ -9,7 +9,7 @@ const perks = [
         },
         icon: "gfx/icons/skills.png",
         class: "adventure",
-        cost: 1,
+        cost: 0,
         level: 0,
         levels: [
             {
@@ -929,7 +929,7 @@ const perks = [
             y: 2.5,
         },
         icon: "gfx/status/weight-lifting-up.png",
-        class: "tough",
+        class: "",
         relative_to: "0_foundation_of_power",
         requires: ["0_foundation_of_power"],
         cost: 1,

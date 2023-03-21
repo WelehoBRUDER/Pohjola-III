@@ -24,6 +24,7 @@ class Enemy extends Character {
   loot?: any[];
   xp?: number;
   spawnWithEffects?: any[];
+  attacking?: boolean;
   constructor(enemy: EnemyBase) {
     super(enemy);
     this.index = enemy.index ?? -1;
@@ -33,6 +34,7 @@ class Enemy extends Character {
     this.isEnemy = true;
     this.xp = enemy.xp ?? 0;
     this.spawnWithEffects = enemy.spawnWithEffects ? [...enemy.spawnWithEffects] : [];
+    this.attacking = false;
   }
 
   init(index: number): void {
@@ -80,6 +82,7 @@ class Enemy extends Character {
     stats.total_kills += 1;
     this.stats.hp = 0;
     this.dead = true;
+    const viableTargets = combat.getLivingEnemies();
     if (this.card) {
       this.card.main.style.animation = "none";
       this.card.main.style.offsetHeight; // trigger reflow
@@ -97,16 +100,19 @@ class Enemy extends Character {
       setTimeout(() => {
         if (this.card) {
           this.card.main.remove();
-          const viableTargets = combat.getLivingEnemies();
-          if (viableTargets.length === 0) {
-            combat.end();
-          }
-          if (game.settings.lock_on_targeting) {
-            combat.target = viableTargets[0].index || 0;
-            viableTargets[0].updateCard();
-          }
         }
       }, 3000 / game.settings.animation_speed);
+    }
+    if (viableTargets.length === 0) {
+      game.pause({ disableSkills: true });
+      setTimeout(() => {
+        combat.end();
+      }, 3000 / game.settings.animation_speed);
+      return;
+    }
+    if (game.settings.lock_on_targeting) {
+      combat.target = viableTargets[0]?.index || 0;
+      viableTargets[0].updateCard();
     }
   }
 
@@ -246,7 +252,8 @@ class Enemy extends Character {
   }
 
   attackAnimation(ability: Ability): void {
-    if (this.dead || !this.card) return;
+    if (this.dead || !this.card || this.attacking) return;
+    this.attacking = true;
     if (this.card) {
       this.card.main.style.animation = "none";
       this.card.main.style.offsetHeight; // trigger reflow
@@ -266,6 +273,7 @@ class Enemy extends Character {
         }
       }, 1050 / game.settings.animation_speed);
       setTimeout(() => {
+        this.attacking = false;
         game.resume();
       }, 1100 / game.settings.animation_speed);
     }

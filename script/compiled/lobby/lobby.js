@@ -52,7 +52,7 @@ const lobbyButtons = [
     },
 ];
 const lobby = {
-    current_view: "class",
+    current_view: "store",
 };
 function createLobby() {
     player.updateAllModifiers();
