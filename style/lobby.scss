@@ -694,20 +694,26 @@
       border: none;
     }
   }
+}
 
-  &.store {
-    flex-direction: column;
+.store {
+  flex-direction: column;
 
-    .options {
-      height: 4rem;
-      width: 100%;
-      display: flex;
+  .options {
+    height: 4rem;
+    width: 100%;
+    display: flex;
+
+    .lobby-button {
+      width: 12rem;
+      font-family: Fancy;
+      font-size: 4rem;
     }
+  }
 
-    .inventory-container {
-      height: calc(100% - 4rem);
-      width: calc(100% - 0.4rem);
-    }
+  .inventory {
+    height: calc(100% - 4rem);
+    width: calc(100% - 0.4rem);
   }
 }
 

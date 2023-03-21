@@ -90,9 +90,11 @@ const screens: any = {
 } as const;
 
 function toggleableCustomSelect(
+  id: string,
   content: any[],
-  style: { color: string; dark: string } = { color: "rgb(21, 21, 206)", dark: "rgb(8, 8, 128)" },
+  style: { color: string; dark: string; hover: string } = { color: "rgb(21, 21, 206)", dark: "rgb(8, 8, 128)", hover: "silver" },
   defaultSelected: string = "toggle_select",
+  options?: { multiSelect?: boolean },
   callback?: any
 ) {
   const select = document.createElement("div");
@@ -101,10 +103,18 @@ function toggleableCustomSelect(
   const selectText = document.createElement("p");
   const selectArrow = document.createElement("span");
 
+  const properties: any = {
+    open: false,
+    selected: [],
+    mode: [],
+  };
+
   // Set classes and styles
+  select.id = id;
   select.classList.add("toggleable-select");
   select.style.setProperty("--color", style.color);
   select.style.setProperty("--dark", style.dark);
+  select.style.setProperty("--hover", style.hover);
   selectContent.classList.add("select-content");
   selectOptions.classList.add("select-options");
   selectOptions.classList.add("hidden");
@@ -117,22 +127,64 @@ function toggleableCustomSelect(
   selectArrow.textContent = "<";
 
   selectContent.onclick = () => {
-    selectOptions.classList.toggle("hidden");
-    selectArrow.classList.toggle("up");
+    toggle();
+    setTimeout(() => {
+      window.addEventListener(
+        "click",
+        (e) => {
+          // @ts-expect-error
+          if (!e.target?.closest(`#${id}`)) {
+            close();
+          }
+        },
+        { once: true }
+      );
+    }, 0);
   };
 
   content.forEach((option: string) => {
+    // Create elements
     const optionElement = document.createElement("div");
     const optionValue = document.createElement("div");
     const optionName = document.createElement("div");
     const cancel = document.createElement("div");
+
+    // Set classes and styles
     optionElement.classList.add("option");
     optionValue.classList.add("value");
     optionName.classList.add("text");
     cancel.classList.add("cancel");
+
+    // Set text & attributes
     optionName.textContent = game.getLocalizedString(option);
     optionName.setAttribute("data-value", option);
     cancel.textContent = "X";
+
+    // Set onclick
+    optionElement.onclick = (e) => {
+      // @ts-expect-error
+      if (e.target?.classList.contains("cancel")) return;
+      if (options?.multiSelect) {
+        if (!properties.selected.includes(option)) {
+          properties.selected.push(option);
+          properties.mode.push(0);
+        }
+      } else {
+        unselectAll();
+        properties.selected = [option];
+        properties.mode = [0];
+      }
+      selectOptionElements();
+    };
+    cancel.onclick = () => {
+      unselectAll();
+      if (properties.selected.includes(option)) {
+        properties.selected.splice(properties.selected.indexOf(option), 1);
+        properties.mode.splice(properties.mode.indexOf(option), 1);
+      }
+      selectOptionElements();
+    };
+
     optionElement.append(optionValue, optionName, cancel);
     selectOptions.append(optionElement);
   });
@@ -140,4 +192,37 @@ function toggleableCustomSelect(
   selectContent.append(selectText, selectArrow);
   select.append(selectContent, selectOptions);
   return select;
+
+  function toggle() {
+    properties.open = !properties.open;
+    openClose();
+  }
+
+  function close() {
+    properties.open = false;
+    openClose();
+  }
+
+  function openClose() {
+    if (properties.open) {
+      selectOptions.classList.remove("hidden");
+      selectArrow.classList.add("up");
+    } else {
+      selectOptions.classList.add("hidden");
+      selectArrow.classList.remove("up");
+    }
+  }
+
+  function unselectAll() {
+    selectOptions.querySelectorAll(".option").forEach((option) => {
+      option.classList.remove("selected");
+    });
+  }
+
+  function selectOptionElements() {
+    properties.selected.forEach((option: string) => {
+      // @ts-expect-error
+      selectOptions.querySelector(`.option .text[data-value="${option}"]`).closest(".option").classList.add("selected");
+    });
+  }
 }

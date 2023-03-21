@@ -170,8 +170,10 @@ class InventoryController {
         const search = document.createElement("input");
         const sortArr = ["tier", "price", "atk", "speed", "slot", "physicalDefence", "magicalDefence", "elementalDefence", "hpMax", "mpMax"];
         const filterArr = ["weapon", "armor", "talisman", "material", "consumable"];
-        const sort = toggleableCustomSelect(sortArr, { color: "rgb(21, 21, 206)", dark: "rgb(8, 8, 128)" }, "Sort items");
-        const filter = toggleableCustomSelect(filterArr, { color: "violet", dark: "purple" }, "Filter items");
+        const sort = toggleableCustomSelect("sort", sortArr, { color: "rgb(21, 21, 206)", dark: "rgb(8, 8, 128)", hover: "rgb(0, 102, 255)" }, "Sort items");
+        const filter = toggleableCustomSelect("filter", filterArr, { color: "violet", dark: "purple", hover: "pink" }, "Filter items", {
+            multiSelect: true,
+        });
         // Add classes
         toolBar.classList.add("inventory-toolbar");
         search.classList.add("search");

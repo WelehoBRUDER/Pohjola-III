@@ -235,6 +235,7 @@ select {
   cursor: pointer;
   --color: rgb(46, 46, 46);
   --dark: rgb(20, 20, 20);
+  --hover: rgb(60, 60, 60);
 
   background: var(--color);
   border: 0.25rem solid var(--dark);
@@ -261,8 +262,17 @@ select {
       position: relative;
       margin: 0;
       padding: 0.25rem;
-      &:hover {
+
+      &:hover:not(.selected) {
+        background: var(--hover);
+      }
+
+      &.selected {
         background: var(--dark);
+
+        &:hover {
+          filter: brightness(0.8);
+        }
       }
     }
 
@@ -277,6 +287,7 @@ select {
     text-shadow: 0 0 0.25rem rgb(12, 12, 12);
     margin: 0;
     font-size: 1.25rem;
+    pointer-events: none;
   }
 
   .cancel {
