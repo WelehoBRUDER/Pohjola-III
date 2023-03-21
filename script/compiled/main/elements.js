@@ -76,10 +76,21 @@ const screens = {
         scroll: 0,
     },
 };
+function closeSelectGeneric(id, close) {
+    setTimeout(() => {
+        window.addEventListener("click", (e) => {
+            // @ts-expect-error
+            if (!e.target?.closest(`#${id}`)) {
+                close();
+            }
+        }, { once: true });
+    }, 0);
+}
 function toggleableCustomSelect(id, content, style = { color: "rgb(21, 21, 206)", dark: "rgb(8, 8, 128)", hover: "silver" }, defaultSelected = "toggle_select", options, callback) {
     const select = document.createElement("div");
     const selectContent = document.createElement("div");
     const selectOptions = document.createElement("div");
+    const selectValue = document.createElement("div");
     const selectText = document.createElement("p");
     const selectArrow = document.createElement("span");
     const properties = {
@@ -96,19 +107,26 @@ function toggleableCustomSelect(id, content, style = { color: "rgb(21, 21, 206)"
     selectContent.classList.add("select-content");
     selectOptions.classList.add("select-options");
     selectOptions.classList.add("hidden");
+    selectValue.classList.add("value");
     selectText.classList.add("text");
     selectArrow.classList.add("arrow");
     // Set default selected
     selectText.textContent = game.getLocalizedString(defaultSelected);
     selectText.setAttribute("data-value", defaultSelected);
     selectArrow.textContent = "<";
-    selectContent.onclick = () => {
+    selectContent.onclick = (e) => {
+        // @ts-expect-error
+        if (e.target.classList.contains("cancel"))
+            return;
         toggle();
         setTimeout(() => {
             window.addEventListener("click", (e) => {
                 // @ts-expect-error
                 if (!e.target?.closest(`#${id}`)) {
                     close();
+                }
+                else {
+                    closeSelectGeneric(id, close);
                 }
             }, { once: true });
         }, 0);
@@ -140,7 +158,7 @@ function toggleableCustomSelect(id, content, style = { color: "rgb(21, 21, 206)"
                     properties.mode.push(0);
                 }
                 else {
-                    properties.mode[index] = properties.mode[0] === 0 ? 1 : 0;
+                    properties.mode[index] = properties.mode[index] === 0 ? 1 : 0;
                 }
             }
             else if (index === -1) {
@@ -156,6 +174,13 @@ function toggleableCustomSelect(id, content, style = { color: "rgb(21, 21, 206)"
                 callback(properties);
             }
         };
+        selectArrow.onclick = (e) => {
+            e.stopPropagation();
+            if (selectArrow.textContent === "X") {
+                close();
+                cancelAll();
+            }
+        };
         cancel.onclick = () => {
             unselectAll();
             if (properties.selected.includes(option)) {
@@ -163,6 +188,7 @@ function toggleableCustomSelect(id, content, style = { color: "rgb(21, 21, 206)"
                 properties.mode.splice(properties.mode.indexOf(option), 1);
             }
             selectOptionElements();
+            setValue();
             if (callback) {
                 callback(properties);
             }
@@ -170,9 +196,17 @@ function toggleableCustomSelect(id, content, style = { color: "rgb(21, 21, 206)"
         optionElement.append(optionValue, optionName, cancel);
         selectOptions.append(optionElement);
     });
-    selectContent.append(selectText, selectArrow);
+    selectContent.append(selectValue, selectText, selectArrow);
     select.append(selectContent, selectOptions);
     return select;
+    function cancelAll() {
+        properties.selected = [];
+        properties.mode = [];
+        if (callback) {
+            callback(properties);
+        }
+        unselectAll();
+    }
     function toggle() {
         properties.open = !properties.open;
         openClose();
@@ -191,12 +225,33 @@ function toggleableCustomSelect(id, content, style = { color: "rgb(21, 21, 206)"
             selectArrow.classList.remove("up");
         }
     }
+    function setValue() {
+        if (properties.selected.length === 0) {
+            selectValue.textContent = "";
+            selectText.textContent = game.getLocalizedString(defaultSelected);
+            selectArrow.textContent = "<";
+            selectArrow.classList.remove("cancel");
+        }
+        else if (properties.selected.length === 1) {
+            selectValue.textContent = properties.mode[0] === 0 ? "+" : "-";
+            selectText.textContent = game.getLocalizedString(properties.selected[0]);
+            selectArrow.textContent = "X";
+            selectArrow.classList.add("cancel");
+        }
+        else {
+            selectValue.textContent = properties.mode.length;
+            selectText.textContent = "Filters active";
+            selectArrow.textContent = "X";
+            selectArrow.classList.add("cancel");
+        }
+    }
     function unselectAll() {
         selectOptions.querySelectorAll(".option").forEach((option) => {
             const value = option.querySelector(".value");
             option.classList.remove("selected");
             value.textContent = "";
         });
+        setValue();
     }
     function selectOptionElements() {
         properties.selected.forEach((option) => {
@@ -208,6 +263,7 @@ function toggleableCustomSelect(id, content, style = { color: "rgb(21, 21, 206)"
                 value.textContent = properties.mode[properties.selected.indexOf(option)] === 0 ? "+" : "-";
             }
         });
+        setValue();
     }
 }
 //# sourceMappingURL=elements.js.map

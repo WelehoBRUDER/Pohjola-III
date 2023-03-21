@@ -37,7 +37,7 @@ class InventoryController {
             search: "",
             filter: {
                 name: "all",
-                reverse: false,
+                exclude: false,
             },
             sort: {
                 name: "none",
@@ -160,6 +160,26 @@ class InventoryController {
                 return name.toLowerCase().includes(this.tools.search.toLowerCase());
             });
         }
+        if (this.tools.filter.name !== "all") {
+            this.inventory = this.inventory.filter((item) => {
+                let filtered = false;
+                const filter = this.tools.filter.name;
+                const exclude = this.tools.filter.exclude;
+                filter.forEach((crit, index) => {
+                    const excluded = exclude[index] === 0;
+                    console.log("crit", crit, "excluded", excluded);
+                    if (excluded) {
+                        if (item.type === crit)
+                            filtered = true;
+                    }
+                    else {
+                        if (item.type !== crit)
+                            filtered = true;
+                    }
+                });
+                return filtered;
+            });
+        }
         if (this.tools.sort.name !== "none") {
             const sort = this.tools.sort.name;
             const reverse = this.tools.sort.reverse;
@@ -173,8 +193,8 @@ class InventoryController {
             if (sort.includes("Defence")) {
                 const type = sort.split("Defence")[0].toLowerCase();
                 this.inventory.sort((a, b) => {
-                    const aProp = a.defence?.[type] || -1;
-                    const bProp = b.defence?.[type] || -1;
+                    const aProp = a.defence?.[type] || a.modifiers?.[sort + "V"] || -1;
+                    const bProp = b.defence?.[type] || b.modifiers?.[sort + "V"] || -1;
                     if (aProp === -1 && bProp === -1)
                         return 0;
                     if (aProp === -1)
@@ -199,8 +219,14 @@ class InventoryController {
             }
             else {
                 this.inventory.sort((a, b) => {
-                    const aProp = a[sort];
-                    const bProp = b[sort];
+                    const aProp = a[sort] || -1;
+                    const bProp = b[sort] || -1;
+                    if (aProp === -1 && bProp === -1)
+                        return 0;
+                    if (aProp === -1)
+                        return 1;
+                    if (bProp === -1)
+                        return -1;
                     return reverse ? bProp - aProp : aProp - bProp;
                 });
             }
@@ -215,6 +241,7 @@ class InventoryController {
             "tier",
             "price",
             "atk",
+            "spell_scale",
             "speed",
             "slot",
             "physicalDefence",
@@ -225,11 +252,11 @@ class InventoryController {
             "mpMaxV",
             "mpMaxP",
         ];
-        const filterArr = ["weapon", "armor", "talisman", "material", "consumable"];
+        const filterArr = ["weapon", "armor", "talisman", "material", "potion"];
         const sort = toggleableCustomSelect("sort", sortArr, { color: "rgb(21, 21, 206)", dark: "rgb(8, 8, 128)", hover: "rgb(0, 102, 255)" }, "Sort items", null, this.sortCallback);
         const filter = toggleableCustomSelect("filter", filterArr, { color: "violet", dark: "purple", hover: "pink" }, "Filter items", {
             multiSelect: true,
-        });
+        }, this.filterCallback);
         // Add classes
         toolBar.classList.add("inventory-toolbar");
         search.classList.add("search");
@@ -251,6 +278,12 @@ class InventoryController {
         console.log(properties);
         inventoryController.tools.sort.name = properties.selected.length > 0 ? properties.selected[0] : "none";
         inventoryController.tools.sort.reverse = properties.mode.length > 0 ? properties.mode[0] === 0 : false;
+        inventoryController.updateInventory();
+    }
+    filterCallback(properties) {
+        console.log(properties);
+        inventoryController.tools.filter.name = properties.selected.length > 0 ? properties.selected : "all";
+        inventoryController.tools.filter.exclude = properties.mode;
         inventoryController.updateInventory();
     }
 }

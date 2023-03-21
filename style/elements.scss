@@ -241,8 +241,13 @@ select {
   border: 0.25rem solid var(--dark);
 
   .select-content {
+    position: relative;
+    display: flex;
+    color: white;
+    gap: 0.5rem;
+
     &:hover {
-      filter: brightness(1.2);
+      filter: brightness(130%);
     }
   }
 
@@ -309,21 +314,27 @@ select {
     cursor: pointer;
     color: silver;
     user-select: none;
+    transform: rotate(0deg);
   }
 
   .arrow {
+    transition: transform 0.2s;
     position: absolute;
-    right: 0.25rem;
-    top: 0.25rem;
-    font-size: 1.5rem;
-    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    right: 0rem;
+    top: -0.25rem;
+    margin: 0;
+    font-size: 2rem;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
     cursor: pointer;
     color: var(--dark);
     user-select: none;
     font-weight: bolder;
-    transform: rotate(270deg);
 
-    &.up {
+    &:not(.cancel) {
+      transform: rotate(270deg);
+    }
+
+    &.up:not(.cancel) {
       transform: rotate(90deg);
     }
   }

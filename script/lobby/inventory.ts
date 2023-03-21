@@ -34,7 +34,7 @@ class InventoryController {
     search: string;
     filter: {
       name: string;
-      reverse: boolean;
+      exclude: boolean;
     };
     sort: {
       name: string;
@@ -54,7 +54,7 @@ class InventoryController {
       search: "",
       filter: {
         name: "all",
-        reverse: false,
+        exclude: false,
       },
       sort: {
         name: "none",
@@ -194,6 +194,23 @@ class InventoryController {
         return name.toLowerCase().includes(this.tools.search.toLowerCase());
       });
     }
+    if (this.tools.filter.name !== "all") {
+      this.inventory = this.inventory.filter((item: Item) => {
+        let filtered = false;
+        const filter = this.tools.filter.name as any;
+        const exclude = this.tools.filter.exclude as any;
+        filter.forEach((crit: string, index: number) => {
+          const excluded = exclude[index] === 0;
+          console.log("crit", crit, "excluded", excluded);
+          if (excluded) {
+            if (item.type === crit) filtered = true;
+          } else {
+            if (item.type !== crit) filtered = true;
+          }
+        });
+        return filtered;
+      });
+    }
     if (this.tools.sort.name !== "none") {
       const sort = this.tools.sort.name;
       const reverse = this.tools.sort.reverse;
@@ -207,8 +224,8 @@ class InventoryController {
       if (sort.includes("Defence")) {
         const type = sort.split("Defence")[0].toLowerCase();
         this.inventory.sort((a: Item, b: Item) => {
-          const aProp = a.defence?.[type] || -1;
-          const bProp = b.defence?.[type] || -1;
+          const aProp = a.defence?.[type] || a.modifiers?.[sort + "V"] || -1;
+          const bProp = b.defence?.[type] || b.modifiers?.[sort + "V"] || -1;
           if (aProp === -1 && bProp === -1) return 0;
           if (aProp === -1) return 1;
           if (bProp === -1) return -1;
@@ -225,8 +242,11 @@ class InventoryController {
         });
       } else {
         this.inventory.sort((a: Item, b: Item) => {
-          const aProp = a[sort];
-          const bProp = b[sort];
+          const aProp = a[sort] || -1;
+          const bProp = b[sort] || -1;
+          if (aProp === -1 && bProp === -1) return 0;
+          if (aProp === -1) return 1;
+          if (bProp === -1) return -1;
           return reverse ? bProp - aProp : aProp - bProp;
         });
       }
@@ -242,6 +262,7 @@ class InventoryController {
       "tier",
       "price",
       "atk",
+      "spell_scale",
       "speed",
       "slot",
       "physicalDefence",
@@ -252,7 +273,7 @@ class InventoryController {
       "mpMaxV",
       "mpMaxP",
     ];
-    const filterArr = ["weapon", "armor", "talisman", "material", "consumable"];
+    const filterArr = ["weapon", "armor", "talisman", "material", "potion"];
     const sort = toggleableCustomSelect(
       "sort",
       sortArr,
@@ -261,9 +282,16 @@ class InventoryController {
       null,
       this.sortCallback
     );
-    const filter = toggleableCustomSelect("filter", filterArr, { color: "violet", dark: "purple", hover: "pink" }, "Filter items", {
-      multiSelect: true,
-    });
+    const filter = toggleableCustomSelect(
+      "filter",
+      filterArr,
+      { color: "violet", dark: "purple", hover: "pink" },
+      "Filter items",
+      {
+        multiSelect: true,
+      },
+      this.filterCallback
+    );
 
     // Add classes
     toolBar.classList.add("inventory-toolbar");
@@ -293,6 +321,13 @@ class InventoryController {
     console.log(properties);
     inventoryController.tools.sort.name = properties.selected.length > 0 ? properties.selected[0] : "none";
     inventoryController.tools.sort.reverse = properties.mode.length > 0 ? properties.mode[0] === 0 : false;
+    inventoryController.updateInventory();
+  }
+
+  filterCallback(properties: any) {
+    console.log(properties);
+    inventoryController.tools.filter.name = properties.selected.length > 0 ? properties.selected : "all";
+    inventoryController.tools.filter.exclude = properties.mode;
     inventoryController.updateInventory();
   }
 }
