@@ -58,7 +58,7 @@ class InventoryController {
         this.fullInventory = fullInventory;
     }
     setInventory(inventory) {
-        this.inventory = inventory;
+        this.inventory = [...inventory];
     }
     setEquipment(equipment) {
         this.equipment = equipment;
@@ -69,7 +69,7 @@ class InventoryController {
     buildInventoryScreen(options) {
         // Set properties
         this.setFullInventory(options?.inventory || this.inventory);
-        this.setInventory(this.fullInventory);
+        this.setInventory([...this.fullInventory]);
         this.setMode(options?.mode || this.mode);
         if (options?.equipment)
             this.setEquipment(options?.equipment);
@@ -153,14 +153,57 @@ class InventoryController {
         });
     }
     updateInventory() {
+        this.inventory = [...this.fullInventory];
         if (this.tools.search.length > 0) {
-            this.inventory = this.fullInventory.filter((item) => {
+            this.inventory = this.inventory.filter((item) => {
                 const name = game.getLocalizedString(item.id);
                 return name.toLowerCase().includes(this.tools.search.toLowerCase());
             });
         }
-        else {
-            this.inventory = this.fullInventory;
+        if (this.tools.sort.name !== "none") {
+            const sort = this.tools.sort.name;
+            const reverse = this.tools.sort.reverse;
+            if (sort === "tier") {
+                this.inventory.sort((a, b) => {
+                    const aTier = itemTiers[a.tier.id].level;
+                    const bTier = itemTiers[b.tier.id].level;
+                    return reverse ? bTier - aTier : aTier - bTier;
+                });
+            }
+            if (sort.includes("Defence")) {
+                const type = sort.split("Defence")[0].toLowerCase();
+                this.inventory.sort((a, b) => {
+                    const aProp = a.defence?.[type] || -1;
+                    const bProp = b.defence?.[type] || -1;
+                    if (aProp === -1 && bProp === -1)
+                        return 0;
+                    if (aProp === -1)
+                        return 1;
+                    if (bProp === -1)
+                        return -1;
+                    return reverse ? bProp - aProp : aProp - bProp;
+                });
+            }
+            else if (sort.endsWith("P") || sort.endsWith("V")) {
+                this.inventory.sort((a, b) => {
+                    const aProp = a.modifiers[sort] || -1;
+                    const bProp = b.modifiers[sort] || -1;
+                    if (aProp === -1 && bProp === -1)
+                        return 0;
+                    if (aProp === -1)
+                        return 1;
+                    if (bProp === -1)
+                        return -1;
+                    return reverse ? bProp - aProp : aProp - bProp;
+                });
+            }
+            else {
+                this.inventory.sort((a, b) => {
+                    const aProp = a[sort];
+                    const bProp = b[sort];
+                    return reverse ? bProp - aProp : aProp - bProp;
+                });
+            }
         }
         this.buildItems();
     }
@@ -168,9 +211,22 @@ class InventoryController {
         // Create elements
         const toolBar = document.createElement("div");
         const search = document.createElement("input");
-        const sortArr = ["tier", "price", "atk", "speed", "slot", "physicalDefence", "magicalDefence", "elementalDefence", "hpMax", "mpMax"];
+        const sortArr = [
+            "tier",
+            "price",
+            "atk",
+            "speed",
+            "slot",
+            "physicalDefence",
+            "magicalDefence",
+            "elementalDefence",
+            "hpMaxV",
+            "hpMaxP",
+            "mpMaxV",
+            "mpMaxP",
+        ];
         const filterArr = ["weapon", "armor", "talisman", "material", "consumable"];
-        const sort = toggleableCustomSelect("sort", sortArr, { color: "rgb(21, 21, 206)", dark: "rgb(8, 8, 128)", hover: "rgb(0, 102, 255)" }, "Sort items");
+        const sort = toggleableCustomSelect("sort", sortArr, { color: "rgb(21, 21, 206)", dark: "rgb(8, 8, 128)", hover: "rgb(0, 102, 255)" }, "Sort items", null, this.sortCallback);
         const filter = toggleableCustomSelect("filter", filterArr, { color: "violet", dark: "purple", hover: "pink" }, "Filter items", {
             multiSelect: true,
         });
@@ -190,6 +246,12 @@ class InventoryController {
             game.typing = false;
         };
         return toolBar;
+    }
+    sortCallback(properties) {
+        console.log(properties);
+        inventoryController.tools.sort.name = properties.selected.length > 0 ? properties.selected[0] : "none";
+        inventoryController.tools.sort.reverse = properties.mode.length > 0 ? properties.mode[0] === 0 : false;
+        inventoryController.updateInventory();
     }
 }
 const inventoryController = new InventoryController();

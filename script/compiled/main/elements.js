@@ -133,18 +133,28 @@ function toggleableCustomSelect(id, content, style = { color: "rgb(21, 21, 206)"
             // @ts-expect-error
             if (e.target?.classList.contains("cancel"))
                 return;
+            const index = properties.selected.indexOf(option);
             if (options?.multiSelect) {
-                if (!properties.selected.includes(option)) {
+                if (index === -1) {
                     properties.selected.push(option);
                     properties.mode.push(0);
                 }
+                else {
+                    properties.mode[index] = properties.mode[0] === 0 ? 1 : 0;
+                }
             }
-            else {
+            else if (index === -1) {
                 unselectAll();
                 properties.selected = [option];
                 properties.mode = [0];
             }
+            else {
+                properties.mode = [properties.mode[0] === 0 ? 1 : 0];
+            }
             selectOptionElements();
+            if (callback) {
+                callback(properties);
+            }
         };
         cancel.onclick = () => {
             unselectAll();
@@ -153,6 +163,9 @@ function toggleableCustomSelect(id, content, style = { color: "rgb(21, 21, 206)"
                 properties.mode.splice(properties.mode.indexOf(option), 1);
             }
             selectOptionElements();
+            if (callback) {
+                callback(properties);
+            }
         };
         optionElement.append(optionValue, optionName, cancel);
         selectOptions.append(optionElement);
@@ -180,13 +193,20 @@ function toggleableCustomSelect(id, content, style = { color: "rgb(21, 21, 206)"
     }
     function unselectAll() {
         selectOptions.querySelectorAll(".option").forEach((option) => {
+            const value = option.querySelector(".value");
             option.classList.remove("selected");
+            value.textContent = "";
         });
     }
     function selectOptionElements() {
         properties.selected.forEach((option) => {
             // @ts-expect-error
-            selectOptions.querySelector(`.option .text[data-value="${option}"]`).closest(".option").classList.add("selected");
+            const optionElem = selectOptions.querySelector(`.option .text[data-value="${option}"]`).closest(".option");
+            if (optionElem) {
+                const value = optionElem.querySelector(".value");
+                optionElem.classList.add("selected");
+                value.textContent = properties.mode[properties.selected.indexOf(option)] === 0 ? "+" : "-";
+            }
         });
     }
 }

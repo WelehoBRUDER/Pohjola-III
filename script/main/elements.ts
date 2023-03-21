@@ -94,7 +94,7 @@ function toggleableCustomSelect(
   content: any[],
   style: { color: string; dark: string; hover: string } = { color: "rgb(21, 21, 206)", dark: "rgb(8, 8, 128)", hover: "silver" },
   defaultSelected: string = "toggle_select",
-  options?: { multiSelect?: boolean },
+  options?: { multiSelect?: boolean } | null,
   callback?: any
 ) {
   const select = document.createElement("div");
@@ -164,17 +164,25 @@ function toggleableCustomSelect(
     optionElement.onclick = (e) => {
       // @ts-expect-error
       if (e.target?.classList.contains("cancel")) return;
+      const index = properties.selected.indexOf(option);
       if (options?.multiSelect) {
-        if (!properties.selected.includes(option)) {
+        if (index === -1) {
           properties.selected.push(option);
           properties.mode.push(0);
+        } else {
+          properties.mode[index] = properties.mode[0] === 0 ? 1 : 0;
         }
-      } else {
+      } else if (index === -1) {
         unselectAll();
         properties.selected = [option];
         properties.mode = [0];
+      } else {
+        properties.mode = [properties.mode[0] === 0 ? 1 : 0];
       }
       selectOptionElements();
+      if (callback) {
+        callback(properties);
+      }
     };
     cancel.onclick = () => {
       unselectAll();
@@ -183,6 +191,9 @@ function toggleableCustomSelect(
         properties.mode.splice(properties.mode.indexOf(option), 1);
       }
       selectOptionElements();
+      if (callback) {
+        callback(properties);
+      }
     };
 
     optionElement.append(optionValue, optionName, cancel);
@@ -215,14 +226,21 @@ function toggleableCustomSelect(
 
   function unselectAll() {
     selectOptions.querySelectorAll(".option").forEach((option) => {
+      const value = option.querySelector(".value")!;
       option.classList.remove("selected");
+      value.textContent = "";
     });
   }
 
   function selectOptionElements() {
     properties.selected.forEach((option: string) => {
       // @ts-expect-error
-      selectOptions.querySelector(`.option .text[data-value="${option}"]`).closest(".option").classList.add("selected");
+      const optionElem = selectOptions.querySelector(`.option .text[data-value="${option}"]`).closest(".option");
+      if (optionElem) {
+        const value = optionElem.querySelector(".value")!;
+        optionElem.classList.add("selected");
+        value.textContent = properties.mode[properties.selected.indexOf(option)] === 0 ? "+" : "-";
+      }
     });
   }
 }

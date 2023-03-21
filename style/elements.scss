@@ -262,6 +262,9 @@ select {
       position: relative;
       margin: 0;
       padding: 0.25rem;
+      display: flex;
+      color: white;
+      gap: 0.5rem;
 
       &:hover:not(.selected) {
         background: var(--hover);
@@ -273,6 +276,14 @@ select {
         &:hover {
           filter: brightness(0.8);
         }
+
+        .cancel {
+          display: block;
+        }
+      }
+
+      .cancel {
+        display: none;
       }
     }
 
