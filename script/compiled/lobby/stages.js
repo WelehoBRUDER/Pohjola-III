@@ -223,6 +223,7 @@ function createFloors() {
       <h1>${game.getLocalizedString("floors")}</h1>
     </div>
     <div class="floors"></div>
+    <div class="dungeons-title"><h1>${game.getLocalizedString("dungeons")}</h1></div>
     <div class="dungeons"></div>
     `;
     const floorsElement = document.querySelector(".floors");
@@ -252,35 +253,44 @@ function createFloors() {
         floorsElement.append(stageElement);
     });
     dungeons.forEach((dungeon) => {
-        const dungeonElement = document.createElement("div");
-        dungeonElement.classList.add("stage");
-        dungeonElement.innerText = game.getLocalizedString(dungeon.id);
-        let dungeonTooltip = `<f>1.25rem<f><c>goldenrod<c>${game.getLocalizedString(dungeon.id)}\n<f>1rem<f><c>silver<c>"${game.getLocalizedString(dungeon.id + "_desc")}"\n\n<c>white<c>`;
-        dungeonTooltip += game.getLocalizedString("dungeon_warn");
-        if (!isDungeonUnlocked(dungeon) && !DEVTOOLS.ENABLED) {
-            dungeonElement.classList.add("locked");
-            dungeonTooltip += `<c>white<c>${game.getLocalizedString("beat_stage_to_unlock")}: <c>yellow<c>${game.getLocalizedString(dungeon.beat_stage_to_unlock)}\n`;
-        }
-        else {
-            dungeonElement.onclick = () => {
-                const txt = `<c>white<c>${game.getLocalizedString("enter_dungeon_1")} <c>goldenrod<c>${game.getLocalizedString(dungeon.id)}<c>white<c>?`;
-                confirmationWindow(txt, () => {
-                    dungeonController.enterDungeon(dungeon);
-                });
-            };
-        }
-        tooltip(dungeonElement, dungeonTooltip);
+        const dungeonElement = createDungeonElement(dungeon);
         dungeonsElement.append(dungeonElement);
     });
+}
+function createDungeonElement(dungeon) {
+    const dungeonElement = document.createElement("div");
+    dungeonElement.classList.add("stage");
+    dungeonElement.innerText = game.getLocalizedString(dungeon.id);
+    let dungeonTooltip = `<f>1.25rem<f><c>goldenrod<c>${game.getLocalizedString(dungeon.id)}\n<f>1rem<f><c>silver<c>"${game.getLocalizedString(dungeon.id + "_desc")}"\n\n<c>white<c>`;
+    dungeonTooltip += game.getLocalizedString("dungeon_warn");
+    if (!isDungeonUnlocked(dungeon) && !DEVTOOLS.ENABLED) {
+        dungeonElement.classList.add("locked");
+        dungeonTooltip += `<c>white<c>${game.getLocalizedString("beat_stage_to_unlock")}: <c>yellow<c>${game.getLocalizedString(dungeon.beat_stage_to_unlock)}\n`;
+    }
+    else {
+        dungeonElement.onclick = () => {
+            const txt = `<c>white<c>${game.getLocalizedString("enter_dungeon_1")} <c>goldenrod<c>${game.getLocalizedString(dungeon.id)}<c>white<c>?`;
+            confirmationWindow(txt, () => {
+                dungeonController.enterDungeon(dungeon);
+            });
+        };
+    }
+    tooltip(dungeonElement, dungeonTooltip);
+    return dungeonElement;
 }
 function createStages(stages) {
     lobbyContent.innerHTML = `
     <div class="stages-upper">
+      <h1>${game.getLocalizedString("stages")}</h1>
       <button class="back-button" onclick="createFloors()">${game.getLocalizedString("back")}</button>
     </div>
     <div class="stages"></div>
+    <div class="dungeons-title"><h1>${game.getLocalizedString("dungeon")}</h1></div>
+    <div class="dungeons"></div>
     `;
     const stagesElement = document.querySelector(".stages");
+    const dungeonsElement = document.querySelector(".dungeons");
+    let dungeon;
     stages.forEach((stage) => {
         const stageElement = document.createElement("div");
         stageElement.classList.add("stage");
@@ -290,6 +300,7 @@ function createStages(stages) {
         }
         else if (stage.isBoss) {
             stageElement.classList.add("boss");
+            dungeon = dungeons.find((dungeon) => dungeon.beat_stage_to_unlock === stage.id);
         }
         tooltip(stageElement, stage.tooltip());
         stageElement.onclick = () => {
@@ -297,6 +308,10 @@ function createStages(stages) {
         };
         stagesElement.append(stageElement);
     });
+    if (dungeon) {
+        const dungeonElement = createDungeonElement(dungeon);
+        dungeonsElement.append(dungeonElement);
+    }
 }
 function calculateProgress(player) {
     let totalNeed = 0;

@@ -271,6 +271,8 @@ class InventoryController {
       "spell_scale",
       "speed",
       "slot",
+      "heal",
+      "manaRecover",
       "physicalDefence",
       "magicalDefence",
       "elementalDefence",

@@ -8,6 +8,7 @@
   - Highlights perks that are required to unlock the hovered perk.
   - Will not highlight already owned perks.
 - Dodge text is now silver instead of black.
+- Added more clarity between dungeons and floors / stages.
 
 ## Bug fixes
 - Fixed enemies attacking after death.
