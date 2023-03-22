@@ -281,5 +281,10 @@ const dungeons = [
             }),
         ],
     },
+    {
+        id: "fortress_minor",
+        beat_stage_to_unlock: "stage_30",
+        rooms: [],
+    },
 ];
 //# sourceMappingURL=dungeons.js.map

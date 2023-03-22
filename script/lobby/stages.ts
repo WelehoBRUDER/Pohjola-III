@@ -189,6 +189,38 @@ const floors: any = [
         id: "stage_22",
         foes: [new Enemy(enemies.minotaur_warrior)],
       }),
+      new Stage({
+        id: "stage_23",
+        foes: [new Enemy(enemies.minotaur), new Enemy(enemies.minotaur)],
+      }),
+      new Stage({
+        id: "stage_24",
+        foes: [new Enemy(enemies.minotaur_warrior), new Enemy(enemies.minotaur)],
+      }),
+      new Stage({
+        id: "stage_25",
+        foes: [new Enemy(enemies.minotaur_sage)],
+      }),
+      new Stage({
+        id: "stage_26",
+        foes: [new Enemy(enemies.minotaur_warrior), new Enemy(enemies.minotaur_warrior)],
+      }),
+      new Stage({
+        id: "stage_27",
+        foes: [new Enemy(enemies.minotaur_sage), new Enemy(enemies.minotaur)],
+      }),
+      new Stage({
+        id: "stage_28",
+        foes: [new Enemy(enemies.minotaur), new Enemy(enemies.minotaur_warrior), new Enemy(enemies.minotaur)],
+      }),
+      new Stage({
+        id: "stage_29",
+        foes: [new Enemy(enemies.minotaur), new Enemy(enemies.minotaur_sage), new Enemy(enemies.minotaur)],
+      }),
+      new Stage({
+        id: "stage_30",
+        foes: [new Enemy(enemies.minotaur_captain)],
+      }),
     ],
   },
 ];

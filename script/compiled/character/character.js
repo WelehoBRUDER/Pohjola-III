@@ -253,6 +253,8 @@ class Character {
                         }
                     }
                     else {
+                        if (DEVTOOLS.GOD)
+                            damage = 0;
                         this.stats.hp -= damage;
                         stats.total_damage_taken += damage;
                         if (stats.most_damage_taken < damage) {
@@ -279,6 +281,7 @@ class Character {
                     healing = Math.round(this.getStats({ dontUpdateModifiers: true }).hpMax * values.healingPercent);
                 if (values?.healingFlat)
                     healing += values.healingFlat;
+                healing = Math.floor(healing * (this.allModifiers["healReceivedP"] || 1));
                 if (this.isEnemy) {
                     this.heal(healing);
                 }

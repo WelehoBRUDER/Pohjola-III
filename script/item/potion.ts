@@ -19,13 +19,13 @@ class Potion extends Item {
   }
 
   drink(user: Player | Enemy) {
-    if (this.heal) user.heal(this.heal);
+    if (this.heal) user.heal(Math.floor(this.heal * (user.allModifiers["healReceivedP"] || 1)));
     if (this.manaRecover) user.recoverMana(this.manaRecover, { log: true });
     if (this.effectsToSelf) this.effectsToSelf.forEach((effect: EffectObject) => user.addStatus(effect, user));
     if (isInCombat()) {
       if (this.heal) {
         if (user instanceof Player) {
-          createDroppingText(`+${this.heal} HP`, tools, "heal");
+          createDroppingText(`+${Math.floor(this.heal * (user.allModifiers["healReceivedP"] || 1))} HP`, tools, "heal");
         }
       }
       if (this.manaRecover) {

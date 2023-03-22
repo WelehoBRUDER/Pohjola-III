@@ -46,6 +46,7 @@ const icons: any = {
   rangedDamage: "gfx/icons/ranged_damage.png",
   spellPower: "gfx/icons/orb-direction.png",
   healPower: "gfx/icons/healing.png",
+  healReceived: "gfx/icons/healing.png",
 };
 
 const coreCharacterStats: string[] = ["Str", "Agi", "Vit", "Int", "Spi"];

@@ -280,4 +280,9 @@ const dungeons: Dungeon[] = [
       }),
     ],
   },
+  {
+    id: "fortress_minor",
+    beat_stage_to_unlock: "stage_30",
+    rooms: [],
+  },
 ];

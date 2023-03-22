@@ -38,7 +38,6 @@ class Enemy extends Character {
   }
 
   init(index: number): void {
-    this.restore();
     this.index = index;
     this.abilities.map((ability: Ability) => {
       return (ability = new Ability({ ...ability }));
@@ -48,18 +47,32 @@ class Enemy extends Character {
         this.addStatus(effect, this);
       });
     }
+    this.updateAllModifiers();
+    this.restore();
     createBattlecard(this);
   }
 
-  getRandomMove(): Ability {
+  getWeightedMove(): Ability {
+    const hpRemain = (this.stats.hp / this.getStats().hpMax) * 100;
     const usables = this.abilities.filter((ability: Ability) => {
-      return ability.canUse(this) && (ability.type === "heal" ? this.stats.hp / this.getStats().hpMax < 0.5 : true);
+      return ability.canUse(this);
     });
     if (usables.length === 0) {
       // @ts-ignore
       usables.push(new Ability({ ...abilities.player_base_attack }));
     }
-    return usables[Math.floor(Math.random() * usables.length)];
+    usables.forEach((abi: any) => {
+      if (abi.type === "heal") {
+        if (hpRemain > 55) {
+          abi.weight = 0;
+        } else if (hpRemain > 35 && hpRemain <= 55) {
+          abi.weight = abi.weight * 0.5;
+        }
+      }
+    });
+    const move = weightedRandom(usables);
+    console.log(usables[move]);
+    return usables[move];
   }
 
   shake(): void {
@@ -205,7 +218,7 @@ class Enemy extends Character {
 
   act(): void {
     game.pause();
-    const move = this.getRandomMove();
+    const move = this.getWeightedMove();
     if (move.type === "attack") {
       this.attackAnimation(move);
     } else if (move.type === "heal" || move.type === "buff") {
@@ -329,7 +342,7 @@ function createBattlecard(enemy: Enemy) {
   battlecard.innerHTML = `
     <div class="status-effects"></div>
     <div class="card">
-      <div class="name">${enemy.name}</div>
+      <div class="name">${game.getLocalizedString(enemy.id)}</div>
       <div class="hp-background">
         <div class="hp-fill gradient-shine"></div>
         <div class="hp-late"></div>

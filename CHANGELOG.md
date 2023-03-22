@@ -1,7 +1,15 @@
 # Version 0.2.0 ~ 2023.3.21
 
 ## New features & additions
+- Added new enemies:
+  - Minotaur Sage
+  - Minotaur Captain
+  - Minotaur King (Oros, King of Minor)
+- Added new dungeon: `Fortress of Minor`
+  - Unlocked after defeating the orc chieftain.
+  - Fight boss "Minotaur King" to complete.
 - Added search & filter to all inventory screens (including store).
+- Added command "lose" to the game.
 
 ## Changes
 - Added highlight to perk tree when hovering over a perk.

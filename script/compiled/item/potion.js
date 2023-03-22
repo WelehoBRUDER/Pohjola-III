@@ -14,7 +14,7 @@ class Potion extends Item {
     }
     drink(user) {
         if (this.heal)
-            user.heal(this.heal);
+            user.heal(Math.floor(this.heal * (user.allModifiers["healReceivedP"] || 1)));
         if (this.manaRecover)
             user.recoverMana(this.manaRecover, { log: true });
         if (this.effectsToSelf)
@@ -22,7 +22,7 @@ class Potion extends Item {
         if (isInCombat()) {
             if (this.heal) {
                 if (user instanceof Player) {
-                    createDroppingText(`+${this.heal} HP`, tools, "heal");
+                    createDroppingText(`+${Math.floor(this.heal * (user.allModifiers["healReceivedP"] || 1))} HP`, tools, "heal");
                 }
             }
             if (this.manaRecover) {

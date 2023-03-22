@@ -62,6 +62,22 @@ const effects = {
         modifiers: {
             atkP: -15,
             agiP: -15,
+            healReceivedP: -33,
+        },
+    },
+    burning_2: {
+        id: "burning_2",
+        icon: "gfx/status/flamer.png",
+        duration: 7,
+        type: "fire",
+        buffDebuff: "debuff",
+        inflict: {
+            damagePercent: 0.04,
+        },
+        modifiers: {
+            damageP: -20,
+            critRateV: -10,
+            healReceivedP: -50,
         },
     },
     frozen: {
@@ -75,6 +91,7 @@ const effects = {
         },
         modifiers: {
             speedP: -50,
+            healReceivedP: -25,
         },
     },
     dazed: {
@@ -85,6 +102,7 @@ const effects = {
         buffDebuff: "debuff",
         modifiers: {
             speedP: -100,
+            healReceivedP: -75,
         },
     },
     stunned: {
@@ -97,6 +115,7 @@ const effects = {
             speedP: -30,
             atkP: -15,
             physicalDefenceV: -15,
+            healReceivedP: -50,
         },
     },
     binding_thorns: {
@@ -111,6 +130,7 @@ const effects = {
             physicalDefenceV: -10,
             magicalDefenceV: -10,
             elementalDefenceV: -10,
+            healReceivedP: -40,
         },
     },
     regeneration_1: {
@@ -121,6 +141,17 @@ const effects = {
         buffDebuff: "buff",
         inflict: {
             healingFlat: 5,
+        },
+    },
+    regeneration_2: {
+        id: "regeneration_2",
+        icon: "gfx/status/heart-plus.png",
+        duration: 8,
+        type: "heal",
+        buffDebuff: "buff",
+        inflict: {
+            healingFlat: 10,
+            healingPercent: 0.03,
         },
     },
     holy_grace: {
@@ -148,12 +179,42 @@ const effects = {
             mpRegenV: 1,
         },
     },
+    king_aura: {
+        id: "king_aura",
+        icon: "gfx/icons/totem-head.png",
+        duration: 0,
+        isInfinite: true,
+        type: "heal",
+        buffDebuff: "buff",
+        inflict: {
+            healingFlat: 5,
+        },
+        modifiers: {
+            healReceivedP: 10,
+            mpRegenV: 2,
+        },
+    },
+    enchanted_body: {
+        id: "enchanted_body",
+        icon: "gfx/icons/totem-head.png",
+        duration: 0,
+        isInfinite: true,
+        type: "buff",
+        buffDebuff: "buff",
+        modifiers: {
+            healReceivedP: 10,
+            hpMaxFromIntV: 2.5,
+            hpMaxFromSpiV: 2.5,
+            mpRegenFromIntV: 0.02,
+            spellPowerP: -15,
+        },
+    },
     boss_effect: {
         id: "boss_effect",
         icon: "gfx/icons/brute.png",
         duration: 0,
         isInfinite: true,
-        type: "heal",
+        type: "buff",
         buffDebuff: "buff",
         modifiers: {
             stunResistanceV: 50,
@@ -191,6 +252,24 @@ const effects = {
         modifiers: {
             speedP: 10,
             dodgeV: 10,
+        },
+    },
+    bull_rage: {
+        id: "bull_rage",
+        icon: "gfx/status/absolute_berserk.png",
+        duration: 18,
+        type: "heal",
+        buffDebuff: "buff",
+        inflict: {
+            healingPercent: 0.03,
+        },
+        modifiers: {
+            speedP: 20,
+            damageP: 20,
+            hpMaxP: 20,
+            physicalDefenceV: -30,
+            magicalDefenceV: -30,
+            elementalDefenceV: -30,
         },
     },
 };
