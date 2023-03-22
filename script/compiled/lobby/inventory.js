@@ -36,8 +36,8 @@ class InventoryController {
         this.tools = {
             search: "",
             filter: {
-                name: "all",
-                exclude: false,
+                include: [],
+                exclude: [],
             },
             sort: {
                 name: "none",
@@ -160,24 +160,33 @@ class InventoryController {
                 return name.toLowerCase().includes(this.tools.search.toLowerCase());
             });
         }
-        if (this.tools.filter.name !== "all") {
+        if (this.tools.filter.include.length > 0 || this.tools.filter.exclude.length > 0) {
+            const types = ["weapon", "armor", "talisman", "material", "potion"];
             this.inventory = this.inventory.filter((item) => {
-                let filtered = false;
-                const filter = this.tools.filter.name;
+                let passed = 0;
+                const include = this.tools.filter.include;
                 const exclude = this.tools.filter.exclude;
-                filter.forEach((crit, index) => {
-                    const excluded = exclude[index] === 0;
-                    console.log("crit", crit, "excluded", excluded);
-                    if (excluded) {
-                        if (item.type === crit)
-                            filtered = true;
+                include.forEach((filter) => {
+                    if (types.includes(filter)) {
+                        if (item.type === filter)
+                            passed++;
                     }
                     else {
-                        if (item.type !== crit)
-                            filtered = true;
+                        if (item[filter] !== undefined)
+                            passed++;
                     }
                 });
-                return filtered;
+                exclude.forEach((filter) => {
+                    if (types.includes(filter)) {
+                        if (item.type === filter)
+                            passed--;
+                    }
+                    else {
+                        if (item[filter] !== undefined)
+                            passed--;
+                    }
+                });
+                return passed === include.length;
             });
         }
         if (this.tools.sort.name !== "none") {
@@ -252,9 +261,9 @@ class InventoryController {
             "mpMaxV",
             "mpMaxP",
         ];
-        const filterArr = ["weapon", "armor", "talisman", "material", "potion"];
-        const sort = toggleableCustomSelect("sort", sortArr, { color: "rgb(21, 21, 206)", dark: "rgb(8, 8, 128)", hover: "rgb(0, 102, 255)" }, "Sort items", null, this.sortCallback);
-        const filter = toggleableCustomSelect("filter", filterArr, { color: "violet", dark: "purple", hover: "pink" }, "Filter items", {
+        const filterArr = ["weapon", "armor", "talisman", "material", "potion", "speed", "atk", "spell_scale"];
+        const sort = toggleableCustomSelect("sort", sortArr, { color: "rgb(46, 46, 46)", dark: "rgb(20, 20, 20)", hover: "rgb(60, 60, 60)" }, "Sort items", null, this.sortCallback);
+        const filter = toggleableCustomSelect("filter", filterArr, { color: "rgb(76, 76, 76)", dark: "rgb(40, 40, 40)", hover: "rgb(90, 90, 90)" }, "Filter items", {
             multiSelect: true,
         }, this.filterCallback);
         // Add classes
@@ -275,15 +284,24 @@ class InventoryController {
         return toolBar;
     }
     sortCallback(properties) {
-        console.log(properties);
         inventoryController.tools.sort.name = properties.selected.length > 0 ? properties.selected[0] : "none";
         inventoryController.tools.sort.reverse = properties.mode.length > 0 ? properties.mode[0] === 0 : false;
         inventoryController.updateInventory();
     }
     filterCallback(properties) {
-        console.log(properties);
-        inventoryController.tools.filter.name = properties.selected.length > 0 ? properties.selected : "all";
-        inventoryController.tools.filter.exclude = properties.mode;
+        inventoryController.tools.filter.include = [];
+        inventoryController.tools.filter.exclude = [];
+        if (properties.selected.length > 0) {
+            properties.selected.forEach((crit, index) => {
+                const excluded = properties.mode[index] === 1;
+                if (excluded) {
+                    inventoryController.tools.filter.exclude.push(crit);
+                }
+                else {
+                    inventoryController.tools.filter.include.push(crit);
+                }
+            });
+        }
         inventoryController.updateInventory();
     }
 }
