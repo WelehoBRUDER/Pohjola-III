@@ -140,9 +140,9 @@ class InventoryController {
       inventoryEquipment.style.width = lobbyContent.offsetWidth - width + "px";
     }
 
-    if (this.mode === "crafting") {
-      this.setInventory(this.fullInventory.filter((item: Item) => item.type === "material"));
-    }
+    // if (this.mode === "crafting") {
+    //   this.setInventory(this.fullInventory.filter((item: Item) => item.type === "material"));
+    // }
 
     resizeInventoryContainer();
     this.buildItems();
@@ -168,21 +168,56 @@ class InventoryController {
       let options: any = {
         buy: this.mode === "buy",
         sell: this.mode === "sell",
-        craft: this.mode === "craft",
+        craft: this.mode === "crafting",
         material: item.type === "material",
       };
-      const slot = createSlot(item, options);
+      if (options.craft) {
+        // Create container for crafting
+        const container = document.createElement("div");
+        const recipe = document.createElement("div");
+        const materials = document.createElement("div");
+        const icon = createSlot(item, { noClick: true });
+        const name = document.createElement("div");
+        const craftButton = createSlot(item, { craft: true });
 
-      // Add highlight to slot if equipment is shown
-      if (this.equipment) {
-        slot.addEventListener("mouseover", () => {
-          hoverEquipSlot(item);
+        // Add classes
+        container.classList.add("craft-container");
+        container.classList.add(`${item.canCraft() ? "enabled" : "disabled"}`);
+        name.classList.add("craft-name");
+        recipe.classList.add("craft-recipe");
+        materials.classList.add("craft-materials");
+
+        name.textContent = game.getLocalizedString(item.id);
+
+        // Add materials
+        item.toCraft?.forEach((material: any) => {
+          // @ts-ignore
+          const mat = new Item({ ...items[material.item], amount: material.amount })?.updateClass();
+          const materialSlot = createSlot(mat, { material: true });
+          materials.append(materialSlot);
         });
-        slot.addEventListener("mouseleave", () => {
-          removeHoverEquipSlot(item);
-        });
+
+        container.onclick = () => {
+          container.classList.toggle("open");
+        };
+
+        recipe.append(craftButton, materials);
+        container.append(icon, name, recipe);
+        this.inventoryGridElement!.append(container);
+      } else {
+        const slot = createSlot(item, options);
+
+        // Add highlight to slot if equipment is shown
+        if (this.equipment) {
+          slot.addEventListener("mouseover", () => {
+            hoverEquipSlot(item);
+          });
+          slot.addEventListener("mouseleave", () => {
+            removeHoverEquipSlot(item);
+          });
+        }
+        this.inventoryGridElement!.append(slot); // This has already been checked at the start
       }
-      this.inventoryGridElement!.append(slot); // This has already been checked at the start
     });
   }
 
@@ -352,7 +387,7 @@ const inventoryController = new InventoryController();
 
 function createSlot(
   item: Item,
-  options?: { isEquipped?: boolean; slot?: string; buy?: boolean; sell?: boolean; craft?: boolean; material?: boolean }
+  options?: { isEquipped?: boolean; slot?: string; buy?: boolean; sell?: boolean; craft?: boolean; material?: boolean; noClick?: boolean }
 ) {
   const slot = document.createElement("div");
   slot.classList.add("inventory-slot");
@@ -383,7 +418,7 @@ function createSlot(
       }
       slot.append(amount);
     }
-    if (!options?.material) {
+    if (!options?.material && !options?.noClick) {
       if (options?.buy) {
         slot.onclick = (e) => {
           clickItem(item, {

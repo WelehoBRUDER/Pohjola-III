@@ -52,7 +52,7 @@ const lobbyButtons = [
 ];
 
 const lobby = {
-  current_view: "stages",
+  current_view: "crafting",
 };
 
 function createLobby() {

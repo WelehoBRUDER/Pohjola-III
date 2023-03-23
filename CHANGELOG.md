@@ -17,6 +17,7 @@
   - Will not highlight already owned perks.
 - Dodge text is now silver instead of black.
 - Added more clarity between dungeons and floors / stages.
+- Slightly buffed Orc Chief Armor.
 
 ## Bug fixes
 - Fixed enemies attacking after death.

@@ -565,13 +565,13 @@ const armors = {
         price: 2000,
         speed: 0,
         defence: {
-            physical: 18,
-            magical: 10,
-            elemental: 10,
+            physical: 20,
+            magical: 12,
+            elemental: 12,
         },
         modifiers: {
-            hpMaxV: 20,
-            hpMaxP: 7,
+            hpMaxV: 30,
+            hpMaxP: 8,
             strP: 5,
         },
         stackable: true,

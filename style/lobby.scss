@@ -608,10 +608,10 @@
 
 .crafting {
   position: absolute;
-  width: 50%;
+  width: 40%;
   height: 100%;
   display: flex;
-  right: 0;
+  left: 0;
 
   .crafting-container {
     position: relative;
@@ -624,32 +624,8 @@
     overflow-y: auto;
     padding: 0;
     margin: 0;
-
-    .crafting-slot {
-      position: relative;
-      height: 7rem;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      padding: 0 0.5rem;
-
-      &.enabled {
-        background: rgb(0, 255, 0, 0.35);
-        border: 0.25rem solid rgba(0, 255, 0, 0.75);
-      }
-      &.disabled {
-        background: rgb(255, 0, 0, 0.35);
-        border: 0.25rem solid rgb(255, 0, 0, 0.75);
-        pointer-events: all;
-      }
-
-      .materials {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-left: 10%;
-      }
-    }
+    display: flex;
+    flex-wrap: wrap;
   }
 }
 
@@ -688,8 +664,84 @@
   }
 
   &.craft {
-    width: 50%;
+    width: 65%;
     background: rgb(5, 5, 5);
+    left: 40%;
+
+    .inventory-flex {
+      flex-direction: column;
+    }
+
+    .craft-container {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 0 0.5rem;
+      flex-wrap: wrap;
+      gap: 0;
+      user-select: none;
+      cursor: pointer;
+
+      &.enabled:hover {
+        background: rgba(0, 168, 0, 0.35);
+      }
+
+      &.disabled:hover {
+        background: rgba(168, 0, 0, 0.35);
+      }
+
+      &.enabled {
+        background: rgba(0, 255, 0, 0.35);
+
+        .craft-recipe {
+          background: rgba(0, 200, 0, 0.35);
+        }
+      }
+
+      &.disabled {
+        background: rgba(255, 0, 0, 0.35);
+        pointer-events: all;
+
+        .craft-recipe {
+          background: rgba(200, 0, 0, 0.35);
+        }
+      }
+
+      .craft-name {
+        color: white;
+        font-size: 1.5rem;
+        text-shadow: 0 0 0.5rem black;
+      }
+
+      &.open {
+        .craft-recipe {
+          display: flex;
+        }
+      }
+
+      .craft-recipe {
+        position: relative;
+        width: 100%;
+        top: 0;
+        left: 0;
+        margin: 0;
+        display: none;
+
+        .inventory-slot.disabled {
+          opacity: 1;
+          filter: brightness(0.5);
+        }
+
+        .craft-materials {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-left: 10%;
+        }
+      }
+    }
 
     .inventory-container {
       border: none;
