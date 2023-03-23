@@ -62,10 +62,12 @@ function calculateDamage(attacker: Player | Enemy, defender: Player | Enemy, att
   // Modify damage by special properties
   if (attack.special) {
     modifier *= Math.max(1 - resist[attack.special] / 100, 0.5); // Resistance can't reduce damage below 50%
-    if (defender instanceof Player) {
-      createDroppingText("WEAK!", tools, "weak", { fontSize: 40 });
-    } else if (defender.card) {
-      createDroppingText("WEAK!", defender.card.main, "weak", { fontSize: 40 });
+    if (resist[attack.special] < 0) {
+      if (defender instanceof Player) {
+        createDroppingText("WEAK!", tools, "weak", { fontSize: 40 });
+      } else if (defender.card) {
+        createDroppingText("WEAK!", defender.card.main, "weak", { fontSize: 40 });
+      }
     }
   }
 

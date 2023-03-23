@@ -556,6 +556,11 @@ const enemies = {
         chance: 0.5,
         amount: [1, 1],
       },
+      {
+        item: items.minotaur_hide,
+        chance: 0.25,
+        amount: [1, 1],
+      },
     ],
     xp: 950,
   },
@@ -601,6 +606,11 @@ const enemies = {
       {
         item: items.minotaur_horns,
         chance: 0.75,
+        amount: [1, 1],
+      },
+      {
+        item: items.minotaur_hide,
+        chance: 0.33,
         amount: [1, 1],
       },
     ],
@@ -652,8 +662,13 @@ const enemies = {
       },
       {
         item: items.minotaur_horns,
-        chance: 0.75,
-        amount: [1, 1],
+        chance: 0.8,
+        amount: [1, 2],
+      },
+      {
+        item: items.minotaur_hide,
+        chance: 0.5,
+        amount: [1, 2],
       },
     ],
     spawnWithEffects: [{ ...(effects.enchanted_body as any) }],
@@ -708,6 +723,16 @@ const enemies = {
         chance: 1,
         amount: [1, 2],
       },
+      {
+        item: items.minotaur_hide,
+        chance: 1,
+        amount: [2, 4],
+      },
+      {
+        item: items.minotaur_skull,
+        chance: 0.5,
+        amount: [1, 1],
+      },
     ],
     spawnWithEffects: [{ ...(effects.boss_effect as any) }],
     xp: 5000,
@@ -760,7 +785,17 @@ const enemies = {
       {
         item: items.minotaur_horns,
         chance: 1,
-        amount: [1, 2],
+        amount: [2, 2],
+      },
+      {
+        item: items.minotaur_hide,
+        chance: 1,
+        amount: [3, 5],
+      },
+      {
+        item: items.minotaur_skull,
+        chance: 1,
+        amount: [1, 1],
       },
     ],
     spawnWithEffects: [{ ...effects.king_aura }, { ...(effects.boss_effect as any) }],
