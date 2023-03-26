@@ -293,43 +293,84 @@ class Settings {
   }
 }
 
-function challenge(id: string, options?: { score: false }): any {
-  if (typeof challenges[id] === "number") {
+function challenge(id: string, options?: { score?: boolean; value?: number | boolean }): any {
+  const value = options?.value ?? challenges[id];
+  console.log(value);
+  if (typeof value === "number") {
     if (options?.score) {
-      return challengeValues[id][challenges[id]].score;
-    } else {
-      return challengeValues[id][challenges[id]].value;
+      return challengeValues[id][value].score;
     }
-  } else return challenges[id];
+    return challengeValues[id][value].value;
+  }
+  if (options?.score) {
+    return challengeValues[id][value ? 1 : 0].score;
+  }
+  return value;
+}
+
+function scoreMultiplier() {
+  let scoreMultiplier = 1;
+  for (let __challenge in challenges) {
+    scoreMultiplier += challenge(__challenge, { score: true }) - 1;
+  }
+  return scoreMultiplier;
+}
+
+function scoreMultiplierInNewGameScreen() {
+  let scoreMultiplier = 1;
+  for (let __challenge of startingChallenges) {
+    if (__challenge.id === "SCORE_MULTIPLIER" || !__challenge.enabled) continue;
+    if (__challenge.value === undefined) __challenge.value = __challenge.enabled;
+    const values = challengeValues[__challenge.id];
+    const score = values.find((value: any) => value.value === __challenge.value).score;
+    scoreMultiplier += score - 1;
+  }
+  return scoreMultiplier;
 }
 
 const challengeValues: any = {
+  hardcore: [
+    { value: false, score: 1 },
+    { value: true, score: 2 },
+  ],
+  no_after_combat_recovery: [
+    { value: false, score: 1 },
+    { value: true, score: 1.75 },
+  ],
+  no_grinding: [
+    { value: false, score: 1 },
+    { value: true, score: 2 },
+  ],
+  real_time_combat: [
+    { value: false, score: 1 },
+    { value: true, score: 2 },
+  ],
   enemy_damage: [
-    { value: 1, score: 0 },
-    { value: 1.2, score: 1 },
-    { value: 1.4, score: 2 },
-    { value: 1.6, score: 3 },
-    { value: 1.8, score: 4 },
-    { value: 2, score: 5 },
+    { value: 1, score: 1 },
+    { value: 1.2, score: 1.1 },
+    { value: 1.4, score: 1.2 },
+    { value: 1.6, score: 1.3 },
+    { value: 1.8, score: 1.4 },
+    { value: 2, score: 1.5 },
   ],
   enemy_health: [
-    { value: 1, score: 0 },
-    { value: 1.2, score: 1 },
-    { value: 1.5, score: 2 },
-    { value: 1.75, score: 3 },
-    { value: 2, score: 4 },
-    { value: 2.5, score: 5 },
+    { value: 1, score: 1 },
+    { value: 1.2, score: 1.1 },
+    { value: 1.5, score: 1.25 },
+    { value: 1.75, score: 1.4 },
+    { value: 2, score: 1.55 },
+    { value: 2.5, score: 1.8 },
   ],
   healing_weakness: [
-    { value: 1, score: 0 },
-    { value: 0.75, score: 1 },
-    { value: 0.5, score: 2 },
-    { value: 0.25, score: 3 },
+    { value: 1, score: 1 },
+    { value: 0.75, score: 1.25 },
+    { value: 0.5, score: 1.5 },
+    { value: 0.25, score: 1.75 },
   ],
   mana_regen_debuff: [
-    { value: 1, score: 0 },
-    { value: 0.5, score: 2 },
-    { value: 0, score: 3 },
+    { value: 1, score: 1 },
+    { value: 0.5, score: 1.35 },
+    { value: 0, score: 1.65 },
   ],
 };
 

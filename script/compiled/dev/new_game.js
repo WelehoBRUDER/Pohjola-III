@@ -44,6 +44,10 @@ const startingAspects = {
 };
 const startingChallenges = [
     {
+        id: "SCORE_MULTIPLIER",
+        value: 1,
+    },
+    {
         id: "hardcore",
         type: "boolean",
         enabled: false,
@@ -197,19 +201,27 @@ function createSectionValue(section) {
                 challengeCheckbox.checked = value.enabled;
                 challengeCheckbox.id = `challenge-${index}`;
                 challengeName.htmlFor = `challenge-${index}`;
-                challengeCheckbox.onchange = (e) => {
-                    const checkbox = e.target;
-                    if (checkbox.checked) {
-                        challengeContainer.classList.add("selected");
-                    }
-                    else {
-                        challengeContainer.classList.remove("selected");
-                    }
-                    value.enabled = checkbox.checked;
-                };
-                challengeName.innerText = game.getLocalizedString(value.id);
-                challengeContainer.append(challengeCheckbox, challengeName);
-                if (value.type !== "boolean") {
+                if (value.id === "SCORE_MULTIPLIER") {
+                    challengeName.id = "score-multiplier";
+                    challengeName.innerText = game.getLocalizedString(value.id) + ": 1x";
+                    challengeContainer.append(challengeName);
+                }
+                else {
+                    challengeCheckbox.onchange = (e) => {
+                        const checkbox = e.target;
+                        if (checkbox.checked) {
+                            challengeContainer.classList.add("selected");
+                        }
+                        else {
+                            challengeContainer.classList.remove("selected");
+                        }
+                        value.enabled = checkbox.checked;
+                        document.querySelector("#score-multiplier").textContent = `${game.getLocalizedString("SCORE_MULTIPLIER")}: ${scoreMultiplierInNewGameScreen()}x`;
+                    };
+                    challengeName.innerText = game.getLocalizedString(value.id);
+                    challengeContainer.append(challengeCheckbox, challengeName);
+                }
+                if (value.type !== "boolean" && value.id !== "SCORE_MULTIPLIER") {
                     const challengeSelect = document.createElement("select");
                     challengeSelect.classList.add("challenge-select");
                     const options = challengeValues[value.id];
@@ -223,6 +235,7 @@ function createSectionValue(section) {
                     challengeSelect.onchange = (e) => {
                         const select = e.target;
                         value.value = parseFloat(select.value);
+                        document.querySelector("#score-multiplier").textContent = `${game.getLocalizedString("SCORE_MULTIPLIER")}: ${scoreMultiplierInNewGameScreen()}x`;
                     };
                     challengeContainer.append(challengeSelect);
                 }
