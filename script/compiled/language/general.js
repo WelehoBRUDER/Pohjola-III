@@ -148,6 +148,7 @@ const english = {
     delete: "Delete",
     save_name: "Save Name",
     save_to_file: "Save to file",
+    save_over: "Are you sure you want to overwrite",
     load_from_file: "Load from file",
     back_to_menu: "Back to menu",
     last_saved: "Last saved",

@@ -52,9 +52,10 @@ const lobbyButtons = [
     },
 ];
 const lobby = {
-    current_view: "crafting",
+    current_view: "saves",
 };
 function createLobby() {
+    stats.updateTimePlayed();
     player.updateAllModifiers();
     if (challenge("hardcore")) {
         saveController.saveOver(saveController.currentSave, { auto: true });

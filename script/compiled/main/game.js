@@ -337,6 +337,7 @@ class Challenges {
         this.mana_regen_debuff = challenges?.mana_regen_debuff || 0;
     }
 }
+let timePlayedThisSession = 0;
 class Statistics {
     total_damage;
     total_damage_taken;
@@ -369,6 +370,10 @@ class Statistics {
         this.most_damage_taken = stats?.most_damage_taken || 0;
         this.most_turns = stats?.most_turns || 0;
         this.most_combat_time = stats?.most_combat_time || 0;
+    }
+    updateTimePlayed() {
+        this.time_played += Math.round((performance.now() - timePlayedThisSession) / 1000);
+        timePlayedThisSession = performance.now();
     }
 }
 const game = new Game();

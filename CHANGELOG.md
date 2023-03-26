@@ -10,6 +10,7 @@
   - Fight boss "Minotaur King" to complete.
 - Added search & filter to all inventory screens (including store).
 - Added command "lose" to the game.
+- Playtime is finally tracked. (It no longer stays at 0)
 
 ## Changes
 - Added highlight to perk tree when hovering over a perk.
@@ -18,11 +19,14 @@
 - Dodge text is now silver instead of black.
 - Added more clarity between dungeons and floors / stages.
 - Slightly buffed Orc Chief Armor.
+- Changed save slot font and some other minor UI changes.
 
 ## Bug fixes
 - Fixed enemies attacking after death.
 - Fixed enemies attacking multiple times in a row.
 - Fixed lock-on targeting not working properly.
+- Fixed overwriting saves not working.
+- Fixed save files acting weird when loading from a hardcore save.
 
 # Version 0.1.4 ~ 2023.3.19
 

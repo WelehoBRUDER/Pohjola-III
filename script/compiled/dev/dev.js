@@ -15,6 +15,15 @@ const gameVersionText = (ver) => {
         return "Old";
     return `${parseInt(ver)}.${((parseFloat(ver) * 10) % 10).toFixed(1)}`;
 };
+const compareVersion = (ver1, ver2) => {
+    console.log("current", parseFloat(ver1), "save", parseFloat(ver2));
+    const difference = Math.floor((parseFloat(ver1) - parseFloat(ver2)) * 100);
+    console.log(difference);
+    return difference;
+};
+const isSaveCompatible = (ver) => {
+    return compareVersion(gameVersion, ver) <= 10;
+};
 // Skip main menu
 if (DEVTOOLS.ENABLED) {
     lobbyScreen.classList.remove("no-display");
