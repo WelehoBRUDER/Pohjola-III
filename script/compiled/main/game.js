@@ -278,7 +278,6 @@ class Settings {
 }
 function challenge(id, options) {
     const value = options?.value ?? challenges[id];
-    console.log(value);
     if (typeof value === "number") {
         if (options?.score) {
             return challengeValues[id][value].score;
@@ -295,20 +294,21 @@ function scoreMultiplier() {
     for (let __challenge in challenges) {
         scoreMultiplier += challenge(__challenge, { score: true }) - 1;
     }
-    return scoreMultiplier;
+    return +scoreMultiplier.toFixed(2);
 }
 function scoreMultiplierInNewGameScreen() {
     let scoreMultiplier = 1;
     for (let __challenge of startingChallenges) {
         if (__challenge.id === "SCORE_MULTIPLIER" || !__challenge.enabled)
             continue;
+        // @ts-ignore
         if (__challenge.value === undefined)
             __challenge.value = __challenge.enabled;
         const values = challengeValues[__challenge.id];
-        const score = values.find((value) => value.value === __challenge.value).score;
+        const score = values.find((value) => value.value === __challenge.value)?.score || 1;
         scoreMultiplier += score - 1;
     }
-    return scoreMultiplier;
+    return scoreMultiplier.toFixed(2);
 }
 const challengeValues = {
     hardcore: [
@@ -341,7 +341,7 @@ const challengeValues = {
         { value: 1.5, score: 1.25 },
         { value: 1.75, score: 1.4 },
         { value: 2, score: 1.55 },
-        { value: 2.5, score: 1.8 },
+        { value: 2.5, score: 1.75 },
     ],
     healing_weakness: [
         { value: 1, score: 1 },
@@ -352,7 +352,7 @@ const challengeValues = {
     mana_regen_debuff: [
         { value: 1, score: 1 },
         { value: 0.5, score: 1.35 },
-        { value: 0, score: 1.65 },
+        { value: 0, score: 1.6 },
     ],
 };
 class Challenges {

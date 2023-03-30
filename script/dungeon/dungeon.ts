@@ -31,6 +31,7 @@ interface RoomObject {
   end?: boolean;
   getKeys?: string[];
   relative_to?: string;
+  score?: number;
   position: { x: number; y: number };
   connections: { [key: string]: string | undefined; west?: string; east?: string; north?: string; south?: string };
   keysNeeded?: string[];
@@ -48,6 +49,7 @@ class Room {
   end?: boolean;
   getKeys?: string[];
   relative_to?: string;
+  score?: number;
   position: { x: number; y: number };
   connections: { [key: string]: string | undefined; west?: string; east?: string; north?: string; south?: string };
   keysNeeded?: string[];
@@ -69,6 +71,7 @@ class Room {
     this.escapeChance = room.escapeChance || 0.5;
     this.getKeys = room.getKeys || [];
     this.relative_to = room.relative_to;
+    this.score = room.score || 0;
     this.position = room.position;
     this.connections = { ...room.connections };
     this.keysNeeded = room.keysNeeded || [];

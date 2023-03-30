@@ -209,7 +209,7 @@ function createSectionValue(section: any) {
         challengeName.htmlFor = `challenge-${index}`;
         if (value.id === "SCORE_MULTIPLIER") {
           challengeName.id = "score-multiplier";
-          challengeName.innerText = game.getLocalizedString(value.id) + ": 1x";
+          challengeName.innerText = game.getLocalizedString(value.id) + ": 1.00x";
           challengeContainer.append(challengeName);
         } else {
           challengeCheckbox.onchange = (e) => {
@@ -241,6 +241,12 @@ function createSectionValue(section: any) {
           challengeSelect.onchange = (e) => {
             const select = e.target as HTMLSelectElement;
             value.value = parseFloat(select.value);
+            document.querySelector("#score-multiplier")!.textContent = `${game.getLocalizedString(
+              "SCORE_MULTIPLIER"
+            )}: ${scoreMultiplierInNewGameScreen()}x`;
+            challengeCheckbox.checked = true;
+            challengeContainer.classList.add("selected");
+            value.enabled = true;
             document.querySelector("#score-multiplier")!.textContent = `${game.getLocalizedString(
               "SCORE_MULTIPLIER"
             )}: ${scoreMultiplierInNewGameScreen()}x`;

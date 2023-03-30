@@ -18,6 +18,7 @@ class Room {
     end;
     getKeys;
     relative_to;
+    score;
     position;
     connections;
     keysNeeded;
@@ -39,6 +40,7 @@ class Room {
         this.escapeChance = room.escapeChance || 0.5;
         this.getKeys = room.getKeys || [];
         this.relative_to = room.relative_to;
+        this.score = room.score || 0;
         this.position = room.position;
         this.connections = { ...room.connections };
         this.keysNeeded = room.keysNeeded || [];

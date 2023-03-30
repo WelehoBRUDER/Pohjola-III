@@ -25,14 +25,16 @@ function getDangerLevel(pl) {
 class Stage {
     id;
     foes;
+    score;
     isBoss;
-    constructor({ id, foes, isBoss }) {
+    constructor({ id, score, foes, isBoss }) {
         if (!id)
             throw new Error("Stage must have an id");
         if (!foes)
             throw new Error("How could you forget the foes?");
         this.id = id;
         this.foes = [...foes];
+        this.score = score || 0;
         this.isBoss = isBoss;
     }
     tooltip() {
@@ -67,7 +69,7 @@ class Stage {
                 return;
             }
         }
-        currentStage = this.id;
+        currentStage = { ...this };
         game.beginCombat(this.foes);
     }
 }
@@ -79,42 +81,52 @@ const floors = [
         stages: [
             new Stage({
                 id: "tutorial",
+                score: 10,
                 foes: [new Enemy(enemies.skeleton)],
             }),
             new Stage({
                 id: "graveyard_expedition",
+                score: 20,
                 foes: [new Enemy(enemies.skeleton), new Enemy(enemies.skeleton)],
             }),
             new Stage({
                 id: "undead_menace",
+                score: 25,
                 foes: [new Enemy(enemies.skeleton_brute)],
             }),
             new Stage({
                 id: "stage_4",
+                score: 35,
                 foes: [new Enemy(enemies.skeleton_brute), new Enemy(enemies.skeleton)],
             }),
             new Stage({
                 id: "stage_5",
+                score: 45,
                 foes: [new Enemy(enemies.skeleton), new Enemy(enemies.skeleton_brute), new Enemy(enemies.skeleton)],
             }),
             new Stage({
                 id: "stage_6",
+                score: 50,
                 foes: [new Enemy(enemies.skeleton_brute), new Enemy(enemies.skeleton_brute)],
             }),
             new Stage({
                 id: "stage_7",
+                score: 60,
                 foes: [new Enemy(enemies.skeleton_knight)],
             }),
             new Stage({
                 id: "stage_8",
+                score: 75,
                 foes: [new Enemy(enemies.skeleton_knight), new Enemy(enemies.skeleton_brute)],
             }),
             new Stage({
                 id: "stage_9",
+                score: 80,
                 foes: [new Enemy(enemies.skeleton), new Enemy(enemies.skeleton_knight), new Enemy(enemies.skeleton)],
             }),
             new Stage({
                 id: "tomb_of_the_mage",
+                score: 100,
                 foes: [new Enemy(enemies.skeleton_mage)],
                 isBoss: true,
             }),
@@ -127,42 +139,52 @@ const floors = [
         stages: [
             new Stage({
                 id: "stage_11",
+                score: 30,
                 foes: [new Enemy(enemies.goblin)],
             }),
             new Stage({
                 id: "stage_12",
+                score: 60,
                 foes: [new Enemy(enemies.orc)],
             }),
             new Stage({
                 id: "stage_13",
+                score: 90,
                 foes: [new Enemy(enemies.goblin), new Enemy(enemies.orc)],
             }),
             new Stage({
                 id: "stage_14",
+                score: 120,
                 foes: [new Enemy(enemies.goblin), new Enemy(enemies.orc), new Enemy(enemies.goblin)],
             }),
             new Stage({
                 id: "stage_15",
+                score: 150,
                 foes: [new Enemy(enemies.orc_berserker)],
             }),
             new Stage({
                 id: "stage_16",
+                score: 210,
                 foes: [new Enemy(enemies.orc_berserker), new Enemy(enemies.orc)],
             }),
             new Stage({
                 id: "stage_17",
+                score: 300,
                 foes: [new Enemy(enemies.orc_berserker), new Enemy(enemies.orc_berserker)],
             }),
             new Stage({
                 id: "stage_18",
+                score: 270,
                 foes: [new Enemy(enemies.orc), new Enemy(enemies.orc_berserker), new Enemy(enemies.orc)],
             }),
             new Stage({
                 id: "stage_19",
+                score: 330,
                 foes: [new Enemy(enemies.orc_berserker), new Enemy(enemies.orc_berserker), new Enemy(enemies.goblin)],
             }),
             new Stage({
                 id: "stage_20",
+                score: 500,
                 foes: [new Enemy(enemies.troll)],
                 isBoss: true,
             }),
@@ -175,42 +197,52 @@ const floors = [
         stages: [
             new Stage({
                 id: "stage_21",
+                score: 200,
                 foes: [new Enemy(enemies.minotaur)],
             }),
             new Stage({
                 id: "stage_22",
+                score: 280,
                 foes: [new Enemy(enemies.minotaur_warrior)],
             }),
             new Stage({
                 id: "stage_23",
+                score: 400,
                 foes: [new Enemy(enemies.minotaur), new Enemy(enemies.minotaur)],
             }),
             new Stage({
                 id: "stage_24",
+                score: 480,
                 foes: [new Enemy(enemies.minotaur_warrior), new Enemy(enemies.minotaur)],
             }),
             new Stage({
                 id: "stage_25",
+                score: 550,
                 foes: [new Enemy(enemies.minotaur_sage)],
             }),
             new Stage({
                 id: "stage_26",
+                score: 560,
                 foes: [new Enemy(enemies.minotaur_warrior), new Enemy(enemies.minotaur_warrior)],
             }),
             new Stage({
                 id: "stage_27",
+                score: 750,
                 foes: [new Enemy(enemies.minotaur_sage), new Enemy(enemies.minotaur)],
             }),
             new Stage({
                 id: "stage_28",
+                score: 680,
                 foes: [new Enemy(enemies.minotaur), new Enemy(enemies.minotaur_warrior), new Enemy(enemies.minotaur)],
             }),
             new Stage({
                 id: "stage_29",
+                score: 950,
                 foes: [new Enemy(enemies.minotaur), new Enemy(enemies.minotaur_sage), new Enemy(enemies.minotaur)],
             }),
             new Stage({
                 id: "stage_30",
+                score: 1000,
                 foes: [new Enemy(enemies.minotaur_captain)],
             }),
         ],
@@ -233,7 +265,7 @@ function calculateFloorPower(stages) {
     const danger = Math.floor(pw * 0.65).toString();
     return { danger, color };
 }
-let currentStage = "";
+let currentStage = {};
 function isFloorUnlocked(floor) {
     if (DEVTOOLS.ENABLED)
         return true;

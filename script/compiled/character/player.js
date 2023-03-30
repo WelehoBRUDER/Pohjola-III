@@ -34,6 +34,7 @@ class Player extends Character {
     starting_aspect;
     key_items;
     class;
+    score;
     constructor(char) {
         super(char);
         this.race = new Race(char.race) ?? new Race(races.human);
@@ -51,6 +52,7 @@ class Player extends Character {
         this.starting_aspect = char.starting_aspect ?? "determination";
         this.key_items = char.key_items ?? [];
         this.class = char.class ? new CharClass(char.class) : new CharClass(classManager.get("paladin"));
+        this.score = char.score ?? 0;
         this.restoreClasses();
         this.updateAllModifiers();
     }
@@ -80,6 +82,9 @@ class Player extends Character {
         else {
             this.inventory.push(item);
         }
+    }
+    addScore(amount) {
+        this.score += amount * scoreMultiplier();
     }
     removeItem(item, amount) {
         let existing_item = this.inventory.find((i) => i.id === item.id);
@@ -326,6 +331,9 @@ class Player extends Character {
     }
     hasPerk(perk, level = 1) {
         return this.perks?.findIndex((p) => p.id === perk && p.level >= level) !== -1;
+    }
+    hasCompletedStage(stage) {
+        return this.completed_stages?.includes(stage);
     }
     hasCompletedRoom(room) {
         return this.completed_rooms?.includes(room);

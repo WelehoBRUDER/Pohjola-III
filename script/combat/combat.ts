@@ -202,6 +202,10 @@ function defeatedEnemies(): HTMLPreElement {
   });
   text += `${Math.floor(combat.gold * player.allModifiers["goldGainP"])}<c>gold<c> ${game.getLocalizedString("gold")}\n`;
   text += `<c>silver<c>${Math.floor(combat.xp * player.allModifiers["expGainP"])}<c>lime<c> ${game.getLocalizedString("xp")}`;
+  if (currentStage.score > 0) {
+    const score = Math.floor(currentStage.score * scoreMultiplier());
+    text += `\n\n§<f>1.5rem<f><c>silver<c>${game.getLocalizedString("score_received").replace("{score}", score.toString())}`;
+  }
   return textSyntax(text);
 }
 
@@ -235,6 +239,7 @@ class Combat {
   loot: any[];
   gold: number;
   xp: number;
+  score: number;
   turns: number;
   defeat: boolean;
   target: number; // index of the enemy being targeted, only used when lock on is enabled
@@ -245,6 +250,7 @@ class Combat {
     this.loot = [];
     this.gold = 0;
     this.xp = 0;
+    this.score = 0;
     this.turns = 0;
     this.defeat = false;
     this.target = 0;
@@ -262,6 +268,7 @@ class Combat {
     this.loot = [];
     this.gold = 0;
     this.xp = 0;
+    this.score = 0;
     this.turns = 0;
     this.defeat = false;
     this.target = 0;
@@ -331,8 +338,9 @@ class Combat {
         return mainMenu();
       }
     } else {
-      if (!player.completed_stages.includes(currentStage) && !dungeonController.currentDungeon) {
-        player.completed_stages.push(currentStage);
+      if (!player.hasCompletedStage(currentStage.id) && !dungeonController.currentDungeon) {
+        player.completed_stages.push(currentStage.id);
+        player.addScore(currentStage.score);
       }
       if (!dungeonController.currentDungeon || canGetLoot) {
         player.addGold(this.gold);

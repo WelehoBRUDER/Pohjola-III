@@ -203,7 +203,7 @@ function createSectionValue(section) {
                 challengeName.htmlFor = `challenge-${index}`;
                 if (value.id === "SCORE_MULTIPLIER") {
                     challengeName.id = "score-multiplier";
-                    challengeName.innerText = game.getLocalizedString(value.id) + ": 1x";
+                    challengeName.innerText = game.getLocalizedString(value.id) + ": 1.00x";
                     challengeContainer.append(challengeName);
                 }
                 else {
@@ -235,6 +235,10 @@ function createSectionValue(section) {
                     challengeSelect.onchange = (e) => {
                         const select = e.target;
                         value.value = parseFloat(select.value);
+                        document.querySelector("#score-multiplier").textContent = `${game.getLocalizedString("SCORE_MULTIPLIER")}: ${scoreMultiplierInNewGameScreen()}x`;
+                        challengeCheckbox.checked = true;
+                        challengeContainer.classList.add("selected");
+                        value.enabled = true;
                         document.querySelector("#score-multiplier").textContent = `${game.getLocalizedString("SCORE_MULTIPLIER")}: ${scoreMultiplierInNewGameScreen()}x`;
                     };
                     challengeContainer.append(challengeSelect);

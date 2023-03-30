@@ -64,9 +64,13 @@ const english = {
 
   // Classes
   warrior: "Warrior",
+  warrior_desc: "Warriors fight close to the enemy, facing them head on.",
   rogue: "Rogue",
+  rogue_desc: "Rogues fight in close combat using all kinds of tricks and speed.",
   mage: "Mage",
+  mage_desc: "Mages wield the terrifying force of mana.",
   paladin: "Paladin",
+  paladin_desc: "Paladins devote themselves to a god of their patronage.\nTheir worship grants them protection and strength.",
 
   // combat
   combat_defeat: "Defeat",
@@ -74,6 +78,7 @@ const english = {
   combat_victory: "Victory",
   defeated_enemies: "Defeated enemies",
   loot_gained: "Loot gained",
+  score_received: "Got {score} <c>yellow<c>score<c>silver<c>!",
   continue: "Continue",
 
   // Settings
@@ -339,6 +344,8 @@ const english = {
   name: "Name",
   starting_aspect: "Aspect",
   starting_challenges: "Challenges",
+  SCORE_MULTIPLIER: "Score multiplier",
+  SCORE_MULTIPLIER_tt: "Multiplies base score by this value.",
   start_game: "Start Game",
   starting_items: "Starting Items",
   no_items: "You get nothing! Good day, sir!",
