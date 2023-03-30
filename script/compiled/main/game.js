@@ -385,7 +385,10 @@ class Statistics {
     total_turns;
     total_combat_time;
     total_xp_gained;
+    total_xp_lost;
     total_gold_gained;
+    total_items_gained;
+    total_gold_spent;
     time_played;
     most_damage;
     most_healing;
@@ -401,7 +404,10 @@ class Statistics {
         this.total_turns = stats?.total_turns || 0;
         this.total_combat_time = stats?.total_combat_time || 0;
         this.total_xp_gained = stats?.total_xp_gained || 0;
+        this.total_xp_lost = stats?.total_xp_lost || 0;
         this.total_gold_gained = stats?.total_gold_gained || 0;
+        this.total_items_gained = stats?.total_items_gained || 0;
+        this.total_gold_spent = stats?.total_gold_spent || 0;
         this.time_played = stats?.time_played || 0;
         this.most_damage = stats?.most_damage || 0;
         this.most_healing = stats?.most_healing || 0;

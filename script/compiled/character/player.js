@@ -59,6 +59,9 @@ class Player extends Character {
     addItem(base_item, amount, options) {
         let item = base_item.updateClass();
         item.amount = amount || base_item.amount || 1;
+        if (!options?.dontCount) {
+            stats.total_items_gained += item.amount;
+        }
         if (item.slot && options?.forceEquip) {
             player.equip(item, { auto: true });
             item.amount--;
@@ -84,7 +87,9 @@ class Player extends Character {
         }
     }
     addScore(amount) {
-        this.score += amount * scoreMultiplier();
+        const score = Math.floor(amount * scoreMultiplier());
+        this.score += score;
+        log.write(`Gained ${score} score!`);
     }
     removeItem(item, amount) {
         let existing_item = this.inventory.find((i) => i.id === item.id);
@@ -114,18 +119,7 @@ class Player extends Character {
     unequip(slot) {
         let item = this.equipment[slot];
         this.equipment[slot] = null;
-        // console.log(slot);
-        // if (slot === "weapon") {
-        //   item = this.equipment.weapon;
-        //   this.equipment.weapon = null;
-        // } else if (slot === "armor") {
-        //   item = this.equipment[slot];
-        //   this.equipment[slot] = null;
-        // } else if (slot === "talisman") {
-        //   item = this.equipment.talisman;
-        //   this.equipment.talisman = null;
-        // }
-        this.addItem(item, 1, { dontEquip: true });
+        this.addItem(item, 1, { dontEquip: true, dontCount: true });
     }
     addAbility(ability) {
         const ability_class = new Ability(ability);
@@ -257,6 +251,7 @@ class Player extends Character {
     }
     removeGold(gold) {
         this.gold -= gold;
+        stats.total_gold_spent += gold;
         log.write(`${game.getLocalizedString("lost_gold").replace("{0}", gold.toString())}`);
     }
     levelUp() {

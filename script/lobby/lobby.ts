@@ -52,7 +52,7 @@ const lobbyButtons = [
 ];
 
 const lobby = {
-  current_view: "saves",
+  current_view: "statistics",
 };
 
 function createLobby() {
@@ -91,33 +91,56 @@ function createStats() {
   sideBarDetails();
   const statsScreen = document.createElement("div");
   statsScreen.classList.add("stats");
-  const sortedStats = Object.assign(
+  const statBlocks: any[] = [
     {
-      most_damage: 0,
-      most_damage_taken: 0,
-      total_damage: 0,
-      total_damage_taken: 0,
-      most_healing: 0,
-      total_healing: 0,
-      total_kills: 0,
-      total_deaths: 0,
-      total_xp_gained: 0,
-      total_gold_gained: 0,
-      most_turns: 0,
-      total_turns: 0,
-      most_combat_time: 0,
-      total_combat_time: 0,
+      id: "damage",
+      stats: ["most_damage", "total_damage", "most_damage_taken", "total_damage_taken"],
     },
-    stats
-  );
-  Object.entries(sortedStats).forEach(([stat, value]) => {
-    const statElement = document.createElement("div");
-    statElement.classList.add("stat");
-    statElement.innerHTML = `<div class="stat-name">${game.getLocalizedString(stat)}</div><div class="stat-value">${getStatValue(
-      value,
-      stat
-    )}</div>`;
-    statsScreen.append(statElement);
+    {
+      id: "healing",
+      stats: ["most_healing", "total_healing"],
+    },
+    {
+      id: "combat",
+      stats: ["total_kills", "total_deaths"],
+    },
+    {
+      id: "resources",
+      stats: ["total_xp_gained", "total_gold_gained", "total_items_gained", "total_gold_spent", "total_xp_lost"],
+    },
+    {
+      id: "turns",
+      stats: ["most_turns", "total_turns"],
+    },
+    {
+      id: "time",
+      stats: ["most_combat_time", "total_combat_time", "time_played"],
+    },
+    {
+      id: "completion",
+      stats: ["UNIQUE_progress", "UNIQUE_score"],
+    },
+  ];
+  statBlocks.forEach((block) => {
+    const blockElement = document.createElement("div");
+    blockElement.classList.add("stat-block");
+    blockElement.innerHTML = `<div class="stat-block-title">${game.getLocalizedString(block.id)}</div>`;
+    block.stats.forEach((stat: string) => {
+      const statElement = document.createElement("div");
+      statElement.classList.add("stat");
+      let value = getStatValue(stats[stat], stat);
+      if (stat.startsWith("UNIQUE_")) {
+        stat = stat.replace("UNIQUE_", "");
+        if (player[stat] !== undefined) {
+          value = player[stat];
+        } else {
+          value = `${calculateProgress(player).toString()}%`;
+        }
+      }
+      statElement.innerHTML = `<div class="stat-name">${game.getLocalizedString(stat)}</div><div class="stat-value">${value}</div>`;
+      blockElement.append(statElement);
+    });
+    statsScreen.append(blockElement);
   });
   lobbyContent.append(statsScreen);
 }
@@ -219,8 +242,8 @@ function addDragToScroll(elem: HTMLElement) {
 document.addEventListener("DOMContentLoaded", () => {
   player.updateAllModifiers();
   player.abilities.forEach((abi) => abi.updateStats(player));
-  player.addItem(new Item({ ...items.small_healing_potion }), 2);
-  player.addItem(new Item({ ...items.small_mana_potion }), 1);
+  player.addItem(new Item({ ...items.small_healing_potion }), 2, { dontCount: true });
+  player.addItem(new Item({ ...items.small_mana_potion }), 1, { dontCount: true });
   player.perks?.push(new Perk({ ...perks[0], level: 1 }));
   createLobby();
 });

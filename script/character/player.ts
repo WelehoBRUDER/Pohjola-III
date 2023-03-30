@@ -83,9 +83,13 @@ class Player extends Character {
     this.updateAllModifiers();
   }
 
-  addItem(base_item: Item, amount?: number, options?: { dontEquip?: boolean; forceEquip?: boolean }) {
+  addItem(base_item: Item, amount?: number, options?: { dontEquip?: boolean; forceEquip?: boolean; dontCount?: boolean }) {
     let item: Item = base_item.updateClass();
     item.amount = amount || base_item.amount || 1;
+
+    if (!options?.dontCount) {
+      stats.total_items_gained += item.amount;
+    }
 
     if (item.slot && options?.forceEquip) {
       player.equip(item as Weapon | Armor | Talisman, { auto: true });
@@ -111,7 +115,9 @@ class Player extends Character {
   }
 
   addScore(amount: number) {
-    this.score += amount * scoreMultiplier();
+    const score = Math.floor(amount * scoreMultiplier());
+    this.score += score;
+    log.write(`Gained ${score} score!`);
   }
 
   removeItem(item: Item, amount?: number): void {
@@ -143,18 +149,7 @@ class Player extends Character {
   unequip(slot: string) {
     let item = this.equipment[slot];
     this.equipment[slot] = null;
-    // console.log(slot);
-    // if (slot === "weapon") {
-    //   item = this.equipment.weapon;
-    //   this.equipment.weapon = null;
-    // } else if (slot === "armor") {
-    //   item = this.equipment[slot];
-    //   this.equipment[slot] = null;
-    // } else if (slot === "talisman") {
-    //   item = this.equipment.talisman;
-    //   this.equipment.talisman = null;
-    // }
-    this.addItem(item as Item, 1, { dontEquip: true });
+    this.addItem(item as Item, 1, { dontEquip: true, dontCount: true });
   }
 
   addAbility(ability: any) {
@@ -294,6 +289,7 @@ class Player extends Character {
 
   removeGold(gold: number) {
     this.gold -= gold;
+    stats.total_gold_spent += gold;
     log.write(`${game.getLocalizedString("lost_gold").replace("{0}", gold.toString())}`);
   }
 

@@ -189,7 +189,7 @@ function pass() {
   }
 }
 
-function defeatedEnemies(): HTMLPreElement {
+function defeatedEnemies(): string {
   let text: string = "";
   text += `<f>2rem<f><c>goldenrod<c>${game.getLocalizedString("defeated_enemies")}:<f>1.5rem<f><c>silver<c>\n`;
   combat.loot = lootEnemies(combat.enemies);
@@ -202,11 +202,8 @@ function defeatedEnemies(): HTMLPreElement {
   });
   text += `${Math.floor(combat.gold * player.allModifiers["goldGainP"])}<c>gold<c> ${game.getLocalizedString("gold")}\n`;
   text += `<c>silver<c>${Math.floor(combat.xp * player.allModifiers["expGainP"])}<c>lime<c> ${game.getLocalizedString("xp")}`;
-  if (currentStage.score > 0) {
-    const score = Math.floor(currentStage.score * scoreMultiplier());
-    text += `\n\n§<f>1.5rem<f><c>silver<c>${game.getLocalizedString("score_received").replace("{score}", score.toString())}`;
-  }
-  return textSyntax(text);
+
+  return text;
 }
 
 function lootEnemies(enemies: Enemy[]) {
@@ -293,7 +290,20 @@ class Combat {
       combatSummaryTitle.innerText = game.getLocalizedString("combat_victory");
       combatSummaryTitle.classList.value = "header victory";
       if (canGetLoot) {
-        combatSummaryText.append(defeatedEnemies());
+        let text = defeatedEnemies();
+        let score = 0;
+        if (dungeonController.currentRoom?.id) {
+          if (!player.hasCompletedRoom(dungeonController.currentRoom.id)) {
+            score = dungeonController.currentRoom.score || 0;
+          }
+        } else if (!player.hasCompletedStage(currentStage.id)) {
+          score = currentStage.score || 0;
+        }
+        if (score > 0) {
+          score = Math.floor(score * scoreMultiplier());
+          text += `\n\n§<f>1.5rem<f><c>silver<c>${game.getLocalizedString("score_received").replace("{score}", score.toString())}`;
+        }
+        combatSummaryText.append(textSyntax(text));
       }
       combatSummaryButtons.innerHTML = `<button class="main-button" onclick="combat.finish_combat()">${game.getLocalizedString(
         "continue"
@@ -330,6 +340,7 @@ class Combat {
       : true;
     if (this.defeat) {
       player.xp -= this.xp;
+      stats.total_xp_lost += this.xp;
       if (challenge("hardcore")) {
         this.playing = false;
         mainMenuElement.classList.remove("no-display");

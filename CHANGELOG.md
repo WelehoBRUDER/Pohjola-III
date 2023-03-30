@@ -11,6 +11,7 @@
 - Added search & filter to all inventory screens (including store).
 - Added command "lose" to the game.
 - Playtime is finally tracked. (It no longer stays at 0)
+- The game now tracks score, and challenges improve the multiplier.
 
 ## Changes
 - Added highlight to perk tree when hovering over a perk.
@@ -20,6 +21,9 @@
 - Added more clarity between dungeons and floors / stages.
 - Slightly buffed Orc Chief Armor.
 - Changed save slot font and some other minor UI changes.
+- Reworked the statistics screen.
+  - Added more statistics.
+  - Statistics are divided into 7 categories.
 
 ## Bug fixes
 - Fixed enemies attacking after death.

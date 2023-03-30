@@ -399,6 +399,7 @@ class Challenges {
 let timePlayedThisSession = 0;
 
 class Statistics {
+  [key: string]: any;
   total_damage: number;
   total_damage_taken: number;
   total_healing: number;
@@ -407,7 +408,10 @@ class Statistics {
   total_turns: number;
   total_combat_time: number;
   total_xp_gained: number;
+  total_xp_lost: number;
   total_gold_gained: number;
+  total_items_gained: number;
+  total_gold_spent: number;
   time_played: number;
   most_damage: number;
   most_healing: number;
@@ -423,7 +427,10 @@ class Statistics {
     this.total_turns = stats?.total_turns || 0;
     this.total_combat_time = stats?.total_combat_time || 0;
     this.total_xp_gained = stats?.total_xp_gained || 0;
+    this.total_xp_lost = stats?.total_xp_lost || 0;
     this.total_gold_gained = stats?.total_gold_gained || 0;
+    this.total_items_gained = stats?.total_items_gained || 0;
+    this.total_gold_spent = stats?.total_gold_spent || 0;
     this.time_played = stats?.time_played || 0;
     this.most_damage = stats?.most_damage || 0;
     this.most_healing = stats?.most_healing || 0;

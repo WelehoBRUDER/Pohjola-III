@@ -283,6 +283,11 @@ const english = {
   holy_grace_upgrade_3: "Holy Grace III",
 
   // Statistics
+  healing: "Healing",
+  combat: "Combat",
+  resources: "Resources",
+  turns: "Turns",
+  time: "Time",
   most_damage: "Most Damage Dealt",
   most_damage_taken: "Most Damage Taken",
   total_damage: "Total Damage Dealt",
@@ -293,6 +298,9 @@ const english = {
   total_deaths: "Total Deaths",
   total_xp_gained: "Total XP Gained",
   total_gold_gained: "Total Gold Gained",
+  total_items_gained: "Total Items Gained",
+  total_gold_spent: "Total Gold Spent",
+  total_xp_lost: "Total XP Lost",
   most_turns: "Most Turns In Battle",
   total_turns: "Total Turns In Battles",
   most_combat_time: "Longest Combat Time",

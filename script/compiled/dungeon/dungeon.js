@@ -93,6 +93,9 @@ class Room {
         else {
             if (!player.hasCompletedRoom(this.id)) {
                 player.completed_rooms.push(this.id);
+                if (this.score) {
+                    player.addScore(this.score);
+                }
                 if (this.loot.length > 0) {
                     const lootNames = this.loot.map((loot) => {
                         if (loot.item === "gold") {
