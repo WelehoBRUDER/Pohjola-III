@@ -325,12 +325,18 @@ class Player extends Character {
     this.abilities_total = this.abilities_total.map((ability: Ability) => new Ability(abilities[ability.id]));
   }
 
-  heal(amount: number) {
+  heal(amount: number, options?: { log: boolean }): void {
     amount = Math.floor(amount * challenge("healing_weakness"));
     this.stats.hp += amount;
-    log.write(`${game.getLocalizedString("recovered_health").replace("{0}", amount.toString())}`);
+    if (options?.log) {
+      log.write(`${game.getLocalizedString("recovered_health").replace("{0}", amount.toString())}`);
+    }
     if (this.stats.hp > this.getStats().hpMax) {
       this.stats.hp = this.getStats().hpMax;
+    }
+    stats.total_healing += amount;
+    if (stats.most_healing < amount) {
+      stats.most_healing = amount;
     }
   }
 

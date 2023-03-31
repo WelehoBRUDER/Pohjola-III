@@ -38,6 +38,7 @@ const effects = {
         },
         modifiers: {
             healPowerP: -50,
+            healReceivedP: -20,
         },
     },
     gored: {
@@ -102,7 +103,7 @@ const effects = {
         buffDebuff: "debuff",
         modifiers: {
             speedP: -100,
-            healReceivedP: -75,
+            healReceivedP: -66,
         },
     },
     stunned: {
@@ -112,7 +113,7 @@ const effects = {
         type: "stun",
         buffDebuff: "debuff",
         modifiers: {
-            speedP: -30,
+            speedP: -37,
             atkP: -15,
             physicalDefenceV: -15,
             healReceivedP: -50,
@@ -130,7 +131,7 @@ const effects = {
             physicalDefenceV: -10,
             magicalDefenceV: -10,
             elementalDefenceV: -10,
-            healReceivedP: -40,
+            healReceivedP: -33,
         },
     },
     regeneration_1: {

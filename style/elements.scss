@@ -124,7 +124,24 @@ pre {
   }
 }
 
+body {
+  * {
+    scrollbar-width: 1rem;
+    scrollbar-color: #131212 #000000;
+  }
+
+  ::-webkit-scrollbar {
+    width: 1rem;
+    background: #000000;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #131212;
+  }
+}
+
 .slider {
+  appearance: none;
   -webkit-appearance: none;
   width: 80%;
   background: transparent;

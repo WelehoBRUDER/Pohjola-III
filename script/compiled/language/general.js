@@ -267,6 +267,7 @@ const english = {
     resources: "Resources",
     turns: "Turns",
     time: "Time",
+    completion: "Completion",
     most_damage: "Most Damage Dealt",
     most_damage_taken: "Most Damage Taken",
     total_damage: "Total Damage Dealt",
@@ -285,6 +286,9 @@ const english = {
     most_combat_time: "Longest Combat Time",
     total_combat_time: "Total Combat Time",
     time_played: "Time Played",
+    score: "Score",
+    score_tt: "Score is gained from defeating enemies.\nScore multiplier: <v>scoreMultiplier().toFixed(2)<v>§x",
+    progress_tt: "How many stages you have completed and key items gathered.",
     // Floors
     floor_1: "Catacombs of Vithail",
     floor_1_desc: "A cold and decrepit place, \nlong abandoned by the living.",

@@ -193,7 +193,7 @@ class InventoryController {
         item.toCraft?.forEach((material: any) => {
           // @ts-ignore
           const mat = new Item({ ...items[material.item], amount: material.amount })?.updateClass();
-          const materialSlot = createSlot(mat, { material: true });
+          const materialSlot = createSlot(mat, { material: true, craft: true });
           materials.append(materialSlot);
         });
 
@@ -391,7 +391,7 @@ function createSlot(
 ) {
   const slot = document.createElement("div");
   slot.classList.add("inventory-slot");
-  if (options?.material) {
+  if (options?.material && options?.craft) {
     slot.classList.add("material");
     if (player.hasItem(item.id, item.amount)) {
       slot.classList.add("enough");

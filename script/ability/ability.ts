@@ -152,15 +152,11 @@ class Ability {
             if (this.healPercent) {
               heal += Math.floor(target.stats.maxHp * this.healPercent);
             }
-
+            heal = heal * (target.allModifiers["healReceivedP"] || 1);
             if (target.isEnemy) {
               target.heal(heal);
             } else {
-              stats.total_healing += heal;
-              if (stats.most_healing < heal) {
-                stats.most_healing = heal;
-              }
-              player.stats.hp += heal;
+              target.heal(heal);
               createDroppingText(heal.toString(), tools);
               update();
             }

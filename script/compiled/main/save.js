@@ -235,13 +235,15 @@ function saveScreen(menu = false) {
     else {
         saveScreen.innerHTML = `
       <div class="save-header">
-        <input type="text" id="save-name" onKeyUp="saveName = this.value" class="${hardcore && "disabled"}" placeholder="${game.getLocalizedString("save_name")}">
+        <input type="text" id="save-name" onfocus="game.typing=true" onblur="game.typing=false" onKeyUp="saveName = this.value" class="${hardcore && "disabled"}" placeholder="${game.getLocalizedString("save_name")}">
         <button class="save-button ${hardcore && "disabled"}" onClick="saveController.saveGame(saveName)">${game.getLocalizedString("save")}</button>
         <button class="save-button ${hardcore && "disabled"}" onClick="saveController.saveToFile()">${game.getLocalizedString("save_to_file")}</button>
         <button class="save-button" onClick="saveController.loadFromFile()">${game.getLocalizedString("load_from_file")}</button>
       </div>
+      <div class="save-list"></div>
     `;
     }
+    const saveList = saveScreen.querySelector(".save-list");
     saveController.saveSlots.forEach((save) => {
         const progress = calculateProgress(save.saveData.player);
         const size = JSON.stringify(save).length;
@@ -291,7 +293,7 @@ function saveScreen(menu = false) {
         <button class="delete-save" onclick="saveController.deleteSave('${save.id}')">${game.getLocalizedString("delete")}</button>
       </div>
     `;
-        saveScreen.appendChild(saveSlot);
+        saveList.appendChild(saveSlot);
     });
     return saveScreen;
 }

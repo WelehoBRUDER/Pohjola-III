@@ -52,7 +52,7 @@ const lobbyButtons = [
     },
 ];
 const lobby = {
-    current_view: "statistics",
+    current_view: "saves",
 };
 function createLobby() {
     stats.updateTimePlayed();
@@ -125,7 +125,11 @@ function createStats() {
         blockElement.innerHTML = `<div class="stat-block-title">${game.getLocalizedString(block.id)}</div>`;
         block.stats.forEach((stat) => {
             const statElement = document.createElement("div");
+            const statName = document.createElement("div");
+            const statValue = document.createElement("div");
             statElement.classList.add("stat");
+            statName.classList.add("stat-name");
+            statValue.classList.add("stat-value");
             let value = getStatValue(stats[stat], stat);
             if (stat.startsWith("UNIQUE_")) {
                 stat = stat.replace("UNIQUE_", "");
@@ -136,7 +140,13 @@ function createStats() {
                     value = `${calculateProgress(player).toString()}%`;
                 }
             }
-            statElement.innerHTML = `<div class="stat-name">${game.getLocalizedString(stat)}</div><div class="stat-value">${value}</div>`;
+            const statTT = game.getLocalizedString(`${stat}_tt`);
+            if (statTT !== `${stat}_tt`) {
+                tooltip(statName, statTT);
+            }
+            statName.innerText = game.getLocalizedString(stat);
+            statValue.innerText = value;
+            statElement.append(statName, statValue);
             blockElement.append(statElement);
         });
         statsScreen.append(blockElement);

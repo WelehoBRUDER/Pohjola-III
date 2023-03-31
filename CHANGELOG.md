@@ -24,6 +24,8 @@
 - Reworked the statistics screen.
   - Added more statistics.
   - Statistics are divided into 7 categories.
+- Scrollbar is now visible in more screens.
+- Slightly improved ui scaling.
 
 ## Bug fixes
 - Fixed enemies attacking after death.
@@ -31,6 +33,7 @@
 - Fixed lock-on targeting not working properly.
 - Fixed overwriting saves not working.
 - Fixed save files acting weird when loading from a hardcore save.
+- Fixed "most healing done" not being tracked.
 
 # Version 0.1.4 ~ 2023.3.19
 

@@ -326,12 +326,10 @@ class Character {
         } else if (damage < 0) {
           damage = Math.abs(damage);
           if (this.isEnemy) {
-            this.heal(damage);
-          } else {
-            this.stats.hp += damage;
-            stats.total_healing += damage;
+            this.heal(damage * (this.allModifiers["healReceivedP"] || 1));
+          } else if (this instanceof Player) {
+            this.heal(damage * (this.allModifiers["healReceivedP"] || 1), { log: false });
           }
-
           createDroppingText(damage.toString(), location, "heal");
         }
       } else if (values?.healingFlat || values?.healingPercent) {
@@ -341,9 +339,8 @@ class Character {
         healing = Math.floor(healing * (this.allModifiers["healReceivedP"] || 1));
         if (this.isEnemy) {
           this.heal(healing);
-        } else {
-          this.stats.hp += healing;
-          stats.total_healing += healing;
+        } else if (this instanceof Player) {
+          this.heal(healing, { log: false });
         }
         const location: HTMLElement = this.isEnemy ? this.card.main : tools;
         createDroppingText(healing.toString(), location, status.type);
