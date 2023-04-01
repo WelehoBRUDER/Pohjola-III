@@ -243,6 +243,7 @@ function saveScreen(menu: boolean = false) {
       <button class="save-button" onClick="saveController.loadFromFile()">${game.getLocalizedString("load_from_file")}</button>
       <button class="save-button" onClick="mainMenu()">${game.getLocalizedString("back_to_menu")}</button>
     </div>
+    <div class="save-list"></div>
     `;
   } else {
     saveScreen.innerHTML = `
