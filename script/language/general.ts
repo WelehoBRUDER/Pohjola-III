@@ -401,6 +401,8 @@ const english = {
   vithail_dungeon_desc: "A cursed crypt, ruled by a powerful skeleton lord.\nHis aura prevents the curse from being lifted.",
   abandoned_fort: "Abandoned Fort",
   abandoned_fort_desc: "Fortress abandoned by its former lord.\nNow ruled by a powerful orc chief.",
+  fortress_minor: "Fortress Minor",
+  fortress_minor_desc: "The ancient fortress of Minor,\nits king long since corrupted.",
 
   // Dungeon events
   keys_found: "Found key item(s)",
@@ -412,6 +414,8 @@ const english = {
     "<c>white<c>You've slain the Skeleton Lord and with him, the curse of the crypts. You can leave now, or continue exploring.\n<c>lime<c>Vithail Crypts cleared!",
   abandoned_fort_end:
     "<c>white<c>You've slain the Orc Chief and his minions. You can leave now, or continue exploring.\n<c>lime<c>Abandoned Fort cleared!",
+  fortress_minor_end:
+    "<c>white<c>You've slain the King of Minor and his minions. His corruption will no longer seep in to the land. You can leave now, or continue exploring.\n<c>lime<c>Fortress Minor cleared!",
 
   // Key items
   ruby_key_vithail: "Ruby Key",
@@ -420,6 +424,25 @@ const english = {
   abandoned_fort_jail_key: "Jail Key (Abandoned Fort)",
   abandoned_fort_keep_key: "Key to the Keep (Abandoned Fort)",
   orc_chief_tusk: "Orc Chief Tusk",
+  fortress_minor_gold_key: "Gold Key (Fortress Minor)",
+  fortress_minor_jewelled_key: "Jewelled Key (Fortress Minor)",
+  bull_king_crown: "Crown of the Bull King",
+
+  // Puzzles & Riddles
+  riddle: "A Riddle",
+  start_riddle: "Start Riddle",
+  decline: "Decline",
+  riddle_damage: "<c>white<c>\n\n<c>silver<c>You take damage from the riddle! <c>crimson<c>-{damage} HP!",
+  fortress_minor_q_puzzle_1_desc: "A magical door stands before you. It requires you to answer its riddles to see behind it.",
+  fortress_minor_q_puzzle_1_1: `"I walk on four legs in the morning, two legs at noon, and three legs in the evening. What am I?"`,
+  fortress_minor_q_puzzle_1_1_correct: `"That's right, you get to answer the next riddle!"`,
+  fortress_minor_q_puzzle_1_1_incorrect: `"No, no, no. You are not worthy! Begone!"`,
+  fortress_minor_q_puzzle_1_2: `"I destroy all, birds, beasts, kings and castles alike, the very mountains themselves. But a weapon I am not. What am I?"`,
+  fortress_minor_q_puzzle_1_2_correct: `"Good. You're ready for the last question."`,
+  fortress_minor_q_puzzle_1_2_incorrect: `"You tripped up I see. You are not worthy! Begone!"`,
+  fortress_minor_q_puzzle_1_3: `"I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?"`,
+  fortress_minor_q_puzzle_1_3_correct: `"Well, you've proven yourself. You may have my treasure."`,
+  fortress_minor_q_puzzle_1_3_incorrect: `"Was it all mere luck? You are not worthy! Begone!"`,
 
   // Perks //
   "0_foundation_of_power": "Foundation of Power",
@@ -568,4 +591,6 @@ const english = {
   recovered_mana: "Recovered {0} mana",
   escape_success: "Escaped successfully!",
   escape_failure: "Failed to escape!",
+  riddle_damage_log: "<c>white<c>You take damage from a riddle! <c>crimson<c>-{damage} HP!",
+  too_weak_to_continue: "You are too weak to continue exploring the dungeon.",
 };

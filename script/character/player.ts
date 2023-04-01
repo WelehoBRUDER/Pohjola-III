@@ -56,6 +56,7 @@ class Player extends Character {
   completed_stages: string[];
   completed_rooms: string[];
   completed_dungeons: string[];
+  solved_puzzles: string[];
   starting_aspect: string;
   key_items: string[];
   class: CharClass;
@@ -74,6 +75,7 @@ class Player extends Character {
     this.completed_stages = char.completed_stages ?? [];
     this.completed_rooms = char.completed_rooms ?? [];
     this.completed_dungeons = char.completed_dungeons ?? [];
+    this.solved_puzzles = char.solved_puzzles ?? [];
     this.starting_aspect = char.starting_aspect ?? "determination";
     this.key_items = char.key_items ?? [];
     this.class = char.class ? new CharClass(char.class) : new CharClass(classManager.get("paladin"));
@@ -395,6 +397,10 @@ class Player extends Character {
   hasClassPerk(perk: string): boolean {
     return this.class.perks?.find((p) => p.id === perk) !== undefined;
   }
+
+  hasSolvedPuzzle(puzzle: string): boolean {
+    return this.solved_puzzles?.includes(puzzle);
+  }
 }
 
 const defaultPlayer = {
@@ -445,7 +451,7 @@ const defaultPlayer = {
   level: 1,
   xp: 0,
   starting_aspect: "strength",
-  class: classManager.get("paladin"),
+  class: classManager.get("warrior"),
 };
 
 let player = new Player({

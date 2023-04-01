@@ -370,7 +370,7 @@ function createSlot(item, options) {
             }
             slot.append(amount);
         }
-        if (!options?.material && !options?.noClick) {
+        if (!(options?.material && options?.craft) && !options?.noClick) {
             if (options?.buy) {
                 slot.onclick = (e) => {
                     clickItem(item, {

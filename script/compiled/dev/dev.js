@@ -28,7 +28,7 @@ if (DEVTOOLS.ENABLED) {
     mainMenuElement.classList.add("no-display");
     //lobby.current_view = "perks";
     createLobby();
-    //dungeonController.enterDungeon(dungeons[1]);
+    //dungeonController.enterDungeon(dungeons[2]);
 }
 function convertRemToPixels(rem) {
     return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);

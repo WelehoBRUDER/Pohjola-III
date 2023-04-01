@@ -1,4 +1,4 @@
-# Version 0.2.0 ~ 2023.3.21
+# Version 0.2.0 ~ 2023.4.1
 
 ## New features & additions
 - Added new enemies:
@@ -8,6 +8,12 @@
 - Added new dungeon: `Fortress of Minor`
   - Unlocked after defeating the orc chieftain.
   - Fight boss "Minotaur King" to complete.
+- Added new items:
+  - Minotaur armor set.
+  - Ring of Bull Power.
+  - New potion tiers.
+  - Blessed Graves.
+  - Five talismans, each increase a stat by 3.
 - Added search & filter to all inventory screens (including store).
 - Added command "lose" to the game.
 - Playtime is finally tracked. (It no longer stays at 0)
