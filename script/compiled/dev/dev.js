@@ -9,11 +9,18 @@ const DEVTOOLS = {
 };
 if (localStorage.getItem("devtools") === "true")
     DEVTOOLS.ENABLED = true;
-const gameVersion = (0.14).toFixed(2);
+const gameVersion = (0.2).toFixed(2);
 const gameVersionText = (ver) => {
     if (parseFloat(ver) < 0.1)
         return "Old";
     return `${parseInt(ver)}.${((parseFloat(ver) * 10) % 10).toFixed(1)}`;
+};
+const compareVersion = (ver1, ver2) => {
+    const difference = Math.floor((parseFloat(ver1) - parseFloat(ver2)) * 100);
+    return difference;
+};
+const isSaveCompatible = (ver) => {
+    return compareVersion(gameVersion, ver) <= 10;
 };
 // Skip main menu
 if (DEVTOOLS.ENABLED) {
@@ -21,7 +28,7 @@ if (DEVTOOLS.ENABLED) {
     mainMenuElement.classList.add("no-display");
     //lobby.current_view = "perks";
     createLobby();
-    //dungeonController.enterDungeon(dungeons[1]);
+    //dungeonController.enterDungeon(dungeons[2]);
 }
 function convertRemToPixels(rem) {
     return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);

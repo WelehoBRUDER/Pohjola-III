@@ -1,5 +1,9 @@
 "use strict";
 const icons = {
+    gold: "gfx/icons/gold.png",
+    xp: "gfx/icons/EXP.png",
+    goldGain: "gfx/icons/goldPile.png",
+    expGain: "gfx/icons/expGain.png",
     str: "gfx/status/biceps.png",
     agi: "gfx/status/acrobatic.png",
     int: "gfx/status/brain.png",
@@ -43,6 +47,7 @@ const icons = {
     rangedDamage: "gfx/icons/ranged_damage.png",
     spellPower: "gfx/icons/orb-direction.png",
     healPower: "gfx/icons/healing.png",
+    healReceived: "gfx/icons/healing.png",
 };
 const coreCharacterStats = ["Str", "Agi", "Vit", "Int", "Spi"];
 coreCharacterStats.forEach((stat) => {

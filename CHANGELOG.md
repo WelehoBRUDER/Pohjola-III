@@ -1,3 +1,46 @@
+# Version 0.2.0 ~ 2023.4.1
+
+## New features & additions
+- Added new enemies:
+  - Minotaur Sage
+  - Minotaur Captain
+  - Minotaur King (Oros, King of Minor)
+- Added new dungeon: `Fortress of Minor`
+  - Unlocked after defeating the orc chieftain.
+  - Fight boss "Minotaur King" to complete.
+- Added new items:
+  - Minotaur armor set.
+  - Ring of Bull Power.
+  - New potion tiers.
+  - Blessed Graves.
+  - Five talismans, each increase a stat by 3.
+- Added search & filter to all inventory screens (including store).
+- Added command "lose" to the game.
+- Playtime is finally tracked. (It no longer stays at 0)
+- The game now tracks score, and challenges improve the multiplier.
+
+## Changes
+- Added highlight to perk tree when hovering over a perk.
+  - Highlights perks that are required to unlock the hovered perk.
+  - Will not highlight already owned perks.
+- Dodge text is now silver instead of black.
+- Added more clarity between dungeons and floors / stages.
+- Slightly buffed Orc Chief Armor.
+- Changed save slot font and some other minor UI changes.
+- Reworked the statistics screen.
+  - Added more statistics.
+  - Statistics are divided into 7 categories.
+- Scrollbar is now visible in more screens.
+- Slightly improved ui scaling.
+
+## Bug fixes
+- Fixed enemies attacking after death.
+- Fixed enemies attacking multiple times in a row.
+- Fixed lock-on targeting not working properly.
+- Fixed overwriting saves not working.
+- Fixed save files acting weird when loading from a hardcore save.
+- Fixed "most healing done" not being tracked.
+
 # Version 0.1.4 ~ 2023.3.19
 
 ## New features & additions

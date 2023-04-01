@@ -7,35 +7,43 @@ function sideBarDetails() {
     const misc = document.createElement("div");
     misc.classList.add("misc");
     const miscStats = ["gold", "perk_points", "skill_points", "level", "xp", "class", "power_level"];
-    miscStats.forEach((stat) => {
-        const statElement = document.createElement("div");
-        statElement.classList.add("stat");
-        statElement.innerText = game.getLocalizedString(stat) + ":";
-        const valueElement = document.createElement("div");
-        valueElement.classList.add("value");
-        valueElement.innerText = player[stat];
+    const miscStatCol = ["goldenrod", "silver", "silver", "silver", "lime", "silver", "silver"];
+    miscStats.forEach((stat, index) => {
+        // const statElement = document.createElement("div");
+        // statElement.classList.add("stat");
+        // statElement.innerText = game.getLocalizedString(stat) + ":";
+        // const valueElement = document.createElement("div");
+        // valueElement.classList.add("value");
+        let text = ``;
+        if (icons[stat]) {
+            text += `<i>${icons[stat]}<i>`;
+        }
+        text += `<f>1.3rem<f><c>white<c>${game.getLocalizedString(stat)}:<c>${miscStatCol[index]}<c>`;
+        text += typeof player[stat] === "number" ? ` ${player[stat]}` : "";
         if (stat === "level") {
             if (player.level >= 100) {
-                valueElement.innerText += " (MAX)";
+                text += " (MAX)";
             }
         }
         else if (stat === "xp") {
             if (player.level < 100) {
-                valueElement.innerText += " / " + player.xpForNextLevel();
+                text += " / " + player.xpForNextLevel();
             }
         }
         else if (stat === "power_level") {
-            valueElement.innerText = player.calculateCombatPower();
+            text += " " + player.calculateCombatPower();
         }
         else if (stat === "class") {
-            valueElement.innerText = game.getLocalizedString(player.class.id);
-            tooltip(statElement, player.class.tooltip());
+            text += " " + game.getLocalizedString(player.class.id);
         }
+        const elem = textSyntax(text);
         if (stat !== "class") {
-            tooltip(statElement, game.getLocalizedString(stat + "_tt"));
+            tooltip(elem, game.getLocalizedString(stat + "_tt"));
         }
-        statElement.append(valueElement);
-        misc.append(statElement);
+        else {
+            tooltip(elem, player.class.tooltip());
+        }
+        misc.append(elem);
     });
     lobbySidebar.append(misc);
     const characterDetails = document.createElement("div");

@@ -290,6 +290,11 @@
       color: rgb(170, 160, 160);
       text-shadow: -0.25rem 0.25rem 0.75rem rgb(133, 130, 130);
     }
+
+    &.dodge {
+      color: rgb(164, 173, 149);
+      text-shadow: -0.25rem 0.25rem 0.75rem rgb(136, 141, 127);
+    }
   }
 
   &.paused {

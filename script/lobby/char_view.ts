@@ -84,8 +84,9 @@ function createCharView() {
       tooltip(modifier, breakdownText);
     }
     const valueWidth = valueElement.getBoundingClientRect().width;
-    if (valueWidth > 250) {
-      valueElement.style.transform = `scale(${(250 / valueWidth).toFixed(2)})`;
+    const targetWidth = modifier.getBoundingClientRect().width - 25;
+    if (valueWidth > targetWidth) {
+      valueElement.style.transform = `scale(${(targetWidth / valueWidth).toFixed(2)})`;
     }
   });
 

@@ -104,11 +104,13 @@ class Ability {
         targets.forEach((target: Player | Enemy) => {
           if (!target) return;
           const hasDodged = target.dodge();
+          console.count("player attacked");
           if (hasDodged) {
             if (target.isEnemy) {
               createDroppingText("DODGED!", target.card.main, "dodge");
               game.resume();
             } else {
+              console.count("player dodge");
               createDroppingText("DODGED!", tools, "dodge");
             }
             return update();
@@ -150,15 +152,11 @@ class Ability {
             if (this.healPercent) {
               heal += Math.floor(target.stats.maxHp * this.healPercent);
             }
-
+            heal = heal * (target.allModifiers["healReceivedP"] || 1);
             if (target.isEnemy) {
               target.heal(heal);
             } else {
-              stats.total_healing += heal;
-              if (stats.most_healing < heal) {
-                stats.most_healing = heal;
-              }
-              player.stats.hp += heal;
+              target.heal(heal);
               createDroppingText(heal.toString(), tools);
               update();
             }

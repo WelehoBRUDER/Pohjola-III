@@ -253,6 +253,8 @@ class Character {
                         }
                     }
                     else {
+                        if (DEVTOOLS.GOD)
+                            damage = 0;
                         this.stats.hp -= damage;
                         stats.total_damage_taken += damage;
                         if (stats.most_damage_taken < damage) {
@@ -264,11 +266,10 @@ class Character {
                 else if (damage < 0) {
                     damage = Math.abs(damage);
                     if (this.isEnemy) {
-                        this.heal(damage);
+                        this.heal(damage * (this.allModifiers["healReceivedP"] || 1));
                     }
-                    else {
-                        this.stats.hp += damage;
-                        stats.total_healing += damage;
+                    else if (this instanceof Player) {
+                        this.heal(damage * (this.allModifiers["healReceivedP"] || 1), { log: false });
                     }
                     createDroppingText(damage.toString(), location, "heal");
                 }
@@ -279,12 +280,12 @@ class Character {
                     healing = Math.round(this.getStats({ dontUpdateModifiers: true }).hpMax * values.healingPercent);
                 if (values?.healingFlat)
                     healing += values.healingFlat;
+                healing = Math.floor(healing * (this.allModifiers["healReceivedP"] || 1));
                 if (this.isEnemy) {
                     this.heal(healing);
                 }
-                else {
-                    this.stats.hp += healing;
-                    stats.total_healing += healing;
+                else if (this instanceof Player) {
+                    this.heal(healing, { log: false });
                 }
                 const location = this.isEnemy ? this.card.main : tools;
                 createDroppingText(healing.toString(), location, status.type);

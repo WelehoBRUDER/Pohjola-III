@@ -31,9 +31,11 @@ class Player extends Character {
     completed_stages;
     completed_rooms;
     completed_dungeons;
+    solved_puzzles;
     starting_aspect;
     key_items;
     class;
+    score;
     constructor(char) {
         super(char);
         this.race = new Race(char.race) ?? new Race(races.human);
@@ -48,15 +50,20 @@ class Player extends Character {
         this.completed_stages = char.completed_stages ?? [];
         this.completed_rooms = char.completed_rooms ?? [];
         this.completed_dungeons = char.completed_dungeons ?? [];
+        this.solved_puzzles = char.solved_puzzles ?? [];
         this.starting_aspect = char.starting_aspect ?? "determination";
         this.key_items = char.key_items ?? [];
         this.class = char.class ? new CharClass(char.class) : new CharClass(classManager.get("paladin"));
+        this.score = char.score ?? 0;
         this.restoreClasses();
         this.updateAllModifiers();
     }
     addItem(base_item, amount, options) {
         let item = base_item.updateClass();
         item.amount = amount || base_item.amount || 1;
+        if (!options?.dontCount) {
+            stats.total_items_gained += item.amount;
+        }
         if (item.slot && options?.forceEquip) {
             player.equip(item, { auto: true });
             item.amount--;
@@ -70,6 +77,7 @@ class Player extends Character {
         if (item.stackable) {
             let existing_item = this.inventory.find((i) => i.id === item.id);
             if (existing_item) {
+                // @ts-ignore
                 existing_item.amount += item.amount;
             }
             else {
@@ -80,10 +88,17 @@ class Player extends Character {
             this.inventory.push(item);
         }
     }
+    addScore(amount) {
+        const score = Math.floor(amount * scoreMultiplier());
+        this.score += score;
+        log.write(`Gained ${score} score!`);
+    }
     removeItem(item, amount) {
         let existing_item = this.inventory.find((i) => i.id === item.id);
         if (existing_item) {
+            // @ts-ignore
             existing_item.amount -= amount || item.amount || 1;
+            // @ts-ignore
             if (existing_item.amount <= 0) {
                 this.inventory = this.inventory.filter((i) => i.id !== item.id);
             }
@@ -106,18 +121,7 @@ class Player extends Character {
     unequip(slot) {
         let item = this.equipment[slot];
         this.equipment[slot] = null;
-        // console.log(slot);
-        // if (slot === "weapon") {
-        //   item = this.equipment.weapon;
-        //   this.equipment.weapon = null;
-        // } else if (slot === "armor") {
-        //   item = this.equipment[slot];
-        //   this.equipment[slot] = null;
-        // } else if (slot === "talisman") {
-        //   item = this.equipment.talisman;
-        //   this.equipment.talisman = null;
-        // }
-        this.addItem(item, 1, { dontEquip: true });
+        this.addItem(item, 1, { dontEquip: true, dontCount: true });
     }
     addAbility(ability) {
         const ability_class = new Ability(ability);
@@ -249,6 +253,7 @@ class Player extends Character {
     }
     removeGold(gold) {
         this.gold -= gold;
+        stats.total_gold_spent += gold;
         log.write(`${game.getLocalizedString("lost_gold").replace("{0}", gold.toString())}`);
     }
     levelUp() {
@@ -283,12 +288,18 @@ class Player extends Character {
         // @ts-ignore
         this.abilities_total = this.abilities_total.map((ability) => new Ability(abilities[ability.id]));
     }
-    heal(amount) {
+    heal(amount, options) {
         amount = Math.floor(amount * challenge("healing_weakness"));
         this.stats.hp += amount;
-        log.write(`${game.getLocalizedString("recovered_health").replace("{0}", amount.toString())}`);
+        if (options?.log) {
+            log.write(`${game.getLocalizedString("recovered_health").replace("{0}", amount.toString())}`);
+        }
         if (this.stats.hp > this.getStats().hpMax) {
             this.stats.hp = this.getStats().hpMax;
+        }
+        stats.total_healing += amount;
+        if (stats.most_healing < amount) {
+            stats.most_healing = amount;
         }
     }
     recoverMana(amount, options) {
@@ -316,12 +327,16 @@ class Player extends Character {
     }
     hasItem(item, amount = 1) {
         const owned = this.inventory.find((i) => i.id === item);
+        // @ts-ignore
         if (owned?.amount < amount || !owned)
             return false;
         return true;
     }
     hasPerk(perk, level = 1) {
         return this.perks?.findIndex((p) => p.id === perk && p.level >= level) !== -1;
+    }
+    hasCompletedStage(stage) {
+        return this.completed_stages?.includes(stage);
     }
     hasCompletedRoom(room) {
         return this.completed_rooms?.includes(room);
@@ -334,6 +349,9 @@ class Player extends Character {
     }
     hasClassPerk(perk) {
         return this.class.perks?.find((p) => p.id === perk) !== undefined;
+    }
+    hasSolvedPuzzle(puzzle) {
+        return this.solved_puzzles?.includes(puzzle);
     }
 }
 const defaultPlayer = {

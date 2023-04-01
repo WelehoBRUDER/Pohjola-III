@@ -31,11 +31,31 @@ interface RoomObject {
   end?: boolean;
   getKeys?: string[];
   relative_to?: string;
+  score?: number;
+  puzzle?: Puzzle;
   position: { x: number; y: number };
   connections: { [key: string]: string | undefined; west?: string; east?: string; north?: string; south?: string };
   keysNeeded?: string[];
   escapeChance: number;
   restore?: boolean;
+}
+
+interface Puzzle {
+  [key: string]: any;
+  id: string;
+  type: string;
+  steps: PuzzleStep[];
+}
+
+interface PuzzleStep {
+  [key: string]: any;
+  id: string;
+  type: string;
+  options?: string[];
+  correct?: string;
+  correctText?: string;
+  incorrectText?: string;
+  scramble?: boolean; // This will randomize the order of the options
 }
 
 class Room {
@@ -48,6 +68,8 @@ class Room {
   end?: boolean;
   getKeys?: string[];
   relative_to?: string;
+  score?: number;
+  puzzle?: Puzzle;
   position: { x: number; y: number };
   connections: { [key: string]: string | undefined; west?: string; east?: string; north?: string; south?: string };
   keysNeeded?: string[];
@@ -69,6 +91,8 @@ class Room {
     this.escapeChance = room.escapeChance || 0.5;
     this.getKeys = room.getKeys || [];
     this.relative_to = room.relative_to;
+    this.score = room.score || 0;
+    this.puzzle = room.puzzle || undefined;
     this.position = room.position;
     this.connections = { ...room.connections };
     this.keysNeeded = room.keysNeeded || [];
@@ -121,8 +145,36 @@ class Room {
         ]
       );
     } else {
-      if (!player.hasCompletedRoom(this.id)) {
+      if (this.puzzle && !player.hasSolvedPuzzle(this.puzzle.id)) {
+        dungeonController.canMove = false;
+        if (this.puzzle.type === "riddle") {
+          multiOptionWindow(
+            {
+              title: game.getLocalizedString("riddle"),
+              text: game.getLocalizedString(this.puzzle.id + "_desc"),
+            },
+            [
+              {
+                text: game.getLocalizedString("start_riddle"),
+                click: () => {
+                  riddle(this.puzzle);
+                },
+              },
+              {
+                text: game.getLocalizedString("decline"),
+                click: () => {
+                  closeMultiOptionWindow();
+                  dungeonController.canMove = true;
+                },
+              },
+            ]
+          );
+        }
+      } else if (!player.hasCompletedRoom(this.id)) {
         player.completed_rooms.push(this.id);
+        if (this.score) {
+          player.addScore(this.score);
+        }
         if (this.loot.length > 0) {
           const lootNames = this.loot.map((loot) => {
             if (loot.item === "gold") {
@@ -416,6 +468,103 @@ class DungeonController {
       nextRoom.enter();
     }, 330);
   }
+}
+
+function riddle(riddle: any) {
+  dungeonController.canMove = false;
+  closeMultiOptionWindow();
+  let currentStep = 0;
+  const steps = [...riddle.steps];
+  const nextStep = (step: any) => {
+    if (step.type === "text") {
+      multiOptionWindow(
+        {
+          title: game.getLocalizedString("riddle"),
+          text: game.getLocalizedString(step.id),
+        },
+        [
+          {
+            text: game.getLocalizedString("continue"),
+            click: () => {
+              closeMultiOptionWindow();
+            },
+          },
+        ]
+      );
+    } else if (step.type === "choice") {
+      const options = step.options.map((option: any) => {
+        return {
+          text: game.getLocalizedString(option),
+          click: () => {
+            closeMultiOptionWindow();
+            if (option === step.correct) {
+              multiOptionWindow(
+                {
+                  title: game.getLocalizedString("riddle"),
+                  text: game.getLocalizedString(step.correctText),
+                },
+                [
+                  {
+                    text: game.getLocalizedString("continue"),
+                    click: () => {
+                      closeMultiOptionWindow();
+                      currentStep++;
+                      if (currentStep < steps.length) {
+                        nextStep(steps[currentStep]);
+                      } else {
+                        player.solved_puzzles.push(riddle.id);
+                        dungeonController.canMove = true;
+                        dungeonController.currentRoom?.enter();
+                      }
+                    },
+                  },
+                ]
+              );
+            } else {
+              const damage = Math.floor(player.getStats().hpMax * 0.25);
+              multiOptionWindow(
+                {
+                  title: game.getLocalizedString("riddle"),
+                  text:
+                    game.getLocalizedString(step.incorrectText) +
+                    " " +
+                    game.getLocalizedString("riddle_damage").replace("{damage}", damage.toString()),
+                },
+                [
+                  {
+                    text: game.getLocalizedString("continue"),
+                    click: () => {
+                      closeMultiOptionWindow();
+                      player.stats.hp -= damage;
+                      log.write(game.getLocalizedString("riddle_damage_log").replace("{damage}", damage.toString()));
+                      dungeonController.canMove = true;
+                      sideBarDetails();
+                      if (player.stats.hp <= 0) {
+                        player.stats.hp = Math.max(player.stats.hp, 0);
+                        dungeonController.leaveDungeon();
+                        log.write(game.getLocalizedString("too_weak_to_continue"));
+                      }
+                    },
+                  },
+                ]
+              );
+            }
+          },
+        };
+      });
+      if (step.scramble) {
+        options.sort(() => Math.random() - 0.5);
+      }
+      multiOptionWindow(
+        {
+          title: game.getLocalizedString("riddle"),
+          text: game.getLocalizedString(step.id),
+        },
+        options
+      );
+    }
+  };
+  nextStep(steps[currentStep]);
 }
 
 const dungeonController = new DungeonController();

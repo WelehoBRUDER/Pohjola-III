@@ -538,6 +538,26 @@ const armors = {
     type: "armor",
     slot: "legs",
   },
+  // Epic boots to complete the set
+  blessed_greaves: {
+    id: "blessed_greaves",
+    price: 1500,
+    speed: 1,
+    defence: {
+      physical: 7,
+      magical: 12,
+      elemental: 10,
+    },
+    modifiers: {
+      dodgeV: 2,
+      hpMaxP: 5,
+    },
+    stackable: true,
+    icon: "gfx/items/leg-armor.png",
+    tier: itemTiers.epic,
+    type: "armor",
+    slot: "legs",
+  },
   /* Orc Chief set */
   orc_chief_headdress: {
     id: "orc_chief_headdress",
@@ -565,13 +585,13 @@ const armors = {
     price: 2000,
     speed: 0,
     defence: {
-      physical: 18,
-      magical: 10,
-      elemental: 10,
+      physical: 20,
+      magical: 12,
+      elemental: 12,
     },
     modifiers: {
-      hpMaxV: 20,
-      hpMaxP: 7,
+      hpMaxV: 30,
+      hpMaxP: 8,
       strP: 5,
     },
     stackable: true,
@@ -625,12 +645,12 @@ const armors = {
     price: 500,
     speed: -5,
     defence: {
-      physical: 25,
-      magical: 20,
+      physical: 22,
+      magical: 18,
       elemental: 0,
     },
     modifiers: {
-      hpMaxV: 50,
+      hpMaxV: 45,
     },
     stackable: true,
     icon: "gfx/items/leather-vest.png",
@@ -642,6 +662,61 @@ const armors = {
       { item: "leather_armor", amount: 1 },
       { item: "troll_fat", amount: 3 },
       { item: "scrap", amount: 5 },
+    ],
+  },
+  /* Minotaur items */
+  minotaur_king_helmet: {
+    id: "minotaur_king_helmet",
+    price: 1600,
+    speed: 0,
+    defence: {
+      physical: 9,
+      magical: 6,
+      elemental: 6,
+    },
+    modifiers: {
+      hpMaxV: 20,
+      hpMaxP: 7.5,
+      meleeDamageP: 7.5,
+    },
+    stackable: true,
+    icon: "gfx/items/warlord-helmet.png",
+    tier: itemTiers.epic,
+    type: "armor",
+    slot: "helmet",
+
+    toCraft: [
+      { item: "plate_helmet", amount: 1 },
+      { item: "minotaur_skull", amount: 1 },
+      { item: "minotaur_horns", amount: 2 },
+      { item: "minotaur_hide", amount: 2 },
+    ],
+  },
+  minotaur_captain_armor: {
+    id: "minotaur_captain_armor",
+    price: 3000,
+    speed: 0,
+    defence: {
+      physical: 25,
+      magical: 22,
+      elemental: 14,
+    },
+    modifiers: {
+      hpMaxV: 50,
+      hpMaxP: 10,
+      strP: 10,
+      meleeDamageP: 5,
+    },
+    stackable: true,
+    icon: "gfx/items/shoulder-armor.png",
+    tier: itemTiers.epic,
+    type: "armor",
+    slot: "armor",
+
+    toCraft: [
+      { item: "plate_armor", amount: 1 },
+      { item: "ranger_vest", amount: 1 },
+      { item: "minotaur_hide", amount: 5 },
     ],
   },
 };
@@ -701,6 +776,22 @@ const materials = {
     tier: itemTiers.uncommon,
     type: "material",
   },
+  minotaur_hide: {
+    id: "minotaur_hide",
+    price: 170,
+    stackable: true,
+    icon: "gfx/items/animal-hide.png",
+    tier: itemTiers.uncommon,
+    type: "material",
+  },
+  minotaur_skull: {
+    id: "minotaur_skull",
+    price: 400,
+    stackable: true,
+    icon: "gfx/items/horned-skull.png",
+    tier: itemTiers.rare,
+    type: "material",
+  },
 };
 
 const potions = {
@@ -741,6 +832,15 @@ const potions = {
     tier: itemTiers.rare,
     type: "potion",
   },
+  life_elixir: {
+    id: "life_elixir",
+    icon: "gfx/items/health-potion.png",
+    price: 700,
+    heal: 200,
+    stackable: true,
+    tier: itemTiers.epic,
+    type: "potion",
+  },
   small_mana_potion: {
     id: "small_mana_potion",
     icon: "gfx/items/mana-potion.png",
@@ -768,15 +868,76 @@ const potions = {
     tier: itemTiers.rare,
     type: "potion",
   },
+  mana_elixir: {
+    id: "mana_elixir",
+    icon: "gfx/items/mana-potion.png",
+    price: 1200,
+    manaRecover: 200,
+    stackable: true,
+    tier: itemTiers.epic,
+    type: "potion",
+  },
 };
 
 const talismans = {
   talisman_of_strength: {
     id: "talisman_of_strength",
-    icon: "gfx/items/talisman_of_strength",
-    price: 100,
+    icon: "gfx/items/generic-talisman.png",
+    price: 30,
     modifiers: {
       strV: 3,
+    },
+    speed: 0,
+    stackable: true,
+    tier: itemTiers.common,
+    type: "talisman",
+    slot: "talisman",
+  },
+  talisman_of_vitality: {
+    id: "talisman_of_vitality",
+    icon: "gfx/items/generic-talisman.png",
+    price: 30,
+    modifiers: {
+      vitV: 3,
+    },
+    speed: 0,
+    stackable: true,
+    tier: itemTiers.common,
+    type: "talisman",
+    slot: "talisman",
+  },
+  talisman_of_agility: {
+    id: "talisman_of_agility",
+    icon: "gfx/items/generic-talisman.png",
+    price: 30,
+    modifiers: {
+      agiV: 3,
+    },
+    speed: 0,
+    stackable: true,
+    tier: itemTiers.common,
+    type: "talisman",
+    slot: "talisman",
+  },
+  talisman_of_intelligence: {
+    id: "talisman_of_intelligence",
+    icon: "gfx/items/generic-talisman.png",
+    price: 30,
+    modifiers: {
+      intV: 3,
+    },
+    speed: 0,
+    stackable: true,
+    tier: itemTiers.common,
+    type: "talisman",
+    slot: "talisman",
+  },
+  talisman_of_spirit: {
+    id: "talisman_of_spirit",
+    icon: "gfx/items/generic-talisman.png",
+    price: 30,
+    modifiers: {
+      spiV: 3,
     },
     speed: 0,
     stackable: true,
@@ -791,6 +952,19 @@ const talismans = {
     modifiers: {
       expGainP: 15,
       hpMaxP: -5,
+    },
+    speed: 0,
+    stackable: true,
+    tier: itemTiers.uncommon,
+    type: "talisman",
+    slot: "talisman",
+  },
+  ring_of_luck: {
+    id: "ring_of_luck",
+    icon: "gfx/items/ring.png",
+    price: 250,
+    modifiers: {
+      goldGainP: 15,
     },
     speed: 0,
     stackable: true,
@@ -848,6 +1022,24 @@ const talismans = {
     speed: 0,
     stackable: true,
     tier: itemTiers.uncommon,
+    type: "talisman",
+    slot: "talisman",
+  },
+  ring_of_bull_power: {
+    id: "ring_of_bull_power",
+    icon: "gfx/items/power-ring.png",
+    price: 2800,
+    modifiers: {
+      hpMaxP: 12,
+      atkV: 10,
+      strV: 5,
+      physicalDefenceV: 5,
+      damageP: 5,
+      speedP: 3,
+    },
+    speed: 0,
+    stackable: true,
+    tier: itemTiers.epic,
     type: "talisman",
     slot: "talisman",
   },

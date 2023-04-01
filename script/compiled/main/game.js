@@ -5,6 +5,7 @@ class Game {
     language;
     tick;
     playing;
+    typing;
     constructor() {
         this.state = {
             paused: false,
@@ -14,6 +15,7 @@ class Game {
         this.settings = new Settings();
         this.language = english;
         this.playing = false;
+        this.typing = false;
         this.init();
     }
     init() {
@@ -139,6 +141,8 @@ class Game {
     controls(e) {
         if (e.key === "§")
             return devConsole.toggle();
+        if (this.typing)
+            return;
         if (devConsole.open && e.key !== "Escape")
             return;
         if (e.key === "p") {
@@ -162,6 +166,8 @@ class Game {
         });
     }
     controlsUp(e) {
+        if (this.typing)
+            return;
         if (e.key === "Shift") {
             hideExtraText();
         }
@@ -271,44 +277,82 @@ class Settings {
     }
 }
 function challenge(id, options) {
-    if (typeof challenges[id] === "number") {
+    const value = options?.value ?? challenges[id];
+    if (typeof value === "number") {
         if (options?.score) {
-            return challengeValues[id][challenges[id]].score;
+            return challengeValues[id][value].score;
         }
-        else {
-            return challengeValues[id][challenges[id]].value;
-        }
+        return challengeValues[id][value].value;
     }
-    else
-        return challenges[id];
+    if (options?.score) {
+        return challengeValues[id][value ? 1 : 0].score;
+    }
+    return value;
+}
+function scoreMultiplier() {
+    let scoreMultiplier = 1;
+    for (let __challenge in challenges) {
+        scoreMultiplier += challenge(__challenge, { score: true }) - 1;
+    }
+    return +scoreMultiplier.toFixed(2);
+}
+function scoreMultiplierInNewGameScreen() {
+    let scoreMultiplier = 1;
+    for (let __challenge of startingChallenges) {
+        if (__challenge.id === "SCORE_MULTIPLIER" || !__challenge.enabled)
+            continue;
+        // @ts-ignore
+        if (__challenge.value === undefined)
+            __challenge.value = __challenge.enabled;
+        const values = challengeValues[__challenge.id];
+        const score = values.find((value) => value.value === __challenge.value)?.score || 1;
+        scoreMultiplier += score - 1;
+    }
+    return scoreMultiplier.toFixed(2);
 }
 const challengeValues = {
+    hardcore: [
+        { value: false, score: 1 },
+        { value: true, score: 2 },
+    ],
+    no_after_combat_recovery: [
+        { value: false, score: 1 },
+        { value: true, score: 1.75 },
+    ],
+    no_grinding: [
+        { value: false, score: 1 },
+        { value: true, score: 2 },
+    ],
+    real_time_combat: [
+        { value: false, score: 1 },
+        { value: true, score: 2 },
+    ],
     enemy_damage: [
-        { value: 1, score: 0 },
-        { value: 1.2, score: 1 },
-        { value: 1.4, score: 2 },
-        { value: 1.6, score: 3 },
-        { value: 1.8, score: 4 },
-        { value: 2, score: 5 },
+        { value: 1, score: 1 },
+        { value: 1.2, score: 1.1 },
+        { value: 1.4, score: 1.2 },
+        { value: 1.6, score: 1.3 },
+        { value: 1.8, score: 1.4 },
+        { value: 2, score: 1.5 },
     ],
     enemy_health: [
-        { value: 1, score: 0 },
-        { value: 1.2, score: 1 },
-        { value: 1.5, score: 2 },
-        { value: 1.75, score: 3 },
-        { value: 2, score: 4 },
-        { value: 2.5, score: 5 },
+        { value: 1, score: 1 },
+        { value: 1.2, score: 1.1 },
+        { value: 1.5, score: 1.25 },
+        { value: 1.75, score: 1.4 },
+        { value: 2, score: 1.55 },
+        { value: 2.5, score: 1.75 },
     ],
     healing_weakness: [
-        { value: 1, score: 0 },
-        { value: 0.75, score: 1 },
-        { value: 0.5, score: 2 },
-        { value: 0.25, score: 3 },
+        { value: 1, score: 1 },
+        { value: 0.75, score: 1.25 },
+        { value: 0.5, score: 1.5 },
+        { value: 0.25, score: 1.75 },
     ],
     mana_regen_debuff: [
-        { value: 1, score: 0 },
-        { value: 0.5, score: 2 },
-        { value: 0, score: 3 },
+        { value: 1, score: 1 },
+        { value: 0.5, score: 1.35 },
+        { value: 0, score: 1.6 },
     ],
 };
 class Challenges {
@@ -331,6 +375,7 @@ class Challenges {
         this.mana_regen_debuff = challenges?.mana_regen_debuff || 0;
     }
 }
+let timePlayedThisSession = 0;
 class Statistics {
     total_damage;
     total_damage_taken;
@@ -340,7 +385,10 @@ class Statistics {
     total_turns;
     total_combat_time;
     total_xp_gained;
+    total_xp_lost;
     total_gold_gained;
+    total_items_gained;
+    total_gold_spent;
     time_played;
     most_damage;
     most_healing;
@@ -356,13 +404,20 @@ class Statistics {
         this.total_turns = stats?.total_turns || 0;
         this.total_combat_time = stats?.total_combat_time || 0;
         this.total_xp_gained = stats?.total_xp_gained || 0;
+        this.total_xp_lost = stats?.total_xp_lost || 0;
         this.total_gold_gained = stats?.total_gold_gained || 0;
+        this.total_items_gained = stats?.total_items_gained || 0;
+        this.total_gold_spent = stats?.total_gold_spent || 0;
         this.time_played = stats?.time_played || 0;
         this.most_damage = stats?.most_damage || 0;
         this.most_healing = stats?.most_healing || 0;
         this.most_damage_taken = stats?.most_damage_taken || 0;
         this.most_turns = stats?.most_turns || 0;
         this.most_combat_time = stats?.most_combat_time || 0;
+    }
+    updateTimePlayed() {
+        this.time_played += Math.round((performance.now() - timePlayedThisSession) / 1000);
+        timePlayedThisSession = performance.now();
     }
 }
 const game = new Game();

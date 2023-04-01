@@ -116,7 +116,7 @@ const developerCommands: any = [
   {
     name: "enter",
     description: "[dungeon] Enter a dungeon",
-    help: "fight [enemy] [amount] - Enter a specified dungeon.<br>Example: enter vithail_dungeon",
+    help: "enter [dungeon] - Enter a specified dungeon.<br>Example: enter vithail_dungeon",
     isCheat: true,
     list: [dungeons],
     execute: (args: string[]) => {
@@ -164,12 +164,23 @@ const developerCommands: any = [
           // @ts-ignore
           const enemiesList: any[] = new Array(amount).fill(0).map(() => new Enemy(enemies[enemy]));
           game.beginCombat(enemiesList);
+          devConsole.commandHistory.push(`Now fighting ${enemy}!`);
         } else {
           devConsole.commandHistory.push(`Enemy "${enemy}" not found`);
         }
       } else {
         devConsole.commandHistory.push("Too few arguments, expected: fight [enemy] [amount]");
       }
+    },
+  },
+  {
+    name: "lose",
+    description: "Lose the current fight",
+    help: "lose - Reduces your hp to 0, causing you to be defeated.",
+    execute: () => {
+      player.stats.hp = 0;
+      update();
+      devConsole.commandHistory.push("You gave up the fight!");
     },
   },
   {

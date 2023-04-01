@@ -24,6 +24,7 @@ class Enemy extends Character {
   loot?: any[];
   xp?: number;
   spawnWithEffects?: any[];
+  attacking?: boolean;
   constructor(enemy: EnemyBase) {
     super(enemy);
     this.index = enemy.index ?? -1;
@@ -33,10 +34,10 @@ class Enemy extends Character {
     this.isEnemy = true;
     this.xp = enemy.xp ?? 0;
     this.spawnWithEffects = enemy.spawnWithEffects ? [...enemy.spawnWithEffects] : [];
+    this.attacking = false;
   }
 
   init(index: number): void {
-    this.restore();
     this.index = index;
     this.abilities.map((ability: Ability) => {
       return (ability = new Ability({ ...ability }));
@@ -46,18 +47,32 @@ class Enemy extends Character {
         this.addStatus(effect, this);
       });
     }
+    this.updateAllModifiers();
+    this.restore();
     createBattlecard(this);
   }
 
-  getRandomMove(): Ability {
+  getWeightedMove(): Ability {
+    const hpRemain = (this.stats.hp / this.getStats().hpMax) * 100;
     const usables = this.abilities.filter((ability: Ability) => {
-      return ability.canUse(this) && (ability.type === "heal" ? this.stats.hp / this.getStats().hpMax < 0.5 : true);
+      return ability.canUse(this);
     });
     if (usables.length === 0) {
       // @ts-ignore
       usables.push(new Ability({ ...abilities.player_base_attack }));
     }
-    return usables[Math.floor(Math.random() * usables.length)];
+    usables.forEach((abi: any) => {
+      if (abi.type === "heal") {
+        if (hpRemain > 55) {
+          abi.weight = 0;
+        } else if (hpRemain > 35 && hpRemain <= 55) {
+          abi.weight = abi.weight * 0.5;
+        }
+      }
+    });
+    const move = weightedRandom(usables);
+    console.log(usables[move]);
+    return usables[move];
   }
 
   shake(): void {
@@ -80,6 +95,7 @@ class Enemy extends Character {
     stats.total_kills += 1;
     this.stats.hp = 0;
     this.dead = true;
+    const viableTargets = combat.getLivingEnemies();
     if (this.card) {
       this.card.main.style.animation = "none";
       this.card.main.style.offsetHeight; // trigger reflow
@@ -97,16 +113,19 @@ class Enemy extends Character {
       setTimeout(() => {
         if (this.card) {
           this.card.main.remove();
-          const viableTargets = combat.getLivingEnemies();
-          if (viableTargets.length === 0) {
-            combat.end();
-          }
-          if (game.settings.lock_on_targeting) {
-            combat.target = viableTargets[0].index || 0;
-            viableTargets[0].updateCard();
-          }
         }
       }, 3000 / game.settings.animation_speed);
+    }
+    if (viableTargets.length === 0) {
+      game.pause({ disableSkills: true });
+      setTimeout(() => {
+        combat.end();
+      }, 3000 / game.settings.animation_speed);
+      return;
+    }
+    if (game.settings.lock_on_targeting) {
+      combat.target = viableTargets[0]?.index || 0;
+      viableTargets[0].updateCard();
     }
   }
 
@@ -199,7 +218,7 @@ class Enemy extends Character {
 
   act(): void {
     game.pause();
-    const move = this.getRandomMove();
+    const move = this.getWeightedMove();
     if (move.type === "attack") {
       this.attackAnimation(move);
     } else if (move.type === "heal" || move.type === "buff") {
@@ -246,7 +265,8 @@ class Enemy extends Character {
   }
 
   attackAnimation(ability: Ability): void {
-    if (this.dead || !this.card) return;
+    if (this.dead || !this.card || this.attacking) return;
+    this.attacking = true;
     if (this.card) {
       this.card.main.style.animation = "none";
       this.card.main.style.offsetHeight; // trigger reflow
@@ -266,6 +286,7 @@ class Enemy extends Character {
         }
       }, 1050 / game.settings.animation_speed);
       setTimeout(() => {
+        this.attacking = false;
         game.resume();
       }, 1100 / game.settings.animation_speed);
     }
@@ -321,7 +342,7 @@ function createBattlecard(enemy: Enemy) {
   battlecard.innerHTML = `
     <div class="status-effects"></div>
     <div class="card">
-      <div class="name">${enemy.name}</div>
+      <div class="name">${game.getLocalizedString(enemy.id)}</div>
       <div class="hp-background">
         <div class="hp-fill gradient-shine"></div>
         <div class="hp-late"></div>

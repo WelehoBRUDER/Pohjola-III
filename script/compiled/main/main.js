@@ -22,6 +22,7 @@ function weightedRandom(array) {
         else
             table[i].dynamicWeight = 0;
         table[i].dynamicWeight += table[i].weight;
+        console.log(`${table[i].id} weight`, table[i].dynamicWeight);
         max = table[i].dynamicWeight;
     }
     const value = Math.floor(random(0, max));

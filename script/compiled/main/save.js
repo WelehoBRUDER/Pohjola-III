@@ -23,6 +23,7 @@ class SaveController {
         return saves;
     }
     saveGame(name, id, file, options) {
+        stats.updateTimePlayed();
         // @ts-ignore
         const saveFile = file ? new SaveFile(file) : new SaveFile({ id, name });
         this.currentSave = saveFile.id;
@@ -32,7 +33,6 @@ class SaveController {
         }
         const index = this.saveSlots.findIndex((save) => save.id === id);
         saveFile.version = gameVersion;
-        console.log(file, saveFile);
         if (index !== -1) {
             this.saveSlots[index] = saveFile;
         }
@@ -56,6 +56,7 @@ class SaveController {
         }
     }
     loadSave(id, options) {
+        timePlayedThisSession = performance.now();
         const save = this.saveSlots.find((save) => save.id === id);
         if (save) {
             if (options?.confirm) {
@@ -71,6 +72,7 @@ class SaveController {
                     const { player: loadedPlayer, stats: loadedStats, challenges: loadedChallenges } = save.saveData;
                     console.log(player.class);
                     player = new Player(loadedPlayer);
+                    // @ts-ignore
                     Object.assign(stats, new Statistics({ ...loadedStats }));
                     Object.assign(challenges, new Challenges({ ...loadedChallenges }));
                     player.restoreClasses();
@@ -144,7 +146,6 @@ class SaveFile {
     lastSaved;
     created;
     constructor(saveFile) {
-        console.log("saveFile:", saveFile);
         if (saveFile?.id) {
             this.id = saveFile.id;
         }
@@ -157,7 +158,7 @@ class SaveFile {
         }
         this.name = saveFile.name || "New Game";
         this.version = saveFile.version ?? gameVersion;
-        this.saveData = saveFile ? new SaveData(saveFile.saveData) : new SaveData();
+        this.saveData = new SaveData();
         this.lastSaved = new Date();
         if (!saveFile.created) {
             this.created = new Date();
@@ -175,9 +176,11 @@ class SaveData {
     stats;
     challenges;
     constructor(file) {
-        this.player = file ? file.player : this.stripPlayer();
-        this.stats = file ? file.stats : stats;
-        this.challenges = file ? file.challenges : challenges;
+        // @ts-ignore
+        this.player = file ? { ...file.player } : this.stripPlayer();
+        // @ts-ignore
+        this.stats = file ? { ...file.stats } : { ...stats };
+        this.challenges = file ? { ...file.challenges } : { ...challenges };
     }
     stripPlayer() {
         const stripped = JSON.parse(JSON.stringify(player));
@@ -232,18 +235,21 @@ function saveScreen(menu = false) {
     else {
         saveScreen.innerHTML = `
       <div class="save-header">
-        <input type="text" id="save-name" onKeyUp="saveName = this.value" class="${hardcore && "disabled"}" placeholder="${game.getLocalizedString("save_name")}">
+        <input type="text" id="save-name" onfocus="game.typing=true" onblur="game.typing=false" onKeyUp="saveName = this.value" class="${hardcore && "disabled"}" placeholder="${game.getLocalizedString("save_name")}">
         <button class="save-button ${hardcore && "disabled"}" onClick="saveController.saveGame(saveName)">${game.getLocalizedString("save")}</button>
         <button class="save-button ${hardcore && "disabled"}" onClick="saveController.saveToFile()">${game.getLocalizedString("save_to_file")}</button>
         <button class="save-button" onClick="saveController.loadFromFile()">${game.getLocalizedString("load_from_file")}</button>
       </div>
+      <div class="save-list"></div>
     `;
     }
+    const saveList = saveScreen.querySelector(".save-list");
     saveController.saveSlots.forEach((save) => {
         const progress = calculateProgress(save.saveData.player);
         const size = JSON.stringify(save).length;
         const saveSlot = document.createElement("div");
         const hardcoreSave = save.saveData?.challenges?.hardcore;
+        const isOutOfDate = !isSaveCompatible(save.version);
         saveSlot.classList.add("save-slot");
         saveSlot.innerHTML = `
     <div class="save-data">
@@ -263,14 +269,16 @@ function saveScreen(menu = false) {
             minute: "2-digit",
         })}</div>
     <div class="line">|</div>
+    <div class="time">${getTimeString(save.saveData.stats.time_played)}</div>
+    <div class="line">|</div>
         <div class="size">${(size / 1000).toFixed(2)} kb</div>
         <div class="line">|</div>
-        <div class="ver">${game.getLocalizedString("version")}: ${gameVersionText(save.version)}</div>
+        <div class="ver">${game.getLocalizedString("version")}: <span class="${isOutOfDate ? "old" : "current"}">${gameVersionText(save.version)}</span></div>
 
         ${DEVTOOLS.ENABLED
             ? `
         <div class="line">|</div>
-        <div class="id">${game.getLocalizedString("id")}: ${save.id}</div>
+        <div class="saveId">${game.getLocalizedString("id")}: <span class="id">${save.id}</span></div>
         `
             : ""}
       </div>
@@ -279,13 +287,13 @@ function saveScreen(menu = false) {
       </div>
       <div class="save-buttons">
         ${!menu
-            ? `<button class="save-over ${hardcore && "disabled"}" onclick="saveController.saveOver('${save.id}')">${game.getLocalizedString("save")}</button>`
+            ? `<button class="save-over ${(hardcore || hardcoreSave) && "disabled"}" onclick="saveController.saveOver('${save.id}')">${game.getLocalizedString("save")}</button>`
             : ""}
         <button class="load-save" onclick="saveController.loadSave('${save.id}', { confirm: true })">${game.getLocalizedString("load")}</button>
         <button class="delete-save" onclick="saveController.deleteSave('${save.id}')">${game.getLocalizedString("delete")}</button>
       </div>
     `;
-        saveScreen.appendChild(saveSlot);
+        saveList.appendChild(saveSlot);
     });
     return saveScreen;
 }

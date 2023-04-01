@@ -124,7 +124,24 @@ pre {
   }
 }
 
+body {
+  * {
+    scrollbar-width: 1rem;
+    scrollbar-color: #131212 #000000;
+  }
+
+  ::-webkit-scrollbar {
+    width: 1rem;
+    background: #000000;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #131212;
+  }
+}
+
 .slider {
+  appearance: none;
   -webkit-appearance: none;
   width: 80%;
   background: transparent;
@@ -223,4 +240,119 @@ select {
 .disabled {
   opacity: 0.5;
   pointer-events: none;
+}
+
+.toggleable-select {
+  position: relative;
+  width: 14rem;
+  height: 1.75rem;
+  padding: 0.25rem;
+  user-select: none;
+  z-index: 5;
+  cursor: pointer;
+  --color: rgb(46, 46, 46);
+  --dark: rgb(20, 20, 20);
+  --hover: rgb(60, 60, 60);
+
+  background: var(--color);
+  border: 0.25rem solid var(--dark);
+
+  .select-content {
+    position: relative;
+    display: flex;
+    color: white;
+    gap: 0.5rem;
+
+    &:hover {
+      filter: brightness(130%);
+    }
+  }
+
+  .select-options {
+    position: absolute;
+    margin: 0;
+    top: 2.25rem;
+    left: -0.25rem;
+    width: 100%;
+    border-left: 0.25rem solid var(--dark);
+    border-right: 0.25rem solid var(--dark);
+    border-bottom: 0.25rem solid var(--dark);
+    background: var(--color);
+    z-index: 5;
+
+    .option {
+      position: relative;
+      margin: 0;
+      padding: 0.25rem;
+      display: flex;
+      color: white;
+      gap: 0.5rem;
+
+      &:hover:not(.selected) {
+        background: var(--hover);
+      }
+
+      &.selected {
+        background: var(--dark);
+
+        &:hover {
+          filter: brightness(0.8);
+        }
+
+        .cancel {
+          display: block;
+        }
+      }
+
+      .cancel {
+        display: none;
+      }
+    }
+
+    &.hidden {
+      display: none;
+    }
+  }
+
+  .text {
+    position: relative;
+    color: white;
+    text-shadow: 0 0 0.25rem rgb(12, 12, 12);
+    margin: 0;
+    font-size: 1.25rem;
+    pointer-events: none;
+  }
+
+  .cancel {
+    position: absolute;
+    right: 0.25rem;
+    top: 0.25rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: silver;
+    user-select: none;
+    transform: rotate(0deg);
+  }
+
+  .arrow {
+    transition: transform 0.2s;
+    position: absolute;
+    right: 0rem;
+    top: -0.25rem;
+    margin: 0;
+    font-size: 2rem;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    cursor: pointer;
+    color: var(--dark);
+    user-select: none;
+    font-weight: bolder;
+
+    &:not(.cancel) {
+      transform: rotate(270deg);
+    }
+
+    &.up:not(.cancel) {
+      transform: rotate(90deg);
+    }
+  }
 }
