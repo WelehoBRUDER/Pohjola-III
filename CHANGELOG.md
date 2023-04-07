@@ -1,3 +1,14 @@
+# Version 0.2.1 ~ 2023.4.7
+
+## New features & additions
+- Added new stat ``accuracy``.
+  - Accuracy is a stat that affects your chance to hit.
+  - It works by decreasing the enemy's dodge chance.
+- Added new skill ``Vile Strikes`` for all classes.
+  - Vile Strikes is a skill that increases your accuracy and crit rate.
+  - Min: 40% acc, 40% crit
+  - Max: 100% acc, 100% crit
+
 # Version 0.2.0 ~ 2023.4.1
 
 ## New features & additions

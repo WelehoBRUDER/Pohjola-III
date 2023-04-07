@@ -303,5 +303,14 @@ const abilities = {
         cooldown: 15,
         weight: 2,
     },
+    vile_strikes: {
+        id: "vile_strikes",
+        icon: "gfx/abilities/vile_strikes.png",
+        type: "buff",
+        effectsToSelf: [effects.vile_strikes_effect],
+        mpCost: 25,
+        cooldown: 19,
+        weight: 2,
+    },
 };
 //# sourceMappingURL=abilities.js.map

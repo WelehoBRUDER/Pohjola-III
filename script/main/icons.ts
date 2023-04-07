@@ -28,6 +28,8 @@ const icons: any = {
   power: "gfx/status/power.png",
   speed: "gfx/status/speedometer.png",
   dodge: "gfx/status/dodge_icon.png",
+  accuracy: "gfx/status/bullseye.png",
+  acc: "gfx/status/bullseye.png",
   critRate: "gfx/status/power.png",
   critPower: "gfx/status/power.png",
   weapon: "gfx/icons/piercing-sword.png",

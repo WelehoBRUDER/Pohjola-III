@@ -20,6 +20,7 @@ skills.push({
               effect_attack_1: {
                 modifiers: {
                   damagePV: 3,
+                  accVV: 5,
                 },
               },
             },
@@ -31,6 +32,7 @@ skills.push({
               effect_attack_1: {
                 modifiers: {
                   damagePV: 3,
+                  accVV: 5,
                 },
               },
             },
@@ -42,6 +44,7 @@ skills.push({
               effect_attack_1: {
                 modifiers: {
                   damagePV: 4,
+                  accVV: 5,
                 },
               },
             },

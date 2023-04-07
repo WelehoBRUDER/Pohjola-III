@@ -17,7 +17,7 @@ const DEVTOOLS: DevTools = {
 
 if (localStorage.getItem("devtools") === "true") DEVTOOLS.ENABLED = true;
 
-const gameVersion = (0.2).toFixed(2);
+const gameVersion = (0.21).toFixed(2);
 const gameVersionText = (ver: string): string => {
   if (parseFloat(ver) < 0.1) return "Old";
   return `${parseInt(ver)}.${((parseFloat(ver) * 10) % 10).toFixed(1)}`;

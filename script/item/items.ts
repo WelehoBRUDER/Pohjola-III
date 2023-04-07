@@ -151,6 +151,8 @@ const weapons = {
     type: "weapon",
     modifiers: {
       spiP: 5,
+      hpMaxP: 5,
+      accV: 10,
     },
   },
   novice_wand: {

@@ -393,6 +393,11 @@ class Character {
     };
   }
 
+  getAccuracy(): number {
+    const acc = this.allModifiers?.["accV"] || 0;
+    return acc;
+  }
+
   getDodge(): number {
     const agi = this.getStats({ dontUpdateModifiers: true }).agi;
     const dodgeFromAgiMulti = (this.allModifiers?.["dodgeFromAgiP"] || 0) + 0.5;
@@ -402,8 +407,9 @@ class Character {
     return Math.max(0, Math.min(90, parseFloat(value.toFixed(1))));
   }
 
-  dodge(): boolean {
-    const dodge = this.getDodge();
+  dodge(accuracy: number): boolean {
+    const attackerAccuracyPenalty = 1 - accuracy / 100; // <1 = less dodge chance, >1 = more dodge chance
+    const dodge = this.getDodge() * attackerAccuracyPenalty;
     const random = Math.random() * 100;
     return random < dodge;
   }
