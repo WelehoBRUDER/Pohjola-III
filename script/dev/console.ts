@@ -155,7 +155,8 @@ function consoleIntellisense(options?: { showAll?: boolean }) {
   } else if (valueArr.length >= 2) {
     const commandData = developerCommands.find((command: any) => command.name === commandName);
     if (commandData) {
-      commandOptions = commandData.list?.[commandIndex]?.filter((itm: any) => itm.id.startsWith(valueArr[valueArr.length - 1])) || [];
+      commandOptions =
+        commandData.availableParams?.[commandIndex]?.filter((itm: any) => itm.id.startsWith(valueArr[valueArr.length - 1])) || [];
     }
   }
   if (commandOptions.length === 0) return (intellisenseData.active = false);

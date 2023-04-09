@@ -93,7 +93,7 @@ class Ability {
                 targets.forEach((target) => {
                     if (!target)
                         return;
-                    const hasDodged = target.dodge();
+                    const hasDodged = target.dodge(user.getAccuracy());
                     console.count("player attacked");
                     if (hasDodged) {
                         if (target.isEnemy) {

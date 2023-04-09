@@ -20,6 +20,7 @@ skills.push({
               effect_attack_1: {
                 modifiers: {
                   damagePV: 3,
+                  accVV: 5,
                 },
               },
             },
@@ -31,6 +32,7 @@ skills.push({
               effect_attack_1: {
                 modifiers: {
                   damagePV: 3,
+                  accVV: 5,
                 },
               },
             },
@@ -42,6 +44,7 @@ skills.push({
               effect_attack_1: {
                 modifiers: {
                   damagePV: 4,
+                  accVV: 5,
                 },
               },
             },
@@ -57,7 +60,7 @@ skills.push({
           modifiers: {
             ability_battle_aura: {
               effect_attack_1: {
-                durationP: 5,
+                durationP: 10,
               },
             },
           },
@@ -66,7 +69,7 @@ skills.push({
           modifiers: {
             ability_battle_aura: {
               effect_attack_1: {
-                durationP: 5,
+                durationP: 10,
               },
             },
           },
@@ -75,7 +78,7 @@ skills.push({
           modifiers: {
             ability_battle_aura: {
               effect_attack_1: {
-                durationP: 5,
+                durationP: 10,
               },
             },
           },

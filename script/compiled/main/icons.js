@@ -29,6 +29,8 @@ const icons = {
     power: "gfx/status/power.png",
     speed: "gfx/status/speedometer.png",
     dodge: "gfx/status/dodge_icon.png",
+    accuracy: "gfx/status/bullseye.png",
+    acc: "gfx/status/bullseye.png",
     critRate: "gfx/status/power.png",
     critPower: "gfx/status/power.png",
     weapon: "gfx/icons/piercing-sword.png",
@@ -54,5 +56,8 @@ coreCharacterStats.forEach((stat) => {
     icons[`hpMaxFrom${stat}`] = `gfx/status/heart-plus.png`;
     icons[`mpMaxFrom${stat}`] = `gfx/icons/magic-swirl.png`;
     icons[`mpRegenFrom${stat}`] = `gfx/icons/regeneration.png`;
+    icons[`accFrom${stat}`] = `gfx/status/bullseye.png`;
+    icons[`critRateFrom${stat}`] = `gfx/status/power.png`;
+    icons[`critPowerFrom${stat}`] = `gfx/status/power.png`;
 });
 //# sourceMappingURL=icons.js.map

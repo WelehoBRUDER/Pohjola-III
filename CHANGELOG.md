@@ -1,3 +1,38 @@
+# Version 0.2.1 ~ 2023.4.9
+
+## New features & additions
+- Added new stat ``accuracy``.
+  - Accuracy is a stat that affects your chance to hit.
+  - It works by decreasing the enemy's dodge chance.
+- Added new skill ``Vile Strikes`` for all classes.
+  - Vile Strikes is a skill that increases your accuracy and crit rate.
+  - Min: 40% acc, 40% crit
+  - Max: 100% acc, 100% crit
+- Added easier difficulty settings.
+  - Enemy damage can be set to 80%/60%/40%.
+  - Enemy health can be set to 80%/60%/50%.
+  - Healing effectiviness can be set to 125%/150%/175%.
+  - Mana regeneration can be set to 120%/150%/200%.
+  - These settings will lower score multiplier.
+- Added new items:
+  - "Blade of Hero" (epic sword)
+  - "Signet of Precision" (rare ring)
+  - "Signet of Power" (rare ring)
+  - "Signet of Health" (rare ring)
+- Added button to go back to main menu
+  - Next to load from file button in saves screen.
+
+## Changes
+- "Battle Aura"
+  - Increases accuracy by 15/20/25/30
+  - Duration increased from 7.5 --> 10 seconds.
+  - Cooldown increased from 12 --> 16 seconds.
+  - Upgraded durations are now 11/12/13 seconds.
+- Some debuff effects now also lower accuracy.
+- Made escape more universal.
+- Added exit buttons to menu screens.
+- Changed some internal parameter names.
+
 # Version 0.2.0 ~ 2023.4.1
 
 ## New features & additions

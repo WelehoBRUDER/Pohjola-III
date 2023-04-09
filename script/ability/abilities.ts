@@ -283,7 +283,7 @@ const abilities = {
     icon: "gfx/abilities/battle-gear.png",
     type: "buff",
     effectsToSelf: [effects.attack_1],
-    cooldown: 12,
+    cooldown: 16,
     weight: 2,
   },
   bull_rage: {
@@ -300,6 +300,15 @@ const abilities = {
     type: "buff",
     effectsToSelf: [effects.haste_1],
     cooldown: 15,
+    weight: 2,
+  },
+  vile_strikes: {
+    id: "vile_strikes",
+    icon: "gfx/abilities/vile_strikes.png",
+    type: "buff",
+    effectsToSelf: [effects.vile_strikes_effect],
+    mpCost: 25,
+    cooldown: 19,
     weight: 2,
   },
 } as const;

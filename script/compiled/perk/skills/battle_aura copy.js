@@ -21,7 +21,7 @@ skills.push({
                             effect_attack_1: {
                                 modifiers: {
                                     damagePV: 3,
-                                    accVV: 5,
+                                    accV: 5,
                                 },
                             },
                         },
@@ -33,7 +33,7 @@ skills.push({
                             effect_attack_1: {
                                 modifiers: {
                                     damagePV: 3,
-                                    accVV: 5,
+                                    accV: 5,
                                 },
                             },
                         },
@@ -45,7 +45,7 @@ skills.push({
                             effect_attack_1: {
                                 modifiers: {
                                     damagePV: 4,
-                                    accVV: 5,
+                                    accV: 5,
                                 },
                             },
                         },
@@ -61,7 +61,7 @@ skills.push({
                     modifiers: {
                         ability_battle_aura: {
                             effect_attack_1: {
-                                durationP: 10,
+                                durationP: 5,
                             },
                         },
                     },
@@ -70,7 +70,7 @@ skills.push({
                     modifiers: {
                         ability_battle_aura: {
                             effect_attack_1: {
-                                durationP: 10,
+                                durationP: 5,
                             },
                         },
                     },
@@ -79,7 +79,7 @@ skills.push({
                     modifiers: {
                         ability_battle_aura: {
                             effect_attack_1: {
-                                durationP: 10,
+                                durationP: 5,
                             },
                         },
                     },
@@ -115,4 +115,4 @@ skills.push({
         },
     ],
 });
-//# sourceMappingURL=battle_aura.js.map
+//# sourceMappingURL=battle_aura%20copy.js.map

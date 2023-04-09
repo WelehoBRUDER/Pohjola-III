@@ -32,7 +32,10 @@ const english = {
   speedP: "Speed buff",
   speedV: "Speed buff",
   critRate: "Crit Rate",
+  critRateV: "Crit Rate buff",
   critPower: "Crit Power",
+  critPowerV: "Crit Power buff",
+  accV: "Accuracy buff",
   damage: "Damage",
   damageP: "Damage buff",
   damageV: "Damage buff",
@@ -46,6 +49,8 @@ const english = {
   mpRegenFromInt: "Intelligence as Mana Regen",
   mpRegenFromSpi: "Spirit as Mana Regen",
   dodge: "Dodge",
+  accuracy: "Accuracy",
+  acc: "Accuracy",
   heal: "Heal",
   meleeDamage: "Melee Damage",
   spellPower: "Spell Power",
@@ -153,6 +158,9 @@ const english = {
   poison_desc: "Deals poison damage",
 
   // Menu
+  main_menu: "Main Menu",
+  resume: "Resume",
+  continue_tt: "<c>white<c>Continue playing save <c>goldenrod<c><v>saveController.saveSlots[0].name<v>",
   new_game: "New Game",
   load_game: "Load Game",
   settings: "Settings",
@@ -190,9 +198,10 @@ const english = {
   healingFlat_last: "<c>green<c>health<c>white<c> every second",
 
   // Stat tooltips
-  str_tt: "Increases <i><v>icons.physical<v><i> physical damage by 2%\nand <i><v>icons.critPower<v><i> critical damage by 0.5%.§",
+  str_tt:
+    "Increases <i><v>icons.physical<v><i> physical damage by 2%\nand <i><v>icons.critPower<v><i> critical damage by <v>player.allModifiers.critPowerFromStrV<v>§%.§",
   agi_tt:
-    "Increases <i><v>icons.speed<v><i> speed by 1, <i><v>icons.critRate<v><i> crit rate by 0.2%\nand <i><v>icons.dodge<v><i> dodge chance by <v>(player.allModifiers?.dodgeFromAgi || 0) + 0.5<v>§%.",
+    "Increases <i><v>icons.speed<v><i> speed by 1, <i><v>icons.critRate<v><i> crit rate by <v>player.allModifiers.critRateFromAgiV<v>§%\nand <i><v>icons.dodge<v><i> dodge chance by <v>(player.allModifiers?.dodgeFromAgi || 0) + 0.5<v>§%.",
   int_tt:
     "Improves <i><v>icons.magical<v><i> magical damage and increases <i><v>icons.mpMax<v><i> mana by <v>player.allModifiers.mpMaxFromIntV<v>.§",
   vit_tt: "Increases <i><v>icons.hpMax<v><i> health by <v>player.allModifiers.hpMaxFromVitV<v>.§",
@@ -205,6 +214,7 @@ const english = {
   mpRegen_tt: "How much <i><v>icons.mpMax<v><i> mana you <i><v>icons.mpRegen<v><i> regenerate every second.",
   speed_tt: "Lowers the time it takes to get your turn in combat.\nHigher is better.",
   dodge_tt: "Increases the chance to dodge an attack.",
+  accuracy_tt: "Increases chance for attack to hit vs enemy dodge.\nFor example, 50 acc means (dodge) - 50%.",
   critRate_tt: "Increases the chance of a <i><v>icons.critPower<v><i> critical hit.",
   critPower_tt: "Increases the damage multiplier of a <i><v>icons.critPower<v><i> critical hit.",
   // def

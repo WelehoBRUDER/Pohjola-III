@@ -25,6 +25,7 @@ const effects = {
       atkP: -10,
       strP: -10,
       agiP: -10,
+      accV: -30,
     },
   } as EffectObject,
   poison_1: {
@@ -51,6 +52,9 @@ const effects = {
     inflict: {
       damagePercent: 0.02,
     },
+    modifiers: {
+      accV: -30,
+    },
   } as EffectObject,
   burning: {
     id: "burning",
@@ -65,6 +69,7 @@ const effects = {
       atkP: -15,
       agiP: -15,
       healReceivedP: -33,
+      accV: -30,
     },
   } as EffectObject,
   burning_2: {
@@ -80,6 +85,7 @@ const effects = {
       damageP: -20,
       critRateV: -10,
       healReceivedP: -50,
+      accV: -40,
     },
   } as EffectObject,
   frozen: {
@@ -118,6 +124,7 @@ const effects = {
       atkP: -15,
       physicalDefenceV: -15,
       healReceivedP: -50,
+      accV: -50,
     },
   } as EffectObject,
   binding_thorns: {
@@ -238,11 +245,12 @@ const effects = {
   attack_1: {
     id: "attack_1",
     icon: "gfx/icons/crossed-swords.png",
-    duration: 7.5,
+    duration: 10,
     type: "buff",
     buffDebuff: "buff",
     modifiers: {
       damageP: 10,
+      accV: 15,
     },
   } as EffectObject,
   haste_1: {
@@ -254,6 +262,17 @@ const effects = {
     modifiers: {
       speedP: 10,
       dodgeV: 10,
+    },
+  } as EffectObject,
+  vile_strikes_effect: {
+    id: "vile_strikes_effect",
+    icon: "gfx/abilities/vile_strikes.png",
+    duration: 6,
+    type: "buff",
+    buffDebuff: "buff",
+    modifiers: {
+      critRateV: 40,
+      accV: 40,
     },
   } as EffectObject,
   bull_rage: {
@@ -269,6 +288,7 @@ const effects = {
       speedP: 20,
       damageP: 20,
       hpMaxP: 20,
+      accV: 20,
       physicalDefenceV: -30,
       magicalDefenceV: -30,
       elementalDefenceV: -30,

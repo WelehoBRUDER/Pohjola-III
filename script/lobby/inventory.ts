@@ -311,10 +311,15 @@ class InventoryController {
       "physicalDefence",
       "magicalDefence",
       "elementalDefence",
+      "physicalDamageP",
+      "magicalDamageP",
+      "elementalDamageP",
       "hpMaxV",
       "hpMaxP",
       "mpMaxV",
       "mpMaxP",
+      "dodgeV",
+      "accV",
     ];
     const filterArr = ["weapon", "armor", "talisman", "material", "potion", "speed", "atk", "spell_scale"];
     const sort = toggleableCustomSelect(

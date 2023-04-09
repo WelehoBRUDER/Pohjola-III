@@ -7,7 +7,7 @@ class SaveController {
         this.currentSave = "";
     }
     sortSaves() {
-        this.saveSlots.sort((a, b) => b.lastSaved.getTime() - a.lastSaved.getTime());
+        this.saveSlots = this.saveSlots.sort((a, b) => b.lastSaved.getTime() - a.lastSaved.getTime());
     }
     getSaves(options) {
         const saves = JSON.parse(localStorage.getItem("PohjolaIII_saved_games") || "[]");
@@ -39,6 +39,7 @@ class SaveController {
         else {
             this.saveSlots.push(saveFile);
         }
+        this.sortSaves();
         localStorage.setItem("PohjolaIII_saved_games", JSON.stringify(this.saveSlots));
         if (!options?.auto) {
             closeConfirmationWindow();
@@ -81,8 +82,18 @@ class SaveController {
                     createLobby();
                     createCharView();
                     sideBarDetails();
+                    game.playing = true;
                     log.createNotification(`Loaded save file: ${save.name}`, -1);
                     log.write(`<c>white<c>Loaded save file: <c>goldenrod<c>${save.name}`);
+                    // See if there are any updates that need to be applied to the save file
+                    if (parseFloat(save.version) < 0.21) {
+                        log.write(`<c>white<c>Updating save file to version <c>lime<c>${gameVersion}`);
+                        Object.entries(challenges).forEach(([key, value]) => {
+                            if (typeof value === "number") {
+                                challenges[key] += 3;
+                            }
+                        });
+                    }
                 }
                 catch (err) {
                     log.createNotification("Could not load save file.", -1);
@@ -240,6 +251,7 @@ function saveScreen(menu = false) {
         <button class="save-button ${hardcore && "disabled"}" onClick="saveController.saveGame(saveName)">${game.getLocalizedString("save")}</button>
         <button class="save-button ${hardcore && "disabled"}" onClick="saveController.saveToFile()">${game.getLocalizedString("save_to_file")}</button>
         <button class="save-button" onClick="saveController.loadFromFile()">${game.getLocalizedString("load_from_file")}</button>
+        <button class="save-button" onClick="gotoMainMenu()">${game.getLocalizedString("main_menu")}</button>
       </div>
       <div class="save-list"></div>
     `;

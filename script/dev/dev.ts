@@ -17,7 +17,7 @@ const DEVTOOLS: DevTools = {
 
 if (localStorage.getItem("devtools") === "true") DEVTOOLS.ENABLED = true;
 
-const gameVersion = (0.2).toFixed(2);
+const gameVersion = (0.21).toFixed(2);
 const gameVersionText = (ver: string): string => {
   if (parseFloat(ver) < 0.1) return "Old";
   return `${parseInt(ver)}.${((parseFloat(ver) * 10) % 10).toFixed(1)}`;
@@ -37,6 +37,14 @@ if (DEVTOOLS.ENABLED) {
   //lobby.current_view = "perks";
   createLobby();
   //dungeonController.enterDungeon(dungeons[2]);
+
+  // game.executeCommand("add_ability", abilities.disorienting_blow);
+
+  // // God for testing
+  // devConsole.executeCommand("god");
+
+  // // Automatically start a fight
+  // devConsole.executeCommand("fight minotaur_captain 4");
 }
 
 function convertRemToPixels(rem: number) {

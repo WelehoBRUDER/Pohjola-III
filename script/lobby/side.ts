@@ -49,6 +49,7 @@ function sideBarDetails() {
   stats["mpRegen"] = player.getManaRegen();
   stats["speed"] = Math.round(player.getSpeed() * 100);
   stats["dodge"] = player.getDodge() + "%";
+  stats["accuracy"] = player.getAccuracy() + "%";
   stats["critRate"] = crit.critRate + "%";
   stats["critPower"] = crit.critPower + "%";
   const statsTitle = document.createElement("div");

@@ -246,13 +246,16 @@ class Character {
     };
 
     this.getCrit = () => {
+      const baseStats = this.getStats({ dontUpdateModifiers: true });
       const crit: any = { critRate: this.critRate, critPower: this.critPower };
       Object.entries(crit).forEach(([key, value]) => {
         const increase = this.allModifiers[key + "V"] ?? 0;
         crit[key] = value + increase;
       });
-      crit["critRate"] += this.getStats().agi / 5;
-      crit["critPower"] += this.getStats().str / 2;
+      crit["critRate"] += this.getPointsFromStats("critRate", baseStats);
+      crit["critPower"] += this.getPointsFromStats("critPower", baseStats);
+      crit["critRate"] = +crit["critRate"].toFixed(2);
+      crit["critPower"] = +crit["critPower"].toFixed(2);
       return crit;
     };
 
@@ -393,6 +396,13 @@ class Character {
     };
   }
 
+  getAccuracy(): number {
+    const baseStats = this.getStats({ dontUpdateModifiers: true });
+    const baseAcc = this.allModifiers?.["accV"] || 0;
+    const bonusAcc = this.getPointsFromStats("acc", baseStats);
+    return +(baseAcc + bonusAcc).toFixed(2);
+  }
+
   getDodge(): number {
     const agi = this.getStats({ dontUpdateModifiers: true }).agi;
     const dodgeFromAgiMulti = (this.allModifiers?.["dodgeFromAgiP"] || 0) + 0.5;
@@ -402,8 +412,9 @@ class Character {
     return Math.max(0, Math.min(90, parseFloat(value.toFixed(1))));
   }
 
-  dodge(): boolean {
-    const dodge = this.getDodge();
+  dodge(accuracy: number): boolean {
+    const attackerAccuracyPenalty = 1 - accuracy / 100; // <1 = less dodge chance, >1 = more dodge chance
+    const dodge = this.getDodge() * attackerAccuracyPenalty;
     const random = Math.random() * 100;
     return random < dodge;
   }

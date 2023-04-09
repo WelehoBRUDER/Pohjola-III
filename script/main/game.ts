@@ -9,6 +9,7 @@ class Game {
   settings: Settings;
   language: any;
   tick: any;
+  inMenu: boolean;
   playing: boolean;
   typing: boolean;
   constructor() {
@@ -19,6 +20,7 @@ class Game {
     };
     this.settings = new Settings();
     this.language = english;
+    this.inMenu = false;
     this.playing = false;
     this.typing = false;
     this.init();
@@ -154,9 +156,10 @@ class Game {
   }
 
   controls(e: KeyboardEvent) {
+    if (e.key === "Escape") return closeEverything();
     if (e.key === "§") return devConsole.toggle();
     if (this.typing) return;
-    if (devConsole.open && e.key !== "Escape") return;
+    if (devConsole.open) return;
     if (e.key === "p") {
       if (this.state.paused) {
         this.resume();
@@ -346,6 +349,9 @@ const challengeValues: any = {
     { value: true, score: 2 },
   ],
   enemy_damage: [
+    { value: 0.4, score: 0.25 },
+    { value: 0.6, score: 0.5 },
+    { value: 0.8, score: 0.8 },
     { value: 1, score: 1 },
     { value: 1.2, score: 1.1 },
     { value: 1.4, score: 1.2 },
@@ -354,6 +360,9 @@ const challengeValues: any = {
     { value: 2, score: 1.5 },
   ],
   enemy_health: [
+    { value: 0.5, score: 0.25 },
+    { value: 0.6, score: 0.5 },
+    { value: 0.8, score: 0.8 },
     { value: 1, score: 1 },
     { value: 1.2, score: 1.1 },
     { value: 1.5, score: 1.25 },
@@ -362,12 +371,18 @@ const challengeValues: any = {
     { value: 2.5, score: 1.75 },
   ],
   healing_weakness: [
+    { value: 1.75, score: 0.25 },
+    { value: 1.5, score: 0.5 },
+    { value: 1.25, score: 0.75 },
     { value: 1, score: 1 },
     { value: 0.75, score: 1.25 },
     { value: 0.5, score: 1.5 },
     { value: 0.25, score: 1.75 },
   ],
   mana_regen_debuff: [
+    { value: 2, score: 0.25 },
+    { value: 1.5, score: 0.5 },
+    { value: 1.2, score: 0.75 },
     { value: 1, score: 1 },
     { value: 0.5, score: 1.35 },
     { value: 0, score: 1.6 },
@@ -389,10 +404,10 @@ class Challenges {
     this.no_after_combat_recovery = challenges?.no_after_combat_recovery || false;
     this.hardcore = challenges?.hardcore || false;
     this.no_grinding = challenges?.no_grinding || false;
-    this.enemy_damage = challenges?.enemy_damage || 0;
-    this.enemy_health = challenges?.enemy_health || 0;
-    this.healing_weakness = challenges?.healing_weakness || 0;
-    this.mana_regen_debuff = challenges?.mana_regen_debuff || 0;
+    this.enemy_damage = challenges?.enemy_damage ?? 3;
+    this.enemy_health = challenges?.enemy_health ?? 3;
+    this.healing_weakness = challenges?.healing_weakness ?? 3;
+    this.mana_regen_debuff = challenges?.mana_regen_debuff ?? 3;
   }
 }
 

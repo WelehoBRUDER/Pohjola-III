@@ -107,6 +107,7 @@ main.game {
   height: 100%;
   overflow: hidden;
   transition: filter 75ms;
+  user-select: none;
 
   &.buff {
     filter: brightness(300%);

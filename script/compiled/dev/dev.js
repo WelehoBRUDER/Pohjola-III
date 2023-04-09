@@ -9,7 +9,7 @@ const DEVTOOLS = {
 };
 if (localStorage.getItem("devtools") === "true")
     DEVTOOLS.ENABLED = true;
-const gameVersion = (0.2).toFixed(2);
+const gameVersion = (0.21).toFixed(2);
 const gameVersionText = (ver) => {
     if (parseFloat(ver) < 0.1)
         return "Old";
@@ -29,6 +29,11 @@ if (DEVTOOLS.ENABLED) {
     //lobby.current_view = "perks";
     createLobby();
     //dungeonController.enterDungeon(dungeons[2]);
+    // game.executeCommand("add_ability", abilities.disorienting_blow);
+    // // God for testing
+    // devConsole.executeCommand("god");
+    // // Automatically start a fight
+    // devConsole.executeCommand("fight minotaur_captain 4");
 }
 function convertRemToPixels(rem) {
     return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
