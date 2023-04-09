@@ -16,9 +16,9 @@
   - These settings will lower score multiplier.
 - Added new items:
   - "Blade of Hero" (epic sword)
-  - "Signet of Precision" (epic ring)
-  - "Signet of Power" (epic ring)
-  - "Signet of Health" (epic ring)
+  - "Signet of Precision" (rare ring)
+  - "Signet of Power" (rare ring)
+  - "Signet of Health" (rare ring)
 - Added button to go back to main menu
   - Next to load from file button in saves screen.
 
