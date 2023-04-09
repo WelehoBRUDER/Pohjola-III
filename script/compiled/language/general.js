@@ -2,6 +2,8 @@
 const english = {
     language: "English",
     language_code: "en",
+    // Menu
+    continue_tt: "<c>white<c>Continue playing save <c>goldenrod<c><v>saveController.saveSlots[0].name<v>",
     // Stats
     str: "Strength",
     agi: "Agility",

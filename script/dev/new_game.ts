@@ -71,21 +71,25 @@ const startingChallenges = [
     id: "enemy_damage",
     type: "number",
     enabled: false,
+    value: 1,
   },
   {
     id: "enemy_health",
     type: "number",
     enabled: false,
+    value: 1,
   },
   {
     id: "healing_weakness",
     type: "number",
     enabled: false,
+    value: 1,
   },
   {
     id: "mana_regen_debuff",
     type: "number",
     enabled: false,
+    value: 1,
   },
 ];
 
@@ -125,6 +129,7 @@ function createNewGame() {
   const characterCreation = document.createElement("div");
   characterCreation.classList.add("settings-menu");
   characterCreation.classList.add("responsive-menu");
+  characterCreation.append(createExitButton());
 
   characterCreationSections.forEach((section: any) => {
     const sectionElement = document.createElement("div");
@@ -235,9 +240,12 @@ function createSectionValue(section: any) {
             const optionElement = document.createElement("option");
             optionElement.value = option.value;
             optionElement.innerText = `${option.value * 100}%`;
+            if (option.value === 1) {
+              optionElement.selected = true;
+            }
             challengeSelect.append(optionElement);
           });
-          challengeSelect.value = challenge(value.id);
+          challengeSelect.value = "1";
           challengeSelect.onchange = (e) => {
             const select = e.target as HTMLSelectElement;
             value.value = parseFloat(select.value);

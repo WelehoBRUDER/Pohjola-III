@@ -8,6 +8,12 @@
   - Vile Strikes is a skill that increases your accuracy and crit rate.
   - Min: 40% acc, 40% crit
   - Max: 100% acc, 100% crit
+- Added easier difficulty settings.
+  - Enemy damage can be set to 80%/60%/40%.
+  - Enemy health can be set to 80%/60%/50%.
+  - Healing effectiviness can be set to 125%/150%/175%.
+  - Mana regeneration can be set to 120%/150%/200%.
+  - These settings will lower score multiplier.
 
 ## Changes
 - "Battle Aura"
@@ -16,6 +22,9 @@
   - Cooldown increased from 12 --> 16 seconds.
   - Upgraded durations are now 11/12/13 seconds.
 - Some debuff effects now also lower accuracy.
+- Made escape more universal.
+- Added exit buttons to menu screens.
+- Changed some internal parameter names.
 
 # Version 0.2.0 ~ 2023.4.1
 

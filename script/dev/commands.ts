@@ -1,15 +1,16 @@
 const developerCommands: any = [
   {
     name: "help",
-    description: "List all available commands",
-    help: "help [command] - List all available commands. If a command is specified, the help text for that command will be displayed.",
-    list: [],
+    help: "List all available commands",
+    verboseHelp:
+      "help [command] - List all available commands. If a command is specified, the help text for that command will be displayed.",
+    availableParams: [],
     execute: (args: string[]) => {
       const command = args[0];
       if (command) {
         const commandObject = developerCommands.find((c: any) => c.name === command);
         if (commandObject) {
-          devConsole.commandHistory.push(commandObject.help);
+          devConsole.commandHistory.push(commandObject.verboseHelp);
           return;
         }
         devConsole.commandHistory.push(`Command ${command} not found, type "help" to see all available commands`);
@@ -17,7 +18,7 @@ const developerCommands: any = [
       } else {
         let text = "Available commands:";
         developerCommands.forEach((command: any) => {
-          text += `<br>${command.name}: ${command.description}`;
+          text += `<br>${command.name}: ${command.help}`;
         });
         devConsole.commandHistory.push(text);
       }
@@ -25,9 +26,9 @@ const developerCommands: any = [
   },
   {
     name: "clear",
-    description: "Clear the console",
-    help: "Clears the console, while keeping the command history.",
-    list: [],
+    help: "Clear the console",
+    verboseHelp: "Clears the console, while keeping the command history.",
+    availableParams: [],
     execute: () => {
       devConsole.commandHistory = [""]; // This only clears the logs, not the actual command history
       consoleLog.innerHTML = "";
@@ -35,9 +36,10 @@ const developerCommands: any = [
   },
   {
     name: "dev",
-    description: "Enable developer mode",
-    help: "dev [save] - Enable developer mode. If 'save' is specified, the setting will be saved to local storage.<br>Use 'dev' again to disable developer mode.<br>Developer mode enables cheat commands and removes certain limitations.",
-    list: [[{ id: "save" }]],
+    help: "Enable developer mode",
+    verboseHelp:
+      "dev [save] - Enable developer mode. If 'save' is specified, the setting will be saved to local storage.<br>Use 'dev' again to disable developer mode.<br>Developer mode enables cheat commands and removes certain limitations.",
+    availableParams: [[{ id: "save" }]],
     execute: (args: string[]) => {
       DEVTOOLS.ENABLED = !DEVTOOLS.ENABLED;
       const saveToLocalStorage = args[0] === "save";
@@ -51,10 +53,10 @@ const developerCommands: any = [
   },
   {
     name: "onepunch",
-    description: "Deal massive damage with every attack",
-    help: "onepunch - Deal massive damage with every attack.<br>Use 'onepunch' again to disable this cheat.",
+    help: "Deal massive damage with every attack",
+    verboseHelp: "onepunch - Deal massive damage with every attack.<br>Use 'onepunch' again to disable this cheat.",
     isCheat: true,
-    list: [],
+    availableParams: [],
     execute: () => {
       DEVTOOLS.ONE_PUNCH = !DEVTOOLS.ONE_PUNCH;
       devConsole.commandHistory.push(`${DEVTOOLS.ONE_PUNCH ? "You have become ONE" : "Your power has been taken away"}`);
@@ -62,10 +64,10 @@ const developerCommands: any = [
   },
   {
     name: "nocd",
-    description: "Remove cooldowns from all abilities",
-    help: "nocd - Remove cooldowns from all abilities.<br>Use 'nocd' again to disable this cheat.",
+    help: "Remove cooldowns from all abilities",
+    verboseHelp: "nocd - Remove cooldowns from all abilities.<br>Use 'nocd' again to disable this cheat.",
     isCheat: true,
-    list: [],
+    availableParams: [],
     execute: () => {
       DEVTOOLS.NO_CD = !DEVTOOLS.NO_CD;
       devConsole.commandHistory.push(`Skills are now ${DEVTOOLS.NO_CD ? "instant" : "lethargic"}`);
@@ -73,10 +75,10 @@ const developerCommands: any = [
   },
   {
     name: "freecast",
-    description: "Cast abilities without spending mana",
-    help: "freecast - Cast abilities without spending mana.<br>Use 'freecast' again to disable this cheat.",
+    help: "Cast abilities without spending mana",
+    verboseHelp: "freecast - Cast abilities without spending mana.<br>Use 'freecast' again to disable this cheat.",
     isCheat: true,
-    list: [],
+    availableParams: [],
     execute: () => {
       DEVTOOLS.FREE_CAST = !DEVTOOLS.FREE_CAST;
       devConsole.commandHistory.push(`Your mana is now ${DEVTOOLS.FREE_CAST ? "infinite" : "very much finite"}`);
@@ -84,10 +86,10 @@ const developerCommands: any = [
   },
   {
     name: "god",
-    description: "Become invincible",
-    help: "god - All damage dealt to you will be 0, and you are immune to debuffs.<br>Use 'god' again to disable this cheat.",
+    help: "Become invincible",
+    verboseHelp: "god - All damage dealt to you will be 0, and you are immune to debuffs.<br>Use 'god' again to disable this cheat.",
     isCheat: true,
-    list: [],
+    availableParams: [],
     execute: () => {
       DEVTOOLS.GOD = !DEVTOOLS.GOD;
       devConsole.commandHistory.push(`Invincibility ${DEVTOOLS.GOD ? "granted" : "taken away"}`);
@@ -95,10 +97,11 @@ const developerCommands: any = [
   },
   {
     name: "ignore",
-    description: "[category] Ignore specific requirements",
-    help: "ignore [category] - Ignore certain requirements in the game. Arguments:<br>leveling - ignores all requirements for perks/class/skills<br>Example: ignore leveling.",
+    help: "[category] Ignore specific requirements",
+    verboseHelp:
+      "ignore [category] - Ignore certain requirements in the game. Arguments:<br>leveling - ignores all requirements for perks/class/skills<br>Example: ignore leveling.",
     isCheat: true,
-    list: [[{ id: "leveling" }]],
+    availableParams: [[{ id: "leveling" }]],
     execute: (args: string[]) => {
       const cat = args[0];
       if (cat) {
@@ -115,10 +118,10 @@ const developerCommands: any = [
   },
   {
     name: "enter",
-    description: "[dungeon] Enter a dungeon",
-    help: "enter [dungeon] - Enter a specified dungeon.<br>Example: enter vithail_dungeon",
+    help: "[dungeon] Enter a dungeon",
+    verboseHelp: "enter [dungeon] - Enter a specified dungeon.<br>Example: enter vithail_dungeon",
     isCheat: true,
-    list: [dungeons],
+    availableParams: [dungeons],
     execute: (args: string[]) => {
       const dungeon = args[0];
       if (dungeon) {
@@ -136,10 +139,10 @@ const developerCommands: any = [
   },
   {
     name: "leave",
-    description: "Leave the current dungeon",
-    help: "leave - Leave the current dungeon.",
+    help: "Leave the current dungeon",
+    verboseHelp: "leave - Leave the current dungeon.",
     isCheat: true,
-    list: [],
+    availableParams: [],
     execute: () => {
       if (dungeonController.currentDungeon) {
         devConsole.commandHistory.push(`Left dungeon ${dungeonController.currentDungeon.id}`);
@@ -151,10 +154,10 @@ const developerCommands: any = [
   },
   {
     name: "fight",
-    description: "[enemy] [amount] Fight an enemy",
-    help: "fight [enemy] [amount] - Fight an enemy. Specify amount for group battle.<br>Example: fight skeleton 2",
+    help: "[enemy] [amount] Fight an enemy",
+    verboseHelp: "fight [enemy] [amount] - Fight an enemy. Specify amount for group battle.<br>Example: fight skeleton 2",
     isCheat: true,
-    list: [Object.values(enemies), [{ id: "amount - number", onSelect: "1" }]],
+    availableParams: [Object.values(enemies), [{ id: "amount - number", onSelect: "1" }]],
     execute: (args: string[]) => {
       const enemy = args[0];
       const amount = args[1] ? parseInt(args[1]) : 1;
@@ -175,8 +178,8 @@ const developerCommands: any = [
   },
   {
     name: "lose",
-    description: "Lose the current fight",
-    help: "lose - Reduces your hp to 0, causing you to be defeated.",
+    help: "Lose the current fight",
+    verboseHelp: "lose - Reduces your hp to 0, causing you to be defeated.",
     execute: () => {
       player.stats.hp = 0;
       update();
@@ -185,10 +188,10 @@ const developerCommands: any = [
   },
   {
     name: "killall",
-    description: "Kill all enemies in the current fight.",
-    help: "killall - Kill all enemies in the current fight.",
+    help: "Kill all enemies in the current fight.",
+    verboseHelp: "killall - Kill all enemies in the current fight.",
     isCheat: true,
-    list: [],
+    availableParams: [],
     execute: () => {
       const _enemies = combat.getLivingEnemies();
       if (_enemies.length > 0) {
@@ -206,10 +209,10 @@ const developerCommands: any = [
 
   {
     name: "item",
-    description: "[item] [amount] Adds specified quantity of items to your inventory",
-    help: "item [item] [amount] - Adds specified quantity of items to your inventory.<br>Example: item small_healing_potion 3",
+    help: "[item] [amount] Adds specified quantity of items to your inventory",
+    verboseHelp: "item [item] [amount] - Adds specified quantity of items to your inventory.<br>Example: item small_healing_potion 3",
     isCheat: true,
-    list: [Object.values(items), [{ id: "amount - number", onSelect: "5" }]],
+    availableParams: [Object.values(items), [{ id: "amount - number", onSelect: "5" }]],
     execute: (args: string[]) => {
       const item: string = args[0];
       const quantity = args[1] ? parseInt(args[1]) : 1;
@@ -231,10 +234,10 @@ const developerCommands: any = [
   },
   {
     name: "gold",
-    description: "Add gold",
-    help: "gold [amount] - Add gold to your inventory.<br>Example: gold 100",
+    help: "Add gold",
+    verboseHelp: "gold [amount] - Add gold to your inventory.<br>Example: gold 100",
     isCheat: true,
-    list: [[{ id: "amount - number", onSelect: "100" }]],
+    availableParams: [[{ id: "amount - number", onSelect: "100" }]],
     execute: (args: string[]) => {
       const amount = args[0] ? parseInt(args[0]) : 100;
       player.addGold(amount);
@@ -244,10 +247,10 @@ const developerCommands: any = [
   },
   {
     name: "xp",
-    description: "Add experience points",
-    help: "xp [amount] - Add experience points.<br>Example: xp 100",
+    help: "Add experience points",
+    verboseHelp: "xp [amount] - Add experience points.<br>Example: xp 100",
     isCheat: true,
-    list: [[{ id: "amount - number", onSelect: "50" }]],
+    availableParams: [[{ id: "amount - number", onSelect: "50" }]],
     execute: (args: string[]) => {
       const xp = args[0] ? parseInt(args[0]) : 0;
       player.addXP(xp);
@@ -257,10 +260,10 @@ const developerCommands: any = [
   },
   {
     name: "sp",
-    description: "Add skill points",
-    help: "sp [amount] - Add skill points.<br>Example: sp 5",
+    help: "Add skill points",
+    verboseHelp: "sp [amount] - Add skill points.<br>Example: sp 5",
     isCheat: true,
-    list: [[{ id: "amount - number", onSelect: "5" }]],
+    availableParams: [[{ id: "amount - number", onSelect: "5" }]],
     execute: (args: string[]) => {
       const sp = args[0] ? parseInt(args[0]) : 0;
       player.skill_points += sp;
@@ -270,10 +273,10 @@ const developerCommands: any = [
   },
   {
     name: "pp",
-    description: "Add perk points",
-    help: "pp [amount] - Add perk points.<br>Example: pp 5",
+    help: "Add perk points",
+    verboseHelp: "pp [amount] - Add perk points.<br>Example: pp 5",
     isCheat: true,
-    list: [[{ id: "amount - number", onSelect: "5" }]],
+    availableParams: [[{ id: "amount - number", onSelect: "5" }]],
     execute: (args: string[]) => {
       const sp = args[0] ? parseInt(args[0]) : 0;
       player.perk_points += sp;

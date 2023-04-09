@@ -1,12 +1,21 @@
 "use strict";
 const mainMenuButtons = [
     {
-        id: "continue",
+        id: "resume",
         enable: () => {
             return game.playing;
         },
         click: () => {
             game.resume(); // Placeholder
+        },
+    },
+    {
+        id: "continue",
+        enable: () => {
+            return saveController.saveSlots.length > 0;
+        },
+        click: () => {
+            saveController.loadSave(saveController.saveSlots[0].id);
         },
     },
     {
@@ -33,7 +42,11 @@ const mainMenuButtons = [
 ];
 function createMenu() {
     const menu = document.createElement("div");
+    const title = document.createElement("div");
     menu.classList.add("menu");
+    title.classList.add("menu-title");
+    title.innerText = "Pohjola III";
+    menu.append(title);
     mainMenuButtons.forEach((button) => {
         const buttonElement = document.createElement("div");
         buttonElement.classList.add("menu-button");
@@ -47,25 +60,35 @@ function createMenu() {
                 buttonElement.classList.add("disabled");
             }
         }
+        const buttonTooltip = game.getLocalizedString(button.id + "_tt");
+        if (buttonTooltip !== button.id + "_tt") {
+            tooltip(buttonElement, buttonTooltip);
+        }
         menu.append(buttonElement);
     });
     return menu;
 }
 function mainMenu() {
     const menu = createMenu();
-    window.onkeyup = (e) => {
-        if (e.key === "Escape") {
-            return mainMenu();
-        }
-    };
+    game.inMenu = true;
     mainMenuElement.innerHTML = "";
     mainMenuElement.append(menu);
 }
 function savesInMenu() {
     const savesMenu = document.createElement("div");
+    savesMenu.append(createExitButton());
     savesMenu.classList.add("saves-menu");
     savesMenu.append(saveScreen(true));
     mainMenuElement.append(savesMenu);
+}
+function createExitButton() {
+    const exitButton = document.createElement("div");
+    exitButton.classList.add("exit-button");
+    exitButton.innerText = "X";
+    exitButton.addEventListener("click", () => {
+        closeEverything();
+    });
+    return exitButton;
 }
 mainMenu();
 //# sourceMappingURL=menu.js.map

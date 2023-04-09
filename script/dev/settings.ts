@@ -22,6 +22,8 @@ function createSettings() {
   settingsMenu.classList.add("settings-menu");
   settingsMenu.classList.add("responsive-menu");
 
+  settingsMenu.append(createExitButton());
+
   settingsLayout.forEach((setting: any) => {
     const settingElement = document.createElement("div");
     const settingName = document.createElement("p");

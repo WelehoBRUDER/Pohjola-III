@@ -28,4 +28,26 @@ function weightedRandom(array) {
     const value = Math.floor(random(0, max));
     return table.findIndex((item) => item.dynamicWeight >= value);
 }
+function closeEverything() {
+    if (game.inMenu) {
+        mainMenu();
+    }
+    if (devConsole.open) {
+        devConsole.open = false;
+        consoleElement.style.display = "none";
+    }
+    if (worldLog.classList.contains("large")) {
+        worldLog.classList.remove("large");
+        worldLog.scrollTop = 0;
+        worldLog.innerHTML = "";
+    }
+    if (log.notifications.length > 0) {
+        const notification = log.notifications[log.notifications.length - 1];
+        notification.classList.remove("active");
+        setTimeout(() => {
+            notification.remove();
+        }, 150);
+        log.notifications.splice(log.notifications.length - 1, 1);
+    }
+}
 //# sourceMappingURL=main.js.map

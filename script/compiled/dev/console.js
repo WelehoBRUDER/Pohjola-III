@@ -158,7 +158,8 @@ function consoleIntellisense(options) {
     else if (valueArr.length >= 2) {
         const commandData = developerCommands.find((command) => command.name === commandName);
         if (commandData) {
-            commandOptions = commandData.list?.[commandIndex]?.filter((itm) => itm.id.startsWith(valueArr[valueArr.length - 1])) || [];
+            commandOptions =
+                commandData.availableParams?.[commandIndex]?.filter((itm) => itm.id.startsWith(valueArr[valueArr.length - 1])) || [];
         }
     }
     if (commandOptions.length === 0)
