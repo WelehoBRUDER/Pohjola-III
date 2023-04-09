@@ -283,7 +283,7 @@ const abilities = {
     icon: "gfx/abilities/battle-gear.png",
     type: "buff",
     effectsToSelf: [effects.attack_1],
-    cooldown: 12,
+    cooldown: 16,
     weight: 2,
   },
   bull_rage: {

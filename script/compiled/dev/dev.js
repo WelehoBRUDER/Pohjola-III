@@ -29,6 +29,11 @@ if (DEVTOOLS.ENABLED) {
     //lobby.current_view = "perks";
     createLobby();
     //dungeonController.enterDungeon(dungeons[2]);
+    // game.executeCommand("add_ability", abilities.disorienting_blow);
+    // // God for testing
+    // devConsole.executeCommand("god");
+    // // Automatically start a fight
+    // devConsole.executeCommand("fight minotaur_captain 4");
 }
 function convertRemToPixels(rem) {
     return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);

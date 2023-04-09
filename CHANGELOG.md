@@ -9,6 +9,14 @@
   - Min: 40% acc, 40% crit
   - Max: 100% acc, 100% crit
 
+## Changes
+- "Battle Aura"
+  - Increases accuracy by 15/20/25/30
+  - Duration increased from 7.5 --> 10 seconds.
+  - Cooldown increased from 12 --> 16 seconds.
+  - Upgraded durations are now 11/12/13 seconds.
+- Some debuff effects now also lower accuracy.
+
 # Version 0.2.0 ~ 2023.4.1
 
 ## New features & additions

@@ -289,10 +289,15 @@ class InventoryController {
             "physicalDefence",
             "magicalDefence",
             "elementalDefence",
+            "physicalDamageP",
+            "magicalDamageP",
+            "elementalDamageP",
             "hpMaxV",
             "hpMaxP",
             "mpMaxV",
             "mpMaxP",
+            "dodgeV",
+            "accV",
         ];
         const filterArr = ["weapon", "armor", "talisman", "material", "potion", "speed", "atk", "spell_scale"];
         const sort = toggleableCustomSelect("sort", sortArr, { color: "rgb(46, 46, 46)", dark: "rgb(20, 20, 20)", hover: "rgb(60, 60, 60)" }, "Sort items", null, this.sortCallback);
