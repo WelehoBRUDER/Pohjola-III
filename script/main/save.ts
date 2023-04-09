@@ -85,6 +85,7 @@ class SaveController {
           createLobby();
           createCharView();
           sideBarDetails();
+          game.playing = true;
           log.createNotification(`Loaded save file: ${save.name}`, -1);
           log.write(`<c>white<c>Loaded save file: <c>goldenrod<c>${save.name}`);
 
@@ -269,6 +270,7 @@ function saveScreen(menu: boolean = false) {
       "save_to_file"
     )}</button>
         <button class="save-button" onClick="saveController.loadFromFile()">${game.getLocalizedString("load_from_file")}</button>
+        <button class="save-button" onClick="gotoMainMenu()">${game.getLocalizedString("main_menu")}</button>
       </div>
       <div class="save-list"></div>
     `;

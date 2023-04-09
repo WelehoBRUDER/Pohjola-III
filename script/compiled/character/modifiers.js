@@ -18,6 +18,8 @@ const defaultModifiers = {
     hpMaxFromVitV: 5,
     mpMaxFromIntV: 2,
     mpMaxFromSpiV: 2,
+    critRateFromAgiV: 0.2,
+    critPowerFromStrV: 0.5,
     meleeDamageP: 1,
     rangedDamageP: 1,
     spellPowerP: 1,

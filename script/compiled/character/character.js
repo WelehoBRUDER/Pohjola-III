@@ -185,13 +185,16 @@ class Character {
             return points;
         };
         this.getCrit = () => {
+            const baseStats = this.getStats({ dontUpdateModifiers: true });
             const crit = { critRate: this.critRate, critPower: this.critPower };
             Object.entries(crit).forEach(([key, value]) => {
                 const increase = this.allModifiers[key + "V"] ?? 0;
                 crit[key] = value + increase;
             });
-            crit["critRate"] += this.getStats().agi / 5;
-            crit["critPower"] += this.getStats().str / 2;
+            crit["critRate"] += this.getPointsFromStats("critRate", baseStats);
+            crit["critPower"] += this.getPointsFromStats("critPower", baseStats);
+            crit["critRate"] = +crit["critRate"].toFixed(2);
+            crit["critPower"] = +crit["critPower"].toFixed(2);
             return crit;
         };
         this.restore = (options) => {
@@ -334,8 +337,10 @@ class Character {
         };
     }
     getAccuracy() {
-        const acc = this.allModifiers?.["accV"] || 0;
-        return acc;
+        const baseStats = this.getStats({ dontUpdateModifiers: true });
+        const baseAcc = this.allModifiers?.["accV"] || 0;
+        const bonusAcc = this.getPointsFromStats("acc", baseStats);
+        return +(baseAcc + bonusAcc).toFixed(2);
     }
     getDodge() {
         const agi = this.getStats({ dontUpdateModifiers: true }).agi;

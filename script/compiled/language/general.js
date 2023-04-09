@@ -2,8 +2,6 @@
 const english = {
     language: "English",
     language_code: "en",
-    // Menu
-    continue_tt: "<c>white<c>Continue playing save <c>goldenrod<c><v>saveController.saveSlots[0].name<v>",
     // Stats
     str: "Strength",
     agi: "Agility",
@@ -150,6 +148,9 @@ const english = {
     divine_desc: "Extra damage vs unholy enemies",
     poison_desc: "Deals poison damage",
     // Menu
+    main_menu: "Main Menu",
+    resume: "Resume",
+    continue_tt: "<c>white<c>Continue playing save <c>goldenrod<c><v>saveController.saveSlots[0].name<v>",
     new_game: "New Game",
     load_game: "Load Game",
     settings: "Settings",
@@ -184,8 +185,8 @@ const english = {
     healingFlat_first: "<c>lime<c>Heals<c>white<c>",
     healingFlat_last: "<c>green<c>health<c>white<c> every second",
     // Stat tooltips
-    str_tt: "Increases <i><v>icons.physical<v><i> physical damage by 2%\nand <i><v>icons.critPower<v><i> critical damage by 0.5%.§",
-    agi_tt: "Increases <i><v>icons.speed<v><i> speed by 1, <i><v>icons.critRate<v><i> crit rate by 0.2%\nand <i><v>icons.dodge<v><i> dodge chance by <v>(player.allModifiers?.dodgeFromAgi || 0) + 0.5<v>§%.",
+    str_tt: "Increases <i><v>icons.physical<v><i> physical damage by 2%\nand <i><v>icons.critPower<v><i> critical damage by <v>player.allModifiers.critPowerFromStrV<v>§%.§",
+    agi_tt: "Increases <i><v>icons.speed<v><i> speed by 1, <i><v>icons.critRate<v><i> crit rate by <v>player.allModifiers.critRateFromAgiV<v>§%\nand <i><v>icons.dodge<v><i> dodge chance by <v>(player.allModifiers?.dodgeFromAgi || 0) + 0.5<v>§%.",
     int_tt: "Improves <i><v>icons.magical<v><i> magical damage and increases <i><v>icons.mpMax<v><i> mana by <v>player.allModifiers.mpMaxFromIntV<v>.§",
     vit_tt: "Increases <i><v>icons.hpMax<v><i> health by <v>player.allModifiers.hpMaxFromVitV<v>.§",
     spi_tt: "Improves <i><v>icons.elemental<v><i> elemental damage and increases <i><v>icons.mpMax<v><i> mana by <v>player.allModifiers.mpMaxFromSpiV<v>.§",

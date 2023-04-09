@@ -1,4 +1,4 @@
-# Version 0.2.1 ~ 2023.4.7
+# Version 0.2.1 ~ 2023.4.9
 
 ## New features & additions
 - Added new stat ``accuracy``.
@@ -14,6 +14,13 @@
   - Healing effectiviness can be set to 125%/150%/175%.
   - Mana regeneration can be set to 120%/150%/200%.
   - These settings will lower score multiplier.
+- Added new items:
+  - "Blade of Hero" (epic sword)
+  - "Signet of Precision" (epic ring)
+  - "Signet of Power" (epic ring)
+  - "Signet of Health" (epic ring)
+- Added button to go back to main menu
+  - Next to load from file button in saves screen.
 
 ## Changes
 - "Battle Aura"

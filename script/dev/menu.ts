@@ -5,7 +5,7 @@ const mainMenuButtons = [
       return game.playing;
     },
     click: () => {
-      game.resume(); // Placeholder
+      leaveMainMenu();
     },
   },
   {
@@ -37,6 +37,16 @@ const mainMenuButtons = [
   },
   {
     id: "credits",
+    click: () => {
+      log.createNotification(
+        `
+        Lead developer: WelehoBRUDER
+        Icons: https://game-icons.net
+        Art: pixabay.com and Midjourney
+        `,
+        3600
+      );
+    },
   },
 ];
 
@@ -71,6 +81,18 @@ function createMenu() {
   });
 
   return menu;
+}
+
+function gotoMainMenu() {
+  lobbyScreen.classList.add("no-display");
+  mainMenuElement.classList.remove("no-display");
+  mainMenu();
+}
+
+function leaveMainMenu() {
+  mainMenuElement.classList.add("no-display");
+  lobbyScreen.classList.remove("no-display");
+  game.inMenu = false;
 }
 
 function mainMenu() {
